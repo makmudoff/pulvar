@@ -35,4 +35,77 @@
 
     h1 {
       margin: 10px 0;
-      font-size:
+      font-size: 26px;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #cfd8ff;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      background: #2f66ff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .btn.secondary {
+      background: #1e90ff;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #9aa4ff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- ŞƏKİL -->
+    <img class="logo" src="https://via.placeholder.com/400x200.png?text=Pulvar" alt="Pulvar">
+
+    <!-- BAŞLIQ -->
+    <h1>Pulvar</h1>
+
+    <!-- AÇIQLAMA -->
+    <div class="desc">
+      Onlayn platforma vasitəsilə real qazanc əldə et.  
+      Qeydiyyatdan keç və fürsətləri qaçırma.
+    </div>
+
+    <!-- DÜYMƏLƏR -->
+    <a class="btn" href="https://fastloto365.com" target="_blank">
+      PUL QAZANMAQ
+    </a>
+
+    <a class="btn secondary" href="https://t.me/" target="_blank">
+      Telegram
+    </a>
+
+    <!-- AŞAĞI YAZI -->
+    <div class="footer">
+      © <span id="year"></span> Pulvar <br>
+      Sayt AkoMako tərəfindən qurulmuşdur
+    </div>
+
+  </div>
+
+  <!-- AVTOMATİK TARİX -->
+  <script>
+    document.getElementById("year").innerText = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
