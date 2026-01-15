@@ -6,18 +6,22 @@
 <title>1Win Bonus</title>
 
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+  /* BODY tam sabit, scroll yoxdur */
+  html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    overflow: hidden; /* Scrollu deaktiv edir */
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
   }
 
+  /* Container ekranın mərkəzində */
   .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Tam mərkəz */
     background-color: #fff;
     padding: 40px;
     max-width: 600px;
@@ -56,26 +60,12 @@
   .btn:hover {
     background-color: #333;
   }
-
-  .promo-image img {
-    width: 100%;
-    max-width: 520px;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    margin-bottom: 25px;
-  }
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
-  <!-- ŞƏKİL -->
-  <div class="promo-image">
-    <img src="610902D5-D2D4-4A47-A4E2-B270B22BF34E.jpeg" alt="1WIN Azərbaycan">
-  </div>
 
   <h1>🎉 1Win-də Qeydiyyatdan Keç və 150₼ Bonus Qazan! 🎉</h1>
 
