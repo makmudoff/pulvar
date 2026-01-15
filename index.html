@@ -24,6 +24,7 @@
     box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     text-align: center;
     border-radius: 12px;
+    position: relative;
   }
 
   h1 {
@@ -49,16 +50,33 @@
     text-decoration: none;
     font-weight: bold;
     transition: 0.3s;
+    margin-top: 20px;
   }
 
   .btn:hover {
-    background-color: #333; /* hover zamanı daha açıq qara */
+    background-color: #333;
+  }
+
+  /* Yanıb-sönən Azərbaycan bayrağı */
+  .flag {
+    font-size: 50px;
+    animation: blink 1s infinite;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  @keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
   }
 </style>
 </head>
 <body>
 
 <div class="container">
+  <!-- Yanıb-sönən bayraq -->
+  <div class="flag">🇦🇿</div>
+
   <h1>🎉 1Win-də Qeydiyyatdan Keç və 150₼ Bonus Qazan! 🎉</h1>
   <p>Yeni istifadəçilər üçün <strong>1Win</strong> sizə <strong>150₼-lik bonus</strong> hədiyyə edir! 💰</p>
   <p>Qeydiyyatdan keçin və bonusunuzu <strong>birbaşa bank kartınıza</strong> rahat şəkildə köçürün.</p>
