@@ -8,32 +8,33 @@
       margin: 0;
       height: 100vh;
       display: flex;
-      align-items: center;      /* yuxarı-aşağı ortalama */
-      justify-content: center;  /* sağ-sol ortalama */
+      align-items: center;
+      justify-content: center;
       font-family: Arial, sans-serif;
       background-color: #ffffff;
     }
 
     .container {
       text-align: center;
-      line-height: 2;
+      line-height: 2.2;
+      transform: translateY(-60px); /* YUXARI BİRAZ YAXINLAŞDIRIR */
     }
 
     .container a {
-      font-size: 20px;
+      font-size: 26px;              /* DAHA BÖYÜK */
       font-weight: bold;
       color: #007bff;
       text-decoration: none;
     }
 
-    .container a:hover {
-      text-decoration: underline;
+    .step {
+      font-size: 22px;
     }
 
     .bonus {
-      font-size: 22px;
+      font-size: 26px;
       font-weight: bold;
-      color: green;
+      color: #1aa31a;
     }
   </style>
 </head>
@@ -46,7 +47,7 @@
       </a>
     </div>
 
-    <div>📝 Qeydiyyatdan keç</div>
+    <div class="step">📝 Qeydiyyatdan keç</div>
 
     <div class="bonus">💸 Dərhal 15 AZN qazan</div>
   </div>
