@@ -32,9 +32,14 @@
             font-size: 2rem;
         }
 
-        p {
-            font-size: 1.1rem;
+        input[type="text"], input[type="password"] {
+            width: 90%;
+            padding: 10px;
             margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
         }
 
         .button {
@@ -53,23 +58,6 @@
         .button:hover {
             background-color: #d63031;
         }
-
-        input[type="text"], input[type="password"] {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: none;
-            outline: none;
-            font-size: 1rem;
-        }
-
-        .message {
-            margin-top: 30px;
-            color: #ffeaa7;
-            font-weight: bold;
-            font-size: 0.95rem;
-        }
     </style>
 </head>
 <body>
@@ -84,19 +72,7 @@
         </form>
 
         <!-- Qeydiyyatdan keç düyməsi -->
-        <p>Yeni istifadəçisiniz?</p>
         <a href="#" class="button" onclick="openRegistration()">Qeydiyyatdan keç</a>
-
-        <!-- Dəstək xidməti -->
-        <p>Problemlə qarşılaşdınız? Dəstək xidməti üçün yazın:</p>
-        <a href="https://t.me/pulvarxyz" class="button" target="_blank">Dəstək Xidmətinə Yaz</a>
-
-        <!-- Ən aşağıdakı tarix və etibarlılıq mesajı -->
-        <p class="message">
-            2019-cu ildən fəaliyyət göstəririk!<br>
-            13.04.2019-dən bəri minlərlə istifadəçi bizim platforma vasitəsilə yeni imkanları kəşf edib.<br>
-            Siz də əlavə qazanc üçün qeydiyyatdan keçin.
-        </p>
     </div>
 
     <script>
