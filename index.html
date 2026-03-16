@@ -19,11 +19,11 @@
         }
 
         .box {
-            background-color: rgba(0,0,0,0.7);
+            background-color: rgba(0,0,0,0.8);
             padding: 40px 60px;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            animation: fadeIn 1.5s ease-in-out;
+            width: 350px;
         }
 
         h1 {
@@ -33,8 +33,8 @@
         }
 
         p {
-            font-size: 1.2rem;
-            margin: 15px 0;
+            font-size: 1.1rem;
+            margin: 10px 0;
         }
 
         .button {
@@ -47,15 +47,33 @@
             font-weight: bold;
             border-radius: 8px;
             transition: 0.3s;
+            cursor: pointer;
         }
 
         .button:hover {
             background-color: #d63031;
         }
 
+        input[type="text"], input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+
         @keyframes fadeIn {
             from {opacity: 0; transform: translateY(-30px);}
             to {opacity: 1; transform: translateY(0);}
+        }
+
+        .message {
+            margin-top: 30px;
+            color: #ffeaa7;
+            font-weight: bold;
+            font-size: 0.95rem;
         }
     </style>
 </head>
@@ -63,13 +81,21 @@
     <div class="box">
         <h1>💰 Əlavə qazanc fürsəti!</h1>
 
-        <p>Minimum depozit: 10 AZN</p>
+        <!-- Login form -->
+        <form>
+            <input type="text" placeholder="Login" required><br>
+            <input type="password" placeholder="Parol" required><br>
+            <button class="button" type="submit">Daxil ol</button>
+        </form>
+
+        <!-- Əlavə düymələr -->
+        <p>Qeydiyyatdan keçin və yeni imkanları kəşf edin:</p>
         <a href="https://Pulvar.Xyz" class="button" target="_blank">Qeydiyyatdan keç</a>
         <p>Problemlə qarşılaşdınız? Dəstək xidməti üçün yazın:</p>
         <a href="https://t.me/pulvarxyz" class="button" target="_blank">Dəstək Xidmətinə Yaz</a>
 
-        <!-- İstədiyin mətn indi ən aşağıda -->
-        <p style="margin-top:30px; color:#ffeaa7; font-weight:bold;">
+        <!-- Ən aşağıdakı tarix və etibarlılıq mesajı -->
+        <p class="message">
             2019-cu ildən fəaliyyət göstəririk!<br>
             13.04.2019-dən bəri minlərlə istifadəçi bizim platforma vasitəsilə yeni imkanları kəşf edib.<br>
             Siz də əlavə qazanc üçün qeydiyyatdan keçin.
