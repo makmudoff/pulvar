@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE ht<!DOCTYPE html>
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Login</title>
+<title>Giriş</title>
 
 <style>
 body{
@@ -12,6 +12,7 @@ display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
+margin:0;
 }
 
 .box{
@@ -64,6 +65,32 @@ border-radius:10px;
 width:320px;
 text-align:center;
 }
+
+.bigscreen{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+justify-content:center;
+align-items:center;
+text-align:center;
+flex-direction:column;
+}
+
+.bigscreen h1{
+font-size:35px;
+color:red;
+}
+
+.bigscreen a{
+font-size:22px;
+color:blue;
+text-decoration:none;
+margin-top:20px;
+}
 </style>
 
 </head>
@@ -76,7 +103,7 @@ text-align:center;
 <input type="text" placeholder="Login">
 <input type="password" placeholder="Parol">
 
-<button>Giriş Et</button>
+<button onclick="login()">Giriş Et</button>
 
 <br><br>
 
@@ -85,22 +112,32 @@ text-align:center;
 </div>
 
 <div class="modal" id="register">
-
 <div class="modal-content">
 
 <h3>Qeydiyyat</h3>
 
 <input type="text" placeholder="Yeni istifadəçi adınız">
-
-<input type="date" placeholder="Doğum tarixiniz">
-
+<input type="date">
 <input type="text" placeholder="M10 nömrəniz">
-
 <input type="email" placeholder="Email yazın">
 
 <button onclick="success()">Qeydiyyatdan keç</button>
 
 </div>
+</div>
+
+<div class="bigscreen" id="blocked">
+
+<h1>HESABINIZ AKTİV DEYİL</h1>
+
+<p style="font-size:22px;">
+Aktiv etmək üçün Telegramda dəstək xidmətinə yazın
+</p>
+
+<a href="https://t.me/PulvarXyz" target="_blank">
+T.me/PulvarXyz
+</a>
+
 </div>
 
 <script>
@@ -111,6 +148,11 @@ document.getElementById("register").style.display="flex";
 
 function success(){
 alert("Uğurla qeydiyyatdan keçdiniz!\n\nHesabınızı aktiv etmək üçün Dəstək xidmətinə yazın.");
+}
+
+function login(){
+document.querySelector(".box").style.display="none";
+document.getElementById("blocked").style.display="flex";
 }
 
 </script>
