@@ -16,7 +16,7 @@
             font-family: Arial, sans-serif;
             color: #fff;
             text-align: center;
-            overflow: hidden; /* Scroll bars görünməsin */
+            overflow: hidden;
         }
 
         .box {
@@ -25,7 +25,6 @@
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
             width: 360px;
-            position: relative;
         }
 
         h1 {
@@ -59,8 +58,6 @@
         .button:hover {
             background-color: #d63031;
         }
-
-        /* Heç bir animasiya və ya fırlanma yoxdur */
     </style>
 </head>
 <body>
@@ -80,8 +77,8 @@
 
     <script>
         function openRegistration() {
-            // Yeni pəncərə açır və səhv mesajını göstərir
-            var newWin = window.open("", "_blank", "width=400,height=300");
+            // Yeni pəncərə açır və böyük hərflərlə mesaj göstərir
+            var newWin = window.open("", "_blank", "width=500,height=400");
             newWin.document.write(`
                 <html>
                 <head>
@@ -98,13 +95,141 @@
                             text-align:center; 
                             overflow:hidden;
                         }
-                        p { font-size:1.2rem; }
-                        a { color: #ffeaa7; text-decoration:none; font-weight:bold; }
+                        p { 
+                            font-size: 28px; /* Böyük və rahat oxunan ölçü */
+                            font-weight: bold;
+                            line-height: 1.5;
+                        }
+                        a { 
+                            color: #ffeaa7; 
+                            text-decoration:none; 
+                            font-weight:bold;
+                            font-size: 24px;
+                        }
                     </style>
                 </head>
                 <body>
-                    <p>Nəsə səhvlik baş verdi!<br>Geri qayıdın və dəstək xidmətinə yazın.</p>
-                    <p><a href="https://t.me/pulvarxyz" target="_blank">Dəstək Xidmətinə Yaz</a></p>
+                    <p>NƏSƏ SƏHVLIK BAŞ VERDI!<br>GERI QAYIDIN VƏ DƏSTƏK XIDMƏTINƏ YAZIN.</p>
+                    <p><a href="https://t.me/pulvarxyz" target="_blank">DƏSTƏK XIDMƏTINƏ YAZ</a></p>
+                </body>
+                </html>
+            `);
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulvar.xyz</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #00b894, #55efc4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .box {
+            background-color: rgba(0,0,0,0.85);
+            padding: 40px 60px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            width: 360px;
+        }
+
+        h1 {
+            color: #ffeaa7;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .button {
+            display: inline-block;
+            margin: 15px 10px 0 10px;
+            padding: 12px 25px;
+            background-color: #fd79a8;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #d63031;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>💰 Əlavə qazanc fürsəti!</h1>
+
+        <!-- Login form -->
+        <form onsubmit="alert('Giriş uğurludur!'); return false;">
+            <input type="text" placeholder="Login" required><br>
+            <input type="password" placeholder="Parol" required><br>
+            <button class="button" type="submit">Giriş Et</button>
+        </form>
+
+        <!-- Qeydiyyatdan keç düyməsi -->
+        <a href="#" class="button" onclick="openRegistration()">Qeydiyyatdan keç</a>
+    </div>
+
+    <script>
+        function openRegistration() {
+            // Yeni pəncərə açır və böyük hərflərlə mesaj göstərir
+            var newWin = window.open("", "_blank", "width=500,height=400");
+            newWin.document.write(`
+                <html>
+                <head>
+                    <title>Qeydiyyat</title>
+                    <style>
+                        body { 
+                            background: #00b894; 
+                            color: #fff; 
+                            display:flex; 
+                            justify-content:center; 
+                            align-items:center; 
+                            height:100vh; 
+                            font-family:Arial, sans-serif; 
+                            text-align:center; 
+                            overflow:hidden;
+                        }
+                        p { 
+                            font-size: 28px; /* Böyük və rahat oxunan ölçü */
+                            font-weight: bold;
+                            line-height: 1.5;
+                        }
+                        a { 
+                            color: #ffeaa7; 
+                            text-decoration:none; 
+                            font-weight:bold;
+                            font-size: 24px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <p>NƏSƏ SƏHVLIK BAŞ VERDI!<br>GERI QAYIDIN VƏ DƏSTƏK XIDMƏTINƏ YAZIN.</p>
+                    <p><a href="https://t.me/pulvarxyz" target="_blank">DƏSTƏK XIDMƏTINƏ YAZ</a></p>
                 </body>
                 </html>
             `);
