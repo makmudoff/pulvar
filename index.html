@@ -16,6 +16,7 @@
             font-family: Arial, sans-serif;
             color: #fff;
             text-align: center;
+            overflow: hidden; /* Scroll bars görünməsin */
         }
 
         .box {
@@ -24,6 +25,7 @@
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
             width: 360px;
+            position: relative;
         }
 
         h1 {
@@ -51,13 +53,14 @@
             text-decoration: none;
             font-weight: bold;
             border-radius: 8px;
-            transition: 0.3s;
             cursor: pointer;
         }
 
         .button:hover {
             background-color: #d63031;
         }
+
+        /* Heç bir animasiya və ya fırlanma yoxdur */
     </style>
 </head>
 <body>
@@ -84,7 +87,17 @@
                 <head>
                     <title>Qeydiyyat</title>
                     <style>
-                        body { background: #00b894; color: #fff; display:flex; justify-content:center; align-items:center; height:100vh; font-family:Arial, sans-serif; text-align:center; }
+                        body { 
+                            background: #00b894; 
+                            color: #fff; 
+                            display:flex; 
+                            justify-content:center; 
+                            align-items:center; 
+                            height:100vh; 
+                            font-family:Arial, sans-serif; 
+                            text-align:center; 
+                            overflow:hidden;
+                        }
                         p { font-size:1.2rem; }
                         a { color: #ffeaa7; text-decoration:none; font-weight:bold; }
                     </style>
