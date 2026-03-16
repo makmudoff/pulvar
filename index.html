@@ -1,56 +1,73 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <title>Bonus</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-      background: #fff;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulvar.xyz</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #00b894, #55efc4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+        }
 
-    .container {
-      text-align: center;
-      transform: translateY(-120px); /* LAP YAXINLAŞDIRIR */
-    }
+        .box {
+            background-color: rgba(0,0,0,0.7);
+            padding: 40px 60px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            animation: fadeIn 1.5s ease-in-out;
+        }
 
-    .link {
-      font-size: 34px;
-      font-weight: bold;
-      color: #1a73e8;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 18px;
-    }
+        h1 {
+            color: #ffeaa7;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
 
-    .step {
-      font-size: 26px;
-      margin-bottom: 18px;
-    }
+        p {
+            font-size: 1.2rem;
+            margin: 15px 0;
+        }
 
-    .bonus {
-      font-size: 30px;
-      font-weight: bold;
-      color: #1aa31a;
-    }
-  </style>
+        .button {
+            display: inline-block;
+            margin: 15px 10px 0 10px;
+            padding: 12px 25px;
+            background-color: #fd79a8;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background-color: #d63031;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(-30px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
 </head>
 <body>
-
-  <div class="container">
-    <a class="link" href="https://panel.fikrim.az/?ref=xm17r8xzq6x9eukdgqznnexqag" target="_blank">
-      👇 Linkə daxil ol
-    </a>
-
-    <div class="step">📝 Qeydiyyatdan keç</div>
-
-    <div class="bonus">💸 Dərhal 15 AZN qazan</div>
-  </div>
-
+    <div class="box">
+        <h1>💰 Əlavə qazanc fürsəti!</h1>
+        <p>Minimum depozit: 10 AZN</p>
+        <p>Yeni istifadəçilər üçün xüsusi imkanlar var.</p>
+        <p>Linkə keçin və qeydiyyatdan keçin:</p>
+        <a href="https://Pulvar.Xyz" class="button" target="_blank">Qeydiyyatdan keç</a>
+        <p>Problemlə qarşılaşdınız? Dəstək xidməti üçün yazın:</p>
+        <a href="https://t.me/pulvarxyz" class="button" target="_blank">Dəstək Xidmətinə Yaz</a>
+    </div>
 </body>
 </html>
