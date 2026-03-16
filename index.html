@@ -19,11 +19,11 @@
         }
 
         .box {
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(0,0,0,0.85);
             padding: 40px 60px;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            width: 350px;
+            width: 360px;
         }
 
         h1 {
@@ -64,11 +64,6 @@
             font-size: 1rem;
         }
 
-        @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(-30px);}
-            to {opacity: 1; transform: translateY(0);}
-        }
-
         .message {
             margin-top: 30px;
             color: #ffeaa7;
@@ -82,15 +77,17 @@
         <h1>💰 Əlavə qazanc fürsəti!</h1>
 
         <!-- Login form -->
-        <form>
+        <form onsubmit="alert('Giriş uğurludur!'); return false;">
             <input type="text" placeholder="Login" required><br>
             <input type="password" placeholder="Parol" required><br>
-            <button class="button" type="submit">Daxil ol</button>
+            <button class="button" type="submit">Giriş Et</button>
         </form>
 
-        <!-- Əlavə düymələr -->
-        <p>Qeydiyyatdan keçin və yeni imkanları kəşf edin:</p>
-        <a href="https://Pulvar.Xyz" class="button" target="_blank">Qeydiyyatdan keç</a>
+        <!-- Qeydiyyatdan keç düyməsi -->
+        <p>Yeni istifadəçisiniz?</p>
+        <a href="#" class="button" onclick="openRegistration()">Qeydiyyatdan keç</a>
+
+        <!-- Dəstək xidməti -->
         <p>Problemlə qarşılaşdınız? Dəstək xidməti üçün yazın:</p>
         <a href="https://t.me/pulvarxyz" class="button" target="_blank">Dəstək Xidmətinə Yaz</a>
 
@@ -101,5 +98,28 @@
             Siz də əlavə qazanc üçün qeydiyyatdan keçin.
         </p>
     </div>
+
+    <script>
+        function openRegistration() {
+            // Yeni pəncərə açır və səhv mesajını göstərir
+            var newWin = window.open("", "_blank", "width=400,height=300");
+            newWin.document.write(`
+                <html>
+                <head>
+                    <title>Qeydiyyat</title>
+                    <style>
+                        body { background: #00b894; color: #fff; display:flex; justify-content:center; align-items:center; height:100vh; font-family:Arial, sans-serif; text-align:center; }
+                        p { font-size:1.2rem; }
+                        a { color: #ffeaa7; text-decoration:none; font-weight:bold; }
+                    </style>
+                </head>
+                <body>
+                    <p>Nəsə səhvlik baş verdi!<br>Geri qayıdın və dəstək xidmətinə yazın.</p>
+                    <p><a href="https://t.me/pulvarxyz" target="_blank">Dəstək Xidmətinə Yaz</a></p>
+                </body>
+                </html>
+            `);
+        }
+    </script>
 </body>
 </html>
