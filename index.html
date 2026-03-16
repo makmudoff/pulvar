@@ -1,13 +1,14 @@
-<!DOCTYPE ht<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="az">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Giriş</title>
 
 <style>
 body{
-font-family: Arial;
-background:#f4f4f4;
+font-family:Arial;
+background:#f2f2f2;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -18,32 +19,40 @@ margin:0;
 .box{
 background:white;
 padding:30px;
-border-radius:10px;
-width:300px;
+border-radius:12px;
+width:90%;
+max-width:400px;
 text-align:center;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+box-shadow:0 0 15px rgba(0,0,0,0.15);
+}
+
+h2{
+margin-bottom:20px;
 }
 
 input{
 width:100%;
-padding:10px;
+padding:12px;
 margin:8px 0;
 border:1px solid #ccc;
-border-radius:5px;
+border-radius:6px;
+font-size:16px;
 }
 
 button{
 width:100%;
-padding:10px;
-background:#007bff;
-color:white;
+padding:12px;
+margin-top:10px;
 border:none;
-border-radius:5px;
+border-radius:6px;
+background:#1677ff;
+color:white;
+font-size:16px;
 cursor:pointer;
 }
 
 button:hover{
-background:#0056b3;
+background:#0f5ed7;
 }
 
 .modal{
@@ -62,7 +71,8 @@ align-items:center;
 background:white;
 padding:25px;
 border-radius:10px;
-width:320px;
+width:90%;
+max-width:400px;
 text-align:center;
 }
 
@@ -76,23 +86,27 @@ height:100%;
 background:white;
 justify-content:center;
 align-items:center;
-text-align:center;
 flex-direction:column;
+text-align:center;
+padding:20px;
 }
 
 .bigscreen h1{
-font-size:35px;
+font-size:32px;
 color:red;
+}
+
+.bigscreen p{
+font-size:20px;
 }
 
 .bigscreen a{
 font-size:22px;
 color:blue;
 text-decoration:none;
-margin-top:20px;
+margin-top:10px;
 }
 </style>
-
 </head>
 
 <body>
@@ -105,10 +119,7 @@ margin-top:20px;
 
 <button onclick="login()">Giriş Et</button>
 
-<br><br>
-
 <button onclick="openRegister()">Qeydiyyatdan keç</button>
-
 </div>
 
 <div class="modal" id="register">
@@ -130,13 +141,9 @@ margin-top:20px;
 
 <h1>HESABINIZ AKTİV DEYİL</h1>
 
-<p style="font-size:22px;">
-Aktiv etmək üçün Telegramda dəstək xidmətinə yazın
-</p>
+<p>Aktiv etmək üçün Telegramda dəstək xidmətinə yazın</p>
 
-<a href="https://t.me/PulvarXyz" target="_blank">
-T.me/PulvarXyz
-</a>
+<a href="https://t.me/PulvarXyz" target="_blank">T.me/PulvarXyz</a>
 
 </div>
 
