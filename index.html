@@ -12,7 +12,7 @@ html, body {
   display:flex;
   justify-content:center;
   align-items:flex-start;
-  zoom:115%; /* sayt yaxınlaşdırıldı */
+  zoom:115%;
 }
 .container {
   width:400px;
@@ -24,15 +24,11 @@ html, body {
   position:relative;
   overflow:hidden;
 }
-
-/* Tarix */
 #dateTime {
   font-weight:bold;
   color:#FFD700;
   margin-bottom:10px;
 }
-
-/* Neon başlıq */
 #topMessage {
   background:#222;
   color:#FFD700;
@@ -48,8 +44,6 @@ html, body {
   50% { text-shadow: 0 0 20px #FFEA00, 0 0 30px #FFEA00; color:#FFEA00; }
   100% { text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700; color:#FFD700; }
 }
-
-/* Ulduzlar */
 .star {
   position:absolute;
   width:2px;
@@ -62,45 +56,25 @@ html, body {
   0% { transform: translateY(-10px); opacity:1; }
   100% { transform: translateY(400px); opacity:0; }
 }
-
 input, button {
   margin:10px auto; padding:12px; width:90%; font-size:18px;
   border-radius:8px; border:none; display:block;
 }
 button { background:#333; color:white; cursor:pointer; transition:0.3s; }
 button:hover { background:#555; }
-
 .hidden { display:none; }
 #msg, #msgSpin, #regMsg { margin-top:10px; color:#FFD700; font-weight:bold; }
 #wheel-container { position:relative; width:250px; height:250px; margin:20px auto; }
 #wheel { width:250px; height:250px; border-radius:50%; border:5px solid white; transition: transform 3s ease-out; }
 #wheel text { font-weight:bold; font-size:14px; fill:white; text-anchor:middle; dominant-baseline:middle; }
 #pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid white; margin:-30px auto 0 auto; }
-
-/* Sosial linklər */
-#socialFooter {
-  margin-top:30px;
-  text-align:center;
-}
-#socialFooter p {
-  font-weight:bold; margin-bottom:15px; font-size:20px;
-}
-#socialLinks {
-  display:flex;
-  justify-content:center;
-  gap:40px; font-size:22px;
-}
-#socialLinks a {
-  text-decoration:none; color:white; display:flex; align-items:center; gap:12px; font-weight:bold;
-  transition:0.3s;
-}
+#socialFooter { margin-top:30px; text-align:center; }
+#socialFooter p { font-weight:bold; margin-bottom:15px; font-size:20px; }
+#socialLinks { display:flex; justify-content:center; gap:40px; font-size:22px; }
+#socialLinks a { text-decoration:none; color:white; display:flex; align-items:center; gap:12px; font-weight:bold; transition:0.3s; }
 #socialLinks a:hover { color:#FFD700; }
 #socialLinks img { width:36px; height:36px; }
-
-/* Qazananlar bölməsi */
-#winners {
-  margin-top:30px; background:#222; padding:15px; border-radius:10px;
-}
+#winners { margin-top:30px; background:#222; padding:15px; border-radius:10px; }
 #winners h3 { color:#FFD700; margin-bottom:15px; }
 #winners ul { list-style:none; padding:0; margin:0; color:white; font-weight:bold; font-size:16px; }
 #winners ul li { margin:4px 0; }
@@ -211,7 +185,10 @@ setInterval(showDateTime,60000);
 // Kodlar və balans
 let balance = 0;
 let deg = 0;
-const codeMap = { "005":1, "00-MH":5, "00-7A":10, "00-6T":3, "00-63U":20 };
+const codeMap = { "005":1, "00-MH":5, "00-7A":10, "00-6T":3, "00-63U":20, "111DEMO":1 };
+
+// Demo istifadəçi fırlatma limiti
+let demoSpun = false;
 
 // Çarx bölmələri
 const slices = [
@@ -286,12 +263,21 @@ function login(){
   const msg=document.getElementById("msg");
   if(!user||!code){ msg.innerText="Bütün xanaları doldurun!"; return;}
   if(!codeMap[code]){ msg.innerText="Kod səhvdir. Yeni kod üçün Telegram vasitəsilə əlaqə saxlayın."; return;}
+  
+  // Demo istifadəçi 1 dəfə fırlatması
+  if(user==="Demo" && code==="111DEMO" && demoSpun){
+    msg.innerText="Demo istifadəçi yalnız 1 dəfə çarxı fırlada bilər!";
+    return;
+  }
+  
   balance = codeMap[code];
   document.getElementById("login").classList.add("hidden");
   document.getElementById("register").classList.add("hidden");
   document.getElementById("panel").classList.remove("hidden");
   document.getElementById("msg").innerText="Giriş uğurlu! Çarx paneli açıldı.";
   updateBalance();
+  
+  if(user==="Demo" && code==="111DEMO") demoSpun = true;
 }
 
 // UPDATE BALANCE
