@@ -6,27 +6,38 @@
 <style>
 body { font-family: Arial; text-align:center; background:#111; color:white; margin:0; padding:0; }
 .container { max-width:400px; margin:auto; padding:20px; }
-input, button { margin:10px auto; padding:15px; width:90%; font-size:18px; border-radius:8px; border:none; display:block; }
+input, button { margin:10px auto; padding:12px; width:90%; font-size:18px; border-radius:8px; border:none; display:block; }
 button { background:#333; color:white; cursor:pointer; transition:0.3s; }
 button:hover { background:#555; }
 #topMessage { background:#222; color:#FFD700; padding:10px; border-radius:8px; margin-bottom:15px; font-weight:bold; }
 .hidden { display:none; }
-#msg, #msgSpin { margin-top:10px; color:#FFD700; font-weight:bold; }
+#msg, #msgSpin, #regMsg { margin-top:10px; color:#FFD700; font-weight:bold; }
 #wheel {
   margin:20px auto;
   width:220px;
   height:220px;
   border-radius:50%;
   background: conic-gradient(
-    red 0deg 60deg,
-    yellow 60deg 120deg,
-    green 120deg 180deg,
-    blue 180deg 240deg,
-    orange 240deg 300deg,
-    purple 300deg 360deg
+    black 0deg 180deg,
+    black 180deg 360deg
   );
   border:5px solid white;
+  position: relative;
   transition: transform 3s ease-out;
+}
+.wheel-text {
+  position:absolute;
+  width:50%;
+  height:50%;
+  top:25%;
+  left:25%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:bold;
+  font-size:20px;
+  color:white;
+  transform-origin:center center;
 }
 #pointer {
   width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent;
@@ -37,7 +48,6 @@ button:hover { background:#555; }
 <body>
 
 <div class="container">
-
 <div id="topMessage">🎡 Çarxı fırlatmaq üçün 1₼ əlavə et və şansını sınayaraq qazan!</div>
 
 <!-- LOGIN -->
@@ -66,11 +76,12 @@ button:hover { background:#555; }
 <h2>Panel</h2>
 <p id="balanceText">Balans: 0 ₼</p>
 <div id="pointer"></div>
-<div id="wheel"></div>
+<div id="wheel">
+  <div class="wheel-text" style="transform:rotate(45deg)">20 ₼</div>
+  <div class="wheel-text" style="transform:rotate(225deg)">Boş</div>
+</div>
 <button onclick="spin()">Çarxi fırlat</button>
 <p id="msgSpin"></p>
-</div>
-
 </div>
 
 <script>
@@ -83,7 +94,7 @@ let usedPhone = null;
 // Kod və balans xəritəsi
 const codeMap = { "005": 1, "00-MH":5, "00-7A":10, "00-6T":3, "00-63U":20 };
 
-// Show register form
+// SHOW REGISTER
 function showRegister(){
   document.getElementById("login").classList.add("hidden");
   document.getElementById("register").classList.remove("hidden");
@@ -117,6 +128,7 @@ function login(){
 
   balance = codeMap[code];
   document.getElementById("login").classList.add("hidden");
+  document.getElementById("register").classList.add("hidden");
   document.getElementById("panel").classList.remove("hidden");
   updateBalance();
   msg.innerText="Giriş uğurlu! Çarx paneli açıldı.";
@@ -125,17 +137,12 @@ function login(){
 // BALANS UPDATE
 function updateBalance(){ document.getElementById("balanceText").innerText="Balans: "+balance+" ₼"; }
 
-// ÇARX FİRLATMA
+// ÇARX
 function spin(){
-  if(balance<=0){ document.getElementById("msgSpin").innerText="Balansınızı artırın!"; return; }
-  let random=Math.floor(Math.random()*360);
-  deg+=360*5+random;
+  deg += 360*5 + Math.floor(Math.random()*180 + 180); // təsadüfi, amma həmişə Boş düşəcək
   document.getElementById("wheel").style.transform="rotate("+deg+"deg)";
   setTimeout(()=>{
-    let win=Math.floor(Math.random()*100);
-    balance+=win;
-    document.getElementById("msgSpin").innerText="Qazandınız: "+win+" ₼";
-    updateBalance();
+    document.getElementById("msgSpin").innerText="Boş düşdü! Pul qazanmırsınız.";
   },3000);
 }
 </script>
