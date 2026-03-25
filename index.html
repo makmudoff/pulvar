@@ -2,29 +2,40 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Sayt</title>
+<title>Login Sistem</title>
+
 <style>
 body {
+    margin: 0;
     font-family: Arial;
-    background: #0f172a;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.box {
+    background: #111827;
+    padding: 30px;
+    border-radius: 15px;
+    width: 300px;
     text-align: center;
 }
 
-.container {
-    margin-top: 50px;
-}
-
 input {
+    width: 90%;
     padding: 10px;
-    margin: 5px;
-    width: 200px;
+    margin: 8px 0;
     border-radius: 5px;
     border: none;
 }
 
 button {
-    padding: 10px 20px;
+    width: 95%;
+    padding: 10px;
+    margin-top: 10px;
     border: none;
     border-radius: 5px;
     background: #22c55e;
@@ -32,137 +43,121 @@ button {
     cursor: pointer;
 }
 
+.link {
+    color: #38bdf8;
+    cursor: pointer;
+    font-size: 14px;
+}
+
 .hidden {
     display: none;
 }
-
-.box {
-    background: #1e293b;
-    padding: 20px;
-    border-radius: 10px;
-    display: inline-block;
-}
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<!-- Welcome -->
+<div id="welcome" class="box">
+    <h2>Xoş gəlmisiniz</h2>
+    <button onclick="goLogin()">Davam et</button>
+</div>
 
-    <!-- Xoş gəldiniz -->
-    <div id="welcome" class="box">
-        <h1>Xoş gəlmisiniz</h1>
-        <button onclick="showLogin()">Davam et</button>
+<!-- Login -->
+<div id="login" class="box hidden">
+    <h2>Daxil ol</h2>
+    <input type="text" id="lUser" placeholder="İstifadəçi adı">
+    <input type="password" id="lPass" placeholder="Parol">
+    <button onclick="login()">Daxil ol</button>
+    <p id="loginErr" style="color:red;"></p>
+
+    <p class="link" onclick="goRegister()">Qeydiyyat et</p>
+</div>
+
+<!-- Register -->
+<div id="register" class="box hidden">
+    <h2>Qeydiyyat</h2>
+    <input type="text" id="rUser" placeholder="İstifadəçi adı">
+    <input type="password" id="rPass" placeholder="Parol">
+    <input type="password" id="rPass2" placeholder="Parolu təkrar et">
+    <input type="text" id="phone" placeholder="Telefon nömrəsi">
+
+    <button onclick="register()">Qeydiyyatdan keç</button>
+    <p id="regErr" style="color:red;"></p>
+
+    <p class="link" onclick="goLogin()">Geri dön</p>
+</div>
+
+<!-- Panel -->
+<div id="panel" class="box hidden">
+    <h2>Panel</h2>
+
+    <p style="color:yellow;">
+    Hesabınızı təsdiq etmək üçün WhatsApp: 055-233-48-15  
+    1₼ ödəniş edin və aktiv edin  
+    1 referall = 0.35₼
+    </p>
+
+    <button onclick="toggle('withdraw')">Pul çəkmək</button>
+    <button onclick="toggle('ref')">Referall</button>
+
+    <div id="withdraw" class="hidden">
+        <p>Minimum çıxarış: 5₼</p>
     </div>
 
-    <!-- Login -->
-    <div id="login" class="box hidden">
-        <h2>Daxil ol</h2>
-        <input type="text" id="loginUser" placeholder="İstifadəçi adı"><br>
-        <input type="password" id="loginPass" placeholder="Parol"><br>
-        <button onclick="login()">Daxil ol</button>
-        <p id="loginError" style="color:red;"></p>
-        <br>
-        <button onclick="showRegister()">Qeydiyyat</button>
+    <div id="ref" class="hidden">
+        <p>Referal link: example.com/ref123</p>
     </div>
-
-    <!-- Qeydiyyat -->
-    <div id="register" class="box hidden">
-        <h2>Qeydiyyat</h2>
-        <input type="text" id="regUser" placeholder="İstifadəçi adı"><br>
-        <input type="password" id="regPass" placeholder="Parol"><br>
-        <input type="password" id="regPass2" placeholder="Parolu təkrar et"><br>
-        <input type="text" id="phone" placeholder="Telefon nömrəsi"><br>
-        <button onclick="register()">Qeydiyyatdan keç</button>
-        <p id="regError" style="color:red;"></p>
-    </div>
-
-    <!-- Panel -->
-    <div id="panel" class="box hidden">
-        <h2>Panel</h2>
-
-        <p style="color:yellow;">
-        Hesabınızı təsdiq etmək üçün 055-233-48-15 WhatsApp nömrəsinə yazın.  
-        Hesabı aktiv etmək üçün 1₼ ödəniş edin.  
-        Ödəniş etdikdən sonra referall linkinizi paylaşın.  
-        1 referall = 0.35₼
-        </p>
-
-        <button onclick="showWithdraw()">Pul çəkmək</button>
-        <button onclick="showReferral()">Referall</button>
-
-        <div id="withdraw" class="hidden">
-            <h3>Pul çıxarışı</h3>
-            <p>Minimum çıxarış: 5₼</p>
-        </div>
-
-        <div id="referral" class="hidden">
-            <h3>Referall sistem</h3>
-            <p>Sizin link: example.com/ref123</p>
-        </div>
-
-    </div>
-
 </div>
 
 <script>
 
-function showLogin(){
-    document.getElementById("welcome").classList.add("hidden");
+function goLogin(){
+    hideAll();
     document.getElementById("login").classList.remove("hidden");
 }
 
-function showRegister(){
-    document.getElementById("login").classList.add("hidden");
+function goRegister(){
+    hideAll();
     document.getElementById("register").classList.remove("hidden");
 }
 
-function register(){
-    let user = document.getElementById("regUser").value;
-    let pass = document.getElementById("regPass").value;
-    let pass2 = document.getElementById("regPass2").value;
-    let phone = document.getElementById("phone").value;
+function hideAll(){
+    document.getElementById("welcome").classList.add("hidden");
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("register").classList.add("hidden");
+}
 
-    if(pass !== pass2){
-        document.getElementById("regError").innerText = "Parollar eyni deyil!";
+function register(){
+    let u = rUser.value;
+    let p = rPass.value;
+    let p2 = rPass2.value;
+
+    if(p !== p2){
+        regErr.innerText = "Parollar eyni deyil!";
         return;
     }
 
-    let userData = {
-        username: user,
-        password: pass,
-        phone: phone
-    };
+    localStorage.setItem("user", JSON.stringify({u,p}));
 
-    localStorage.setItem("user", JSON.stringify(userData));
-
-    alert("Qeydiyyat uğurlu!");
-
-    document.getElementById("register").classList.add("hidden");
+    hideAll();
     document.getElementById("panel").classList.remove("hidden");
 }
 
 function login(){
-    let user = document.getElementById("loginUser").value;
-    let pass = document.getElementById("loginPass").value;
-
     let saved = JSON.parse(localStorage.getItem("user"));
-
-    if(!saved || saved.username !== user || saved.password !== pass){
-        document.getElementById("loginError").innerText = "Belə bir istifadəçi mövcud deyil!";
+    if(!saved || saved.u !== lUser.value || saved.p !== lPass.value){
+        loginErr.innerText = "Belə istifadəçi yoxdur!";
         return;
     }
 
-    document.getElementById("login").classList.add("hidden");
+    hideAll();
     document.getElementById("panel").classList.remove("hidden");
 }
 
-function showWithdraw(){
-    document.getElementById("withdraw").classList.toggle("hidden");
-}
-
-function showReferral(){
-    document.getElementById("referral").classList.toggle("hidden");
+function toggle(id){
+    document.getElementById(id).classList.toggle("hidden");
 }
 
 </script>
