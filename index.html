@@ -8,13 +8,15 @@ html, body {
   margin:0;
   padding:0;
   height:100%;
-  overflow:hidden;
+  width:100%;
+  overflow:hidden; /* Sürüşməni blok et */
   font-family: Arial, sans-serif;
   background:#111;
   color:white;
   display:flex;
   justify-content:center;
   align-items:center;
+  position:fixed; /* Elementləri sabit saxla */
 }
 .container {
   width:400px;
@@ -106,7 +108,7 @@ const slices = [
   { text:"BOŞ", color:"#4dffff" }
 ];
 
-// DRAW WHEEL (SVG dairəvi)
+// DRAW WHEEL
 function drawWheel(){
   const svg = document.getElementById("wheel");
   svg.innerHTML = "";
@@ -158,13 +160,8 @@ function register(){
     document.getElementById("regMsg").innerText="Bütün xanaları doldur!"; 
     return;
   }
-
   localStorage.setItem("userData",JSON.stringify({user,email,pass}));
-
-  // Yeni mesaj
   document.getElementById("regMsg").innerText="1 saniyə gözləyin, Telegrama yönləndirilirsiz...";
-
-  // 1 saniyə sonra Telegrama yönləndirmə
   setTimeout(()=>{
     const message=`Mən qeydiyyatdan keçdim, hesabımı aktiv edin.\nİstifadəçi adı: ${user}\nEmail: ${email}`;
     window.open("https://t.me/carxfirla?text="+encodeURIComponent(message),"_blank");
