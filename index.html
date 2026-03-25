@@ -2,13 +2,13 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Login Sistem</title>
+<title>Premium Sistem</title>
 
 <style>
 body {
     margin: 0;
     font-family: Arial;
-    background: linear-gradient(135deg, #0f172a, #1e293b);
+    background: linear-gradient(135deg,#020617,#0f172a);
     color: white;
     display: flex;
     justify-content: center;
@@ -18,16 +18,16 @@ body {
 
 .box {
     background: #111827;
-    padding: 30px;
+    padding: 25px;
     border-radius: 15px;
-    width: 300px;
+    width: 320px;
     text-align: center;
 }
 
 input {
     width: 90%;
     padding: 10px;
-    margin: 8px 0;
+    margin: 6px;
     border-radius: 5px;
     border: none;
 }
@@ -43,14 +43,12 @@ button {
     cursor: pointer;
 }
 
-.link {
-    color: #38bdf8;
-    cursor: pointer;
-    font-size: 14px;
-}
+.hidden { display:none; }
 
-.hidden {
-    display: none;
+.link {
+    color:#38bdf8;
+    cursor:pointer;
+    font-size:14px;
 }
 </style>
 
@@ -67,7 +65,7 @@ button {
 <!-- Login -->
 <div id="login" class="box hidden">
     <h2>Daxil ol</h2>
-    <input type="text" id="lUser" placeholder="İstifadəçi adı">
+    <input id="lUser" placeholder="İstifadəçi adı">
     <input type="password" id="lPass" placeholder="Parol">
     <button onclick="login()">Daxil ol</button>
     <p id="loginErr" style="color:red;"></p>
@@ -78,86 +76,111 @@ button {
 <!-- Register -->
 <div id="register" class="box hidden">
     <h2>Qeydiyyat</h2>
-    <input type="text" id="rUser" placeholder="İstifadəçi adı">
+    <input id="rUser" placeholder="İstifadəçi adı">
     <input type="password" id="rPass" placeholder="Parol">
     <input type="password" id="rPass2" placeholder="Parolu təkrar et">
-    <input type="text" id="phone" placeholder="Telefon nömrəsi">
+    <input id="phone" placeholder="Telefon nömrəsi">
 
     <button onclick="register()">Qeydiyyatdan keç</button>
-    <p id="regErr" style="color:red;"></p>
+    <p id="regMsg"></p>
 
     <p class="link" onclick="goLogin()">Geri dön</p>
 </div>
 
-<!-- Panel -->
+<!-- ADMIN PANEL -->
 <div id="panel" class="box hidden">
-    <h2>Panel</h2>
+    <h2>Admin Panel</h2>
 
-    <p style="color:yellow;">
-    Hesabınızı təsdiq etmək üçün WhatsApp: 055-233-48-15  
-    1₼ ödəniş edin və aktiv edin  
-    1 referall = 0.35₼
-    </p>
+    <h3>Balans: <span id="balance">0.00</span> ₼</h3>
 
-    <button onclick="toggle('withdraw')">Pul çəkmək</button>
+    <button onclick="toggle('earn')">Pul qazan</button>
     <button onclick="toggle('ref')">Referall</button>
+    <button onclick="toggle('withdraw')">Pul çıxar</button>
 
-    <div id="withdraw" class="hidden">
-        <p>Minimum çıxarış: 5₼</p>
+    <div id="earn" class="hidden">
+        <p>Tapşırıq tamamla +0.50₼</p>
+        <button onclick="earnMoney()">Qazan</button>
     </div>
 
     <div id="ref" class="hidden">
-        <p>Referal link: example.com/ref123</p>
+        <p>1 referall = 0.35₼</p>
+        <p>Link: site.com/ref123</p>
+    </div>
+
+    <div id="withdraw" class="hidden">
+        <p>Minimum: 5₼</p>
     </div>
 </div>
 
 <script>
 
+let balance = 0;
+
 function goLogin(){
     hideAll();
-    document.getElementById("login").classList.remove("hidden");
+    login.classList.remove("hidden");
 }
 
 function goRegister(){
     hideAll();
-    document.getElementById("register").classList.remove("hidden");
+    register.classList.remove("hidden");
 }
 
 function hideAll(){
-    document.getElementById("welcome").classList.add("hidden");
-    document.getElementById("login").classList.add("hidden");
-    document.getElementById("register").classList.add("hidden");
+    welcome.classList.add("hidden");
+    login.classList.add("hidden");
+    register.classList.add("hidden");
+    panel.classList.add("hidden");
 }
 
 function register(){
     let u = rUser.value;
     let p = rPass.value;
     let p2 = rPass2.value;
+    let ph = phone.value;
+
+    if(!u || !p || !p2 || !ph){
+        regMsg.style.color="red";
+        regMsg.innerText="Bütün sahələri doldurun!";
+        return;
+    }
 
     if(p !== p2){
-        regErr.innerText = "Parollar eyni deyil!";
+        regMsg.style.color="red";
+        regMsg.innerText="Parollar eyni deyil!";
         return;
     }
 
     localStorage.setItem("user", JSON.stringify({u,p}));
 
-    hideAll();
-    document.getElementById("panel").classList.remove("hidden");
+    regMsg.style.color="lightgreen";
+    regMsg.innerText="Qeydiyyatdan keçdiniz...";
+
+    setTimeout(()=>{
+        hideAll();
+        panel.classList.remove("hidden");
+    },3000);
 }
 
 function login(){
     let saved = JSON.parse(localStorage.getItem("user"));
+
     if(!saved || saved.u !== lUser.value || saved.p !== lPass.value){
-        loginErr.innerText = "Belə istifadəçi yoxdur!";
+        loginErr.innerText="Belə istifadəçi yoxdur!";
         return;
     }
 
     hideAll();
-    document.getElementById("panel").classList.remove("hidden");
+    panel.classList.remove("hidden");
 }
 
 function toggle(id){
     document.getElementById(id).classList.toggle("hidden");
+}
+
+function earnMoney(){
+    balance += 0.5;
+    document.getElementById("balance").innerText = balance.toFixed(2);
 }
 
 </script>
