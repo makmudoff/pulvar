@@ -44,19 +44,15 @@ button:hover { background:#555; }
 #wheel text { font-weight:bold; font-size:14px; fill:white; text-anchor:middle; dominant-baseline:middle; }
 #pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid white; margin:-30px auto 0 auto; }
 
-/* Tarix animasiyası */
+/* Tarix animasiyası - yalnız sağdan sola sürüşəcək */
 #dateTime {
   font-weight:bold;
   color:#FFD700;
   margin-bottom:10px;
   white-space:nowrap;
   display:inline-block;
-  animation: blink 1s steps(1) infinite, slide 15s linear infinite;
   position:relative;
-}
-@keyframes blink {
-  0%,50%,100% { opacity:1; }
-  25%,75% { opacity:0; }
+  animation: slide 15s linear infinite;
 }
 @keyframes slide {
   0% { left:100%; }
