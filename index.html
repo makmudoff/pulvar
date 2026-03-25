@@ -2,153 +2,157 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Pul Qazan</title>
+<title>Pul Qazan Saytı</title>
 
 <style>
-body {
-    margin:0;
-    background:black;
+body{
+    font-family: Arial;
+    background:#111;
     color:white;
-    font-family:Arial;
     text-align:center;
 }
-
-/* HEADER */
-.header {
-    padding:15px;
-    font-size:22px;
-    color:orange;
+.container{
+    margin-top:50px;
 }
-
-/* BALANS BOX */
-.balance-box {
-    border:1px solid orange;
-    margin:20px;
-    padding:20px;
-    border-radius:15px;
-}
-
-.balance {
-    font-size:40px;
-    color:orange;
-}
-
-/* COIN */
-.coin {
-    width:200px;
-    height:200px;
-    background:orange;
-    border-radius:50%;
-    margin:30px auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:40px;
-    color:black;
-    cursor:pointer;
-    box-shadow:0 0 40px orange;
-}
-
-/* ENERGY */
-.energy-bar {
-    width:90%;
-    height:10px;
-    background:#333;
+input{
+    display:block;
     margin:10px auto;
-    border-radius:10px;
+    padding:10px;
+    width:200px;
 }
-
-.energy-fill {
-    height:10px;
-    background:orange;
-    width:100%;
-    border-radius:10px;
+button{
+    padding:10px 20px;
+    background:green;
+    color:white;
+    border:none;
+    cursor:pointer;
 }
-
-/* NAVBAR */
-.nav {
-    position:fixed;
-    bottom:0;
-    width:100%;
-    background:#111;
-    display:flex;
-    justify-content:space-around;
-    padding:10px 0;
-}
-
-.nav div {
-    color:gray;
-}
+.hidden{display:none;}
 </style>
 
 </head>
-
 <body>
 
-<div class="header">Pul Qazanan</div>
+<div class="container" id="loginPage">
+    <h2>Giriş</h2>
+    <input id="loginUser" placeholder="İstifadəçi adı">
+    <input id="loginPass" type="password" placeholder="Parol">
+    <button onclick="login()">Daxil ol</button>
 
-<div class="balance-box">
-    <div>Balansınız</div>
-    <div class="balance" id="bal">0.000 ₼</div>
-    <div>Ümumi klik: <span id="clicks">0</span></div>
+    <p onclick="showRegister()" style="cursor:pointer;color:lightblue;">
+        Qeydiyyatdan keç
+    </p>
 </div>
 
-<div class="coin" onclick="mine()">₼</div>
-
-<div>Enerji: <span id="energyText">1000</span>/1000</div>
-
-<div class="energy-bar">
-    <div class="energy-fill" id="energyBar"></div>
+<div class="container hidden" id="registerPage">
+    <h2>Qeydiyyat</h2>
+    <input id="user" placeholder="İstifadəçi adı">
+    <input id="pass" type="password" placeholder="Parol">
+    <input id="pass2" type="password" placeholder="Parolu təkrar et">
+    <input id="phone" placeholder="Nömrə">
+    <input id="email" placeholder="Email">
+    <button onclick="register()">Qeydiyyatdan keç</button>
 </div>
 
-<div class="nav">
-    <div>Əsas</div>
-    <div>Tapşırıq</div>
-    <div>Dostlar</div>
-    <div>Reyting</div>
-    <div>Profil</div>
+<div class="container hidden" id="dashboard">
+    <h2>Panel</h2>
+
+    <p>Gün ərzində 15-20 AZN qazana bilərsiniz</p>
+
+    <button onclick="verify()">Hesabı təsdiq et</button>
+
+    <h3>Balans: <span id="balans">0.00</span> ₼</h3>
+
+    <button onclick="earn()">Klik et və qazan</button>
+
+    <br><br>
+    <button onclick="withdraw()">Pul çıxar</button>
+
+    <br><br>
+    <button onclick="copyRef()">Referal linki kopyala</button>
 </div>
 
 <script>
 
-let balance = localStorage.getItem("bal") ? parseFloat(localStorage.getItem("bal")) : 0;
-let clicks = localStorage.getItem("clicks") ? parseInt(localStorage.getItem("clicks")) : 0;
-let energy = localStorage.getItem("energy") ? parseInt(localStorage.getItem("energy")) : 1000;
+let balans = 0;
+let clicks = 0;
 
-updateUI();
-
-function mine(){
-    if(energy <= 0) return;
-
-    balance += 0.001;
-    clicks++;
-    energy--;
-
-    save();
-    updateUI();
+// səhifə dəyiş
+function showRegister(){
+    loginPage.classList.add("hidden");
+    registerPage.classList.remove("hidden");
 }
 
-function updateUI(){
-    document.getElementById("bal").innerText = balance.toFixed(4) + " ₼";
-    document.getElementById("clicks").innerText = clicks;
-    document.getElementById("energyText").innerText = energy;
-    document.getElementById("energyBar").style.width = energy/10 + "%";
-}
+// qeydiyyat
+function register(){
+    let u = user.value;
+    let p = pass.value;
+    let p2 = pass2.value;
+    let ph = phone.value;
+    let em = email.value;
 
-function save(){
-    localStorage.setItem("bal", balance);
-    localStorage.setItem("clicks", clicks);
-    localStorage.setItem("energy", energy);
-}
-
-// enerji bərpa (hər 3 saniyəyə +1)
-setInterval(()=>{
-    if(energy < 1000){
-        energy++;
-        save();
-        updateUI();
+    if(!u || !p || !p2 || !ph || !em){
+        alert("Bütün sahələri doldur!");
+        return;
     }
-},3000);
+
+    if(p !== p2){
+        alert("Parollar eyni deyil!");
+        return;
+    }
+
+    alert("Qeydiyyat uğurludur!");
+
+    setTimeout(()=>{
+        registerPage.classList.add("hidden");
+        dashboard.classList.remove("hidden");
+    },3000);
+}
+
+// login
+function login(){
+    loginPage.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+}
+
+// təsdiq
+function verify(){
+    alert("Hesabı təsdiq etmək üçün 055-233-48-15 nömrəsinə yazın.\nQiymət: 2 ₼");
+}
+
+// qazanc
+function earn(){
+    if(clicks >= 50){
+        alert("Bugün limit doldu!");
+        return;
+    }
+
+    balans += 0.10;
+    clicks++;
+
+    document.getElementById("balans").innerText = balans.toFixed(2);
+
+    alert("0.10₼ balansınıza əlavə olundu");
+}
+
+// pul çıxar
+function withdraw(){
+    if(balans < 10){
+        alert("Minimum çıxarış 10₼");
+        return;
+    }
+
+    alert("Nömrəyə yazın və ID göndərin. Ödəniş 1-3 gün ərzində ediləcək.");
+}
+
+// referal
+function copyRef(){
+    navigator.clipboard.writeText(window.location.href);
+    balans += 0.15;
+    document.getElementById("balans").innerText = balans.toFixed(2);
+
+    alert("Referal link kopyalandı (+0.15₼)");
+}
 
 </script>
 
