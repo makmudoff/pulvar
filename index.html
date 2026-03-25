@@ -47,13 +47,12 @@ function register(){
   userData = {user, email, pass};
   localStorage.setItem("userData", JSON.stringify(userData));
 
-  // Qeydiyyat tamamlandı, panel açılmır
-  alert("Qeydiyyat tamamlandı! Sayta birbaşa daxil olmaq mümkün deyil.");
+  // Alert ilə istifadəçiyə mesaj
+  alert("Qeydiyyat tamamlandı! Hesabınızı aktiv etmək üçün Telegramda bizə yazın.");
 
-  // Telegram linki ilə avtomatik mesaj hazırla və yeni pəncərədə aç
+  // Telegram linki ilə avtomatik mesaj hazırlayıb yeni pəncərədə aç
   let message = `Salam! Mən hesabımı aktiv etmək istəyirəm.\nİstifadəçi adı: ${user}\nEmail: ${email}`;
   let telegramLink = "https://t.me/carxfirla?text=" + encodeURIComponent(message);
-
   window.open(telegramLink, "_blank");
 }
 </script>
