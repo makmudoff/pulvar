@@ -67,8 +67,8 @@ const codeMap = { "005":1, "00-MH":5, "00-7A":10, "00-6T":3, "00-63U":20 };
 
 // Çarx bölmələri
 const slices = [
-  { text:"1 ₼", color:"#ff4d4d" },
-  { text:"5 ₼", color:"#4dff4d" },
+  { text:"20 ₼", color:"#ff4d4d" },
+  { text:"50 ₼", color:"#4dff4d" },
   { text:"BOŞ", color:"#4d4dff" },
   { text:"BOŞ", color:"#ffff4d" },
   { text:"BOŞ", color:"#ff4dff" },
@@ -164,7 +164,7 @@ function spin(){
 // PUL ÇIXARTMAQ
 function withdraw(){
   if(balance < 50){
-    alert("Minimum 50₼ lazımdır!");
+    alert("Minimum Çıxarış 50₼ olmalıdır!");
     return;
   }
   const message = `Salam mənim hesabımda ${balance}₼ var, çıxarış edərdiniz zəhmət olmasa.`;
