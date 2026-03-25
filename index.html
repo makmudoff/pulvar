@@ -2,232 +2,129 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Şəxsi Panel</title>
-
+<title>Çərx Oyunu</title>
 <style>
-body {font-family:Arial;text-align:center;background:#111;color:#fff;}
-input,button {padding:10px;margin:5px;border-radius:5px;border:none;}
-button {background:gold;cursor:pointer;}
-.hidden {display:none;}
+body { font-family: Arial; text-align: center; background:#111; color:white; }
+.container { max-width:400px; margin:auto; padding:20px; }
+input, button { margin:5px; padding:10px; width:90%; }
+.hidden { display:none; }
+#wheel { margin:20px auto; width:200px; height:200px; border-radius:50%; border:5px solid white; display:flex; align-items:center; justify-content:center; }
 </style>
 </head>
-
 <body>
 
-<h2>🎰 Oyun Sistemi</h2>
+<div class="container">
 
 <!-- LOGIN -->
-<div id="loginBox">
-<h3>Giriş</h3>
-<input id="loginUser" placeholder="İstifadəçi adı"><br>
-<input id="loginPass" type="password" placeholder="Şifrə"><br>
-<button onclick="login()">Daxil ol</button><br>
-<button onclick="showRegister()">Qeydiyyat</button>
+<div id="login">
+<h2>Giriş</h2>
+<input id="loginUser" placeholder="İstifadəçi adı">
+<input id="loginPass" type="password" placeholder="Şifrə">
+<button onclick="login()">Daxil ol</button>
+<p>Hesabın yoxdur? <button onclick="showRegister()">Qeydiyyat</button></p>
 </div>
 
 <!-- REGISTER -->
-<div id="registerBox" class="hidden">
-<h3>Qeydiyyat</h3>
-<input id="regUser" placeholder="İstifadəçi adı"><br>
-<input id="regEmail" placeholder="Email"><br>
-<input id="regPass" type="password" placeholder="Şifrə"><br>
+<div id="register" class="hidden">
+<h2>Qeydiyyat</h2>
+<input id="user" placeholder="İstifadəçi adı">
+<input id="email" placeholder="Email">
+<input id="pass" type="password" placeholder="Şifrə">
 <button onclick="register()">Qeydiyyatdan keç</button>
 </div>
 
 <!-- PANEL -->
-<div id="panelBox" class="hidden">
-<h3 id="welcome"></h3>
-<p id="balance"></p>
+<div id="panel" class="hidden">
+<h2>Panel</h2>
+<p id="balanceText">Balans: 0 ₼</p>
 
-<button onclick="openGame()">Çarx oyna</button>
-<button onclick="logout()">Çıxış</button>
+<div id="wheel">🎰</div>
+<button onclick="spin()">Çərxi fırlat</button>
+
+<br><br>
+
+<button onclick="deposit()">Balansı artır</button>
+<button onclick="withdraw()">Çıxarış</button>
+
+<p id="msg"></p>
 </div>
 
-<!-- GAME -->
-<div id="gameBox" class="hidden">
-<h3>🎡 Çarx</h3>
-<div style="font-size:30px;">⬇️</div>
-<canvas id="wheel" width="300" height="300"></canvas><br>
-<button onclick="spin()">Fırlat (-1₼)</button><br><br>
-<button onclick="back()">Geri</button>
-<p id="result"></p>
 </div>
 
 <script>
-let user = null;
-let balance = 10;
+let userData = JSON.parse(localStorage.getItem("userData")) || null;
+let balance = 0;
 
-// AUTO LOGIN
-window.onload = function(){
-let saved = JSON.parse(localStorage.getItem("user"));
-if(saved){
-user = saved;
-balance = saved.balance;
-showPanel();
-}
-}
-
-// SHOW
 function showRegister(){
-loginBox.style.display="none";
-registerBox.style.display="block";
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("register").classList.remove("hidden");
 }
 
-// REGISTER
 function register(){
-let u = regUser.value.trim();
-let e = regEmail.value.trim();
-let p = regPass.value.trim();
+  let user = document.getElementById("user").value;
+  let email = document.getElementById("email").value;
+  let pass = document.getElementById("pass").value;
 
-if(!u || !e || !p){
-alert("Hamısını doldur!");
-return;
+  if(!user || !email || !pass){
+    alert("Bütün xanaları doldur!");
+    return;
+  }
+
+  userData = {user, email, pass};
+  localStorage.setItem("userData", JSON.stringify(userData));
+  balance = 0;
+
+  alert("Qeydiyyat tamamlandı!");
+  openPanel();
 }
 
-user = {u,e,p,balance:10};
-localStorage.setItem("user", JSON.stringify(user));
-
-showPanel();
-}
-
-// LOGIN
 function login(){
-let u = loginUser.value.trim();
-let p = loginPass.value.trim();
+  let user = document.getElementById("loginUser").value;
+  let pass = document.getElementById("loginPass").value;
 
-let saved = JSON.parse(localStorage.getItem("user"));
+  if(!userData || user !== userData.user || pass !== userData.pass){
+    alert("Yanlış məlumat!");
+    return;
+  }
 
-if(!saved){
-alert("Əvvəl qeydiyyatdan keç!");
-return;
+  openPanel();
 }
 
-if(saved.u === u && saved.p === p){
-user = saved;
-balance = saved.balance;
-showPanel();
-}else{
-alert("Məlumat səhvdir!");
-}
-}
+function openPanel(){
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("register").classList.add("hidden");
+  document.getElementById("panel").classList.remove("hidden");
 
-// PANEL
-function showPanel(){
-loginBox.style.display="none";
-registerBox.style.display="none";
-panelBox.style.display="block";
-
-welcome.innerText = "Salam, " + user.u;
-updateBalance();
+  updateBalance();
 }
 
-// LOGOUT
-function logout(){
-localStorage.removeItem("user");
-location.reload();
-}
-
-// GAME
-function openGame(){
-panelBox.style.display="none";
-gameBox.style.display="block";
-drawWheel();
-}
-
-function back(){
-gameBox.style.display="none";
-panelBox.style.display="block";
-}
-
-// BALANCE
 function updateBalance(){
-balance = balance || 0;
-balanceEl = document.getElementById("balance");
-balanceEl.innerText = "Balans: " + balance + "₼";
-
-user.balance = balance;
-localStorage.setItem("user", JSON.stringify(user));
-}
-
-// WHEEL
-const segments = ["Boş","Boş","Bəxtini sına","5₼","Boş","10₼","Bəxtini sına","Boş"];
-let angle = 0;
-
-function drawWheel(){
-let ctx = wheel.getContext("2d");
-let arc = Math.PI*2/segments.length;
-
-for(let i=0;i<segments.length;i++){
-ctx.beginPath();
-ctx.moveTo(150,150);
-ctx.arc(150,150,150,arc*i,arc*(i+1));
-ctx.fillStyle = "hsl("+(i*40)+",70%,50%)";
-ctx.fill();
-
-ctx.save();
-ctx.translate(150,150);
-ctx.rotate(arc*i+arc/2);
-ctx.fillStyle="#000";
-ctx.fillText(segments[i],60,5);
-ctx.restore();
-}
+  document.getElementById("balanceText").innerText = "Balans: " + balance + " ₼";
 }
 
 function spin(){
-if(balance<=0){
-alert("Balans yoxdur!");
-return;
+  if(balance <= 0){
+    document.getElementById("msg").innerText = "Balansınızı artırın!";
+    return;
+  }
+
+  let win = Math.floor(Math.random() * 100);
+  balance += win;
+  document.getElementById("msg").innerText = "Qazandın: " + win + " ₼";
+  updateBalance();
 }
 
-balance--;
-updateBalance();
-
-let spinAngle = Math.random()*2000+2000;
-let duration=3000;
-let start=null;
-
-function animate(t){
-if(!start) start=t;
-let progress=t-start;
-
-angle = spinAngle*(progress/duration);
-
-let ctx = wheel.getContext("2d");
-ctx.clearRect(0,0,300,300);
-
-ctx.save();
-ctx.translate(150,150);
-ctx.rotate(angle*Math.PI/180);
-ctx.translate(-150,-150);
-drawWheel();
-ctx.restore();
-
-if(progress<duration){
-requestAnimationFrame(animate);
-}else{
-showResult();
-}
+function deposit(){
+  window.open("https://t.me/carxfirla?text=Salam%20Men%20balans%20artirmaq%20isdeyirem%20zehmet%20olmasa%20kart%20gonderin");
 }
 
-requestAnimationFrame(animate);
-}
+function withdraw(){
+  if(balance < 50){
+    alert("Minimum 50₼ lazımdır!");
+    return;
+  }
 
-function showResult(){
-let arc = 360/segments.length;
-let deg = angle%360;
-let index = Math.floor((360-deg)/arc)%segments.length;
-
-let res = segments[index];
-
-if(res.includes("₼")){
-balance += parseInt(res);
-result.innerText="🎉 Uddunuz: "+res;
-}else{
-result.innerText=res;
-}
-
-updateBalance();
+  window.open("https://t.me/carxfirla?text=Salam%20Men%20cixaris%20etmek%20isdeyirem%20balansim%2050₼%20olubdur");
 }
 </script>
 
