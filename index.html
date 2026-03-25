@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Çarx Oyunu</title>
+<title>Pulvar.Xyz Çarx Oyunu</title>
 <style>
 html, body {
   margin:0; padding:0; height:100%; width:100%; overflow-x:hidden;
@@ -29,14 +29,6 @@ html, body {
   font-weight:bold;
   color:#FFD700;
   margin-bottom:10px;
-  white-space:nowrap;
-  display:inline-block;
-  position:relative;
-  animation: slide 15s linear infinite;
-}
-@keyframes slide {
-  0% { left:100%; }
-  100% { left:-100%; }
 }
 
 /* Neon başlıq */
@@ -90,25 +82,19 @@ button:hover { background:#555; }
   text-align:center;
 }
 #socialFooter p {
-  font-weight:bold;
-  margin-bottom:10px;
+  font-weight:bold; margin-bottom:15px; font-size:20px;
 }
 #socialLinks {
   display:flex;
   justify-content:center;
-  gap:20px;
+  gap:40px; font-size:22px;
 }
 #socialLinks a {
-  text-decoration:none;
-  color:white;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-weight:bold;
+  text-decoration:none; color:white; display:flex; align-items:center; gap:12px; font-weight:bold;
   transition:0.3s;
 }
 #socialLinks a:hover { color:#FFD700; }
-#socialLinks img { width:24px; height:24px; }
+#socialLinks img { width:36px; height:36px; }
 </style>
 </head>
 <body>
@@ -171,7 +157,7 @@ Gecikmə – indi 1₼ əlavə et və şansını sınayaraq qazan!
 </div>
 
 <script>
-// Ulduzlar yaratmaq
+// Ulduzlar
 for(let i=0;i<30;i++){
   const star=document.createElement("div");
   star.classList.add("star");
@@ -259,10 +245,9 @@ function register(){
   const email=document.getElementById("regEmail").value.trim();
   const pass=document.getElementById("regPass").value.trim();
   if(!user||!email||!pass){ 
-    document.getElementById("regMsg").innerText="Bütün xanaları doldur!"; 
+    document.getElementById("regMsg").innerText="Bütün xanaları doldurun!"; 
     return;
   }
-  localStorage.setItem("userData",JSON.stringify({user,email,pass}));
   document.getElementById("regMsg").innerText="1 saniyə gözləyin, Telegrama yönləndirilirsiz...";
   setTimeout(()=>{
     const message=`Mən qeydiyyatdan keçdim, hesabımı aktiv edin.\nİstifadəçi adı: ${user}\nEmail: ${email}`;
