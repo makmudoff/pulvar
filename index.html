@@ -2,157 +2,86 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Shining Crown</title>
+<title>Fələk Çarxı</title>
 <style>
-body {
-    font-family: Arial, sans-serif;
-    background: #111;
-    color: #fff;
-    text-align: center;
-    padding: 40px;
-}
-h1 { color: gold; font-size: 40px; }
-#balance { font-weight: bold; font-size: 20px; margin: 20px; }
-.button {
-    padding: 12px 25px;
-    font-size: 16px;
-    margin: 10px;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
-    background: #FF4500;
-    color: #fff;
-}
-.button:hover { background: #FF6347; }
-.slot-machine { display: flex; justify-content: center; margin-top: 30px; }
-.slot-column {
-    width: 80px; height: 160px; margin: 0 10px;
-    background: #222; border-radius: 10px;
-    display: flex; flex-direction: column; justify-content: space-around; align-items: center;
-    overflow: hidden; font-size: 40px;
-}
-.slot-cell { height: 40px; }
-#message { margin-top: 20px; font-size: 18px; color: #00FF00; }
+body { font-family: Arial, sans-serif; background: #111; color: #fff; text-align: center; padding: 50px; }
+h1 { color: gold; font-size: 36px; }
+#balance { font-size: 20px; margin: 20px; }
+#spinBtn, #withdrawBtn { padding: 12px 20px; margin: 10px; font-size: 18px; cursor: pointer; border:none; border-radius:8px; background:#FF4500; color:#fff; }
+#spinBtn:hover, #withdrawBtn:hover { background:#FF6347; }
+#wheelContainer { position: relative; width: 300px; height: 300px; margin: 40px auto; }
+#wheel { width: 100%; height: 100%; border-radius: 50%; border: 10px solid #fff; position: relative; transition: transform 5s cubic-bezier(0.25,1,0.5,1); }
+.segment { position: absolute; width: 50%; height: 50%; background: red; transform-origin: 100% 100%; clip-path: polygon(100% 0, 0 0, 100% 100%); text-align:right; padding-right:10px; font-weight:bold; }
+.segment1 { background:#FF0000; transform:rotate(0deg); }   /* 1₼ */
+.segment2 { background:#00FF00; transform:rotate(72deg); }  /* 5₼ */
+.segment3 { background:#0000FF; transform:rotate(144deg); } /* 10₼ */
+.segment4 { background:#FFFF00; transform:rotate(216deg); } /* 15₼ */
+.segment5 { background:#FF00FF; transform:rotate(288deg); } /* 20₼ */
+#pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid gold; position:absolute; top:-30px; left:calc(50% - 15px); }
+#message { margin-top:20px; font-size:18px; color:#00FF00; }
 </style>
 </head>
 <body>
 
-<h1>Shining Crown</h1>
+<h1>Fələk Çarxı</h1>
+<p id="balance">Balans: 0₼ | Qalan Spinlər: 10</p>
+<button id="spinBtn" onclick="spinWheel()">Bəxtini sınamaq</button>
+<button id="withdrawBtn" onclick="withdraw()">Pul Çıxart</button>
 
-<div id="register">
-    <button class="button" onclick="registerUser()">Qeydiyyatdan Keç</button>
-</div>
-
-<div id="game" style="display:none;">
-    <p id="balance">Balans: 0 kredit</p>
-    <button class="button" onclick="deposit()">Deposit et (1 AZN → 1000 kredit)</button>
-    <button class="button" onclick="spinFruit()">Slotu Fırla</button>
-    <button class="button" onclick="withdraw()">Pul Çıxart</button>
-
-    <div class="slot-machine">
-        <div class="slot-column" id="col1">
-            <div class="slot-cell">🍒</div>
-            <div class="slot-cell">7️⃣</div>
-            <div class="slot-cell">🍎</div>
-            <div class="slot-cell">🍉</div>
-        </div>
-        <div class="slot-column" id="col2">
-            <div class="slot-cell">🍒</div>
-            <div class="slot-cell">7️⃣</div>
-            <div class="slot-cell">🍎</div>
-            <div class="slot-cell">🍉</div>
-        </div>
-        <div class="slot-column" id="col3">
-            <div class="slot-cell">🍒</div>
-            <div class="slot-cell">7️⃣</div>
-            <div class="slot-cell">🍎</div>
-            <div class="slot-cell">🍉</div>
-        </div>
+<div id="wheelContainer">
+    <div id="pointer"></div>
+    <div id="wheel">
+        <div class="segment segment1">1₼</div>
+        <div class="segment segment2">5₼</div>
+        <div class="segment segment3">10₼</div>
+        <div class="segment segment4">15₼</div>
+        <div class="segment segment5">20₼</div>
     </div>
-
-    <p id="message"></p>
 </div>
+
+<p id="message"></p>
 
 <script>
 let balance = 0;
-let registered = false;
-let totalSpins = 0;
-const fruits = ["🍒","🍎","🍉","7️⃣","👑"];
+let spinsLeft = 10;
 
-function registerUser() {
-    registered = true;
-    document.getElementById('register').style.display = 'none';
-    document.getElementById('game').style.display = 'block';
-    document.getElementById('message').innerText = "Xoş gəldin! Oyuna başla.";
+function updateBalance() {
+    document.getElementById('balance').innerText = "Balans: " + balance + "₼ | Qalan Spinlər: " + spinsLeft;
 }
 
-function deposit() {
-    if (!registered) return alert("Əvvəlcə qeydiyyatdan keçin!");
-    let whatsappNumber = "0552334815";
-    let text = "Salam, mən deposit etmək istəyirəm, oyun oynayacağam";
-    let url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
-    window.open(url, "_blank");
-    balance += 1000;
-    updateBalance();
+function spinWheel() {
+    if(spinsLeft <= 0) { alert("Spin imkanınız bitdi!"); return; }
+    spinsLeft--;
+
+    const wheel = document.getElementById('wheel');
+    const segments = [1,5,10,15,20];
+    const segmentCount = segments.length;
+    
+    // Random spin nəticəsi
+    const chosenIndex = Math.floor(Math.random()*segmentCount);
+    const degreesPerSegment = 360 / segmentCount;
+    const extraSpins = 5; // fırlatma tam tur
+    const rotateDeg = (360 * extraSpins) + (chosenIndex * degreesPerSegment) + degreesPerSegment/2;
+
+    wheel.style.transition = "transform 5s cubic-bezier(0.25,1,0.5,1)";
+    wheel.style.transform = `rotate(${rotateDeg}deg)`;
+
+    setTimeout(() => {
+        const prize = segments[chosenIndex];
+        balance += prize;
+        document.getElementById('message').innerText = "🎉 Qazandınız: " + prize + "₼!";
+        updateBalance();
+    }, 5200);
 }
 
 function withdraw() {
     let whatsappNumber = "0552334815";
-    let text = "Salam, mən pul çıxartmaq istəyirəm. Balansım: " + balance + " kredit";
+    let text = "Salam, mən pul çıxartmaq istəyirəm. Balansım: " + balance + "₼";
     let url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
     window.open(url, "_blank");
 }
 
-function spinFruit() {
-    if (balance < 20) {
-        alert("Balansınız kifayət etmir!");
-        return;
-    }
-    let costOptions = [19, 40, 75, 100];
-    let cost = costOptions[Math.floor(Math.random() * costOptions.length)];
-    balance -= cost;
-    totalSpins++;
-    updateBalance();
-
-    const columns = [
-        document.getElementById('col1'),
-        document.getElementById('col2'),
-        document.getElementById('col3')
-    ];
-
-    let spins = 15;
-    let interval = setInterval(() => {
-        columns.forEach(col => {
-            col.innerHTML = '';
-            for (let i = 0; i < 4; i++) {
-                let fruit = fruits[Math.floor(Math.random() * fruits.length)];
-                col.innerHTML += `<div class="slot-cell">${fruit}</div>`;
-            }
-        });
-        spins--;
-        if (spins <= 0) {
-            clearInterval(interval);
-            checkBonus();
-        }
-    }, 100);
-}
-
-function checkBonus() {
-    if (totalSpins === 40) {
-        balance += 1000; // 10₼
-        document.getElementById('message').innerText = "🎉 Bonus: 40 dəfə fırlatma → 10₼ qazandınız!";
-    } else if (totalSpins === 100) {
-        balance += 10000; // 100₼
-        document.getElementById('message').innerText = "🏆 Jackpot: 100 dəfə fırlatma → 100₼ qazandınız!";
-    } else {
-        document.getElementById('message').innerText = "Slot fırlandı!";
-    }
-    updateBalance();
-}
-
-function updateBalance() {
-    document.getElementById('balance').innerText = "Balans: " + balance + " kredit";
-}
+updateBalance();
 </script>
 
 </body>
