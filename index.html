@@ -2,52 +2,73 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Şans Çarxı</title>
+
 <style>
-    body {
-        text-align: center;
-        background: linear-gradient(45deg, #ff6, #6ff, #f6f);
-        font-family: Arial;
-    }
+body {
+    text-align: center;
+    font-family: Arial;
+    background: linear-gradient(45deg,#ff6,#6ff,#f6f);
+}
 
-    canvas {
-        margin-top: 50px;
-        border-radius: 50%;
-    }
+canvas {
+    margin-top: 20px;
+    max-width: 90%;
+}
 
-    button {
-        margin-top: 20px;
-        padding: 12px 25px;
-        font-size: 18px;
-        background: gold;
-        border: none;
-        cursor: pointer;
-        border-radius: 10px;
-    }
+button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    font-size: 18px;
+    background: gold;
+    border: none;
+    border-radius: 10px;
+}
+
+#pointer {
+    font-size: 40px;
+}
+
+#result {
+    display:none;
+    background:white;
+    padding:20px;
+    position:fixed;
+    top:40%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    border-radius:10px;
+}
 </style>
 </head>
+
 <body>
 
 <h2>🎡 Şans Çarxı</h2>
 
+<div id="pointer">⬇️</div>
+
 <canvas id="wheel" width="400" height="400"></canvas>
 <br>
 <button onclick="spin()">Fırlat</button>
+
+<div id="result"></div>
 
 <script>
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
 const segments = [
-    "1₼","Boş","Bəxtini sına","3₼","Boş","Bəxtini sına",
-    "5₼","Boş","Bəxtini sına","10₼","Boş","Bəxtini sına",
-    "20₼","Boş"
+"1₼","Boş","Bəxtini sına","3₼","Boş","Bəxtini sına",
+"5₼","Boş","Bəxtini sına","10₼","Boş","Bəxtini sına",
+"20₼","Boş"
 ];
 
 const colors = [
-    "#ff4d4d","#4dff4d","#4da6ff","#ffcc00","#cc66ff",
-    "#00cccc","#ff6600","#66ff66","#3399ff","#ff3399",
-    "#99ff33","#ff9933","#33ccff","#ff0066"
+"#ff4d4d","#4dff4d","#4da6ff","#ffcc00","#cc66ff",
+"#00cccc","#ff6600","#66ff66","#3399ff","#ff3399",
+"#99ff33","#ff9933","#33ccff","#ff0066"
 ];
 
 let angle = 0;
@@ -58,12 +79,12 @@ function drawWheel() {
     for (let i = 0; i < segments.length; i++) {
         ctx.beginPath();
         ctx.fillStyle = colors[i];
-        ctx.moveTo(200, 200);
-        ctx.arc(200, 200, 200, arc*i, arc*(i+1));
+        ctx.moveTo(200,200);
+        ctx.arc(200,200,200,arc*i,arc*(i+1));
         ctx.fill();
 
         ctx.save();
-        ctx.translate(200, 200);
+        ctx.translate(200,200);
         ctx.rotate(arc*i + arc/2);
         ctx.fillStyle = "#000";
         ctx.font = "16px Arial";
@@ -75,8 +96,8 @@ function drawWheel() {
 drawWheel();
 
 function spin() {
-    let spinAngle = Math.random() * 2000 + 2000;
-    let duration = 3000;
+    let spinAngle = Math.random()*2000 + 3000;
+    let duration = 4000;
     let start = null;
 
     function animate(time) {
@@ -85,7 +106,7 @@ function spin() {
 
         angle = spinAngle * (progress / duration);
 
-        ctx.clearRect(0, 0, 400, 400);
+        ctx.clearRect(0,0,400,400);
         ctx.save();
         ctx.translate(200,200);
         ctx.rotate(angle * Math.PI/180);
@@ -95,10 +116,37 @@ function spin() {
 
         if (progress < duration) {
             requestAnimationFrame(animate);
+        } else {
+            showResult();
         }
     }
 
     requestAnimationFrame(animate);
+}
+
+function showResult(){
+    let arc = 360 / segments.length;
+    let deg = angle % 360;
+    let index = Math.floor((360 - deg) / arc) % segments.length;
+
+    let res = segments[index];
+    let text = "";
+
+    if(res.includes("₼")){
+        text = "🎉 Uddunuz: " + res;
+    } else if(res === "Boş"){
+        text = "😕 Boş";
+    } else {
+        text = "🍀 Bəxtini sına";
+    }
+
+    let resultBox = document.getElementById("result");
+    resultBox.innerHTML = text + "<br><br><button onclick='closeRes()'>Bağla</button>";
+    resultBox.style.display = "block";
+}
+
+function closeRes(){
+    document.getElementById("result").style.display = "none";
 }
 </script>
 
