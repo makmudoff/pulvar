@@ -13,16 +13,14 @@ input, button { margin:5px; padding:10px; width:90%; }
   width:220px;
   height:220px;
   border-radius:50%;
-  background: conic-gradient(
-    red 0deg 60deg,
-    yellow 60deg 120deg,
-    green 120deg 180deg,
-    blue 180deg 240deg,
-    orange 240deg 300deg,
-    purple 300deg 360deg
-  );
   border:5px solid white;
   transition: transform 3s ease-out;
+  position: relative;
+}
+#wheelCanvas {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 #pointer {
   width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent;
@@ -69,7 +67,9 @@ input, button { margin:5px; padding:10px; width:90%; }
 <p id="balanceText">Balans: 0 ₼</p>
 
 <div id="pointer"></div>
-<div id="wheel"></div>
+<div id="wheel">
+  <canvas id="wheelCanvas"></canvas>
+</div>
 <button onclick="spin()">Çarxi fırlat</button>
 
 <br><br>
@@ -132,20 +132,73 @@ function updateBalance(){
   document.getElementById("balanceText").innerText = "Balans: " + balance + " ₼";
 }
 
+// Çarx məlumatları
+const sectors = [
+  {text:"2₼", color:"#FF5733", prize:2},
+  {text:"3₼", color:"#33FF57", prize:3},
+  {text:"5₼", color:"#3357FF", prize:5},
+  {text:"7₼", color:"#FF33A6", prize:7},
+  {text:"Bəxtini bir daha sına", color:"#777", prize:0},
+  {text:"Bəxtini bir daha sına", color:"#888", prize:0},
+  {text:"Bəxtini bir daha sına", color:"#999", prize:0},
+  {text:"Bəxtini bir daha sına", color:"#AAA", prize:0},
+  {text:"Bəxtini bir daha sına", color:"#BBB", prize:0},
+  {text:"Bəxtini bir daha sına", color:"#CCC", prize:0}
+];
+
+// Canvas çarx çəkimi
+const canvas = document.getElementById("wheelCanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = canvas.height = 220;
+
+function drawWheel(){
+  let startAngle = 0;
+  let arc = 2 * Math.PI / sectors.length;
+  sectors.forEach(sec => {
+    ctx.beginPath();
+    ctx.moveTo(110,110);
+    ctx.arc(110,110,110,startAngle,startAngle+arc);
+    ctx.fillStyle = sec.color;
+    ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.stroke();
+    // Text
+    ctx.save();
+    ctx.translate(110,110);
+    ctx.rotate(startAngle + arc/2);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 14px Arial";
+    ctx.fillText(sec.text, 100, 5);
+    ctx.restore();
+    startAngle += arc;
+  });
+}
+
+drawWheel();
+
 function spin(){
   if(balance <= 0){
     document.getElementById("msg").innerText = "Balansınızı artırın!";
     return;
   }
 
-  let random = Math.floor(Math.random() * 360);
-  deg += 360*5 + random;
+  // Təsadüfi sektor seç
+  const sectorIndex = Math.floor(Math.random() * sectors.length);
+  const arc = 360 / sectors.length;
+  const randomOffset = Math.random() * arc;
+  deg += 360*5 + sectorIndex*arc + randomOffset;
+
   document.getElementById("wheel").style.transform = "rotate(" + deg + "deg)";
 
   setTimeout(() => {
-    let win = Math.floor(Math.random() * 100); // Random qazanc
-    balance += win;
-    document.getElementById("msg").innerText = "Qazandınız: " + win + " ₼";
+    const win = sectors[sectorIndex].prize;
+    if(win > 0){
+      balance += win;
+      document.getElementById("msg").innerText = "Qazandınız: " + win + " ₼";
+    } else {
+      document.getElementById("msg").innerText = "Bəxtini bir daha sına!";
+    }
     updateBalance();
   }, 3000);
 }
