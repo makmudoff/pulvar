@@ -2,202 +2,75 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Pul Qazan Platforma</title>
-
+<title>777 Casino Meyvə Oyunu</title>
 <style>
-body{
-    font-family: Arial;
-    background:#0f172a;
-    color:white;
-    text-align:center;
-}
-.container{margin-top:40px;}
-input{
-    display:block;
-    margin:10px auto;
-    padding:10px;
-    width:220px;
-}
-button{
-    margin:5px;
-    padding:10px 15px;
-    background:#22c55e;
-    border:none;
-    color:white;
-    cursor:pointer;
-}
-.hidden{display:none;}
-.menu{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-}
-.section{margin-top:20px;}
+    body { font-family: Arial, sans-serif; background: #f8f8f8; text-align: center; padding: 50px; }
+    .button { padding: 10px 20px; font-size: 16px; margin: 10px; cursor: pointer; background: #4CAF50; color: white; border: none; border-radius: 5px; }
+    .button:hover { background: #45a049; }
+    #game { display: none; margin-top: 20px; }
+    #balance { font-weight: bold; margin-top: 10px; }
 </style>
-
 </head>
 <body>
 
-<!-- LOGIN -->
-<div class="container" id="loginPage">
-<h2>Giriş</h2>
-<input id="loginUser" placeholder="İstifadəçi adı">
-<input id="loginPass" type="password" placeholder="Parol">
-<button onclick="login()">Daxil ol</button>
-<p onclick="showRegister()" style="color:lightblue;cursor:pointer;">Qeydiyyatdan keç</p>
+<h1>777 Casino Meyvə Oyunu</h1>
+
+<div id="register">
+    <button class="button" onclick="registerUser()">Qeydiyyatdan Keç</button>
 </div>
 
-<!-- REGISTER -->
-<div class="container hidden" id="registerPage">
-<h2>Qeydiyyat</h2>
-<input id="regUser" placeholder="İstifadəçi adı">
-<input id="regPass" type="password" placeholder="Parol">
-<input id="regPass2" type="password" placeholder="Parolu təkrar et">
-<input id="regPhone" placeholder="Nömrə">
-<input id="regEmail" placeholder="Email">
-<button onclick="register()">Qeydiyyatdan keç</button>
-</div>
-
-<!-- DASHBOARD -->
-<div class="container hidden" id="dashboard">
-
-<h2>💸 Panel</h2>
-
-<div class="menu">
-<button onclick="show('home')">🏠 Ana səhifə</button>
-<button onclick="show('tasks')">💰 Tapşırıqlar</button>
-<button onclick="show('video')">🎥 Video</button>
-<button onclick="show('ref')">👥 Referal</button>
-<button onclick="show('profile')">👤 Profil</button>
-<button onclick="show('withdraw')">💸 Çıxarış</button>
-</div>
-
-<hr>
-
-<div id="home" class="section">
-<h3>Balans: <span id="balans">0.00</span> ₼</h3>
-<p>Gündə 15-20 AZN qazana bilərsiniz</p>
-<button onclick="verify()">Hesabı təsdiq et</button>
-</div>
-
-<div id="tasks" class="section hidden">
-<button onclick="earn(0.10,'Tapşırıq')">Tapşırıq et (+0.10₼)</button>
-</div>
-
-<div id="video" class="section hidden">
-<button onclick="earn(0.20,'Video')">Video izlə (+0.20₼)</button>
-</div>
-
-<div id="ref" class="section hidden">
-<button onclick="copyRef()">Referal link (+0.15₼)</button>
-</div>
-
-<div id="profile" class="section hidden">
-<p>İstifadəçi: <span id="username"></span></p>
-</div>
-
-<div id="withdraw" class="section hidden">
-<button onclick="withdraw()">Pul çıxar</button>
-</div>
-
+<div id="game">
+    <p id="balance">Balans: 0 kredit</p>
+    <button class="button" onclick="deposit()">Deposit et (1 AZN → 1000 kredit)</button>
+    <button class="button" onclick="spinFruit()">Meyvəni Fırla (0.20₼)</button>
+    <p id="message"></p>
 </div>
 
 <script>
+let balance = 0;
+let registered = false;
 
-let balans = 0;
-
-// səhifə dəyiş
-function showRegister(){
-loginPage.classList.add("hidden");
-registerPage.classList.remove("hidden");
+function registerUser() {
+    registered = true;
+    document.getElementById('register').style.display = 'none';
+    document.getElementById('game').style.display = 'block';
+    document.getElementById('message').innerText = "Xoş gəldin! Oyuna başla.";
 }
 
-// qeydiyyat
-function register(){
-let u = regUser.value;
-let p = regPass.value;
-let p2 = regPass2.value;
-let ph = regPhone.value;
-let em = regEmail.value;
-
-if(!u || !p || !p2 || !ph || !em){
-alert("Hamısını doldur!");
-return;
-}
-if(p !== p2){
-alert("Parol eyni deyil!");
-return;
+// Deposit düyməsi WhatsApp-a yönləndirir
+function deposit() {
+    if (!registered) return alert("Əvvəlcə qeydiyyatdan keçin!");
+    let whatsappNumber = "0552334815";
+    let text = "Salam, mən deposit etmək istəyirəm, oyun oynayacağam";
+    let url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank");
+    
+    // Simulyasiya üçün balans artırırıq
+    balance += 1000;
+    updateBalance();
 }
 
-localStorage.setItem("user", u);
-
-alert("Qeydiyyat uğurludur!");
-
-setTimeout(()=>{
-registerPage.classList.add("hidden");
-dashboard.classList.remove("hidden");
-loadUser();
-},2000);
+// Meyvəni fırlatmaq
+function spinFruit() {
+    if (balance < 20) { // 0.20 AZN = 20 kredit
+        alert("Balansınız kifayət etmir!");
+        return;
+    }
+    balance -= 20;
+    updateBalance();
+    
+    const fruits = ["🍒", "🍋", "🍊", "🍇", "🍉"];
+    const result = [];
+    for (let i = 0; i < 3; i++) {
+        result.push(fruits[Math.floor(Math.random() * fruits.length)]);
+    }
+    
+    document.getElementById('message').innerText = "Nəticə: " + result.join(" | ");
 }
 
-// login
-function login(){
-let u = loginUser.value;
-
-if(!u){
-alert("Ad yaz!");
-return;
+function updateBalance() {
+    document.getElementById('balance').innerText = "Balans: " + balance + " kredit";
 }
-
-localStorage.setItem("user", u);
-
-loginPage.classList.add("hidden");
-dashboard.classList.remove("hidden");
-
-loadUser();
-}
-
-// istifadəçi adı göstər
-function loadUser(){
-let u = localStorage.getItem("user") || "User";
-document.getElementById("username").innerText = u;
-}
-
-// bölmələr
-function show(id){
-document.querySelectorAll(".section").forEach(s=>s.classList.add("hidden"));
-document.getElementById(id).classList.remove("hidden");
-}
-
-// qazanc
-function earn(amount, text){
-balans += amount;
-document.getElementById("balans").innerText = balans.toFixed(2);
-alert(text+" +"+amount+"₼ əlavə olundu");
-}
-
-// referal
-function copyRef(){
-navigator.clipboard.writeText(window.location.href);
-balans += 0.15;
-document.getElementById("balans").innerText = balans.toFixed(2);
-alert("Link kopyalandı (+0.15₼)");
-}
-
-// çıxarış
-function withdraw(){
-if(balans < 10){
-alert("Minimum 10₼");
-return;
-}
-alert("Sorğu göndərildi");
-}
-
-// təsdiq
-function verify(){
-alert("055-233-48-15 nömrəsinə yazın");
-}
-
 </script>
 
 </body>
