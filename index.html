@@ -10,7 +10,6 @@ input, button { margin:5px; padding:10px; width:90%; }
 #topMessage { background: #222; color: #FFD700; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-weight: bold; }
 button { cursor: pointer; background:#333; color:white; border:none; border-radius:5px; transition:0.3s; }
 button:hover { background:#555; }
-.hidden { display:none; }
 #msg { margin-top:10px; color:#FFD700; font-weight:bold; }
 </style>
 </head>
@@ -28,16 +27,7 @@ button:hover { background:#555; }
 <input id="loginCode" placeholder="Kod" maxlength="1">
 <button onclick="login()">Daxil ol</button>
 <p id="msg"></p>
-<p><button onclick="showRegister()">Qeydiyyatdan keç</button></p>
-</div>
-
-<!-- Qeydiyyat -->
-<div id="register" class="hidden">
-<h2>Qeydiyyat</h2>
-<input id="user" placeholder="İstifadəçi adı">
-<input id="email" placeholder="Email">
-<input id="pass" type="password" placeholder="Şifrə">
-<button onclick="register()">Qeydiyyatdan keç</button>
+<p><button onclick="openRegisterWindow()">Qeydiyyatdan keç</button></p>
 </div>
 
 </div>
@@ -55,37 +45,6 @@ const validLogins = {
   "Ou72": "5"
 };
 
-// Qeydiyyatı göstərmək üçün
-function showRegister(){
-  document.getElementById("register").classList.remove("hidden");
-}
-
-// Qeydiyyat funksiyası
-function register(){
-  let user = document.getElementById("user").value.trim();
-  let email = document.getElementById("email").value.trim();
-  let pass = document.getElementById("pass").value.trim();
-
-  if(!user || !email || !pass){
-    alert("Bütün xanaları doldur!");
-    return;
-  }
-
-  userData = {user, email, pass};
-  localStorage.setItem("userData", JSON.stringify(userData));
-
-  alert("Qeydiyyat tamamlandı! Hesabınızı aktiv etmək üçün Telegramda bizə yazın.");
-  requestTelegram();
-}
-
-// Telegram avtomatik mesaj funksiyası
-function requestTelegram(){
-  if(!userData) userData = {user:"", email:"", pass:""};
-  let message = `Salam! Mən hesabımı aktiv etmək istəyirəm.\nİstifadəçi adı: ${userData.user}\nEmail: ${userData.email}`;
-  let telegramLink = "https://t.me/carxfirla?text=" + encodeURIComponent(message);
-  window.open(telegramLink, "_blank");
-}
-
 // Giriş funksiyası
 function login(){
   let user = document.getElementById("loginUser").value.trim();
@@ -100,6 +59,50 @@ function login(){
 
   // Kod düzgün olsa belə panel açılmır
   msg.innerText = "Hesabınız aktiv deyil. Aktiv etmək üçün geri qayıdın və Telegram vasitəsilə bizə yazın.";
+}
+
+// Yeni pəncərədə qeydiyyat forması
+function openRegisterWindow(){
+  const registerHtml = `
+    <!DOCTYPE html>
+    <html lang="az">
+    <head>
+      <meta charset="UTF-8">
+      <title>Qeydiyyat</title>
+      <style>
+        body { font-family: Arial; text-align:center; background:#111; color:white; padding:20px; }
+        input, button { margin:5px; padding:10px; width:90%; }
+        button { cursor:pointer; background:#333; color:white; border:none; border-radius:5px; transition:0.3s; }
+        button:hover { background:#555; }
+      </style>
+    </head>
+    <body>
+      <h2>Qeydiyyat</h2>
+      <input id="user" placeholder="İstifadəçi adı">
+      <input id="email" placeholder="Email">
+      <input id="pass" type="password" placeholder="Şifrə">
+      <button onclick="register()">Qeydiyyatdan keç</button>
+
+      <script>
+        function register(){
+          let user = document.getElementById("user").value.trim();
+          let email = document.getElementById("email").value.trim();
+          let pass = document.getElementById("pass").value.trim();
+          if(!user || !email || !pass){ alert("Bütün xanaları doldur!"); return; }
+          // Lokal saxlama
+          localStorage.setItem("userData", JSON.stringify({user,email,pass}));
+          alert("Qeydiyyat tamamlandı! Hesabınızı aktiv etmək üçün Telegramda bizə yazın.");
+          let message = \`Salam! Mən hesabımı aktiv etmək istəyirəm.\\nİstifadəçi adı: \${user}\\nEmail: \${email}\`;
+          window.open("https://t.me/carxfirla?text=" + encodeURIComponent(message), "_blank");
+        }
+      </script>
+    </body>
+    </html>
+  `;
+
+  const registerWindow = window.open("", "registerWindow", "width=400,height=500");
+  registerWindow.document.write(registerHtml);
+  registerWindow.document.close();
 }
 </script>
 
