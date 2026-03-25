@@ -7,43 +7,49 @@
 <style>
 body{
     font-family: Arial;
-    background:#111;
+    background:#0f172a;
     color:white;
     text-align:center;
 }
-.container{
-    margin-top:50px;
-}
+.container{margin-top:40px;}
 input{
     display:block;
     margin:10px auto;
     padding:10px;
-    width:200px;
+    width:220px;
 }
 button{
-    padding:10px 20px;
-    background:green;
+    margin:5px;
+    padding:10px 15px;
+    background:#22c55e;
     color:white;
     border:none;
     cursor:pointer;
 }
 .hidden{display:none;}
+.menu{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+.section{margin-top:20px;}
 </style>
 
 </head>
 <body>
 
+<!-- LOGIN -->
 <div class="container" id="loginPage">
     <h2>Giriş</h2>
     <input id="loginUser" placeholder="İstifadəçi adı">
     <input id="loginPass" type="password" placeholder="Parol">
     <button onclick="login()">Daxil ol</button>
-
     <p onclick="showRegister()" style="cursor:pointer;color:lightblue;">
         Qeydiyyatdan keç
     </p>
 </div>
 
+<!-- REGISTER -->
 <div class="container hidden" id="registerPage">
     <h2>Qeydiyyat</h2>
     <input id="user" placeholder="İstifadəçi adı">
@@ -54,104 +60,202 @@ button{
     <button onclick="register()">Qeydiyyatdan keç</button>
 </div>
 
+<!-- DASHBOARD -->
 <div class="container hidden" id="dashboard">
-    <h2>Panel</h2>
 
-    <p>Gün ərzində 15-20 AZN qazana bilərsiniz</p>
+<h2>💸 Pul Qazan Panel</h2>
 
-    <button onclick="verify()">Hesabı təsdiq et</button>
+<div class="menu">
+<button onclick="showSection('home')">🏠 Ana səhifə</button>
+<button onclick="showSection('tasks')">💰 Tapşırıqlar</button>
+<button onclick="showSection('sites')">🌐 Saytlar</button>
+<button onclick="showSection('video')">🎥 Video</button>
+<button onclick="showSection('apps')">📱 App</button>
+<button onclick="showSection('bonus')">🎁 Bonus</button>
+<button onclick="showSection('history')">🧾 Tarixçə</button>
+<button onclick="showSection('ref')">👥 Referal</button>
+<button onclick="showSection('level')">🏆 Level</button>
+<button onclick="showSection('stats')">📊 Statistika</button>
+<button onclick="showSection('withdraw')">💸 Çıxarış</button>
+<button onclick="showSection('payment')">💳 Ödəniş</button>
+<button onclick="showSection('profile')">👤 Profil</button>
+<button onclick="showSection('settings')">⚙️ Ayarlar</button>
+<button onclick="showSection('support')">📩 Dəstək</button>
+<button onclick="showSection('notif')">🔔 Bildirişlər</button>
+</div>
 
-    <h3>Balans: <span id="balans">0.00</span> ₼</h3>
+<hr>
 
-    <button onclick="earn()">Klik et və qazan</button>
+<div id="home" class="section">
+<h3>Balans: <span id="balans">0.00</span> ₼</h3>
+<p>Günlük qazanc: 0.00 ₼</p>
+<button onclick="verify()">Hesabı təsdiq et</button>
+</div>
 
-    <br><br>
-    <button onclick="withdraw()">Pul çıxar</button>
+<div id="tasks" class="section hidden">
+<button onclick="earn('Task')">Tapşırıq et (+0.10₼)</button>
+</div>
 
-    <br><br>
-    <button onclick="copyRef()">Referal linki kopyala</button>
+<div id="sites" class="section hidden">
+<button onclick="visitSite()">Sayta daxil ol (+0.10₼)</button>
+</div>
+
+<div id="video" class="section hidden">
+<button onclick="watchAd()">Video izlə (+0.20₼)</button>
+</div>
+
+<div id="apps" class="section hidden">
+<button onclick="earn('App')">App yüklə (+0.30₼)</button>
+</div>
+
+<div id="bonus" class="section hidden">
+<button onclick="dailyBonus()">Günlük bonus al (+0.50₼)</button>
+</div>
+
+<div id="history" class="section hidden">
+<ul id="historyList"></ul>
+</div>
+
+<div id="ref" class="section hidden">
+<button onclick="copyRef()">Referal link kopyala (+0.15₼)</button>
+</div>
+
+<div id="level" class="section hidden">
+<p>Level: <span id="level">1</span></p>
+</div>
+
+<div id="stats" class="section hidden">
+<p>Klik sayı: <span id="clicks">0</span></p>
+</div>
+
+<div id="withdraw" class="section hidden">
+<button onclick="withdraw()">Pul çıxar</button>
+</div>
+
+<div id="payment" class="section hidden">
+<input placeholder="Kart nömrəsi">
+<button>Yadda saxla</button>
+</div>
+
+<div id="profile" class="section hidden">
+<p>İstifadəçi: demo_user</p>
+</div>
+
+<div id="settings" class="section hidden">
+<p>Dark mode aktiv</p>
+</div>
+
+<div id="support" class="section hidden">
+<p>Dəstək üçün yazın: 055-233-48-15</p>
+</div>
+
+<div id="notif" class="section hidden">
+<p>Yeni bonus mövcuddur!</p>
+</div>
+
 </div>
 
 <script>
 
 let balans = 0;
 let clicks = 0;
+let level = 1;
 
-// səhifə dəyiş
+// səhifələr
 function showRegister(){
     loginPage.classList.add("hidden");
     registerPage.classList.remove("hidden");
 }
 
-// qeydiyyat
 function register(){
-    let u = user.value;
-    let p = pass.value;
-    let p2 = pass2.value;
-    let ph = phone.value;
-    let em = email.value;
-
-    if(!u || !p || !p2 || !ph || !em){
+    if(!user.value || !pass.value || !pass2.value || !phone.value || !email.value){
         alert("Bütün sahələri doldur!");
         return;
     }
-
-    if(p !== p2){
+    if(pass.value !== pass2.value){
         alert("Parollar eyni deyil!");
         return;
     }
 
     alert("Qeydiyyat uğurludur!");
-
     setTimeout(()=>{
         registerPage.classList.add("hidden");
         dashboard.classList.remove("hidden");
     },3000);
 }
 
-// login
 function login(){
     loginPage.classList.add("hidden");
     dashboard.classList.remove("hidden");
 }
 
-// təsdiq
-function verify(){
-    alert("Hesabı təsdiq etmək üçün 055-233-48-15 nömrəsinə yazın.\nQiymət: 2 ₼");
+// panel
+function showSection(id){
+document.querySelectorAll(".section").forEach(s=>s.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
 }
 
-// qazanc
-function earn(){
-    if(clicks >= 50){
-        alert("Bugün limit doldu!");
-        return;
-    }
+function updateUI(){
+balansEl = document.getElementById("balans");
+if(balansEl) balansEl.innerText = balans.toFixed(2);
 
-    balans += 0.10;
-    clicks++;
+let c = document.getElementById("clicks");
+if(c) c.innerText = clicks;
 
-    document.getElementById("balans").innerText = balans.toFixed(2);
-
-    alert("0.10₼ balansınıza əlavə olundu");
+let l = document.getElementById("level");
+if(l) l.innerText = level;
 }
 
-// pul çıxar
-function withdraw(){
-    if(balans < 10){
-        alert("Minimum çıxarış 10₼");
-        return;
-    }
-
-    alert("Nömrəyə yazın və ID göndərin. Ödəniş 1-3 gün ərzində ediləcək.");
+function addHistory(text){
+let li = document.createElement("li");
+li.innerText = text;
+document.getElementById("historyList").appendChild(li);
 }
 
-// referal
+// funksiyalar
+function earn(type){
+balans += 0.10;
+clicks++;
+addHistory(type+" +0.10₼");
+if(clicks % 20 === 0) level++;
+updateUI();
+}
+
+function visitSite(){
+window.open("https://example.com");
+earn("Site");
+}
+
+function watchAd(){
+balans += 0.20;
+clicks++;
+addHistory("Video +0.20₼");
+updateUI();
+}
+
+function dailyBonus(){
+balans += 0.50;
+addHistory("Bonus +0.50₼");
+updateUI();
+}
+
 function copyRef(){
-    navigator.clipboard.writeText(window.location.href);
-    balans += 0.15;
-    document.getElementById("balans").innerText = balans.toFixed(2);
+navigator.clipboard.writeText(window.location.href);
+balans += 0.15;
+addHistory("Referal +0.15₼");
+updateUI();
+}
 
-    alert("Referal link kopyalandı (+0.15₼)");
+function withdraw(){
+if(balans < 10){
+alert("Minimum 10₼");
+return;
+}
+alert("Sorğu göndərildi (1-3 gün)");
+}
+
+function verify(){
+alert("Hesabı təsdiq etmək üçün 055-233-48-15 nömrəsinə yazın");
 }
 
 </script>
