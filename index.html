@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>777 Casino Meyvə Oyunu</title>
+<title>777 Casino Slot Oyunu</title>
 <style>
 body {
     font-family: Arial, sans-serif;
@@ -37,17 +37,22 @@ h1 { color: #FFD700; }
     margin-top: 30px;
 }
 
-.slot {
+.slot-column {
     width: 80px;
-    height: 80px;
+    height: 160px;
     margin: 0 10px;
     background: #222;
     border-radius: 10px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    font-size: 50px;
-    transition: transform 0.3s ease;
+    font-size: 40px;
+    overflow: hidden;
+}
+
+.slot-cell {
+    height: 40px;
 }
 
 #message { margin-top: 20px; font-size: 18px; color: #00FF00; }
@@ -55,7 +60,7 @@ h1 { color: #FFD700; }
 </head>
 <body>
 
-<h1>777 Casino Meyvə Oyunu</h1>
+<h1>777 Casino Slot Oyunu</h1>
 
 <div id="register">
     <button class="button" onclick="registerUser()">Qeydiyyatdan Keç</button>
@@ -64,12 +69,28 @@ h1 { color: #FFD700; }
 <div id="game">
     <p id="balance">Balans: 0 kredit</p>
     <button class="button" onclick="deposit()">Deposit et (1 AZN → 1000 kredit)</button>
-    <button class="button" onclick="spinFruit()">Meyvəni Fırla (0.20₼)</button>
+    <button class="button" onclick="spinFruit()">Slotu Fırla</button>
+    <button class="button" onclick="withdraw()">Pul Çıxart</button>
 
     <div class="slot-machine">
-        <div class="slot" id="slot1">🍒</div>
-        <div class="slot" id="slot2">🍋</div>
-        <div class="slot" id="slot3">🍊</div>
+        <div class="slot-column" id="col1">
+            <div class="slot-cell">🍒</div>
+            <div class="slot-cell">7️⃣</div>
+            <div class="slot-cell">🍎</div>
+            <div class="slot-cell">🍉</div>
+        </div>
+        <div class="slot-column" id="col2">
+            <div class="slot-cell">🍒</div>
+            <div class="slot-cell">7️⃣</div>
+            <div class="slot-cell">🍎</div>
+            <div class="slot-cell">🍉</div>
+        </div>
+        <div class="slot-column" id="col3">
+            <div class="slot-cell">🍒</div>
+            <div class="slot-cell">7️⃣</div>
+            <div class="slot-cell">🍎</div>
+            <div class="slot-cell">🍉</div>
+        </div>
     </div>
 
     <p id="message"></p>
@@ -78,7 +99,9 @@ h1 { color: #FFD700; }
 <script>
 let balance = 0;
 let registered = false;
-const fruits = ["🍒","🍋","🍊","🍇","🍉","7️⃣"];
+let totalSpins = 0;
+
+const fruits = ["🍒", "7️⃣", "🍎", "🍉"];
 
 function registerUser() {
     registered = true;
@@ -98,42 +121,60 @@ function deposit() {
     updateBalance();
 }
 
+function withdraw() {
+    let whatsappNumber = "0552334815";
+    let text = "Salam, mən pul çıxartmaq istəyirəm";
+    let url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank");
+}
+
 function spinFruit() {
-    if (balance < 20) { // 0.20₼ = 20 kredit
+    if (balance < 20) { // minimal 0.20₼
         alert("Balansınız kifayət etmir!");
         return;
     }
-    balance -= 20;
+
+    // Hər fırlatma üçün xərcləri random təyin edirik
+    let costOptions = [19, 40, 75, 100]; // kreditlə
+    let cost = costOptions[Math.floor(Math.random() * costOptions.length)];
+    balance -= cost;
+    totalSpins++;
     updateBalance();
 
-    // Animasiya
-    let spins = 20;
-    let slotElements = [
-        document.getElementById('slot1'),
-        document.getElementById('slot2'),
-        document.getElementById('slot3')
+    const columns = [
+        document.getElementById('col1'),
+        document.getElementById('col2'),
+        document.getElementById('col3')
     ];
 
+    let spins = 15;
     let interval = setInterval(() => {
-        slotElements.forEach(el => {
-            el.innerText = fruits[Math.floor(Math.random() * fruits.length)];
+        columns.forEach(col => {
+            col.innerHTML = '';
+            for (let i = 0; i < 4; i++) {
+                let fruit = fruits[Math.floor(Math.random() * fruits.length)];
+                col.innerHTML += `<div class="slot-cell">${fruit}</div>`;
+            }
         });
         spins--;
         if (spins <= 0) {
             clearInterval(interval);
-            checkWin(slotElements.map(el => el.innerText));
+            checkBonus();
         }
     }, 100);
 }
 
-function checkWin(result) {
-    if (result[0] === result[1] && result[1] === result[2]) {
-        document.getElementById('message').innerText = "🎉 Təbriklər! Üç eyni meyvə çıxdı! 500 kredit qazandınız!";
-        balance += 500;
-        updateBalance();
+function checkBonus() {
+    if (totalSpins === 40) {
+        balance += 1000; // 10₼ simulyasiya
+        document.getElementById('message').innerText = "🎉 Bonus: 40 dəfə fırlatma → 10₼ qazandınız!";
+    } else if (totalSpins === 100) {
+        balance += 10000; // 100₼ simulyasiya
+        document.getElementById('message').innerText = "🏆 Jackpot: 100 dəfə fırlatma → 100₼ qazandınız!";
     } else {
-        document.getElementById('message').innerText = "Yenə cəhd edin!";
+        document.getElementById('message').innerText = "Slot fırlandı!";
     }
+    updateBalance();
 }
 
 function updateBalance() {
