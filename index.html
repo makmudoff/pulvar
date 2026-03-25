@@ -4,9 +4,34 @@
 <meta charset="UTF-8">
 <title>Çarx Oyunu</title>
 <style>
-body { font-family: Arial; text-align:center; background:#111; color:white; margin:0; padding:0; }
-.container { max-width:400px; margin:auto; padding:20px; }
-input, button { margin:10px auto; padding:12px; width:90%; font-size:18px; border-radius:8px; border:none; display:block; }
+html, body {
+  margin:0;
+  padding:0;
+  height:100%;
+  overflow:hidden;
+  font-family: Arial, sans-serif;
+  background:#111;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.container {
+  width:400px;
+  padding:20px;
+  background:#1c1c1c;
+  border-radius:12px;
+  text-align:center;
+}
+input, button {
+  margin:10px auto;
+  padding:12px;
+  width:90%;
+  font-size:18px;
+  border-radius:8px;
+  border:none;
+  display:block;
+}
 button { background:#333; color:white; cursor:pointer; transition:0.3s; }
 button:hover { background:#555; }
 #topMessage { background:#222; color:#FFD700; padding:10px; border-radius:8px; margin-bottom:15px; font-weight:bold; line-height:1.4; }
