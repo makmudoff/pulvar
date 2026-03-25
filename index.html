@@ -10,6 +10,7 @@ input, button { margin:5px; padding:10px; width:90%; }
 #topMessage { background: #222; color: #FFD700; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-weight: bold; }
 button { cursor: pointer; background:#333; color:white; border:none; border-radius:5px; transition:0.3s; }
 button:hover { background:#555; }
+#msg { margin-top:10px; color:#FFD700; font-weight:bold; }
 </style>
 </head>
 <body>
@@ -17,6 +18,17 @@ button:hover { background:#555; }
 <div class="container">
 
 <div id="topMessage">🎡 Çarxı fırlatmaq üçün 1₼ əlavə et və şansını sınayaraq qazan!</div>
+
+<!-- LOGIN -->
+<div id="login">
+<h2>Giriş</h2>
+<input id="loginUser" placeholder="İstifadəçi adı">
+<input id="loginPass" type="password" placeholder="Şifrə">
+<input id="loginCode" placeholder="Kod" maxlength="1">
+<button onclick="login()">Daxil ol</button>
+<p>Hesabınız aktiv deyil? <button onclick="requestTelegram()">Telegram vasitəsilə aktiv edin</button></p>
+<p id="msg"></p>
+</div>
 
 <!-- Qeydiyyat -->
 <div id="register">
@@ -33,6 +45,16 @@ button:hover { background:#555; }
 // Lokal saxlama üçün istifadəçi məlumatları
 let userData = JSON.parse(localStorage.getItem("userData")) || null;
 
+// Admin tərəfindən verilmiş kodlar
+const validLogins = {
+  "Ca72": "1",
+  "Ma72": "2",
+  "Ok72": "3",
+  "So72": "4",
+  "Ou72": "5"
+};
+
+// Qeydiyyat funksiyası
 function register(){
   let user = document.getElementById("user").value.trim();
   let email = document.getElementById("email").value.trim();
@@ -43,17 +65,35 @@ function register(){
     return;
   }
 
-  // Məlumatları saxla
   userData = {user, email, pass};
   localStorage.setItem("userData", JSON.stringify(userData));
 
-  // Alert ilə istifadəçiyə mesaj
   alert("Qeydiyyat tamamlandı! Hesabınızı aktiv etmək üçün Telegramda bizə yazın.");
+  requestTelegram();
+}
 
-  // Telegram linki ilə avtomatik mesaj hazırlayıb yeni pəncərədə aç
-  let message = `Salam! Mən hesabımı aktiv etmək istəyirəm.\nİstifadəçi adı: ${user}\nEmail: ${email}`;
+// Telegram avtomatik mesaj funksiyası
+function requestTelegram(){
+  if(!userData) userData = {user:"", email:"", pass:""};
+  let message = `Salam! Mən hesabımı aktiv etmək istəyirəm.\nİstifadəçi adı: ${userData.user}\nEmail: ${userData.email}`;
   let telegramLink = "https://t.me/carxfirla?text=" + encodeURIComponent(message);
   window.open(telegramLink, "_blank");
+}
+
+// Giriş funksiyası
+function login(){
+  let user = document.getElementById("loginUser").value.trim();
+  let pass = document.getElementById("loginPass").value.trim();
+  let code = document.getElementById("loginCode").value.trim();
+  let msg = document.getElementById("msg");
+
+  if(!user || !pass || !code){
+    msg.innerText = "Bütün xanaları doldurun!";
+    return;
+  }
+
+  // Kod düzgün olsa belə, girişə icazə verilmir
+  msg.innerText = "Hesabınız aktiv deyil. Aktiv etmək üçün geri qayıdın və Telegram vasitəsilə bizə yazın.";
 }
 </script>
 
