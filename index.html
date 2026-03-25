@@ -33,16 +33,12 @@ html, body {
   font-weight:bold;
   line-height:1.4;
 }
-
-/* Tarix sabit */
 #currentDate {
   margin-bottom:15px;
   font-size:16px;
   font-weight:bold;
   color:#FFD700;
 }
-
-/* Input və button */
 input, button {
   margin:10px auto; padding:12px; width:90%; font-size:18px;
   border-radius:8px; border:none; display:block;
@@ -51,13 +47,9 @@ button { background:#333; color:white; cursor:pointer; transition:0.3s; }
 button:hover { background:#555; }
 .hidden { display:none; }
 #msg, #msgSpin, #regMsg { margin-top:10px; color:#FFD700; font-weight:bold; }
-
-/* Çarx */
 #wheel-container { position:relative; width:250px; height:250px; margin:20px auto; }
 #wheel { width:250px; height:250px; border-radius:50%; border:5px solid white; transition: transform 3s ease-out; }
 #wheel text { font-weight:bold; font-size:14px; fill:white; text-anchor:middle; dominant-baseline:middle; }
-
-/* Pointer sağ tərəfdə */
 #pointer {
   width:0; height:0;
   border-top:15px solid transparent;
@@ -68,16 +60,12 @@ button:hover { background:#555; }
   right:-15px;
   transform:translateY(-50%);
 }
-
-/* Sosial linklər */
 #socialFooter { margin-top:30px; text-align:center; }
 #socialFooter p { font-weight:bold; margin-bottom:15px; font-size:20px; }
 #socialLinks { display:flex; justify-content:center; gap:40px; font-size:22px; }
 #socialLinks a { text-decoration:none; color:white; display:flex; align-items:center; gap:12px; font-weight:bold; transition:0.3s; }
 #socialLinks a:hover { color:#FFD700; }
 #socialLinks img { width:36px; height:36px; }
-
-/* Qazananlar */
 #winners { margin-top:30px; background:#222; padding:15px; border-radius:10px; }
 #winners h3 { color:#FFD700; margin-bottom:15px; }
 #winners ul { list-style:none; padding:0; margin:0; color:white; font-weight:bold; font-size:16px; }
@@ -157,7 +145,7 @@ Gecikmə – indi 1₼ əlavə et və şansını sınayaraq qazan!
 </div>
 
 <script>
-// Tarix avtomatik (sabit)
+// Tarix sabit
 function showDate(){
   const now = new Date();
   const dateStr = now.toLocaleString('az-AZ', {weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit'});
@@ -169,7 +157,16 @@ setInterval(showDate,60000);
 // Kodlar və balans
 let balance = 0;
 let deg = 0;
-const codeMap = { "005":1, "00-MH":5, "00-7A":10, "00-6T":3, "00-63U":20, "111DEMO":1 };
+
+// **Sənin verdiyin kodlar və balanslar**
+const codeMap = {
+  "777-M":1,
+  "707-AZ":3,
+  "666-U7":5,
+  "999-9H":10,
+  "765-6A":20,
+  "111DEMO":1
+};
 let demoSpun = false;
 
 // Çarx bölmələri
