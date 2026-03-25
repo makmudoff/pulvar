@@ -8,51 +8,42 @@ body { font-family: Arial; text-align: center; background:#111; color:white; }
 .container { max-width:400px; margin:auto; padding:20px; }
 input, button { margin:5px; padding:10px; width:90%; }
 .hidden { display:none; }
-
-/* Çarx */
 #wheel {
   margin:20px auto;
   width:220px;
   height:220px;
   border-radius:50%;
-  border:5px solid white;
   background: conic-gradient(
-    #2c2c2c 0deg 45deg,     /* Boş / Bəxtini sına */
-    #2c2c2c 45deg 90deg,    /* Boş / Bəxtini sına */
-    yellow 90deg 135deg,     /* Pul 1₼ */
-    #2c2c2c 135deg 180deg,   /* Boş / Bəxtini sına */
-    green 180deg 225deg,     /* Pul 5₼ */
-    #2c2c2c 225deg 270deg,   /* Boş / Bəxtini sına */
-    red 270deg 315deg,       /* Pul 7₼ */
-    #2c2c2c 315deg 360deg    /* Boş / Bəxtini sına */
+    red 0deg 60deg,
+    yellow 60deg 120deg,
+    green 120deg 180deg,
+    blue 180deg 240deg,
+    orange 240deg 300deg,
+    purple 300deg 360deg
   );
+  border:5px solid white;
   transition: transform 3s ease-out;
-  position: relative;
 }
-
-/* Ox */
 #pointer {
-  width:0; height:0; 
-  border-left:15px solid transparent; 
-  border-right:15px solid transparent;
-  border-bottom:30px solid white; 
-  margin:-30px auto 0 auto;
+  width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent;
+  border-bottom:30px solid white; margin:-30px auto 0 auto;
 }
-
-/* Bölmələrin yazısı */
-#wheelText {
-  position:absolute; top:0; left:0; width:100%; height:100%;
-  display:flex; flex-wrap: wrap; justify-content:center; align-items:center;
-  pointer-events:none;
-  color:white; font-weight:bold;
-  font-size:14px;
+#topMessage {
+  background: #222;
+  color: #FFD700;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-weight: bold;
 }
-.wheel-item { width:50%; height:50%; display:flex; justify-content:center; align-items:center; text-align:center; }
 </style>
 </head>
 <body>
 
 <div class="container">
+
+<!-- YUXARI MESAJ -->
+<div id="topMessage">🎡 Çarxı fırlatmaq üçün 1₼ əlavə et və şansını sınayaraq qazan!</div>
 
 <!-- LOGIN -->
 <div id="login">
@@ -78,20 +69,9 @@ input, button { margin:5px; padding:10px; width:90%; }
 <p id="balanceText">Balans: 0 ₼</p>
 
 <div id="pointer"></div>
-<div id="wheel">
-  <div id="wheelText">
-    <div class="wheel-item">Bəxtini sına</div>
-    <div class="wheel-item">Bəxtini sına</div>
-    <div class="wheel-item">1₼</div>
-    <div class="wheel-item">Bəxtini sına</div>
-    <div class="wheel-item">5₼</div>
-    <div class="wheel-item">Bəxtini sına</div>
-    <div class="wheel-item">7₼</div>
-    <div class="wheel-item">Bəxtini sına</div>
-  </div>
-</div>
-
+<div id="wheel"></div>
 <button onclick="spin()">Çarxi fırlat</button>
+
 <br><br>
 <button onclick="deposit()">Balansı artır</button>
 <button onclick="withdraw()">Çıxarış</button>
@@ -103,7 +83,7 @@ input, button { margin:5px; padding:10px; width:90%; }
 
 <script>
 let userData = JSON.parse(localStorage.getItem("userData")) || null;
-let balance = 10; // demo balans
+let balance = 0;
 let deg = 0;
 
 function showRegister(){
@@ -123,7 +103,7 @@ function register(){
 
   userData = {user, email, pass};
   localStorage.setItem("userData", JSON.stringify(userData));
-  balance = 10; // demo balans
+  balance = 0;
 
   alert("Qeydiyyat tamamlandı! Avtomatik daxil oldunuz.");
   openPanel();
@@ -146,9 +126,6 @@ function openPanel(){
   document.getElementById("register").classList.add("hidden");
   document.getElementById("panel").classList.remove("hidden");
   updateBalance();
-
-  // Xoş gəldiniz mesajı
-  document.getElementById("msg").innerText = "Çarx oyununa Xoş gəldiniz! Siz də oyuna qoşularaq qazana bilərsiniz. Bu oyun qumar təbliği deyil, sadəcə çarx fırlayıb qazanırsız.";
 }
 
 function updateBalance(){
@@ -161,23 +138,16 @@ function spin(){
     return;
   }
 
-  // 8 bölmə
-  let section = Math.floor(Math.random()*8); 
-  let degSection = section*45 + Math.floor(Math.random()*45);
-  deg += 360*5 + degSection;
+  let random = Math.floor(Math.random() * 360);
+  deg += 360*5 + random;
   document.getElementById("wheel").style.transform = "rotate(" + deg + "deg)";
 
-  setTimeout(()=>{
-    let win;
-    if(section===2){ win=1; }
-    else if(section===4){ win=5; }
-    else if(section===6){ win=7; }
-    else { win=0; }
-
+  setTimeout(() => {
+    let win = Math.floor(Math.random() * 100); // Random qazanc
     balance += win;
-    document.getElementById("msg").innerText = win>0 ? "Qazandınız: "+win+" ₼" : "Bəxtiniz çatmadı! Heç nə qazanmır.";
+    document.getElementById("msg").innerText = "Qazandınız: " + win + " ₼";
     updateBalance();
-  },3000);
+  }, 3000);
 }
 
 // Telegram yönləndirmələri
