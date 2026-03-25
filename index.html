@@ -3,171 +3,230 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Şans Çarxı PRO</title>
+<title>Oyun Paneli</title>
 
 <style>
-body {
-    text-align:center;
-    font-family:Arial;
-    background: linear-gradient(45deg,#ff6,#6ff,#f6f);
-}
-
-canvas {
-    margin-top:20px;
-    max-width:90%;
-}
-
-button {
-    padding:12px 25px;
-    font-size:18px;
-    background:gold;
-    border:none;
-    border-radius:10px;
-}
-
-#balance {
-    font-size:20px;
-    margin-top:10px;
-}
-
-#result {
-    display:none;
-    background:white;
-    padding:20px;
-    position:fixed;
-    top:40%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    border-radius:10px;
-}
+body {font-family:Arial;text-align:center;background:#111;color:#fff;}
+input,button {padding:10px;margin:5px;border-radius:5px;border:none;}
+button {background:gold;}
+.hidden {display:none;}
+canvas {margin-top:20px;}
 </style>
 </head>
 
 <body>
 
-<h2>🎡 Şans Çarxı PRO</h2>
+<h2>🎰 Oyun Paneli</h2>
 
-<div id="balance">Balans: 10₼</div>
+<!-- LOGIN -->
+<div id="login">
+<h3>Giriş</h3>
+<input id="loginUser" placeholder="İstifadəçi adı"><br>
+<input id="loginPass" type="password" placeholder="Şifrə"><br>
+<button onclick="login()">Daxil ol</button>
+<p onclick="showRegister()">Qeydiyyat</p>
+</div>
 
-<div style="font-size:40px;">⬇️</div>
+<!-- REGISTER -->
+<div id="register" class="hidden">
+<h3>Qeydiyyat</h3>
+<input id="regUser" placeholder="İstifadəçi adı"><br>
+<input id="regEmail" placeholder="Email"><br>
+<input id="regPass" type="password" placeholder="Şifrə"><br>
+<button onclick="register()">Qeydiyyatdan keç</button>
+</div>
 
-<canvas id="wheel" width="400" height="400"></canvas>
-<br><br>
+<!-- PANEL -->
+<div id="panel" class="hidden">
+<h3>Panel</h3>
+<p id="userInfo"></p>
+<p id="balance">Balans: 10₼</p>
 
-<button onclick="spin()">Fırlat (-1₼)</button>
+<button onclick="showGame()">Demo oyna</button>
+<button onclick="realPlay()">Real pulla oyna</button>
+<button onclick="logout()">Çıxış</button>
+</div>
 
-<div id="result"></div>
+<!-- GAME -->
+<div id="game" class="hidden">
+<h3>🎡 Çarx</h3>
+
+<canvas id="wheel" width="300" height="300"></canvas><br>
+<button onclick="spin()">Fırlat (-1₼)</button><br><br>
+<button onclick="back()">Geri</button>
+
+<p id="result"></p>
+</div>
 
 <script>
 let balance = 10;
+let currentUser = null;
 
-const canvas = document.getElementById("wheel");
-const ctx = canvas.getContext("2d");
+// Qeydiyyat
+function register(){
+let u = regUser.value;
+let e = regEmail.value;
+let p = regPass.value;
 
-// ŞANS SİSTEMİ (boş çoxdur)
-const segments = [
-"Boş","Boş","Boş","Boş","Boş","Boş","Boş","Boş",
-"Bəxtini sına","Bəxtini sına","Bəxtini sına","Bəxtini sına",
-"5₼","10₼"
-];
+if(!u || !e || !p){
+alert("Boş buraxmaq olmaz!");
+return;
+}
 
-const colors = [
-"#ff4d4d","#4dff4d","#4da6ff","#ffcc00","#cc66ff",
-"#00cccc","#ff6600","#66ff66","#3399ff","#ff3399",
-"#99ff33","#ff9933","#33ccff","#ff0066"
-];
+localStorage.setItem("user", JSON.stringify({u,e,p,balance:10}));
+alert("Qeydiyyat uğurlu!");
+currentUser = u;
+showPanel();
+}
 
-let angle = 0;
+// Login
+function login(){
+let u = loginUser.value;
+let p = loginPass.value;
+
+let data = JSON.parse(localStorage.getItem("user"));
+
+if(data && data.u==u && data.p==p){
+currentUser = u;
+balance = data.balance;
+showPanel();
+} else {
+alert("Səhv məlumat!");
+}
+}
+
+// Panel
+function showPanel(){
+login.style.display="none";
+register.style.display="none";
+panel.style.display="block";
+userInfo.innerText="Salam, "+currentUser;
+updateBalance();
+}
+
+// Logout
+function logout(){
+location.reload();
+}
+
+// Game aç
+function showGame(){
+panel.style.display="none";
+game.style.display="block";
+drawWheel();
+}
+
+// Geri
+function back(){
+game.style.display="none";
+panel.style.display="block";
+}
+
+// Telegram yönləndirmə
+function realPlay(){
+window.open("https://t.me/", "_blank");
+alert("Mesaj: Salam Men deposit edib oyun oynamaq isdirem");
+}
+
+// BALANS
+function updateBalance(){
+balance = balance || 0;
+document.getElementById("balance").innerText="Balans: "+balance+"₼";
+save();
+}
+
+function save(){
+let data = JSON.parse(localStorage.getItem("user"));
+if(data){
+data.balance = balance;
+localStorage.setItem("user", JSON.stringify(data));
+}
+}
+
+// ÇARX
+const segments = ["Boş","Boş","Bəxtini sına","Bəxtini sına","5₼","10₼","Boş","Boş"];
+let angle=0;
 
 function drawWheel(){
-    let arc = Math.PI * 2 / segments.length;
+let ctx = wheel.getContext("2d");
+let arc = Math.PI*2/segments.length;
 
-    for(let i=0;i<segments.length;i++){
-        ctx.beginPath();
-        ctx.fillStyle = colors[i];
-        ctx.moveTo(200,200);
-        ctx.arc(200,200,200,arc*i,arc*(i+1));
-        ctx.fill();
+for(let i=0;i<segments.length;i++){
+ctx.beginPath();
+ctx.moveTo(150,150);
+ctx.arc(150,150,150,arc*i,arc*(i+1));
+ctx.fillStyle = "hsl("+(i*40)+",70%,50%)";
+ctx.fill();
 
-        ctx.save();
-        ctx.translate(200,200);
-        ctx.rotate(arc*i + arc/2);
-        ctx.fillStyle="#000";
-        ctx.fillText(segments[i],80,5);
-        ctx.restore();
-    }
+ctx.save();
+ctx.translate(150,150);
+ctx.rotate(arc*i+arc/2);
+ctx.fillStyle="#000";
+ctx.fillText(segments[i],60,5);
+ctx.restore();
 }
-
-drawWheel();
+}
 
 function spin(){
-    if(balance <= 0){
-        alert("Balans yoxdur!");
-        return;
-    }
-
-    balance -= 1;
-    updateBalance();
-
-    let spinAngle = Math.random()*3000 + 2000;
-    let duration = 4000;
-    let start = null;
-
-    function animate(time){
-        if(!start) start = time;
-        let progress = time - start;
-
-        angle = spinAngle * (progress/duration);
-
-        ctx.clearRect(0,0,400,400);
-        ctx.save();
-        ctx.translate(200,200);
-        ctx.rotate(angle*Math.PI/180);
-        ctx.translate(-200,-200);
-        drawWheel();
-        ctx.restore();
-
-        if(progress < duration){
-            requestAnimationFrame(animate);
-        } else {
-            showResult();
-        }
-    }
-
-    requestAnimationFrame(animate);
+if(balance<=0){
+alert("Balans yoxdur!");
+return;
 }
 
-function showResult(){
-    let arc = 360 / segments.length;
-    let deg = angle % 360;
-    let index = Math.floor((360 - deg) / arc) % segments.length;
+balance--;
+updateBalance();
 
-    let res = segments[index];
-    let text = "";
+let spinAngle = Math.random()*2000+2000;
+let duration=3000;
+let start=null;
 
-    if(res.includes("₼")){
-        let win = parseInt(res);
-        balance += win;
-        text = "🎉 Uddunuz: " + res;
-    } else if(res === "Boş"){
-        text = "😕 Boş";
-    } else {
-        text = "🍀 Bəxtini sına";
-    }
+function animate(t){
+if(!start) start=t;
+let progress=t-start;
 
-    updateBalance();
+angle = spinAngle*(progress/duration);
 
-    let box = document.getElementById("result");
-    box.innerHTML = text + "<br><br><button onclick='closeRes()'>Bağla</button>";
-    box.style.display = "block";
+let ctx = wheel.getContext("2d");
+ctx.clearRect(0,0,300,300);
+
+ctx.save();
+ctx.translate(150,150);
+ctx.rotate(angle*Math.PI/180);
+ctx.translate(-150,-150);
+drawWheel();
+ctx.restore();
+
+if(progress<duration){
+requestAnimationFrame(animate);
+}else{
+resultShow();
+}
 }
 
-function updateBalance(){
-    document.getElementById("balance").innerText = "Balans: " + balance + "₼";
+requestAnimationFrame(animate);
 }
 
-function closeRes(){
-    document.getElementById("result").style.display="none";
+function resultShow(){
+let arc = 360/segments.length;
+let deg = angle%360;
+let index = Math.floor((360-deg)/arc)%segments.length;
+
+let res = segments[index];
+
+if(res.includes("₼")){
+balance += parseInt(res);
+result.innerText="🎉 Uddunuz: "+res;
+}else{
+result.innerText=res;
+}
+
+updateBalance();
+}
+
+// səhifə açılarkən
+function showRegister(){
+login.style.display="none";
+register.style.display="block";
 }
 </script>
 
