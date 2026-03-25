@@ -12,7 +12,7 @@ html, body {
   display:flex;
   justify-content:center;
   align-items:flex-start;
-  zoom:115%; /* Yaxınlaşma 115% */
+  zoom:115%; /* sayt yaxınlaşdırıldı */
 }
 .container {
   width:400px;
@@ -96,6 +96,14 @@ button:hover { background:#555; }
 }
 #socialLinks a:hover { color:#FFD700; }
 #socialLinks img { width:36px; height:36px; }
+
+/* Qazananlar bölməsi */
+#winners {
+  margin-top:30px; background:#222; padding:15px; border-radius:10px;
+}
+#winners h3 { color:#FFD700; margin-bottom:15px; }
+#winners ul { list-style:none; padding:0; margin:0; color:white; font-weight:bold; font-size:16px; }
+#winners ul li { margin:4px 0; }
 </style>
 </head>
 <body>
@@ -142,6 +150,21 @@ Gecikmə – indi 1₼ əlavə et və şansını sınayaraq qazan!
 <button onclick="spin()">Çarxi fırlat</button>
 <p id="msgSpin"></p>
 <button onclick="withdraw()">Pul çıxartmaq</button>
+
+<!-- Qazananlar bölməsi -->
+<div id="winners">
+  <h3>🎉 Son Qazananlar</h3>
+  <ul>
+    <li>Kerim1987 - 50₼</li>
+    <li>Semer - 50₼</li>
+    <li>Karol55 - 50₼</li>
+    <li>Eliyevdasgin - 50₼</li>
+    <li>User777 - 50₼</li>
+    <li>Fatime - 50₼</li>
+    <li>Lali2003 - 50₼</li>
+  </ul>
+</div>
+
 </div>
 
 <!-- Sosial linklər -->
