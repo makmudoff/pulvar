@@ -97,8 +97,8 @@ const codeMap = { "005":1, "00-MH":5, "00-7A":10, "00-6T":3, "00-63U":20 };
 
 // Çarx bölmələri
 const slices = [
-  { text:"1 ₼", color:"#ff4d4d", value:1 },
-  { text:"5 ₼", color:"#4dff4d", value:5 },
+  { text:"50 ₼", color:"#ff4d4d", value:50 },
+  { text:"100 ₼", color:"#4dff4d", value:100 },
   { text:"BOŞ", color:"#4d4dff", value:0 },
   { text:"BOŞ", color:"#ffff4d", value:0 },
   { text:"BOŞ", color:"#ff4dff", value:0 },
@@ -193,7 +193,7 @@ function spin(){
 
   setTimeout(()=>{
     if(slice.value>0){
-      balance += slice.value-1; // fırlatma 1₼ azaldır, qalığını əlavə et
+      balance += slice.value-1; // fırlatma 1₼ xərci çıxılır
       document.getElementById("msgSpin").innerText=`Təbriklər! ${slice.text} qazandınız!`;
     } else {
       document.getElementById("msgSpin").innerText="Bəxtinizi Bir Daha Sınaayın 😞";
