@@ -5,11 +5,7 @@
 <title>Çarx Oyunu</title>
 <style>
 html, body {
-  margin:0;
-  padding:0;
-  height:100%;
-  width:100%;
-  overflow:hidden;
+  margin:0; padding:0; height:100%; width:100%; overflow:hidden;
   font-family: Arial, sans-serif;
   background:#111;
   color:white;
@@ -24,27 +20,11 @@ html, body {
   background:#1c1c1c;
   border-radius:12px;
   text-align:center;
+  position:relative;
+  overflow:hidden;
 }
-input, button {
-  margin:10px auto;
-  padding:12px;
-  width:90%;
-  font-size:18px;
-  border-radius:8px;
-  border:none;
-  display:block;
-}
-button { background:#333; color:white; cursor:pointer; transition:0.3s; }
-button:hover { background:#555; }
-#topMessage { background:#222; color:#FFD700; padding:10px; border-radius:8px; margin-bottom:15px; font-weight:bold; line-height:1.4; }
-.hidden { display:none; }
-#msg, #msgSpin, #regMsg { margin-top:10px; color:#FFD700; font-weight:bold; }
-#wheel-container { position:relative; width:250px; height:250px; margin:20px auto; }
-#wheel { width:250px; height:250px; border-radius:50%; border:5px solid white; transition: transform 3s ease-out; }
-#wheel text { font-weight:bold; font-size:14px; fill:white; text-anchor:middle; dominant-baseline:middle; }
-#pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid white; margin:-30px auto 0 auto; }
 
-/* Tarix animasiyası - yalnız sağdan sola sürüşəcək */
+/* Tarix */
 #dateTime {
   font-weight:bold;
   color:#FFD700;
@@ -58,6 +38,52 @@ button:hover { background:#555; }
   0% { left:100%; }
   100% { left:-100%; }
 }
+
+/* Neon başlıq */
+#topMessage {
+  background:#222;
+  color:#FFD700;
+  padding:10px;
+  border-radius:8px;
+  margin-bottom:15px;
+  font-weight:bold;
+  line-height:1.4;
+  animation: neon 1.5s ease-in-out infinite alternate;
+}
+@keyframes neon {
+  0% { text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700; color:#FFD700; }
+  50% { text-shadow: 0 0 20px #FFEA00, 0 0 30px #FFEA00; color:#FFEA00; }
+  100% { text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700; color:#FFD700; }
+}
+
+/* Ulduzlar */
+.star {
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  border-radius:50%;
+  animation: starFall linear infinite;
+}
+@keyframes starFall {
+  0% { transform: translateY(-10px); opacity:1; }
+  100% { transform: translateY(400px); opacity:0; }
+}
+
+input, button {
+  margin:10px auto; padding:12px; width:90%; font-size:18px;
+  border-radius:8px; border:none; display:block;
+}
+button { background:#333; color:white; cursor:pointer; transition:0.3s; }
+button:hover { background:#555; }
+
+.hidden { display:none; }
+#msg, #msgSpin, #regMsg { margin-top:10px; color:#FFD700; font-weight:bold; }
+#wheel-container { position:relative; width:250px; height:250px; margin:20px auto; }
+#wheel { width:250px; height:250px; border-radius:50%; border:5px solid white; transition: transform 3s ease-out; }
+#wheel text { font-weight:bold; font-size:14px; fill:white; text-anchor:middle; dominant-baseline:middle; }
+#pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid white; margin:-30px auto 0 auto; }
+
 </style>
 </head>
 <body>
@@ -107,6 +133,18 @@ Gecikmə – indi 1₼ əlavə et və şansını sınayaraq qazan!
 </div>
 
 <script>
+// Ulduzlar yaratmaq
+for(let i=0;i<30;i++){
+  const star=document.createElement("div");
+  star.classList.add("star");
+  star.style.left=Math.random()*100+"%";
+  star.style.top=Math.random()*-100+"px";
+  star.style.width=Math.random()*3+1+"px";
+  star.style.height=star.style.width;
+  star.style.animationDuration=(Math.random()*5+3)+"s";
+  document.querySelector(".container").appendChild(star);
+}
+
 // Tarix və saat
 function showDateTime(){
     const now = new Date();
