@@ -3,31 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Şans Çarxı</title>
+<title>Şans Çarxı PRO</title>
 
 <style>
 body {
-    text-align: center;
-    font-family: Arial;
+    text-align:center;
+    font-family:Arial;
     background: linear-gradient(45deg,#ff6,#6ff,#f6f);
 }
 
 canvas {
-    margin-top: 20px;
-    max-width: 90%;
+    margin-top:20px;
+    max-width:90%;
 }
 
 button {
-    margin-top: 20px;
-    padding: 12px 30px;
-    font-size: 18px;
-    background: gold;
-    border: none;
-    border-radius: 10px;
+    padding:12px 25px;
+    font-size:18px;
+    background:gold;
+    border:none;
+    border-radius:10px;
 }
 
-#pointer {
-    font-size: 40px;
+#balance {
+    font-size:20px;
+    margin-top:10px;
 }
 
 #result {
@@ -45,24 +45,30 @@ button {
 
 <body>
 
-<h2>🎡 Şans Çarxı</h2>
+<h2>🎡 Şans Çarxı PRO</h2>
 
-<div id="pointer">⬇️</div>
+<div id="balance">Balans: 10₼</div>
+
+<div style="font-size:40px;">⬇️</div>
 
 <canvas id="wheel" width="400" height="400"></canvas>
-<br>
-<button onclick="spin()">Fırlat</button>
+<br><br>
+
+<button onclick="spin()">Fırlat (-1₼)</button>
 
 <div id="result"></div>
 
 <script>
+let balance = 10;
+
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
+// ŞANS SİSTEMİ (boş çoxdur)
 const segments = [
-"1₼","Boş","Bəxtini sına","3₼","Boş","Bəxtini sına",
-"5₼","Boş","Bəxtini sına","10₼","Boş","Bəxtini sına",
-"20₼","Boş"
+"Boş","Boş","Boş","Boş","Boş","Boş","Boş","Boş",
+"Bəxtini sına","Bəxtini sına","Bəxtini sına","Bəxtini sına",
+"5₼","10₼"
 ];
 
 const colors = [
@@ -73,10 +79,10 @@ const colors = [
 
 let angle = 0;
 
-function drawWheel() {
+function drawWheel(){
     let arc = Math.PI * 2 / segments.length;
 
-    for (let i = 0; i < segments.length; i++) {
+    for(let i=0;i<segments.length;i++){
         ctx.beginPath();
         ctx.fillStyle = colors[i];
         ctx.moveTo(200,200);
@@ -86,35 +92,42 @@ function drawWheel() {
         ctx.save();
         ctx.translate(200,200);
         ctx.rotate(arc*i + arc/2);
-        ctx.fillStyle = "#000";
-        ctx.font = "16px Arial";
-        ctx.fillText(segments[i], 80, 5);
+        ctx.fillStyle="#000";
+        ctx.fillText(segments[i],80,5);
         ctx.restore();
     }
 }
 
 drawWheel();
 
-function spin() {
-    let spinAngle = Math.random()*2000 + 3000;
+function spin(){
+    if(balance <= 0){
+        alert("Balans yoxdur!");
+        return;
+    }
+
+    balance -= 1;
+    updateBalance();
+
+    let spinAngle = Math.random()*3000 + 2000;
     let duration = 4000;
     let start = null;
 
-    function animate(time) {
-        if (!start) start = time;
+    function animate(time){
+        if(!start) start = time;
         let progress = time - start;
 
-        angle = spinAngle * (progress / duration);
+        angle = spinAngle * (progress/duration);
 
         ctx.clearRect(0,0,400,400);
         ctx.save();
         ctx.translate(200,200);
-        ctx.rotate(angle * Math.PI/180);
+        ctx.rotate(angle*Math.PI/180);
         ctx.translate(-200,-200);
         drawWheel();
         ctx.restore();
 
-        if (progress < duration) {
+        if(progress < duration){
             requestAnimationFrame(animate);
         } else {
             showResult();
@@ -133,6 +146,8 @@ function showResult(){
     let text = "";
 
     if(res.includes("₼")){
+        let win = parseInt(res);
+        balance += win;
         text = "🎉 Uddunuz: " + res;
     } else if(res === "Boş"){
         text = "😕 Boş";
@@ -140,13 +155,19 @@ function showResult(){
         text = "🍀 Bəxtini sına";
     }
 
-    let resultBox = document.getElementById("result");
-    resultBox.innerHTML = text + "<br><br><button onclick='closeRes()'>Bağla</button>";
-    resultBox.style.display = "block";
+    updateBalance();
+
+    let box = document.getElementById("result");
+    box.innerHTML = text + "<br><br><button onclick='closeRes()'>Bağla</button>";
+    box.style.display = "block";
+}
+
+function updateBalance(){
+    document.getElementById("balance").innerText = "Balans: " + balance + "₼";
 }
 
 function closeRes(){
-    document.getElementById("result").style.display = "none";
+    document.getElementById("result").style.display="none";
 }
 </script>
 
