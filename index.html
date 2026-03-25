@@ -16,10 +16,10 @@ html, body {
   display:flex;
   justify-content:center;
   align-items:center;
-  position:fixed;
 }
 .container {
   width:400px;
+  max-width:95%;
   padding:20px;
   background:#1c1c1c;
   border-radius:12px;
@@ -97,12 +97,12 @@ const codeMap = { "005":1, "00-MH":5, "00-7A":10, "00-6T":3, "00-63U":20 };
 
 // Çarx bölmələri
 const slices = [
-  { text:"1 ₼", color:"#ff4d4d" },
-  { text:"5 ₼", color:"#4dff4d" },
-  { text:"BOŞ", color:"#4d4dff" },
-  { text:"BOŞ", color:"#ffff4d" },
-  { text:"BOŞ", color:"#ff4dff" },
-  { text:"BOŞ", color:"#4dffff" }
+  { text:"1 ₼", color:"#ff4d4d", value:1 },
+  { text:"5 ₼", color:"#4dff4d", value:5 },
+  { text:"BOŞ", color:"#4d4dff", value:0 },
+  { text:"BOŞ", color:"#ffff4d", value:0 },
+  { text:"BOŞ", color:"#ff4dff", value:0 },
+  { text:"BOŞ", color:"#4dffff", value:0 }
 ];
 
 // DRAW WHEEL
@@ -165,7 +165,7 @@ function register(){
   },1000);
 }
 
-// LOGIN (şifrə və telefon yoxlaması yoxdur)
+// LOGIN
 function login(){
   const user=document.getElementById("loginUser").value.trim();
   const code=document.getElementById("loginCode").value.trim();
@@ -186,11 +186,21 @@ function updateBalance(){ document.getElementById("balanceText").innerText="Bala
 // SPIN
 function spin(){
   if(balance<=0){ document.getElementById("msgSpin").innerText="Balans yoxdur!"; return;}
-  deg += 360*5 + Math.floor(Math.random()*360);
+  const sliceIndex = Math.floor(Math.random()*slices.length);
+  const slice = slices[sliceIndex];
+  deg += 360*5 + sliceIndex*(360/slices.length);
   document.getElementById("wheel").style.transform=`rotate(${deg}deg)`;
-  balance -=1;
-  updateBalance();
-  setTimeout(()=>{ document.getElementById("msgSpin").innerText="Bəxtinizi Bir Daha Sınaayın 😞"; },3000);
+
+  setTimeout(()=>{
+    if(slice.value>0){
+      balance += slice.value-1; // fırlatma 1₼ azaldır, qalığını əlavə et
+      document.getElementById("msgSpin").innerText=`Təbriklər! ${slice.text} qazandınız!`;
+    } else {
+      document.getElementById("msgSpin").innerText="Bəxtinizi Bir Daha Sınaayın 😞";
+      balance -=1; // 1₼ fırlatma xərci
+    }
+    updateBalance();
+  },3000);
 }
 
 // PUL ÇIXARTMAQ
