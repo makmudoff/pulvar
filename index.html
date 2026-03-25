@@ -8,114 +8,76 @@ body { font-family: Arial; text-align: center; background:#111; color:white; }
 .container { max-width:400px; margin:auto; padding:20px; }
 input, button { margin:5px; padding:10px; width:90%; }
 .hidden { display:none; }
+
+/* Çarx */
 #wheel {
   margin:20px auto;
   width:220px;
   height:220px;
   border-radius:50%;
-  background: conic-gradient(
-    red 0deg 60deg,
-    yellow 60deg 120deg,
-    green 120deg 180deg,
-    blue 180deg 240deg,
-    orange 240deg 300deg,
-    purple 300deg 360deg
-  );
   border:5px solid white;
+  background: conic-gradient(
+    #2c2c2c 0deg 45deg,     /* Boş / Bəxtini sına */
+    #2c2c2c 45deg 90deg,    /* Boş / Bəxtini sına */
+    yellow 90deg 135deg,     /* Pul 1₼ */
+    #2c2c2c 135deg 180deg,   /* Boş / Bəxtini sına */
+    green 180deg 225deg,     /* Pul 5₼ */
+    #2c2c2c 225deg 270deg,   /* Boş / Bəxtini sına */
+    red 270deg 315deg,       /* Pul 7₼ */
+    #2c2c2c 315deg 360deg    /* Boş / Bəxtini sına */
+  );
   transition: transform 3s ease-out;
+  position: relative;
 }
+
+/* Ox */
 #pointer {
-  width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent;
-  border-bottom:30px solid white; margin:-30px auto 0 auto;
+  width:0; height:0; 
+  border-left:15px solid transparent; 
+  border-right:15px solid transparent;
+  border-bottom:30px solid white; 
+  margin:-30px auto 0 auto;
 }
+
+/* Bölmələrin yazısı (overlay) */
+#wheelText {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  display:flex; flex-wrap: wrap; justify-content:center; align-items:center;
+  pointer-events:none;
+  color:white; font-weight:bold;
+  font-size:14px;
+}
+.wheel-item { width:50%; height:50%; display:flex; justify-content:center; align-items:center; }
 </style>
 </head>
 <body>
 
 <div class="container">
 
-<!-- LOGIN -->
-<div id="login">
-<h2>Giriş</h2>
-<input id="loginUser" placeholder="İstifadəçi adı">
-<input id="loginPass" type="password" placeholder="Şifrə">
-<button onclick="login()">Daxil ol</button>
-<p>Hesabın yoxdur? <button onclick="showRegister()">Qeydiyyat</button></p>
-</div>
-
-<!-- REGISTER -->
-<div id="register" class="hidden">
-<h2>Qeydiyyat</h2>
-<input id="user" placeholder="İstifadəçi adı">
-<input id="email" placeholder="Email">
-<input id="pass" type="password" placeholder="Şifrə">
-<button onclick="register()">Qeydiyyatdan keç</button>
-</div>
-
-<!-- PANEL -->
-<div id="panel" class="hidden">
-<h2>Panel</h2>
+<!-- PANEL (demo üçün) -->
+<h2>Çarx Oyunu</h2>
 <p id="balanceText">Balans: 0 ₼</p>
 
 <div id="pointer"></div>
-<div id="wheel"></div>
+<div id="wheel">
+  <div id="wheelText">
+    <div class="wheel-item">Bəxtini sına</div>
+    <div class="wheel-item">Bəxtini sına</div>
+    <div class="wheel-item">1₼</div>
+    <div class="wheel-item">Bəxtini sına</div>
+    <div class="wheel-item">5₼</div>
+    <div class="wheel-item">Bəxtini sına</div>
+    <div class="wheel-item">7₼</div>
+    <div class="wheel-item">Bəxtini sına</div>
+  </div>
+</div>
+
 <button onclick="spin()">Çarxi fırlat</button>
-
-<br><br>
-<button onclick="deposit()">Balansı artır</button>
-<button onclick="withdraw()">Çıxarış</button>
-
 <p id="msg"></p>
-</div>
-
-</div>
 
 <script>
-let userData = JSON.parse(localStorage.getItem("userData")) || null;
 let balance = 0;
 let deg = 0;
-
-function showRegister(){
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("register").classList.remove("hidden");
-}
-
-function register(){
-  let user = document.getElementById("user").value.trim();
-  let email = document.getElementById("email").value.trim();
-  let pass = document.getElementById("pass").value.trim();
-
-  if(!user || !email || !pass){
-    alert("Bütün xanaları doldur!");
-    return;
-  }
-
-  userData = {user, email, pass};
-  localStorage.setItem("userData", JSON.stringify(userData));
-  balance = 0;
-
-  alert("Qeydiyyat tamamlandı! Avtomatik daxil oldunuz.");
-  openPanel();
-}
-
-function login(){
-  let user = document.getElementById("loginUser").value.trim();
-  let pass = document.getElementById("loginPass").value.trim();
-
-  if(!userData || user !== userData.user || pass !== userData.pass){
-    alert("Yanlış məlumat!");
-    return;
-  }
-
-  openPanel();
-}
-
-function openPanel(){
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("register").classList.add("hidden");
-  document.getElementById("panel").classList.remove("hidden");
-  updateBalance();
-}
 
 function updateBalance(){
   document.getElementById("balanceText").innerText = "Balans: " + balance + " ₼";
@@ -127,30 +89,28 @@ function spin(){
     return;
   }
 
-  let random = Math.floor(Math.random() * 360);
-  deg += 360*5 + random;
+  // 8 bölmə
+  let section = Math.floor(Math.random()*8); 
+  let degSection = section*45 + Math.floor(Math.random()*45);
+  deg += 360*5 + degSection;
   document.getElementById("wheel").style.transform = "rotate(" + deg + "deg)";
 
-  setTimeout(() => {
-    let win = Math.floor(Math.random() * 100); // Random qazanc
+  setTimeout(()=>{
+    let win;
+    if(section===2){ win=1; }
+    else if(section===4){ win=5; }
+    else if(section===6){ win=7; }
+    else { win=0; }
+
     balance += win;
-    document.getElementById("msg").innerText = "Qazandınız: " + win + " ₼";
+    document.getElementById("msg").innerText = win>0 ? "Qazandınız: "+win+" ₼" : "Bəxtiniz çatmadı! Heç nə qazanmır.";
     updateBalance();
-  }, 3000);
+  },3000);
 }
 
-// Telegram yönləndirmələri
-function deposit(){
-  window.open("https://t.me/carxfirla?text=Salam%20Men%20balans%20artirmaq%20isdeyirem%20zehmet%20olmasa%20kart%20gonderin");
-}
-
-function withdraw(){
-  if(balance < 50){
-    alert("Minimum 50₼ lazımdır!");
-    return;
-  }
-  window.open("https://t.me/carxfirla?text=Salam%20Men%20cixaris%20etmek%20isdeyirem%20balansim%2050₼%20olubdur");
-}
+// Demo üçün balans artır
+balance = 10; 
+updateBalance();
 </script>
 
 </body>
