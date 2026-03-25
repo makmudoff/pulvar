@@ -2,86 +2,104 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Fələk Çarxı</title>
+<title>Şans Çarxı</title>
 <style>
-body { font-family: Arial, sans-serif; background: #111; color: #fff; text-align: center; padding: 50px; }
-h1 { color: gold; font-size: 36px; }
-#balance { font-size: 20px; margin: 20px; }
-#spinBtn, #withdrawBtn { padding: 12px 20px; margin: 10px; font-size: 18px; cursor: pointer; border:none; border-radius:8px; background:#FF4500; color:#fff; }
-#spinBtn:hover, #withdrawBtn:hover { background:#FF6347; }
-#wheelContainer { position: relative; width: 300px; height: 300px; margin: 40px auto; }
-#wheel { width: 100%; height: 100%; border-radius: 50%; border: 10px solid #fff; position: relative; transition: transform 5s cubic-bezier(0.25,1,0.5,1); }
-.segment { position: absolute; width: 50%; height: 50%; background: red; transform-origin: 100% 100%; clip-path: polygon(100% 0, 0 0, 100% 100%); text-align:right; padding-right:10px; font-weight:bold; }
-.segment1 { background:#FF0000; transform:rotate(0deg); }   /* 1₼ */
-.segment2 { background:#00FF00; transform:rotate(72deg); }  /* 5₼ */
-.segment3 { background:#0000FF; transform:rotate(144deg); } /* 10₼ */
-.segment4 { background:#FFFF00; transform:rotate(216deg); } /* 15₼ */
-.segment5 { background:#FF00FF; transform:rotate(288deg); } /* 20₼ */
-#pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid gold; position:absolute; top:-30px; left:calc(50% - 15px); }
-#message { margin-top:20px; font-size:18px; color:#00FF00; }
+    body {
+        text-align: center;
+        background: linear-gradient(45deg, #ff6, #6ff, #f6f);
+        font-family: Arial;
+    }
+
+    canvas {
+        margin-top: 50px;
+        border-radius: 50%;
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 12px 25px;
+        font-size: 18px;
+        background: gold;
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+    }
 </style>
 </head>
 <body>
 
-<h1>Fələk Çarxı</h1>
-<p id="balance">Balans: 0₼ | Qalan Spinlər: 10</p>
-<button id="spinBtn" onclick="spinWheel()">Bəxtini sınamaq</button>
-<button id="withdrawBtn" onclick="withdraw()">Pul Çıxart</button>
+<h2>🎡 Şans Çarxı</h2>
 
-<div id="wheelContainer">
-    <div id="pointer"></div>
-    <div id="wheel">
-        <div class="segment segment1">1₼</div>
-        <div class="segment segment2">5₼</div>
-        <div class="segment segment3">10₼</div>
-        <div class="segment segment4">15₼</div>
-        <div class="segment segment5">20₼</div>
-    </div>
-</div>
-
-<p id="message"></p>
+<canvas id="wheel" width="400" height="400"></canvas>
+<br>
+<button onclick="spin()">Fırlat</button>
 
 <script>
-let balance = 0;
-let spinsLeft = 10;
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
 
-function updateBalance() {
-    document.getElementById('balance').innerText = "Balans: " + balance + "₼ | Qalan Spinlər: " + spinsLeft;
+const segments = [
+    "1₼","Boş","Bəxtini sına","3₼","Boş","Bəxtini sına",
+    "5₼","Boş","Bəxtini sına","10₼","Boş","Bəxtini sına",
+    "20₼","Boş"
+];
+
+const colors = [
+    "#ff4d4d","#4dff4d","#4da6ff","#ffcc00","#cc66ff",
+    "#00cccc","#ff6600","#66ff66","#3399ff","#ff3399",
+    "#99ff33","#ff9933","#33ccff","#ff0066"
+];
+
+let angle = 0;
+
+function drawWheel() {
+    let arc = Math.PI * 2 / segments.length;
+
+    for (let i = 0; i < segments.length; i++) {
+        ctx.beginPath();
+        ctx.fillStyle = colors[i];
+        ctx.moveTo(200, 200);
+        ctx.arc(200, 200, 200, arc*i, arc*(i+1));
+        ctx.fill();
+
+        ctx.save();
+        ctx.translate(200, 200);
+        ctx.rotate(arc*i + arc/2);
+        ctx.fillStyle = "#000";
+        ctx.font = "16px Arial";
+        ctx.fillText(segments[i], 80, 5);
+        ctx.restore();
+    }
 }
 
-function spinWheel() {
-    if(spinsLeft <= 0) { alert("Spin imkanınız bitdi!"); return; }
-    spinsLeft--;
+drawWheel();
 
-    const wheel = document.getElementById('wheel');
-    const segments = [1,5,10,15,20];
-    const segmentCount = segments.length;
-    
-    // Random spin nəticəsi
-    const chosenIndex = Math.floor(Math.random()*segmentCount);
-    const degreesPerSegment = 360 / segmentCount;
-    const extraSpins = 5; // fırlatma tam tur
-    const rotateDeg = (360 * extraSpins) + (chosenIndex * degreesPerSegment) + degreesPerSegment/2;
+function spin() {
+    let spinAngle = Math.random() * 2000 + 2000;
+    let duration = 3000;
+    let start = null;
 
-    wheel.style.transition = "transform 5s cubic-bezier(0.25,1,0.5,1)";
-    wheel.style.transform = `rotate(${rotateDeg}deg)`;
+    function animate(time) {
+        if (!start) start = time;
+        let progress = time - start;
 
-    setTimeout(() => {
-        const prize = segments[chosenIndex];
-        balance += prize;
-        document.getElementById('message').innerText = "🎉 Qazandınız: " + prize + "₼!";
-        updateBalance();
-    }, 5200);
+        angle = spinAngle * (progress / duration);
+
+        ctx.clearRect(0, 0, 400, 400);
+        ctx.save();
+        ctx.translate(200,200);
+        ctx.rotate(angle * Math.PI/180);
+        ctx.translate(-200,-200);
+        drawWheel();
+        ctx.restore();
+
+        if (progress < duration) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    requestAnimationFrame(animate);
 }
-
-function withdraw() {
-    let whatsappNumber = "0552334815";
-    let text = "Salam, mən pul çıxartmaq istəyirəm. Balansım: " + balance + "₼";
-    let url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
-    window.open(url, "_blank");
-}
-
-updateBalance();
 </script>
 
 </body>
