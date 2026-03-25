@@ -5,13 +5,13 @@
 <title>Çarx Oyunu</title>
 <style>
 html, body {
-  margin:0; padding:0; height:100%; width:100%; overflow:hidden;
+  margin:0; padding:0; height:100%; width:100%; overflow-x:hidden;
   font-family: Arial, sans-serif;
   background:#111;
   color:white;
   display:flex;
   justify-content:center;
-  align-items:center;
+  align-items:flex-start;
 }
 .container {
   width:400px;
@@ -84,6 +84,24 @@ button:hover { background:#555; }
 #wheel text { font-weight:bold; font-size:14px; fill:white; text-anchor:middle; dominant-baseline:middle; }
 #pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid white; margin:-30px auto 0 auto; }
 
+/* Sosial linklər */
+#socialLinks {
+  margin-top:20px;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+}
+#socialLinks a {
+  text-decoration:none;
+  color:white;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:bold;
+  transition:0.3s;
+}
+#socialLinks a:hover { color:#FFD700; }
+#socialLinks img { width:24px; height:24px; }
 </style>
 </head>
 <body>
@@ -130,6 +148,16 @@ Gecikmə – indi 1₼ əlavə et və şansını sınayaraq qazan!
 <button onclick="spin()">Çarxi fırlat</button>
 <p id="msgSpin"></p>
 <button onclick="withdraw()">Pul çıxartmaq</button>
+</div>
+
+<!-- Sosial linklər -->
+<div id="socialLinks">
+  <a href="https://www.instagram.com/Pulvar.Xyz" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"> Instagram
+  </a>
+  <a href="https://t.me/Pulvar_Xyz" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram"> Telegram
+  </a>
 </div>
 
 <script>
