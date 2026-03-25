@@ -78,6 +78,8 @@ button:hover { background:#555; }
 #winners h3 { color:#FFD700; margin-bottom:15px; }
 #winners ul { list-style:none; padding:0; margin:0; color:white; font-weight:bold; font-size:16px; }
 #winners ul li { margin:4px 0; }
+#currentDate { margin-top:10px; font-size:16px; font-weight:bold; color:#FFD700; animation: blink 1s infinite; }
+@keyframes blink { 0%, 50%, 100% { opacity:1; } 25%, 75% { opacity:0; } }
 </style>
 </head>
 <body>
@@ -90,6 +92,8 @@ button:hover { background:#555; }
 Hər fırlatma sənin üçün yeni sürprizlər və bonuslar açır.<br>
 Gecikmə – indi 1₼ əlavə et və şansını sınayaraq qazan!
 </div>
+
+<div id="currentDate"></div>
 
 <!-- LOGIN -->
 <div id="login">
@@ -151,6 +155,14 @@ Gecikmə – indi 1₼ əlavə et və şansını sınayaraq qazan!
 </div>
 
 <script>
+// Tarix avtomatik
+function showDate(){
+  const now = new Date();
+  const dateStr = now.toLocaleString('az-AZ', {weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit'});
+  document.getElementById("currentDate").innerText = dateStr;
+}
+setInterval(showDate,1000);
+
 // Kodlar və balans
 let balance = 0;
 let deg = 0;
