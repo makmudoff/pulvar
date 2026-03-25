@@ -3,32 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oyun Paneli</title>
+<title>Şəxsi Panel</title>
 
 <style>
 body {font-family:Arial;text-align:center;background:#111;color:#fff;}
 input,button {padding:10px;margin:5px;border-radius:5px;border:none;}
-button {background:gold;}
+button {background:gold;cursor:pointer;}
 .hidden {display:none;}
-canvas {margin-top:20px;}
 </style>
 </head>
 
 <body>
 
-<h2>🎰 Oyun Paneli</h2>
+<h2>🎰 Oyun Sistemi</h2>
 
 <!-- LOGIN -->
-<div id="login">
+<div id="loginBox">
 <h3>Giriş</h3>
 <input id="loginUser" placeholder="İstifadəçi adı"><br>
 <input id="loginPass" type="password" placeholder="Şifrə"><br>
-<button onclick="login()">Daxil ol</button>
-<p onclick="showRegister()">Qeydiyyat</p>
+<button onclick="login()">Daxil ol</button><br>
+<button onclick="showRegister()">Qeydiyyat</button>
 </div>
 
 <!-- REGISTER -->
-<div id="register" class="hidden">
+<div id="registerBox" class="hidden">
 <h3>Qeydiyyat</h3>
 <input id="regUser" placeholder="İstifadəçi adı"><br>
 <input id="regEmail" placeholder="Email"><br>
@@ -37,115 +36,123 @@ canvas {margin-top:20px;}
 </div>
 
 <!-- PANEL -->
-<div id="panel" class="hidden">
-<h3>Panel</h3>
-<p id="userInfo"></p>
-<p id="balance">Balans: 10₼</p>
+<div id="panelBox" class="hidden">
+<h3 id="welcome"></h3>
+<p id="balance"></p>
 
-<button onclick="showGame()">Demo oyna</button>
-<button onclick="realPlay()">Real pulla oyna</button>
+<button onclick="openGame()">Çarx oyna</button>
 <button onclick="logout()">Çıxış</button>
 </div>
 
 <!-- GAME -->
-<div id="game" class="hidden">
+<div id="gameBox" class="hidden">
 <h3>🎡 Çarx</h3>
-
+<div style="font-size:30px;">⬇️</div>
 <canvas id="wheel" width="300" height="300"></canvas><br>
 <button onclick="spin()">Fırlat (-1₼)</button><br><br>
 <button onclick="back()">Geri</button>
-
 <p id="result"></p>
 </div>
 
 <script>
+let user = null;
 let balance = 10;
-let currentUser = null;
 
-// Qeydiyyat
+// AUTO LOGIN
+window.onload = function(){
+let saved = JSON.parse(localStorage.getItem("user"));
+if(saved){
+user = saved;
+balance = saved.balance;
+showPanel();
+}
+}
+
+// SHOW
+function showRegister(){
+loginBox.style.display="none";
+registerBox.style.display="block";
+}
+
+// REGISTER
 function register(){
-let u = regUser.value;
-let e = regEmail.value;
-let p = regPass.value;
+let u = regUser.value.trim();
+let e = regEmail.value.trim();
+let p = regPass.value.trim();
 
 if(!u || !e || !p){
-alert("Boş buraxmaq olmaz!");
+alert("Hamısını doldur!");
 return;
 }
 
-localStorage.setItem("user", JSON.stringify({u,e,p,balance:10}));
-alert("Qeydiyyat uğurlu!");
-currentUser = u;
+user = {u,e,p,balance:10};
+localStorage.setItem("user", JSON.stringify(user));
+
 showPanel();
 }
 
-// Login
+// LOGIN
 function login(){
-let u = loginUser.value;
-let p = loginPass.value;
+let u = loginUser.value.trim();
+let p = loginPass.value.trim();
 
-let data = JSON.parse(localStorage.getItem("user"));
+let saved = JSON.parse(localStorage.getItem("user"));
 
-if(data && data.u==u && data.p==p){
-currentUser = u;
-balance = data.balance;
+if(!saved){
+alert("Əvvəl qeydiyyatdan keç!");
+return;
+}
+
+if(saved.u === u && saved.p === p){
+user = saved;
+balance = saved.balance;
 showPanel();
-} else {
-alert("Səhv məlumat!");
+}else{
+alert("Məlumat səhvdir!");
 }
 }
 
-// Panel
+// PANEL
 function showPanel(){
-login.style.display="none";
-register.style.display="none";
-panel.style.display="block";
-userInfo.innerText="Salam, "+currentUser;
+loginBox.style.display="none";
+registerBox.style.display="none";
+panelBox.style.display="block";
+
+welcome.innerText = "Salam, " + user.u;
 updateBalance();
 }
 
-// Logout
+// LOGOUT
 function logout(){
+localStorage.removeItem("user");
 location.reload();
 }
 
-// Game aç
-function showGame(){
-panel.style.display="none";
-game.style.display="block";
+// GAME
+function openGame(){
+panelBox.style.display="none";
+gameBox.style.display="block";
 drawWheel();
 }
 
-// Geri
 function back(){
-game.style.display="none";
-panel.style.display="block";
+gameBox.style.display="none";
+panelBox.style.display="block";
 }
 
-// Telegram yönləndirmə
-function realPlay(){
-window.open("https://t.me/", "_blank");
-alert("Mesaj: Salam Men deposit edib oyun oynamaq isdirem");
-}
-
-// BALANS
+// BALANCE
 function updateBalance(){
 balance = balance || 0;
-document.getElementById("balance").innerText="Balans: "+balance+"₼";
-save();
+balanceEl = document.getElementById("balance");
+balanceEl.innerText = "Balans: " + balance + "₼";
+
+user.balance = balance;
+localStorage.setItem("user", JSON.stringify(user));
 }
 
-function save(){
-let data = JSON.parse(localStorage.getItem("user"));
-if(data){
-data.balance = balance;
-localStorage.setItem("user", JSON.stringify(data));
-}
-}
-
-// ÇARX
-const segments = ["Boş","Boş","Bəxtini sına","Bəxtini sına","5₼","10₼","Boş","Boş"];
-let angle=0;
+// WHEEL
+const segments = ["Boş","Boş","Bəxtini sına","5₼","Boş","10₼","Bəxtini sına","Boş"];
+let angle = 0;
 
 function drawWheel(){
 let ctx = wheel.getContext("2d");
@@ -199,14 +206,14 @@ ctx.restore();
 if(progress<duration){
 requestAnimationFrame(animate);
 }else{
-resultShow();
+showResult();
 }
 }
 
 requestAnimationFrame(animate);
 }
 
-function resultShow(){
+function showResult(){
 let arc = 360/segments.length;
 let deg = angle%360;
 let index = Math.floor((360-deg)/arc)%segments.length;
@@ -221,12 +228,6 @@ result.innerText=res;
 }
 
 updateBalance();
-}
-
-// səhifə açılarkən
-function showRegister(){
-login.style.display="none";
-register.style.display="block";
 }
 </script>
 
