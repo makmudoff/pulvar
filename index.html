@@ -43,11 +43,14 @@ button:hover { background:#555; }
 #wheel { width:250px; height:250px; border-radius:50%; border:5px solid white; transition: transform 3s ease-out; }
 #wheel text { font-weight:bold; font-size:14px; fill:white; text-anchor:middle; dominant-baseline:middle; }
 #pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid white; margin:-30px auto 0 auto; }
+#dateTime { font-weight:bold; color:#FFD700; margin-bottom:10px; }
 </style>
 </head>
 <body>
 
 <div class="container">
+
+<div id="dateTime"></div>
 
 <div id="topMessage">
 🎡 Sadəcə 1₼ ilə böyük şans!<br>
@@ -90,6 +93,21 @@ Gecikmə – indi 1₼ əlavə et və şansını sınayaraq qazan!
 </div>
 
 <script>
+// Tarix və saat
+function showDateTime(){
+    const now = new Date();
+    const days = ["Bazar","Bazar ertəsi","Çərşənbə axşamı","Çərşənbə","Cümə axşamı","Cümə","Şənbə"];
+    const dayName = days[now.getDay()];
+    const day = now.getDate().toString().padStart(2,"0");
+    const month = (now.getMonth()+1).toString().padStart(2,"0");
+    const year = now.getFullYear();
+    const hour = now.getHours().toString().padStart(2,"0");
+    const minute = now.getMinutes().toString().padStart(2,"0");
+    document.getElementById("dateTime").innerText = `${dayName}, ${day}/${month}/${year} ${hour}:${minute}`;
+}
+showDateTime();
+setInterval(showDateTime,60000);
+
 // Kodlar və balans
 let balance = 0;
 let deg = 0;
@@ -124,7 +142,6 @@ function drawWheel(){
     path.setAttribute("d",`M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} Z`);
     path.setAttribute("fill",slice.color);
     svg.appendChild(path);
-    // Yazı
     const angle = (startAngle + sliceAngle/2 - 90) * Math.PI/180;
     const tx = cx + r*0.65*Math.cos(angle);
     const ty = cy + r*0.65*Math.sin(angle);
@@ -138,8 +155,6 @@ function drawWheel(){
     svg.appendChild(text);
   });
 }
-
-// INIT
 drawWheel();
 
 // SHOW REGISTER
@@ -193,11 +208,11 @@ function spin(){
 
   setTimeout(()=>{
     if(slice.value>0){
-      balance += slice.value-1; // fırlatma 1₼ xərci çıxılır
+      balance += slice.value-1; // fırlatma xərci 1₼
       document.getElementById("msgSpin").innerText=`Təbriklər! ${slice.text} qazandınız!`;
     } else {
       document.getElementById("msgSpin").innerText="Bəxtinizi Bir Daha Sınaayın 😞";
-      balance -=1; // 1₼ fırlatma xərci
+      balance -=1;
     }
     updateBalance();
   },3000);
