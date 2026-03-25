@@ -54,6 +54,7 @@ button:hover { background:#555; }
 </div>
 <button onclick="spin()">Çarxi fırlat</button>
 <p id="msgSpin"></p>
+<button onclick="withdraw()">Pul çıxartmaq</button>
 </div>
 
 <script>
@@ -158,6 +159,16 @@ function spin(){
   balance -=1;
   updateBalance();
   setTimeout(()=>{ document.getElementById("msgSpin").innerText="Bəxtinizi Bir Daha Sınaayın 😞"; },3000);
+}
+
+// PUL ÇIXARTMAQ
+function withdraw(){
+  if(balance < 50){
+    alert("Minimum 50₼ lazımdır!");
+    return;
+  }
+  const message = `Salam mənim hesabımda ${balance}₼ var, çıxarış edərdiniz zəhmət olmasa.`;
+  window.open("https://t.me/carxfirla?text=" + encodeURIComponent(message), "_blank");
 }
 </script>
 
