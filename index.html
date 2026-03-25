@@ -11,6 +11,27 @@ input, button { margin:5px; padding:10px; width:90%; }
 button { cursor: pointer; background:#333; color:white; border:none; border-radius:5px; transition:0.3s; }
 button:hover { background:#555; }
 #msg { margin-top:10px; color:#FFD700; font-weight:bold; }
+.hidden { display:none; }
+#wheel {
+  margin:20px auto;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background: conic-gradient(
+    red 0deg 60deg,
+    yellow 60deg 120deg,
+    green 120deg 180deg,
+    blue 180deg 240deg,
+    orange 240deg 300deg,
+    purple 300deg 360deg
+  );
+  border:5px solid white;
+  transition: transform 3s ease-out;
+}
+#pointer {
+  width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent;
+  border-bottom:30px solid white; margin:-30px auto 0 auto;
+}
 </style>
 </head>
 <body>
@@ -24,44 +45,42 @@ button:hover { background:#555; }
 <h2>Giriş</h2>
 <input id="loginUser" placeholder="İstifadəçi adı">
 <input id="loginPass" type="password" placeholder="Şifrə">
-<input id="loginCode" placeholder="Kod" maxlength="1">
+<input id="loginCode" placeholder="Kod">
 <button onclick="login()">Daxil ol</button>
 <p id="msg"></p>
 <p><button onclick="openRegisterWindow()">Qeydiyyatdan keç</button></p>
 </div>
 
+<!-- PANEL -->
+<div id="panel" class="hidden">
+<h2>Panel</h2>
+<p id="balanceText">Balans: 0 ₼</p>
+<div id="pointer"></div>
+<div id="wheel"></div>
+<button onclick="spin()">Çarxi fırlat</button>
+<p id="msgSpin"></p>
+</div>
+
 </div>
 
 <script>
-// Lokal saxlama üçün istifadəçi məlumatları
+// GLOBALS
 let userData = JSON.parse(localStorage.getItem("userData")) || null;
+let balance = 0;
+let deg = 0;
+let userPhone = null; // telefonla bağlamaq üçün (sadəcə identifikasiya)
+let usedPhone = null;  // başqasının giriş etməməsi üçün
 
-// Admin tərəfindən verilmiş kodlar
-const validLogins = {
-  "Ca72": "1",
-  "Ma72": "2",
-  "Ok72": "3",
-  "So72": "4",
-  "Ou72": "5"
+// Kod və balans xəritəsi
+const codeMap = {
+  "005": 1,
+  "00-MH":5,
+  "00-7A":10,
+  "00-6T":3,
+  "00-63U":20
 };
 
-// Giriş funksiyası
-function login(){
-  let user = document.getElementById("loginUser").value.trim();
-  let pass = document.getElementById("loginPass").value.trim();
-  let code = document.getElementById("loginCode").value.trim();
-  let msg = document.getElementById("msg");
-
-  if(!user || !pass || !code){
-    msg.innerText = "Bütün xanaları doldurun!";
-    return;
-  }
-
-  // Kod düzgün olsa belə panel açılmır
-  msg.innerText = "Hesabınız aktiv deyil. Aktiv etmək üçün geri qayıdın və Telegram vasitəsilə bizə yazın.";
-}
-
-// Yeni pəncərədə qeydiyyat forması
+// Qeydiyyat yeni pəncərədə
 function openRegisterWindow(){
   const registerHtml = `
     <!DOCTYPE html>
@@ -89,20 +108,75 @@ function openRegisterWindow(){
           let email = document.getElementById("email").value.trim();
           let pass = document.getElementById("pass").value.trim();
           if(!user || !email || !pass){ alert("Bütün xanaları doldur!"); return; }
-          // Lokal saxlama
           localStorage.setItem("userData", JSON.stringify({user,email,pass}));
           alert("Qeydiyyat tamamlandı! Hesabınızı aktiv etmək üçün Telegramda bizə yazın.");
-          let message = \`Salam! Mən hesabımı aktiv etmək istəyirəm.\\nİstifadəçi adı: \${user}\\nEmail: \${email}\`;
+          let message = \`Mən qeydiyyatdan keçdim, hesabımı aktiv edin.\\nİstifadəçi adı: \${user}\\nEmail: \${email}\`;
           window.open("https://t.me/carxfirla?text=" + encodeURIComponent(message), "_blank");
         }
       </script>
     </body>
     </html>
   `;
+  const win = window.open("", "registerWindow", "width=400,height=500");
+  win.document.write(registerHtml);
+  win.document.close();
+}
 
-  const registerWindow = window.open("", "registerWindow", "width=400,height=500");
-  registerWindow.document.write(registerHtml);
-  registerWindow.document.close();
+// LOGIN
+function login(){
+  const user = document.getElementById("loginUser").value.trim();
+  const pass = document.getElementById("loginPass").value.trim();
+  const code = document.getElementById("loginCode").value.trim();
+  const msg = document.getElementById("msg");
+
+  if(!user || !pass || !code){
+    msg.innerText = "Bütün xanaları doldurun!";
+    return;
+  }
+
+  // Kod yoxlanışı
+  if(!codeMap[code]){
+    msg.innerText = "Kod səhvdir. Yeni kod üçün Telegram vasitəsilə əlaqə saxlayın.";
+    return;
+  }
+
+  // Telefonla giriş yoxlaması
+  if(!userPhone){
+    userPhone = prompt("Telefon nömrənizi daxil edin:");
+    usedPhone = userPhone;
+  } else if(userPhone !== usedPhone){
+    balance = 0;
+    msg.innerText = "Bu kod yalnız sizin telefonunuz üçün aktivdir. Balans 0 göstərilir.";
+    return;
+  }
+
+  balance = codeMap[code];
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("panel").classList.remove("hidden");
+  updateBalance();
+  msg.innerText = "Giriş uğurlu! Çarx paneli açıldı.";
+}
+
+// BALANS UPDATE
+function updateBalance(){
+  document.getElementById("balanceText").innerText = "Balans: " + balance + " ₼";
+}
+
+// ÇARX FİRLATMA
+function spin(){
+  if(balance <=0){
+    document.getElementById("msgSpin").innerText = "Balansınızı artırın!";
+    return;
+  }
+  let random = Math.floor(Math.random()*360);
+  deg += 360*5 + random;
+  document.getElementById("wheel").style.transform = "rotate("+deg+"deg)";
+  setTimeout(()=>{
+    let win = Math.floor(Math.random()*100);
+    balance += win;
+    document.getElementById("msgSpin").innerText = "Qazandınız: " + win + " ₼";
+    updateBalance();
+  },3000);
 }
 </script>
 
