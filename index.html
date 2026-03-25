@@ -2,13 +2,32 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Çərx Oyunu</title>
+<title>Çarx Oyunu</title>
 <style>
 body { font-family: Arial; text-align: center; background:#111; color:white; }
 .container { max-width:400px; margin:auto; padding:20px; }
 input, button { margin:5px; padding:10px; width:90%; }
 .hidden { display:none; }
-#wheel { margin:20px auto; width:200px; height:200px; border-radius:50%; border:5px solid white; display:flex; align-items:center; justify-content:center; }
+#wheel {
+  margin:20px auto;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background: conic-gradient(
+    red 0deg 60deg,
+    yellow 60deg 120deg,
+    green 120deg 180deg,
+    blue 180deg 240deg,
+    orange 240deg 300deg,
+    purple 300deg 360deg
+  );
+  border:5px solid white;
+  transition: transform 3s ease-out;
+}
+#pointer {
+  width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent;
+  border-bottom:30px solid white; margin:-30px auto 0 auto;
+}
 </style>
 </head>
 <body>
@@ -38,11 +57,11 @@ input, button { margin:5px; padding:10px; width:90%; }
 <h2>Panel</h2>
 <p id="balanceText">Balans: 0 ₼</p>
 
-<div id="wheel">🎰</div>
-<button onclick="spin()">Çərxi fırlat</button>
+<div id="pointer"></div>
+<div id="wheel"></div>
+<button onclick="spin()">Çarxi fırlat</button>
 
 <br><br>
-
 <button onclick="deposit()">Balansı artır</button>
 <button onclick="withdraw()">Çıxarış</button>
 
@@ -54,6 +73,7 @@ input, button { margin:5px; padding:10px; width:90%; }
 <script>
 let userData = JSON.parse(localStorage.getItem("userData")) || null;
 let balance = 0;
+let deg = 0;
 
 function showRegister(){
   document.getElementById("login").classList.add("hidden");
@@ -61,9 +81,9 @@ function showRegister(){
 }
 
 function register(){
-  let user = document.getElementById("user").value;
-  let email = document.getElementById("email").value;
-  let pass = document.getElementById("pass").value;
+  let user = document.getElementById("user").value.trim();
+  let email = document.getElementById("email").value.trim();
+  let pass = document.getElementById("pass").value.trim();
 
   if(!user || !email || !pass){
     alert("Bütün xanaları doldur!");
@@ -74,13 +94,13 @@ function register(){
   localStorage.setItem("userData", JSON.stringify(userData));
   balance = 0;
 
-  alert("Qeydiyyat tamamlandı!");
+  alert("Qeydiyyat tamamlandı! Avtomatik daxil oldunuz.");
   openPanel();
 }
 
 function login(){
-  let user = document.getElementById("loginUser").value;
-  let pass = document.getElementById("loginPass").value;
+  let user = document.getElementById("loginUser").value.trim();
+  let pass = document.getElementById("loginPass").value.trim();
 
   if(!userData || user !== userData.user || pass !== userData.pass){
     alert("Yanlış məlumat!");
@@ -94,7 +114,6 @@ function openPanel(){
   document.getElementById("login").classList.add("hidden");
   document.getElementById("register").classList.add("hidden");
   document.getElementById("panel").classList.remove("hidden");
-
   updateBalance();
 }
 
@@ -108,12 +127,19 @@ function spin(){
     return;
   }
 
-  let win = Math.floor(Math.random() * 100);
-  balance += win;
-  document.getElementById("msg").innerText = "Qazandın: " + win + " ₼";
-  updateBalance();
+  let random = Math.floor(Math.random() * 360);
+  deg += 360*5 + random;
+  document.getElementById("wheel").style.transform = "rotate(" + deg + "deg)";
+
+  setTimeout(() => {
+    let win = Math.floor(Math.random() * 100); // Random qazanc
+    balance += win;
+    document.getElementById("msg").innerText = "Qazandınız: " + win + " ₼";
+    updateBalance();
+  }, 3000);
 }
 
+// Telegram yönləndirmələri
 function deposit(){
   window.open("https://t.me/carxfirla?text=Salam%20Men%20balans%20artirmaq%20isdeyirem%20zehmet%20olmasa%20kart%20gonderin");
 }
@@ -123,7 +149,6 @@ function withdraw(){
     alert("Minimum 50₼ lazımdır!");
     return;
   }
-
   window.open("https://t.me/carxfirla?text=Salam%20Men%20cixaris%20etmek%20isdeyirem%20balansim%2050₼%20olubdur");
 }
 </script>
