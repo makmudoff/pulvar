@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Pul Qazan Saytı</title>
+<title>Pul Qazan Platforma</title>
 
 <style>
 body{
@@ -22,8 +22,8 @@ button{
     margin:5px;
     padding:10px 15px;
     background:#22c55e;
-    color:white;
     border:none;
+    color:white;
     cursor:pointer;
 }
 .hidden{display:none;}
@@ -40,117 +40,64 @@ button{
 
 <!-- LOGIN -->
 <div class="container" id="loginPage">
-    <h2>Giriş</h2>
-    <input id="loginUser" placeholder="İstifadəçi adı">
-    <input id="loginPass" type="password" placeholder="Parol">
-    <button onclick="login()">Daxil ol</button>
-    <p onclick="showRegister()" style="cursor:pointer;color:lightblue;">
-        Qeydiyyatdan keç
-    </p>
+<h2>Giriş</h2>
+<input id="loginUser" placeholder="İstifadəçi adı">
+<input id="loginPass" type="password" placeholder="Parol">
+<button onclick="login()">Daxil ol</button>
+<p onclick="showRegister()" style="color:lightblue;cursor:pointer;">Qeydiyyatdan keç</p>
 </div>
 
 <!-- REGISTER -->
 <div class="container hidden" id="registerPage">
-    <h2>Qeydiyyat</h2>
-    <input id="user" placeholder="İstifadəçi adı">
-    <input id="pass" type="password" placeholder="Parol">
-    <input id="pass2" type="password" placeholder="Parolu təkrar et">
-    <input id="phone" placeholder="Nömrə">
-    <input id="email" placeholder="Email">
-    <button onclick="register()">Qeydiyyatdan keç</button>
+<h2>Qeydiyyat</h2>
+<input id="regUser" placeholder="İstifadəçi adı">
+<input id="regPass" type="password" placeholder="Parol">
+<input id="regPass2" type="password" placeholder="Parolu təkrar et">
+<input id="regPhone" placeholder="Nömrə">
+<input id="regEmail" placeholder="Email">
+<button onclick="register()">Qeydiyyatdan keç</button>
 </div>
 
 <!-- DASHBOARD -->
 <div class="container hidden" id="dashboard">
 
-<h2>💸 Pul Qazan Panel</h2>
+<h2>💸 Panel</h2>
 
 <div class="menu">
-<button onclick="showSection('home')">🏠 Ana səhifə</button>
-<button onclick="showSection('tasks')">💰 Tapşırıqlar</button>
-<button onclick="showSection('sites')">🌐 Saytlar</button>
-<button onclick="showSection('video')">🎥 Video</button>
-<button onclick="showSection('apps')">📱 App</button>
-<button onclick="showSection('bonus')">🎁 Bonus</button>
-<button onclick="showSection('history')">🧾 Tarixçə</button>
-<button onclick="showSection('ref')">👥 Referal</button>
-<button onclick="showSection('level')">🏆 Level</button>
-<button onclick="showSection('stats')">📊 Statistika</button>
-<button onclick="showSection('withdraw')">💸 Çıxarış</button>
-<button onclick="showSection('payment')">💳 Ödəniş</button>
-<button onclick="showSection('profile')">👤 Profil</button>
-<button onclick="showSection('settings')">⚙️ Ayarlar</button>
-<button onclick="showSection('support')">📩 Dəstək</button>
-<button onclick="showSection('notif')">🔔 Bildirişlər</button>
+<button onclick="show('home')">🏠 Ana səhifə</button>
+<button onclick="show('tasks')">💰 Tapşırıqlar</button>
+<button onclick="show('video')">🎥 Video</button>
+<button onclick="show('ref')">👥 Referal</button>
+<button onclick="show('profile')">👤 Profil</button>
+<button onclick="show('withdraw')">💸 Çıxarış</button>
 </div>
 
 <hr>
 
 <div id="home" class="section">
 <h3>Balans: <span id="balans">0.00</span> ₼</h3>
-<p>Günlük qazanc: 0.00 ₼</p>
+<p>Gündə 15-20 AZN qazana bilərsiniz</p>
 <button onclick="verify()">Hesabı təsdiq et</button>
 </div>
 
 <div id="tasks" class="section hidden">
-<button onclick="earn('Task')">Tapşırıq et (+0.10₼)</button>
-</div>
-
-<div id="sites" class="section hidden">
-<button onclick="visitSite()">Sayta daxil ol (+0.10₼)</button>
+<button onclick="earn(0.10,'Tapşırıq')">Tapşırıq et (+0.10₼)</button>
 </div>
 
 <div id="video" class="section hidden">
-<button onclick="watchAd()">Video izlə (+0.20₼)</button>
-</div>
-
-<div id="apps" class="section hidden">
-<button onclick="earn('App')">App yüklə (+0.30₼)</button>
-</div>
-
-<div id="bonus" class="section hidden">
-<button onclick="dailyBonus()">Günlük bonus al (+0.50₼)</button>
-</div>
-
-<div id="history" class="section hidden">
-<ul id="historyList"></ul>
+<button onclick="earn(0.20,'Video')">Video izlə (+0.20₼)</button>
 </div>
 
 <div id="ref" class="section hidden">
-<button onclick="copyRef()">Referal link kopyala (+0.15₼)</button>
+<button onclick="copyRef()">Referal link (+0.15₼)</button>
 </div>
 
-<div id="level" class="section hidden">
-<p>Level: <span id="level">1</span></p>
-</div>
-
-<div id="stats" class="section hidden">
-<p>Klik sayı: <span id="clicks">0</span></p>
+<div id="profile" class="section hidden">
+<p>İstifadəçi: <span id="username"></span></p>
 </div>
 
 <div id="withdraw" class="section hidden">
 <button onclick="withdraw()">Pul çıxar</button>
-</div>
-
-<div id="payment" class="section hidden">
-<input placeholder="Kart nömrəsi">
-<button>Yadda saxla</button>
-</div>
-
-<div id="profile" class="section hidden">
-<p>İstifadəçi: demo_user</p>
-</div>
-
-<div id="settings" class="section hidden">
-<p>Dark mode aktiv</p>
-</div>
-
-<div id="support" class="section hidden">
-<p>Dəstək üçün yazın: 055-233-48-15</p>
-</div>
-
-<div id="notif" class="section hidden">
-<p>Yeni bonus mövcuddur!</p>
 </div>
 
 </div>
@@ -158,104 +105,97 @@ button{
 <script>
 
 let balans = 0;
-let clicks = 0;
-let level = 1;
 
-// səhifələr
+// səhifə dəyiş
 function showRegister(){
-    loginPage.classList.add("hidden");
-    registerPage.classList.remove("hidden");
+loginPage.classList.add("hidden");
+registerPage.classList.remove("hidden");
 }
 
+// qeydiyyat
 function register(){
-    if(!user.value || !pass.value || !pass2.value || !phone.value || !email.value){
-        alert("Bütün sahələri doldur!");
-        return;
-    }
-    if(pass.value !== pass2.value){
-        alert("Parollar eyni deyil!");
-        return;
-    }
+let u = regUser.value;
+let p = regPass.value;
+let p2 = regPass2.value;
+let ph = regPhone.value;
+let em = regEmail.value;
 
-    alert("Qeydiyyat uğurludur!");
-    setTimeout(()=>{
-        registerPage.classList.add("hidden");
-        dashboard.classList.remove("hidden");
-    },3000);
+if(!u || !p || !p2 || !ph || !em){
+alert("Hamısını doldur!");
+return;
+}
+if(p !== p2){
+alert("Parol eyni deyil!");
+return;
 }
 
+localStorage.setItem("user", u);
+
+alert("Qeydiyyat uğurludur!");
+
+setTimeout(()=>{
+registerPage.classList.add("hidden");
+dashboard.classList.remove("hidden");
+loadUser();
+},2000);
+}
+
+// login
 function login(){
-    loginPage.classList.add("hidden");
-    dashboard.classList.remove("hidden");
+let u = loginUser.value;
+
+if(!u){
+alert("Ad yaz!");
+return;
 }
 
-// panel
-function showSection(id){
+localStorage.setItem("user", u);
+
+loginPage.classList.add("hidden");
+dashboard.classList.remove("hidden");
+
+loadUser();
+}
+
+// istifadəçi adı göstər
+function loadUser(){
+let u = localStorage.getItem("user") || "User";
+document.getElementById("username").innerText = u;
+}
+
+// bölmələr
+function show(id){
 document.querySelectorAll(".section").forEach(s=>s.classList.add("hidden"));
 document.getElementById(id).classList.remove("hidden");
 }
 
-function updateUI(){
-balansEl = document.getElementById("balans");
-if(balansEl) balansEl.innerText = balans.toFixed(2);
-
-let c = document.getElementById("clicks");
-if(c) c.innerText = clicks;
-
-let l = document.getElementById("level");
-if(l) l.innerText = level;
+// qazanc
+function earn(amount, text){
+balans += amount;
+document.getElementById("balans").innerText = balans.toFixed(2);
+alert(text+" +"+amount+"₼ əlavə olundu");
 }
 
-function addHistory(text){
-let li = document.createElement("li");
-li.innerText = text;
-document.getElementById("historyList").appendChild(li);
-}
-
-// funksiyalar
-function earn(type){
-balans += 0.10;
-clicks++;
-addHistory(type+" +0.10₼");
-if(clicks % 20 === 0) level++;
-updateUI();
-}
-
-function visitSite(){
-window.open("https://example.com");
-earn("Site");
-}
-
-function watchAd(){
-balans += 0.20;
-clicks++;
-addHistory("Video +0.20₼");
-updateUI();
-}
-
-function dailyBonus(){
-balans += 0.50;
-addHistory("Bonus +0.50₼");
-updateUI();
-}
-
+// referal
 function copyRef(){
 navigator.clipboard.writeText(window.location.href);
 balans += 0.15;
-addHistory("Referal +0.15₼");
-updateUI();
+document.getElementById("balans").innerText = balans.toFixed(2);
+alert("Link kopyalandı (+0.15₼)");
 }
 
+// çıxarış
 function withdraw(){
 if(balans < 10){
 alert("Minimum 10₼");
 return;
 }
-alert("Sorğu göndərildi (1-3 gün)");
+alert("Sorğu göndərildi");
 }
 
+// təsdiq
 function verify(){
-alert("Hesabı təsdiq etmək üçün 055-233-48-15 nömrəsinə yazın");
+alert("055-233-48-15 nömrəsinə yazın");
 }
 
 </script>
