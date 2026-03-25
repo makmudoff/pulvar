@@ -2,53 +2,82 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Premium Sistem</title>
+<title>Pul Qazan</title>
 
 <style>
 body {
-    margin: 0;
-    font-family: Arial;
-    background: linear-gradient(135deg,#020617,#0f172a);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    margin:0;
+    background:black;
+    color:white;
+    font-family:Arial;
+    text-align:center;
 }
 
-.box {
-    background: #111827;
-    padding: 25px;
-    border-radius: 15px;
-    width: 320px;
-    text-align: center;
+/* HEADER */
+.header {
+    padding:15px;
+    font-size:22px;
+    color:orange;
 }
 
-input {
-    width: 90%;
-    padding: 10px;
-    margin: 6px;
-    border-radius: 5px;
-    border: none;
+/* BALANS BOX */
+.balance-box {
+    border:1px solid orange;
+    margin:20px;
+    padding:20px;
+    border-radius:15px;
 }
 
-button {
-    width: 95%;
-    padding: 10px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 5px;
-    background: #22c55e;
-    color: white;
-    cursor: pointer;
+.balance {
+    font-size:40px;
+    color:orange;
 }
 
-.hidden { display:none; }
-
-.link {
-    color:#38bdf8;
+/* COIN */
+.coin {
+    width:200px;
+    height:200px;
+    background:orange;
+    border-radius:50%;
+    margin:30px auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    color:black;
     cursor:pointer;
-    font-size:14px;
+    box-shadow:0 0 40px orange;
+}
+
+/* ENERGY */
+.energy-bar {
+    width:90%;
+    height:10px;
+    background:#333;
+    margin:10px auto;
+    border-radius:10px;
+}
+
+.energy-fill {
+    height:10px;
+    background:orange;
+    width:100%;
+    border-radius:10px;
+}
+
+/* NAVBAR */
+.nav {
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background:#111;
+    display:flex;
+    justify-content:space-around;
+    padding:10px 0;
+}
+
+.nav div {
+    color:gray;
 }
 </style>
 
@@ -56,146 +85,70 @@ button {
 
 <body>
 
-<!-- Welcome -->
-<div id="welcome" class="box">
-    <h2>Xoş gəlmisiniz</h2>
-    <button onclick="goLogin()">Davam et</button>
+<div class="header">Pul Qazanan</div>
+
+<div class="balance-box">
+    <div>Balansınız</div>
+    <div class="balance" id="bal">0.000 ₼</div>
+    <div>Ümumi klik: <span id="clicks">0</span></div>
 </div>
 
-<!-- Login -->
-<div id="login" class="box hidden">
-    <h2>Daxil ol</h2>
-    <input id="lUser" placeholder="İstifadəçi adı">
-    <input type="password" id="lPass" placeholder="Parol">
-    <button onclick="login()">Daxil ol</button>
-    <p id="loginErr" style="color:red;"></p>
+<div class="coin" onclick="mine()">₼</div>
 
-    <p class="link" onclick="goRegister()">Qeydiyyat et</p>
+<div>Enerji: <span id="energyText">1000</span>/1000</div>
+
+<div class="energy-bar">
+    <div class="energy-fill" id="energyBar"></div>
 </div>
 
-<!-- Register -->
-<div id="register" class="box hidden">
-    <h2>Qeydiyyat</h2>
-    <input id="rUser" placeholder="İstifadəçi adı">
-    <input type="password" id="rPass" placeholder="Parol">
-    <input type="password" id="rPass2" placeholder="Parolu təkrar et">
-    <input id="phone" placeholder="Telefon nömrəsi">
-
-    <button onclick="registerUser()">Qeydiyyatdan keç</button>
-    <p id="regMsg"></p>
-
-    <p class="link" onclick="goLogin()">Geri dön</p>
-</div>
-
-<!-- PANEL -->
-<div id="panel" class="box hidden">
-    <h2>Admin Panel</h2>
-
-    <h3>Balans: <span id="balance">0.00</span> ₼</h3>
-
-    <button onclick="toggleBox('earn')">Pul qazan</button>
-    <button onclick="toggleBox('ref')">Referall</button>
-    <button onclick="toggleBox('withdraw')">Pul çıxar</button>
-
-    <div id="earn" class="hidden">
-        <p>Tapşırıq tamamla +0.50₼</p>
-        <button onclick="earn()">Qazan</button>
-    </div>
-
-    <div id="ref" class="hidden">
-        <p>1 referall = 0.35₼</p>
-        <p>Link: pulvar.xyz/ref123</p>
-    </div>
-
-    <div id="withdraw" class="hidden">
-        <p>Minimum çıxarış: 5₼</p>
-    </div>
+<div class="nav">
+    <div>Əsas</div>
+    <div>Tapşırıq</div>
+    <div>Dostlar</div>
+    <div>Reyting</div>
+    <div>Profil</div>
 </div>
 
 <script>
 
-// BALANS YADDA SAXLA
 let balance = localStorage.getItem("bal") ? parseFloat(localStorage.getItem("bal")) : 0;
-document.getElementById("balance").innerText = balance.toFixed(2);
+let clicks = localStorage.getItem("clicks") ? parseInt(localStorage.getItem("clicks")) : 0;
+let energy = localStorage.getItem("energy") ? parseInt(localStorage.getItem("energy")) : 1000;
 
-// NAVIGATION
-function goLogin(){
-    hideAll();
-    document.getElementById("login").classList.remove("hidden");
+updateUI();
+
+function mine(){
+    if(energy <= 0) return;
+
+    balance += 0.001;
+    clicks++;
+    energy--;
+
+    save();
+    updateUI();
 }
 
-function goRegister(){
-    hideAll();
-    document.getElementById("register").classList.remove("hidden");
+function updateUI(){
+    document.getElementById("bal").innerText = balance.toFixed(4) + " ₼";
+    document.getElementById("clicks").innerText = clicks;
+    document.getElementById("energyText").innerText = energy;
+    document.getElementById("energyBar").style.width = energy/10 + "%";
 }
 
-function hideAll(){
-    document.getElementById("welcome").classList.add("hidden");
-    document.getElementById("login").classList.add("hidden");
-    document.getElementById("register").classList.add("hidden");
-    document.getElementById("panel").classList.add("hidden");
-}
-
-// REGISTER
-function registerUser(){
-    let u = document.getElementById("rUser").value;
-    let p = document.getElementById("rPass").value;
-    let p2 = document.getElementById("rPass2").value;
-    let ph = document.getElementById("phone").value;
-
-    let msg = document.getElementById("regMsg");
-
-    if(!u || !p || !p2 || !ph){
-        msg.style.color="red";
-        msg.innerText="Bütün sahələri doldurun!";
-        return;
-    }
-
-    if(p !== p2){
-        msg.style.color="red";
-        msg.innerText="Parollar eyni deyil!";
-        return;
-    }
-
-    localStorage.setItem("user", JSON.stringify({u,p}));
-
-    msg.style.color="lightgreen";
-    msg.innerText="Qeydiyyatdan keçdiniz...";
-
-    setTimeout(()=>{
-        hideAll();
-        document.getElementById("panel").classList.remove("hidden");
-    },3000);
-}
-
-// LOGIN
-function login(){
-    let saved = JSON.parse(localStorage.getItem("user"));
-
-    let u = document.getElementById("lUser").value;
-    let p = document.getElementById("lPass").value;
-
-    if(!saved || saved.u !== u || saved.p !== p){
-        document.getElementById("loginErr").innerText="Belə istifadəçi yoxdur!";
-        return;
-    }
-
-    hideAll();
-    document.getElementById("panel").classList.remove("hidden");
-}
-
-// BALANS ARTIR
-function earn(){
-    balance += 0.5;
+function save(){
     localStorage.setItem("bal", balance);
-    document.getElementById("balance").innerText = balance.toFixed(2);
+    localStorage.setItem("clicks", clicks);
+    localStorage.setItem("energy", energy);
 }
 
-// TOGGLE
-function toggleBox(id){
-    let el = document.getElementById(id);
-    el.classList.toggle("hidden");
-}
+// enerji bərpa (hər 3 saniyəyə +1)
+setInterval(()=>{
+    if(energy < 1000){
+        energy++;
+        save();
+        updateUI();
+    }
+},3000);
 
 </script>
 
