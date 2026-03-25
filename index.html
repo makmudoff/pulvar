@@ -6,16 +6,24 @@
 <style>
 body { font-family: Arial; text-align:center; background:#111; color:white; margin:0; padding:0; }
 .container { max-width:400px; margin:auto; padding:20px; }
-button { margin:10px auto; padding:12px; width:90%; font-size:18px; border-radius:8px; border:none; display:block; cursor:pointer; background:#333; color:white; transition:0.3s; }
+input, button { margin:10px auto; padding:12px; width:90%; font-size:18px; border-radius:8px; border:none; display:block; }
+button { background:#333; color:white; cursor:pointer; transition:0.3s; }
 button:hover { background:#555; }
+#topMessage { background:#222; color:#FFD700; padding:10px; border-radius:8px; margin-bottom:15px; font-weight:bold; }
+.hidden { display:none; }
+#msg, #msgSpin, #regMsg { margin-top:10px; color:#FFD700; font-weight:bold; }
 #wheel {
   margin:20px auto;
   width:220px;
   height:220px;
   border-radius:50%;
   background: conic-gradient(
-    black 0deg 180deg,
-    black 180deg 360deg
+    black 0deg 60deg,
+    black 60deg 120deg,
+    black 120deg 180deg,
+    black 180deg 240deg,
+    black 240deg 300deg,
+    black 300deg 360deg
   );
   border:5px solid white;
   position: relative;
@@ -31,39 +39,111 @@ button:hover { background:#555; }
   justify-content:center;
   align-items:center;
   font-weight:bold;
-  font-size:20px;
+  font-size:16px;
   color:white;
-  transform-origin:center center;
 }
-#pointer {
-  width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent;
-  border-bottom:30px solid white; margin:-30px auto 0 auto;
-}
-#msgSpin { margin-top:15px; font-weight:bold; color:#FFD700; }
+#pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid white; margin:-30px auto 0 auto; }
 </style>
 </head>
 <body>
 
 <div class="container">
-<h2>Çarx Oyunu</h2>
+<div id="topMessage">🎡 Çarxı fırlatmaq üçün 1₼ əlavə et və şansını sınayaraq qazan!</div>
+
+<!-- LOGIN -->
+<div id="login">
+<h2>Giriş</h2>
+<input id="loginUser" placeholder="İstifadəçi adı">
+<input id="loginPass" type="password" placeholder="Şifrə">
+<input id="loginCode" placeholder="Kod">
+<button onclick="login()">Daxil ol</button>
+<p id="msg"></p>
+<p><button onclick="showRegister()">Qeydiyyatdan keç</button></p>
+</div>
+
+<!-- REGISTER -->
+<div id="register" class="hidden">
+<h2>Qeydiyyat</h2>
+<input id="regUser" placeholder="İstifadəçi adı">
+<input id="regEmail" placeholder="Email">
+<input id="regPass" type="password" placeholder="Şifrə">
+<button onclick="register()">Qeydiyyatdan keç</button>
+<p id="regMsg"></p>
+</div>
+
+<!-- PANEL -->
+<div id="panel" class="hidden">
+<h2>Çarx Paneli</h2>
+<p id="balanceText">Balans: 0 ₼</p>
 <div id="pointer"></div>
 <div id="wheel">
-  <div class="wheel-text" style="transform:rotate(45deg)">20 ₼</div>
-  <div class="wheel-text" style="transform:rotate(225deg)">BOŞ</div>
+  <div class="wheel-text" style="transform:rotate(30deg)">1 ₼</div>
+  <div class="wheel-text" style="transform:rotate(90deg)">5 ₼</div>
+  <div class="wheel-text" style="transform:rotate(150deg)">BOŞ</div>
+  <div class="wheel-text" style="transform:rotate(210deg)">BOŞ</div>
+  <div class="wheel-text" style="transform:rotate(270deg)">BOŞ</div>
+  <div class="wheel-text" style="transform:rotate(330deg)">BOŞ</div>
 </div>
 <button onclick="spin()">Çarxi fırlat</button>
 <p id="msgSpin"></p>
 </div>
 
 <script>
+// GLOBALS
 let deg = 0;
+let balance = 0;
+let userPhone = null;
+let usedPhone = null;
+const codeMap = { "005": 1, "00-MH":5, "00-7A":10, "00-6T":3, "00-63U":20 };
 
+// SHOW REGISTER
+function showRegister(){
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("register").classList.remove("hidden");
+}
+
+// REGISTER
+function register(){
+  let user = document.getElementById("regUser").value.trim();
+  let email = document.getElementById("regEmail").value.trim();
+  let pass = document.getElementById("regPass").value.trim();
+  if(!user || !email || !pass){ document.getElementById("regMsg").innerText="Bütün xanaları doldur!"; return; }
+  localStorage.setItem("userData", JSON.stringify({user,email,pass}));
+  document.getElementById("regMsg").innerText="Qeydiyyat tamamlandı! Hesabınızı aktiv etmək üçün Telegramda bizə yazın.";
+  let message = `Mən qeydiyyatdan keçdim, hesabımı aktiv edin.\nİstifadəçi adı: ${user}\nEmail: ${email}`;
+  window.open("https://t.me/carxfirla?text=" + encodeURIComponent(message), "_blank");
+}
+
+// LOGIN
+function login(){
+  let user = document.getElementById("loginUser").value.trim();
+  let pass = document.getElementById("loginPass").value.trim();
+  let code = document.getElementById("loginCode").value.trim();
+  let msg = document.getElementById("msg");
+
+  if(!user || !pass || !code){ msg.innerText="Bütün xanaları doldurun!"; return; }
+  if(!codeMap[code]){ msg.innerText="Kod səhvdir. Yeni kod üçün Telegram vasitəsilə əlaqə saxlayın."; return; }
+
+  if(!userPhone){ userPhone=prompt("Telefon nömrənizi daxil edin:"); usedPhone=userPhone; }
+  else if(userPhone!==usedPhone){ balance=0; msg.innerText="Bu kod yalnız sizin telefonunuz üçün aktivdir. Balans 0 göstərilir."; return; }
+
+  balance = codeMap[code];
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("register").classList.add("hidden");
+  document.getElementById("panel").classList.remove("hidden");
+  document.getElementById("msg").innerText="Giriş uğurlu! Çarx paneli açıldı.";
+  updateBalance();
+}
+
+// UPDATE BALANCE
+function updateBalance(){ document.getElementById("balanceText").innerText="Balans: "+balance+" ₼"; }
+
+// SPIN
 function spin(){
-  // 180-360 arasında təsadüfi fırlatma, amma həmişə BOŞ çıxır
-  deg += 360*5 + Math.floor(Math.random()*180 + 180);
+  deg += 360*5 + Math.floor(Math.random()*360);
   document.getElementById("wheel").style.transform="rotate("+deg+"deg)";
   setTimeout(()=>{
-    document.getElementById("msgSpin").innerText="BOŞ düşdü! Pul qazanmırsınız.";
+    document.getElementById("msgSpin").innerText="Bəxtinizi Bir Daha Sınaayın 😞";
   },3000);
 }
 </script>
