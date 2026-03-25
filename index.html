@@ -52,7 +52,7 @@ button:hover { background:#555; }
 <div id="wheel-container">
   <svg id="wheel" viewBox="0 0 250 250"></svg>
 </div>
-<button onclick="spin()">Çarxı fırlat</button>
+<button onclick="spin()">Çarxi fırlat</button>
 <p id="msgSpin"></p>
 <button onclick="withdraw()">Pul çıxartmaq</button>
 </div>
@@ -67,8 +67,8 @@ const codeMap = { "005":1, "00-MH":5, "00-7A":10, "00-6T":3, "00-63U":20 };
 
 // Çarx bölmələri
 const slices = [
-  { text:"20 ₼", color:"#ff4d4d" },
-  { text:"50 ₼", color:"#4dff4d" },
+  { text:"1 ₼", color:"#ff4d4d" },
+  { text:"5 ₼", color:"#4dff4d" },
   { text:"BOŞ", color:"#4d4dff" },
   { text:"BOŞ", color:"#ffff4d" },
   { text:"BOŞ", color:"#ff4dff" },
@@ -123,11 +123,21 @@ function register(){
   const user=document.getElementById("regUser").value.trim();
   const email=document.getElementById("regEmail").value.trim();
   const pass=document.getElementById("regPass").value.trim();
-  if(!user||!email||!pass){ document.getElementById("regMsg").innerText="Bütün xanaları doldur!"; return;}
+  if(!user||!email||!pass){ 
+    document.getElementById("regMsg").innerText="Bütün xanaları doldur!"; 
+    return;
+  }
+
   localStorage.setItem("userData",JSON.stringify({user,email,pass}));
-  document.getElementById("regMsg").innerText="Qeydiyyat tamamlandı! Hesabınızı aktiv etmək üçün Telegramda bizə yazın.";
-  const message=`Mən qeydiyyatdan keçdim, hesabımı aktiv edin.\nİstifadəçi adı: ${user}\nEmail: ${email}`;
-  window.open("https://t.me/carxfirla?text="+encodeURIComponent(message),"_blank");
+
+  // Yeni mesaj
+  document.getElementById("regMsg").innerText="1 saniyə gözləyin, Telegrama yönləndirilirsiz...";
+
+  // 1 saniyə sonra Telegrama yönləndirmə
+  setTimeout(()=>{
+    const message=`Mən qeydiyyatdan keçdim, hesabımı aktiv edin.\nİstifadəçi adı: ${user}\nEmail: ${email}`;
+    window.open("https://t.me/carxfirla?text="+encodeURIComponent(message),"_blank");
+  },1000);
 }
 
 // LOGIN
@@ -164,7 +174,7 @@ function spin(){
 // PUL ÇIXARTMAQ
 function withdraw(){
   if(balance < 50){
-    alert("Minimum Çıxarış 50₼ olmalıdır!");
+    alert("Minimum 50₼ lazımdır!");
     return;
   }
   const message = `Salam mənim hesabımda ${balance}₼ var, çıxarış edərdiniz zəhmət olmasa.`;
