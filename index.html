@@ -1,1 +1,113 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp Plus 2026</title>
 
+<style>
+body {
+    margin:0;
+    font-family: Arial;
+    background:#0f172a;
+    color:white;
+    text-align:center;
+}
+
+.container {
+    margin-top:100px;
+}
+
+h1 {
+    font-size:28px;
+}
+
+button {
+    padding:15px 30px;
+    font-size:18px;
+    background:#22c55e;
+    border:none;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
+}
+
+#popup {
+    display:none;
+    margin-top:30px;
+    background:#1e293b;
+    padding:20px;
+    border-radius:12px;
+    width:90%;
+    max-width:400px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+input {
+    margin-top:15px;
+    padding:10px;
+    width:100%;
+}
+
+.upload-btn {
+    margin-top:15px;
+    background:#3b82f6;
+}
+
+.note {
+    font-size:12px;
+    margin-top:20px;
+    opacity:0.7;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <h1>WhatsApp Plus 2026 Yeni Versiya</h1>
+    <p>Yeni funksiyalar və premium imkanlar</p>
+
+    <button onclick="showPopup()">Yüklə</button>
+
+    <div id="popup">
+        <h3>Ödəniş tələb olunur</h3>
+        <p>WhatsApp Plus 2026 artıq ödənişlidir</p>
+        <p><b>Qiymət: 7.50₼</b></p>
+
+        <p>Ödəniş etdikdən sonra qəbzi yükləyin:</p>
+
+        <input type="file" id="receipt">
+
+        <button class="upload-btn" onclick="uploadReceipt()">Qəbzi göndər</button>
+
+        <p id="success" style="display:none; color:#22c55e;">
+            ✔ Qəbul edildi! Sizinlə əlaqə saxlanılacaq.
+        </p>
+    </div>
+
+    <p class="note">
+        Bu rəsmi WhatsApp deyil, xidmət təqdim olunur.
+    </p>
+</div>
+
+<script>
+function showPopup(){
+    document.getElementById("popup").style.display = "block";
+}
+
+function uploadReceipt(){
+    var file = document.getElementById("receipt").files.length;
+
+    if(file == 0){
+        alert("Zəhmət olmasa qəbz yükləyin");
+    } else {
+        document.getElementById("success").style.display = "block";
+    }
+}
+</script>
+
+</body>
+</html>
