@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tapmaca</title>
+<title>Tapmaca Marafonu</title>
 <style>
 body{font-family:Arial;background:#1e3c72;color:white;text-align:center;margin:0;}
 main{max-width:600px;margin:auto;padding:20px;background:#00000066;border-radius:10px;margin-top:30px;}
@@ -13,6 +13,7 @@ ul{list-style:none;padding:0;}
 li{color:gold;text-align:left;}
 section{display:none;}
 #withdrawList li{margin:5px 0;}
+#balance{color:lime;font-weight:bold;}
 </style>
 </head>
 <body>
@@ -43,9 +44,21 @@ section{display:none;}
 
 <h4>Son çıxarışlar</h4>
 <ul id="withdrawList"></ul>
-
 <p id="regCount"></p>
 <p><a href="#" onclick="backLogin()">Geri</a></p>
+</section>
+
+<!-- GAME -->
+<section id="game">
+<h3>Tapmaca Oyunu</h3>
+<p>Balans: <span id="balance">0</span>₼</p>
+<input id="answer" placeholder="Cavabı yazın">
+<button onclick="checkAnswer()">Cavabı göndər</button>
+<p id="gameMsg"></p>
+<h4>Balans artırmaq</h4>
+<input id="codeInput" placeholder="Kod daxil edin">
+<button onclick="applyCode()">Koddan istifadə et</button>
+<button onclick="withdraw()">Pul çıxart</button>
 </section>
 
 </main>
@@ -67,33 +80,27 @@ function login(){
   let users = JSON.parse(localStorage.getItem("users")||"{}");
   if(users[u] && users[u]===p){
     loginMsg.innerText = "Giriş uğurlu ✅";
+    // Oyuna keç
+    document.getElementById("login").style.display="none";
+    document.getElementById("game").style.display="block";
+    if(!localStorage.getItem("balance_"+u)) localStorage.setItem("balance_"+u,"0");
+    document.getElementById("balance").innerText = localStorage.getItem("balance_"+u);
   }else{
     loginMsg.innerText = "İstifadəçi və ya parol səhv ❌";
   }
 }
 
 // ================= REGISTER =================
-function openRegister(){
-  login.style.display="none";
-  register.style.display="block";
-}
-
-function backLogin(){
-  register.style.display="none";
-  login.style.display="block";
-}
-
+function openRegister(){ login.style.display="none"; register.style.display="block"; }
+function backLogin(){ register.style.display="none"; login.style.display="block"; }
 function registerUser(){
-  let u = ruser.value.trim();
-  let p = rpass.value;
-  let p2 = rpass2.value;
-  if(!u || !p){ regMsg.innerText="Boş buraxma!"; return; }
-  if(p!==p2){ regMsg.innerText="Parollar uyğun deyil!"; return; }
-
+  let u=ruser.value.trim(),p=rpass.value,p2=rpass2.value;
+  if(!u||!p){regMsg.innerText="Boş buraxma!";return;}
+  if(p!==p2){regMsg.innerText="Parollar uyğun deyil!";return;}
   let users = JSON.parse(localStorage.getItem("users")||"{}");
-  if(users[u]){ regMsg.innerText="Bu istifadəçi artıq var!"; return; }
-  users[u] = p;
-  localStorage.setItem("users", JSON.stringify(users));
+  if(users[u]){regMsg.innerText="Bu istifadəçi artıq var!";return;}
+  users[u]=p;
+  localStorage.setItem("users",JSON.stringify(users));
   regMsg.innerText="Qeydiyyat tamamlandı ✅";
 }
 
@@ -102,24 +109,19 @@ function startWithdraws(){
   updateWithdraws();
   setInterval(updateWithdraws,5000);
 }
-
 function updateWithdraws(){
   let names=["Elvin","Aysel","Murad","Leyla","Tural","Nigar","Ramin","Sevda","Fərid","Səbinə"];
   let amounts=[10,20,13,18,49,57,33,72,46,39,11,77];
-
-  let ul = document.getElementById("withdrawList");
+  let ul=document.getElementById("withdrawList");
   ul.innerHTML="";
-
-  let usedNames=[];
-  let usedAmounts=[];
+  let usedNames=[],usedAmounts=[];
   for(let i=0;i<5;i++){
     let n,a;
-    do{ n = names[Math.floor(Math.random()*names.length)]; }while(usedNames.includes(n));
-    do{ a = amounts[Math.floor(Math.random()*amounts.length)]; }while(usedAmounts.includes(a));
+    do{n=names[Math.floor(Math.random()*names.length)];}while(usedNames.includes(n));
+    do{a=amounts[Math.floor(Math.random()*amounts.length)];}while(usedAmounts.includes(a));
     usedNames.push(n); usedAmounts.push(a);
-
-    let li = document.createElement("li");
-    li.innerText = n + " istifadəçisi " + a + "₼ çıxartdı (İndi çıxardı)";
+    let li=document.createElement("li");
+    li.innerText = n+" istifadəçisi "+a+"₼ çıxartdı (İndi çıxardı)";
     ul.appendChild(li);
   }
 }
@@ -130,15 +132,72 @@ function initReg(){
   if(!reg){ reg=2738; localStorage.setItem("reg",reg); localStorage.setItem("time",Date.now()); }
   let last = parseInt(localStorage.getItem("time"));
   let now = Date.now();
-  let interval = (Math.random()*6+1)*60*60*1000;
+  let interval=(Math.random()*6+1)*60*60*1000;
   if(now-last>interval){
-    let inc = Math.floor(Math.random()*11)+40;
+    let inc=Math.floor(Math.random()*11)+40;
     reg=parseInt(reg)+inc;
     localStorage.setItem("reg",reg);
     localStorage.setItem("time",now);
   }
   document.getElementById("regCount").innerText="Qeydiyyat sayı: "+reg;
 }
+
+// ================= TAPMACA & BALANS =================
+let correctAnswer="42"; // demo cavab
+function checkAnswer(){
+  let u=user.value.trim();
+  let ans=document.getElementById("answer").value.trim();
+  if(ans===correctAnswer){
+    gameMsg.innerText="Doğru cavab ✅ Balans artdı!";
+    let bal=parseFloat(localStorage.getItem("balance_"+u));
+    bal+=0.12; 
+    localStorage.setItem("balance_"+u,bal.toFixed(2));
+    document.getElementById("balance").innerText = bal.toFixed(2);
+  }else{
+    gameMsg.innerText="Səhv cavab ❌ Balans azaldıldı!";
+    let bal=parseFloat(localStorage.getItem("balance_"+u));
+    bal-=0.20; if(bal<0) bal=0;
+    localStorage.setItem("balance_"+u,bal.toFixed(2));
+    document.getElementById("balance").innerText = bal.toFixed(2);
+  }
+}
+
+// ================= KOD SİSTEMİ =================
+let codes={
+  "Mak-1":1,
+  "Mak-72":2,
+  "Mak-8s":3,
+  "Mak-90y":5,
+  "Maw-49":10,
+  "Ya-62":20
+};
+function applyCode(){
+  let u=user.value.trim();
+  let c=document.getElementById("codeInput").value.trim();
+  if(codes[c]){
+    let bal=parseFloat(localStorage.getItem("balance_"+u));
+    bal+=codes[c];
+    localStorage.setItem("balance_"+u,bal.toFixed(2));
+    document.getElementById("balance").innerText=bal.toFixed(2);
+    gameMsg.innerText="Kod uğurlu ✅ Balans artdı "+codes[c]+"₼";
+  }else{
+    gameMsg.innerText="Kod səhv ❌";
+  }
+}
+
+// ================= PUL ÇIXARMAQ =================
+function withdraw(){
+  let u=user.value.trim();
+  let bal=parseFloat(localStorage.getItem("balance_"+u));
+  if(bal>0){
+    alert("WhatsApp mesajı göndərildi: Salam, mən pul çıxartmaq istəyirəm. Balans: "+bal+"₼\n(0552334814)");
+    localStorage.setItem("balance_"+u,"0");
+    document.getElementById("balance").innerText="0";
+  }else{
+    alert("Balansınız kifayət qədər deyil ❌");
+  }
+}
+
 </script>
 </body>
 </html>
