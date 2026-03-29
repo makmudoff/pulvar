@@ -11,10 +11,11 @@ h1#main-title {text-align:center; font-size:2.5em; color:#ffcc00; margin-top:50p
 button {padding:10px 20px; border:none; border-radius:5px; background:#ffcc00; color:#111; cursor:pointer; margin:5px;}
 button:hover {transform:scale(1.05);}
 input[type="text"], input[type="password"], input[type="email"] {padding:10px; width:70%; margin:10px 0; border-radius:5px; border:none; display:block; margin-left:auto; margin-right:auto;}
-#result,#login-result,#reg-result,#code-result,#status{margin-top:10px;}
+#result,#login-result,#reg-result,#code-result,#status,#balance-display{margin-top:10px;}
 section{display:none;}
 a{color:#ffcc00; text-decoration:none; font-weight:bold;}
 a:hover{text-decoration:underline;}
+#balance-section button{display:block; margin:10px auto;}
 </style>
 </head>
 <body>
@@ -56,15 +57,20 @@ a:hover{text-decoration:underline;}
 <!-- Tapmaca Oyunu -->
 <section id="game-section">
 <p id="status">Tapmaca 1 / 10 | Can: 3 | Qalan şans: 0</p>
+<p id="balance-display">Balans: 0₼</p>
 <h2 id="question">Tapmaca yüklənir...</h2>
 <input type="text" id="answer" placeholder="Cavabı yazın">
 <p id="result"></p>
+<div id="balance-section">
+<button onclick="withdrawMoney()">Pul çıxart</button>
+<button onclick="increaseBalance()">Balans artır</button>
+</div>
 </section>
 
 </main>
 
 <script>
-// --- Ana ekrandan başlama düyməsi ---
+// --- Ana ekran ---
 document.getElementById("start-btn").addEventListener("click", function(){
     this.style.display="none";
     document.getElementById("main-title").style.display="none";
@@ -84,7 +90,7 @@ function registerUser(){
   if(pass!==pass2){document.getElementById("reg-result").textContent="Parollar uyğun deyil!"; return;}
   let users=JSON.parse(localStorage.getItem("users")||"[]");
   if(users.find(u=>u.username===username)){document.getElementById("reg-result").textContent="Bu istifadəçi adı mövcuddur!"; return;}
-  users.push({username,email,password:pass});
+  users.push({username,email,password:pass,balance:0});
   localStorage.setItem("users",JSON.stringify(users));
   document.getElementById("reg-result").textContent="Qeydiyyat uğurlu! İndi login olun.";
   showLogin();
@@ -99,32 +105,23 @@ function loginUser(){
     localStorage.setItem("currentUser",JSON.stringify(user));
     document.getElementById("login-section").style.display="none";
     document.getElementById("code-section").style.display="block";
+    updateBalanceDisplay();
   } else {
     document.getElementById("login-result").textContent="İstifadəçi adı və ya parol səhvdir!";
   }
 }
 
 // --- Kod Sistemi ---
-const validCodes = {
-  "Mak-1":10,
-  "Mak-72":20,
-  "Mak-8s":30,
-  "Mak-90y":50,
-  "Maw-49":100,
-  "Ya-62":200
-};
-let remainingSpins = 0; // Qalan şanslar
+const validCodes = { "Mak-1":10, "Mak-72":20, "Mak-8s":30, "Mak-90y":50, "Maw-49":100, "Ya-62":200 };
+let remainingSpins = 0;
 
 function checkCode(){
   const codeInput = document.getElementById("enter-code").value.trim();
   if(!codeInput){document.getElementById("code-result").textContent="Kod daxil edin!"; return;}
-  if(!(codeInput in validCodes)){
-    document.getElementById("code-result").textContent="Kod səhvdir! Düzgün kod daxil edin."; 
-    return;
-  }
+  if(!(codeInput in validCodes)){document.getElementById("code-result").textContent="Kod səhvdir! Düzgün kod daxil edin."; return;}
   remainingSpins = validCodes[codeInput];
   document.getElementById("code-result").textContent = `Kod qəbul edildi! ${remainingSpins} tapmaca oynaya bilərsiniz.`;
-  delete validCodes[codeInput]; // Kod bir dəfə istifadə olunur
+  delete validCodes[codeInput];
   document.getElementById("code-section").style.display="none";
   document.getElementById("game-section").style.display="block";
   initGame();
@@ -151,10 +148,16 @@ function initGame(){
   document.getElementById("answer").addEventListener("keydown",function(e){
     if(e.key==="Enter") checkAnswer();
   });
+  updateBalanceDisplay();
 }
 
 function updateStatus(){
   document.getElementById("status").textContent = `Tapmaca ${current+1} / ${riddles.length} | Can: ${lives} | Qalan şans: ${remainingSpins}`;
+}
+
+function updateBalanceDisplay(){
+  let user=JSON.parse(localStorage.getItem("currentUser"));
+  document.getElementById("balance-display").textContent = `Balans: ${user.balance.toFixed(2)}₼`;
 }
 
 function loadRiddle(){
@@ -172,29 +175,42 @@ function loadRiddle(){
 
 function checkAnswer(){
   if(remainingSpins<=0) return;
-  const userAns=document.getElementById("answer").value.toLowerCase().trim();
-  const correctAns=riddles[current].answer.toLowerCase();
-  const result=document.getElementById("result");
-  if(!userAns){result.textContent="Cavabı daxil edin!"; return;}
+  let userAns=document.getElementById("answer").value.toLowerCase().trim();
+  let correctAns=riddles[current].answer.toLowerCase();
+  let result=document.getElementById("result");
+  let user=JSON.parse(localStorage.getItem("currentUser"));
+  
+  if(user.balance<0.2){result.textContent="Balansınız kifayət qədər deyil!"; return;}
+  
   remainingSpins--;
+  user.balance-=0.2; // oyun üçün çıxılır
+  
+  if(!userAns){result.textContent="Cavabı daxil edin!"; return;}
   if(userAns===correctAns){
     current++;
+    user.balance+=0.12; // düzgün cavab balans artırır
     result.textContent=`Düzdür! Növbəti tapmaca gəlir... Qalan şans: ${remainingSpins}`;
     result.style.color="#ffcc00";
     setTimeout(loadRiddle,500);
   } else {
     lives--;
-    if(lives<=0){
-      result.textContent="Oyun bitdi! Canlarınız qurtardı.";
-      document.getElementById("answer").style.display="none";
-    } else {
-      result.textContent=`Yanlış cavab! Qalan can: ${lives}, Qalan şans: ${remainingSpins}`;
-    }
+    if(lives<=0){result.textContent="Oyun bitdi! Canlarınız qurtardı."; document.getElementById("answer").style.display="none";}
+    else{result.textContent=`Yanlış cavab! Qalan can: ${lives}, Qalan şans: ${remainingSpins}`;}
     updateStatus();
   }
-  if(remainingSpins<=0){
-    result.textContent="Şanslarınız bitdi! Yenə kod daxil edin.";
-    document.getElementById("answer").style.display="none";
-  }
+  
+  localStorage.setItem("currentUser",JSON.stringify(user));
+  updateBalanceDisplay();
+  
+  if(remainingSpins<=0){result.textContent="Şanslarınız bitdi! Yenə kod daxil edin."; document.getElementById("answer").style.display="none";}
+}
+
+// --- Pul çıxartmaq / Balans artır ---
+function withdrawMoney(){
+  alert("WhatsApp mesajı göndərildi: Salam, birdaha mən pul çıxartmaq istəyirəm.\nNomre: 0552334814");
+}
+
+function increaseBalance(){
+  alert("WhatsApp mesajı göndərildi: Mən balansımı artırmaq istəyirəm, zəhmət olmasa kart göndərin.\nNomre: 0552334814");
 }
 </script>
