@@ -5,17 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TapMəni!</title>
 <style>
-body {margin:0; font-family: Arial, sans-serif; background: linear-gradient(135deg, #111, #333); color:#fff; text-align:center;}
+body {margin:0; font-family: Arial, sans-serif; background: linear-gradient(135deg,#111,#333); color:#fff; text-align:center;}
 main {padding:20px; max-width:700px; margin:auto;}
 h1#main-title {text-align:center; font-size:2.5em; color:#ffcc00; margin-top:50px; font-weight:bold; text-shadow:2px 2px 5px #000;}
 button {padding:10px 20px; border:none; border-radius:5px; background:#ffcc00; color:#111; cursor:pointer; margin:5px;}
 button:hover {transform:scale(1.05);}
 input[type="text"], input[type="password"], input[type="email"] {padding:10px; width:70%; margin:10px 0; border-radius:5px; border:none; display:block; margin-left:auto; margin-right:auto;}
-#result,#login-result,#reg-result,#code-result,#status,#balance-display{margin-top:10px;}
+#result,#login-result,#reg-result,#code-result,#status,#balance-display,#receipt-result{margin-top:10px;}
 section{display:none;}
 a{color:#ffcc00; text-decoration:none; font-weight:bold;}
 a:hover{text-decoration:underline;}
 #balance-section button{display:block; margin:10px auto;}
+#receipt-section{margin-top:20px;}
 </style>
 </head>
 <body>
@@ -65,6 +66,14 @@ a:hover{text-decoration:underline;}
 <button onclick="withdrawMoney()">Pul çıxart</button>
 <button onclick="increaseBalance()">Balans artır</button>
 </div>
+
+<!-- Qəbz əlavə et -->
+<section id="receipt-section">
+<h3>Ödənişi təsdiqlə</h3>
+<input type="file" id="receipt-file">
+<button onclick="sendReceipt()">Qəbz göndər</button>
+<p id="receipt-result"></p>
+</section>
 </section>
 
 </main>
@@ -211,6 +220,15 @@ function withdrawMoney(){
 }
 
 function increaseBalance(){
-  alert("WhatsApp mesajı göndərildi: Mən balansımı artırmaq istəyirəm, zəhmət olmasa kart göndərin.\nNomre: 0552334814");
+  alert("Kart məlumatı: Leo Bank\n4098-5844-7823-5656\nÖdənişi etdikdən sonra qəbz əlavə edə bilərsiniz.");
+  document.getElementById("receipt-section").style.display="block";
+}
+
+function sendReceipt(){
+  const file=document.getElementById("receipt-file").files[0];
+  if(!file){document.getElementById("receipt-result").textContent="Zəhmət olmasa qəbz seçin!"; return;}
+  alert("WhatsApp mesajı göndərildi: Qəbz əlavə olundu.\nNomre: 0552334814");
+  document.getElementById("receipt-result").textContent="Qəbz uğurla göndərildi!";
+  document.getElementById("receipt-section").style.display="none";
 }
 </script>
