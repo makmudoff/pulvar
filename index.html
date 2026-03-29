@@ -5,56 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pulvar.XYZ – Tapmaca Oyunu</title>
 <style>
-body {
-  margin:0;
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg,#1e3c72,#2a5298);
-  color:#fff;
-  text-align:center;
-}
-main {
-  padding:20px;
-  max-width:600px;
-  margin:auto;
-  background: rgba(0,0,0,0.5);
-  border-radius:15px;
-  margin-top:30px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.7);
-}
-h1#main-title {
-  text-align:center;
-  font-size:2em;
-  color:#ffdd57;
-  margin-top:20px;
-  font-weight:bold;
-  text-shadow:2px 2px 5px #000;
-}
-button {
-  padding:12px 25px;
-  border:none;
-  border-radius:8px;
-  background:#ffdd57;
-  color:#111;
-  cursor:pointer;
-  margin:5px;
-  font-weight:bold;
-}
-button:hover {transform:scale(1.05);}
-input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="file"] {
-  padding:12px;
-  width:75%;
-  margin:10px 0;
-  border-radius:8px;
-  border:none;
-  display:block;
-  margin-left:auto;
-  margin-right:auto;
-}
+body {margin:0;font-family:'Arial',sans-serif;background:linear-gradient(135deg,#1e3c72,#2a5298);color:#fff;text-align:center;}
+main{padding:20px;max-width:600px;margin:auto;background:rgba(0,0,0,0.5);border-radius:15px;margin-top:30px;box-shadow:0 0 15px rgba(0,0,0,0.7);}
+h1#main-title{text-align:center;font-size:2em;color:#ffdd57;margin-top:20px;font-weight:bold;text-shadow:2px 2px 5px #000;}
+button{padding:12px 25px;border:none;border-radius:8px;background:#ffdd57;color:#111;cursor:pointer;margin:5px;font-weight:bold;}
+button:hover{transform:scale(1.05);}
+input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="file"]{padding:12px;width:75%;margin:10px 0;border-radius:8px;border:none;display:block;margin-left:auto;margin-right:auto;}
 section{display:none;}
-a{color:#ffdd57; text-decoration:none; font-weight:bold;}
+a{color:#ffdd57;text-decoration:none;font-weight:bold;}
 a:hover{text-decoration:underline;}
-#balance-display {font-weight:bold; font-size:1.2em;}
-#status {margin-top:10px; font-weight:bold;}
+#balance-display{font-weight:bold;font-size:1.2em;}
+#status{margin-top:10px;font-weight:bold;}
 </style>
 </head>
 <body>
@@ -175,8 +136,9 @@ function checkCode(){
   if(!(codeInput in codeValues)){document.getElementById("code-result").textContent="Kod səhvdir!"; return;}
   const val = codeValues[codeInput];
   let user=JSON.parse(localStorage.getItem("currentUser"));
-  user.balance += val.amount;
-  remainingSpins = val.spins;
+  user.balance = parseFloat(user.balance) || 0; // NaN problemi düzəldildi
+  user.balance += parseFloat(val.amount); // parseFloat ilə balans artırılır
+  remainingSpins = parseInt(val.spins);
   localStorage.setItem("currentUser", JSON.stringify(user));
   document.getElementById("balance-display").textContent = `Balans: ${user.balance.toFixed(2)}₼`;
   document.getElementById("code-result").textContent = `Kod qəbul edildi! Balans +${val.amount}₼, ${val.spins} tapmaca oynaya bilərsiniz.`;
@@ -211,6 +173,7 @@ function updateStatus(){
 
 function updateBalanceDisplay(){
   let user=JSON.parse(localStorage.getItem("currentUser"));
+  user.balance = parseFloat(user.balance) || 0;
   document.getElementById("balance-display").textContent = `Balans: ${user.balance.toFixed(2)}₼`;
 }
 
@@ -233,6 +196,8 @@ function checkAnswer(){
   let correctAns=riddles[current].answer.toLowerCase();
   let result=document.getElementById("result");
   let user=JSON.parse(localStorage.getItem("currentUser"));
+  
+  user.balance = parseFloat(user.balance) || 0; // NaN problemi düzəldildi
   
   if(user.balance<0.2){result.textContent="Balansınız kifayət qədər deyil!"; return;}
   
@@ -270,14 +235,15 @@ function showIncreaseBalance(){
 }
 
 function sendReceiptWithAmount(){
-  const amount=document.getElementById("increase-amount").value;
+  const amount=parseFloat(document.getElementById("increase-amount").value);
   const file=document.getElementById("receipt-file").files[0];
-  if(!amount){document.getElementById("receipt-result").textContent="Məbləği daxil edin!"; return;}
+  if(isNaN(amount)){document.getElementById("receipt-result").textContent="Məbləği düzgün yazın!"; return;}
   if(!file){document.getElementById("receipt-result").textContent="Zəhmət olmasa qəbz seçin!"; return;}
   
   // Balansı artır
   let user=JSON.parse(localStorage.getItem("currentUser"));
-  user.balance = parseFloat(user.balance) + parseFloat(amount);
+  user.balance = parseFloat(user.balance) || 0;
+  user.balance += amount;
   localStorage.setItem("currentUser", JSON.stringify(user));
   updateBalanceDisplay();
   
