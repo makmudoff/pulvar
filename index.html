@@ -3,83 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tapmaca Oyunu</title>
+<title>Tapmaca</title>
 
 <style>
-body{margin:0;font-family:Arial;background:linear-gradient(135deg,#1e3c72,#2a5298);color:#fff;text-align:center;}
-main{padding:20px;max-width:600px;margin:auto;background:rgba(0,0,0,0.5);border-radius:15px;margin-top:30px;}
-button{padding:10px 20px;border:none;border-radius:8px;background:#ffdd57;cursor:pointer;margin:5px;font-weight:bold;}
-input{padding:10px;width:80%;margin:8px;border-radius:8px;border:none;}
+body{font-family:Arial;background:#1e3c72;color:white;text-align:center;margin:0;}
+main{max-width:500px;margin:auto;padding:20px;background:#00000066;border-radius:10px;margin-top:30px;}
+input{width:80%;padding:10px;margin:5px;border-radius:6px;border:none;}
+button{padding:10px 20px;border:none;background:gold;border-radius:6px;margin:5px;}
+ul{list-style:none;padding:0;}
+li{color:gold;text-align:left;}
 section{display:none;}
-#fake-withdrawals li{color:#ffd700;text-align:left;}
-#reg-count{color:#00ffcc;font-weight:bold;margin-top:10px;}
 </style>
 </head>
 
 <body>
 
-<h1 id="main-title">Tapmacaya qoşul → Cavabları düzgün tap → Pul qazan!</h1>
+<h2 id="title">Tapmacaya qoşul → Pul qazan</h2>
 <button onclick="start()">Başla</button>
 
 <main>
 
 <!-- LOGIN -->
 <section id="login">
-<h2>Login</h2>
-<input id="luser" placeholder="İstifadəçi adı">
-<input type="password" id="lpass" placeholder="Parol">
+<h3>Login</h3>
+<input id="user" placeholder="İstifadəçi adı">
+<input type="password" id="pass" placeholder="Parol">
 <button onclick="login()">Daxil ol</button>
-<p id="lmsg"></p>
+<p id="loginMsg"></p>
 
-<!-- Qeydiyyat burada (DÜZGÜN YER) -->
-<p><a href="#" onclick="showReg()">Qeydiyyatdan keç</a></p>
+<p><a href="#" onclick="openRegister()">Qeydiyyatdan keç</a></p>
 </section>
 
 <!-- REGISTER -->
 <section id="register">
-<h2>Qeydiyyat</h2>
+<h3>Qeydiyyat</h3>
 <input id="ruser" placeholder="İstifadəçi adı">
-<input id="remail" placeholder="Email">
-<input type="password" id="rpass">
-<input type="password" id="rpass2">
-<button onclick="register()">Qeydiyyatdan keç</button>
-<p id="rmsg"></p>
+<input type="password" id="rpass" placeholder="Parol">
+<input type="password" id="rpass2" placeholder="Parol təkrar">
+<button onclick="registerUser()">Qeydiyyatdan keç</button>
+<p id="regMsg"></p>
 
-<!-- SON ÇIXARIŞLAR BURADA -->
-<h3>Son çıxarışlar</h3>
-<ul id="fake-withdrawals"></ul>
+<h4>Son çıxarışlar</h4>
+<ul id="withdrawList"></ul>
 
-<!-- QEYDİYYAT SAYI BURADA -->
-<p id="reg-count"></p>
+<p id="regCount"></p>
 
-<p><a href="#" onclick="showLogin()">Geri dön</a></p>
-</section>
-
-<!-- CODE -->
-<section id="code">
-<h2>Kod daxil et</h2>
-<input id="codeInput">
-<button onclick="checkCode()">Daxil ol</button>
-<p id="codeMsg"></p>
-</section>
-
-<!-- GAME -->
-<section id="game">
-<p id="balance">Balans: 0₼</p>
-<h2 id="q"></h2>
-<input id="ans">
-<button onclick="check()">Cavabla</button>
-<p id="res"></p>
-
-<button onclick="withdraw()">Pul çıxart</button>
-<button onclick="showAdd()">Balans artır</button>
-
-<section id="add">
-<input type="number" id="amount" placeholder="Məbləğ">
-<input type="file" id="file">
-<button onclick="send()">Göndər</button>
-</section>
-
+<p><a href="#" onclick="backLogin()">Geri</a></p>
 </section>
 
 </main>
@@ -88,147 +57,120 @@ section{display:none;}
 
 // START
 function start(){
-document.getElementById("main-title").style.display="none";
+document.getElementById("title").style.display="none";
 document.querySelector("button").style.display="none";
 document.getElementById("login").style.display="block";
 
-// ÇIXARIŞLAR CANLI
-updateFake();
-setInterval(updateFake,5000);
-
-// QEYDİYYAT SİSTEMİ
-initRegistration();
+startWithdraws();
+initReg();
 }
 
-// ===== CANLI ÇIXARIŞLAR =====
-function updateFake(){
+// ===== LOGIN (DÜZGÜN) =====
+function login(){
+let u=user.value.trim();
+let p=pass.value.trim();
 
-const names=["Elvin","Aysel","Murad","Leyla","Tural","Nigar","Ramin","Sevda","Fərid","Səbinə","Rəşad","Cavid"];
-const amounts=[10,20,13,18,49,57,33,72,46,39,11,77];
+let users = JSON.parse(localStorage.getItem("users") || "{}");
 
-let usedN=[], usedA=[];
-let ul=document.getElementById("fake-withdrawals");
+if(users[u] && users[u] === p){
+loginMsg.innerText="Giriş uğurlu ✅";
+}else{
+loginMsg.innerText="İstifadəçi və ya parol səhv ❌";
+}
+}
+
+// ===== REGISTER (DÜZGÜN SAXLAMA) =====
+function openRegister(){
+login.style.display="none";
+register.style.display="block";
+}
+
+function backLogin(){
+register.style.display="none";
+login.style.display="block";
+}
+
+function registerUser(){
+let u=ruser.value.trim();
+let p=rpass.value;
+let p2=rpass2.value;
+
+if(!u || !p){
+regMsg.innerText="Boş buraxma!";
+return;
+}
+
+if(p !== p2){
+regMsg.innerText="Parollar uyğun deyil!";
+return;
+}
+
+let users = JSON.parse(localStorage.getItem("users") || "{}");
+
+if(users[u]){
+regMsg.innerText="Bu istifadəçi artıq var!";
+return;
+}
+
+users[u] = p;
+localStorage.setItem("users", JSON.stringify(users));
+
+regMsg.innerText="Qeydiyyat tamamlandı ✅";
+}
+
+// ===== CANLI ÇIXARIŞ =====
+function startWithdraws(){
+updateWithdraws();
+setInterval(updateWithdraws,5000);
+}
+
+function updateWithdraws(){
+let names=["Elvin","Aysel","Murad","Leyla","Tural","Nigar","Ramin","Sevda"];
+let amounts=[10,20,13,18,49,57,33,72];
+
+let ul=document.getElementById("withdrawList");
 ul.innerHTML="";
 
+let used=[];
+
 for(let i=0;i<5;i++){
-let n,a;
+let n;
+do{n=names[Math.random()*names.length|0]}while(used.includes(n));
+used.push(n);
 
-do{n=names[Math.random()*names.length|0]}while(usedN.includes(n));
-do{a=amounts[Math.random()*amounts.length|0]}while(usedA.includes(a));
-
-usedN.push(n);
-usedA.push(a);
+let a=amounts[Math.random()*amounts.length|0];
 
 let li=document.createElement("li");
-li.innerText=`${n} istifadəçisi ${a}₼ çıxartdı`;
+li.innerText=n+" "+a+"₼ çıxartdı";
 ul.appendChild(li);
 }
 }
 
-// ===== QEYDİYYAT SAYI (REAL) =====
-function initRegistration(){
+// ===== QEYDİYYAT SAYI =====
+function initReg(){
 
-let reg = localStorage.getItem("regCount");
-let last = localStorage.getItem("lastTime");
+let reg=localStorage.getItem("reg");
 
 if(!reg){
 reg=2738;
-localStorage.setItem("regCount",reg);
-localStorage.setItem("lastTime",Date.now());
+localStorage.setItem("reg",reg);
+localStorage.setItem("time",Date.now());
 }
 
-reg=parseInt(reg);
-last=parseInt(last);
-
+let last=localStorage.getItem("time");
 let now=Date.now();
-let interval=(Math.floor(Math.random()*7)+1)*60*60*1000;
 
-if(now-last>=interval){
+let interval=(Math.random()*6+1)*60*60*1000;
+
+if(now-last>interval){
 let inc=Math.floor(Math.random()*11)+40;
-reg+=inc;
-
-localStorage.setItem("regCount",reg);
-localStorage.setItem("lastTime",now);
+reg=parseInt(reg)+inc;
+localStorage.setItem("reg",reg);
+localStorage.setItem("time",now);
 }
 
-// GÖSTƏR
-document.getElementById("reg-count").innerText="Qeydiyyat sayı: "+reg;
-}
+document.getElementById("regCount").innerText="Qeydiyyat sayı: "+reg;
 
-// ===== LOGIN/REGISTER =====
-function showReg(){login.style.display="none";register.style.display="block";}
-function showLogin(){register.style.display="none";login.style.display="block";}
-
-function register(){
-let u=ruser.value,p=rpass.value,p2=rpass2.value;
-if(p!=p2)return rmsg.innerText="Parol səhvdir";
-localStorage.setItem(u,p);
-rmsg.innerText="Qeydiyyat tamamlandı";
-initRegistration();
-}
-
-function login(){
-if(localStorage.getItem(luser.value)==lpass.value){
-localStorage.setItem("user",luser.value);
-login.style.display="none";
-code.style.display="block";
-}else lmsg.innerText="Səhv";
-}
-
-// ===== KOD =====
-let codes={"Mak-1":1,"Mak-72":2,"Mak-8s":3,"Mak-90y":5,"Maw-49":10,"Ya-62":20};
-
-function checkCode(){
-let c=codeInput.value;
-if(!codes[c])return codeMsg.innerText="Kod səhvdir";
-
-let bal=+localStorage.getItem("bal")||0;
-bal+=codes[c];
-
-localStorage.setItem("bal",bal);
-
-code.style.display="none";
-game.style.display="block";
-load();
-}
-
-// ===== OYUN =====
-let riddles=["Gecə gəlir gündüz gedir?","Hər şeyə sahibdir amma heç nəyi yoxdur?"];
-let answers=["kölgə","boşluq"];
-let i=0;
-
-function load(){
-q.innerText=riddles[i];
-balance.innerText="Balans: "+(+localStorage.getItem("bal")).toFixed(2)+"₼";
-}
-
-function check(){
-let bal=+localStorage.getItem("bal")||0;
-if(bal<0.2)return res.innerText="Balans yoxdur";
-
-bal-=0.2;
-
-if(ans.value.toLowerCase()==answers[i]){
-bal+=0.12;
-i++;
-if(i>=riddles.length)i=0;
-res.innerText="Düz!";
-}else res.innerText="Səhv";
-
-localStorage.setItem("bal",bal);
-load();
-}
-
-// ===== WHATSAPP =====
-function withdraw(){
-window.open("https://wa.me/994552334814?text=Salam pul cixartmaq isteyirem");
-}
-
-function showAdd(){add.style.display="block";}
-
-function send(){
-let m=amount.value;
-window.open("https://wa.me/994552334814?text=Balans artirmaq "+m+"₼");
 }
 
 </script>
