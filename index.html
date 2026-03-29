@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tapmaca Oyunu + Promo Kod Demo</title>
+<title>Tapmaca Oyunu + Promo Kod</title>
 <style>
 body { margin:0; font-family: Arial, sans-serif; background:#111; color:#fff; }
 main { padding:20px; max-width:700px; margin:auto; }
@@ -11,13 +11,14 @@ input[type="text"], input[type="password"], input[type="email"] { padding:10px; 
 button { padding:10px 15px; background:#ffcc00; border:none; color:#111; cursor:pointer; border-radius:5px; margin-top:10px; }
 button:hover { transform:scale(1.05); }
 #result, #status { margin-top:10px; font-size:1.1em; }
-footer { background:#000; padding:20px; text-align:center; color:#aaa; margin-top:50px;}
 .referral { color:#ffcc00; margin-bottom:20px; }
+footer { background:#000; padding:20px; text-align:center; color:#aaa; margin-top:50px;}
 </style>
 </head>
 <body>
 
 <main>
+<!-- Login Bölməsi -->
 <section id="login-section">
 <h2>Login</h2>
 <input type="text" id="login-username" placeholder="İstifadəçi adı">
@@ -27,6 +28,7 @@ footer { background:#000; padding:20px; text-align:center; color:#aaa; margin-to
 <p>Qeydiyyatdan keçmək üçün <a href="#" onclick="showRegister()">buraya klik et</a></p>
 </section>
 
+<!-- Qeydiyyat Bölməsi -->
 <section id="register-section" style="display:none;">
 <h2>Qeydiyyat</h2>
 <input type="text" id="reg-username" placeholder="İstifadəçi adı">
@@ -38,6 +40,7 @@ footer { background:#000; padding:20px; text-align:center; color:#aaa; margin-to
 <p>Login üçün <a href="#" onclick="showLogin()">buraya klik et</a></p>
 </section>
 
+<!-- Oyun Bölməsi (Login sonrası) -->
 <section id="game-section" style="display:none;">
 <p class="referral">Dostunu dəvət et və 1₼ kod qazanın!</p>
 <p id="status">Tapmaca 1 / 10 | Can: 3 | Balans: 0₼</p>
@@ -55,7 +58,7 @@ footer { background:#000; padding:20px; text-align:center; color:#aaa; margin-to
 </footer>
 
 <script>
-// Login / Qeydiyyat funksiyaları
+// --- Login / Qeydiyyat ---
 function showRegister(){ document.getElementById("login-section").style.display="none"; document.getElementById("register-section").style.display="block";}
 function showLogin(){ document.getElementById("register-section").style.display="none"; document.getElementById("login-section").style.display="block";}
 
@@ -92,7 +95,7 @@ function loginUser(){
   }
 }
 
-// Tapmacalar
+// --- Tapmacalar ---
 const riddles = [
   {question:"Gecə gəlib, gündüz gedir, amma heç ayaq izi qoymur. Nədir?", answer:"kölgə"},
   {question:"Hər şeyə sahibdir, amma heç nəyi yox. Nədir?", answer:"boşluq"},
@@ -105,10 +108,9 @@ const riddles = [
   {question:"Səni izləyir amma heç səsini çıxarmır. Nədir?", answer:"gölge"},
   {question:"Bütün evləri gəzər amma heç yerdə qalmır. Nədir?", answer:"yol"}
 ];
-
 let current=0,score=0,lives=3;
 
-// Promo kodlar
+// --- Promo Kodlar ---
 const promoCodes = [
   {code:"Mak-1", value:1, spins:10, used:[]},
   {code:"Mak-72", value:2, spins:20, used:[]},
@@ -176,7 +178,7 @@ function checkAnswer(){
   }
 }
 
-// Promo kod alma funksiyası
+// --- Promo kod alma funksiyası ---
 function giveCode(){
   let user = JSON.parse(localStorage.getItem("currentUser"));
   for(let i=promoCodes.length-1; i>=0; i--){
@@ -190,7 +192,7 @@ function giveCode(){
   alert("Balansınız hələ kod üçün kifayət deyil və ya kod artıq istifadə olunub.");
 }
 
-// Pul çıxart funksiyası
+// --- Pul çıxart funksiyası ---
 function withdraw(){
   let user=JSON.parse(localStorage.getItem("currentUser"));
   if(user.balance>=50){
