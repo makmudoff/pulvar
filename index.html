@@ -3,13 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tapmaca Marafonu Demo</title>
+<title>Tapmaca Oyunu + Promo Kod Demo</title>
 <style>
 body { margin:0; font-family: Arial, sans-serif; background:#111; color:#fff; }
-header { background:#000; padding:20px; text-align:center; }
-header h1 { color:#ffcc00; margin:0; }
 main { padding:20px; max-width:700px; margin:auto; }
-section { margin-bottom:30px; }
 input[type="text"], input[type="password"], input[type="email"] { padding:10px; width:65%; border-radius:5px; border:none; margin-bottom:10px; display:block; }
 button { padding:10px 15px; background:#ffcc00; border:none; color:#111; cursor:pointer; border-radius:5px; margin-top:10px; }
 button:hover { transform:scale(1.05); }
@@ -19,11 +16,6 @@ footer { background:#000; padding:20px; text-align:center; color:#aaa; margin-to
 </style>
 </head>
 <body>
-
-<header>
-<h1>Tapmaca Marafonu Demo</h1>
-<p>Tapmacaları həll et və balansını artır!</p>
-</header>
 
 <main>
 <section id="login-section">
@@ -53,16 +45,17 @@ footer { background:#000; padding:20px; text-align:center; color:#aaa; margin-to
 <input type="text" id="answer" placeholder="Cavabı yazın">
 <p id="result"></p>
 <button onclick="withdraw()">Pul çıxart</button>
+<button onclick="giveCode()">Kod almaq</button>
 </section>
 
 </main>
 
 <footer>
-<p>&copy; 2026 Tapmaca Marafonu Demo</p>
+<p>&copy; 2026 Tapmaca Oyunu + Promo Kod Demo</p>
 </footer>
 
 <script>
-// Demo istifadəçilər localStorage-da saxlanır
+// Login / Qeydiyyat funksiyaları
 function showRegister(){ document.getElementById("login-section").style.display="none"; document.getElementById("register-section").style.display="block";}
 function showLogin(){ document.getElementById("register-section").style.display="none"; document.getElementById("login-section").style.display="block";}
 
@@ -91,6 +84,7 @@ function loginUser(){
   if(user){
     localStorage.setItem("currentUser",JSON.stringify(user));
     document.getElementById("login-section").style.display="none";
+    document.getElementById("register-section").style.display="none";
     document.getElementById("game-section").style.display="block";
     initGame();
   } else {
@@ -113,6 +107,16 @@ const riddles = [
 ];
 
 let current=0,score=0,lives=3;
+
+// Promo kodlar
+const promoCodes = [
+  {code:"Mak-1", value:1, spins:10, used:[]},
+  {code:"Mak-72", value:2, spins:20, used:[]},
+  {code:"Mak-8s", value:3, spins:30, used:[]},
+  {code:"Mak-90y", value:5, spins:50, used:[]},
+  {code:"Maw-49", value:10, spins:100, used:[]},
+  {code:"Ya-62", value:20, spins:200, used:[]}
+];
 
 function initGame(){
   loadRiddle();
@@ -150,10 +154,8 @@ function checkAnswer(){
   if(!userAns){result.textContent="Cavabı daxil edin!"; return;}
 
   if(userAns===correctAns){
-    score+=1;
-    user.balance+=0.12; // hər tapmaca üçün bonus
-    user.balance-=0.20; // balansdan çıxır
-    current+=1;
+    user.balance += 0.12; // hər tapmaca üçün bonus
+    current += 1;
     localStorage.setItem("currentUser",JSON.stringify(user));
     let idx=users.findIndex(u=>u.username===user.username); users[idx]=user;
     localStorage.setItem("users",JSON.stringify(users));
@@ -161,7 +163,7 @@ function checkAnswer(){
     result.style.color="#ffcc00";
     setTimeout(loadRiddle,500);
   } else {
-    lives-=1;
+    lives -= 1;
     if(lives<=0){
       result.textContent="Oyun bitdi! Canlarınız qurtardı.";
       result.style.color="#ff5555";
@@ -174,7 +176,21 @@ function checkAnswer(){
   }
 }
 
-// Demo Pul çıxart funksiyası
+// Promo kod alma funksiyası
+function giveCode(){
+  let user = JSON.parse(localStorage.getItem("currentUser"));
+  for(let i=promoCodes.length-1; i>=0; i--){
+    if(user.balance >= promoCodes[i].value && !promoCodes[i].used.includes(user.username)){
+      promoCodes[i].used.push(user.username);
+      alert(`Təbriklər! Siz ${promoCodes[i].value}₼ üçün kod qazandınız: ${promoCodes[i].code} (${promoCodes[i].spins} spin)`);
+      localStorage.setItem("promoCodes", JSON.stringify(promoCodes));
+      return;
+    }
+  }
+  alert("Balansınız hələ kod üçün kifayət deyil və ya kod artıq istifadə olunub.");
+}
+
+// Pul çıxart funksiyası
 function withdraw(){
   let user=JSON.parse(localStorage.getItem("currentUser"));
   if(user.balance>=50){
