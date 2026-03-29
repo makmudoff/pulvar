@@ -3,109 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WhatsApp Plus 2026</title>
-
+<title>Azərbaycan Kazinosu Demo</title>
 <style>
-body {
-    margin:0;
-    font-family: Arial;
-    background:#0f172a;
-    color:white;
-    text-align:center;
-}
-
-.container {
-    margin-top:100px;
-}
-
-h1 {
-    font-size:28px;
-}
-
-button {
-    padding:15px 30px;
-    font-size:18px;
-    background:#22c55e;
-    border:none;
-    border-radius:10px;
-    color:white;
-    cursor:pointer;
-}
-
-#popup {
-    display:none;
-    margin-top:30px;
-    background:#1e293b;
-    padding:20px;
-    border-radius:12px;
-    width:90%;
-    max-width:400px;
-    margin-left:auto;
-    margin-right:auto;
-}
-
-input {
-    margin-top:15px;
-    padding:10px;
-    width:100%;
-}
-
-.upload-btn {
-    margin-top:15px;
-    background:#3b82f6;
-}
-
-.note {
-    font-size:12px;
-    margin-top:20px;
-    opacity:0.7;
-}
+body { margin:0; font-family: Arial, sans-serif; background:#111; color:#fff; }
+header { background:#000; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+header h1 { color:#ffcc00; margin:0; }
+nav ul { list-style:none; display:flex; margin:0; padding:0; flex-wrap:wrap; }
+nav ul li { position:relative; margin-right:20px; }
+nav ul li a { color:#fff; text-decoration:none; padding:5px 0; display:block; }
+nav ul li ul { display:none; position:absolute; top:30px; left:0; background:#222; padding:10px; list-style:none; }
+nav ul li:hover ul { display:block; }
+nav ul li ul li { margin:0; }
+button { background:#ffcc00; border:none; padding:10px 20px; color:#111; cursor:pointer; margin:5px; transition:0.2s; }
+button:hover { transform: scale(1.05); }
+main { padding:20px; }
+section { margin-bottom:40px; }
+.games-list, .bonus-list { display:flex; flex-wrap:wrap; gap:15px; }
+.game-card, .bonus-card { background:#222; padding:15px; border-radius:8px; width: calc(33% - 10px); text-align:center; cursor:pointer; transition:0.3s; }
+.game-card:hover, .bonus-card:hover { background:#333; transform:scale(1.05); }
+footer { background:#000; padding:20px; text-align:center; color:#aaa; }
+#slot-machine { display:flex; justify-content:center; align-items:center; gap:15px; margin-top:20px; }
+.slot { background:#222; padding:30px; border-radius:8px; font-size:2em; width:60px; text-align:center; transition:0.3s; }
+.win-message { text-align:center; color:#ffcc00; font-size:1.5em; margin-top:15px; display:none; }
+@media(max-width:768px){ .game-card, .bonus-card { width:100%; } nav ul { flex-direction:column; } nav ul li { margin:0; } nav ul li ul { position:static; } }
 </style>
-
 </head>
-
 <body>
 
-<div class="container">
-    <h1>WhatsApp Plus 2026 Yeni Versiya</h1>
-    <p>Yeni funksiyalar və premium imkanlar</p>
+<header>
+<h1>Azərbaycan Kazinosu</h1>
+<nav>
+<ul>
+<li><a href="#">Ana Səhifə</a></li>
+<li><a href="#">Haqqımızda</a></li>
+<li>
+<a href="#">Oyunlar</a>
+<ul>
+<li><a href="#">Slotlar</a></li>
+<li><a href="#">Rulet</a></li>
+<li><a href="#">Blackjack</a></li>
+<li><a href="#">Poker</a></li>
+<li><a href="#">Canlı Oyunlar</a></li>
+<li><a href="#">Jackpotlar</a></li>
+</ul>
+</li>
+<li><a href="#">Bonuslar & Kampaniyalar</a></li>
+<li><a href="#">VIP & Sadiqlik</a></li>
+<li><a href="#">Mobil Oyunlar</a></li>
+<li><a href="#">Dəstək</a></li>
+<li><a href="#">Xəbərlər</a></li>
+<li><a href="#">Əlaqə</a></li>
+<li>
+<a href="#">Hesabım</a>
+<ul>
+<li><a href="#" onclick="alert('Depozit simulyasiyası');">Depozit</a></li>
+<li><a href="#" onclick="alert('Pul Çıxarış simulyasiyası');">Pul Çıxarış</a></li>
+<li><a href="#">Əməliyyat Tarixi</a></li>
+<li><a href="#">Hesab Parametrləri</a></li>
+<li><a href="#">Bonuslarım</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</header>
 
-    <button onclick="showPopup()">Yüklə</button>
+<main>
+<section id="hero">
+<h2>Xoş Gəlmisiniz!</h2>
+<p>Azərbaycan dilində kazino oyunlarının ən geniş seçimi burada!</p>
+<button onclick="alert('Qeydiyyat simulyasiyası')">Qeydiyyat</button>
+<button onclick="alert('Daxil ol simulyasiyası')">Daxil ol</button>
+</section>
 
-    <div id="popup">
-        <h3>Ödəniş tələb olunur</h3>
-        <p>WhatsApp Plus 2026 artıq ödənişlidir</p>
-        <p><b>Qiymət: 7.50₼</b></p>
-
-        <p>Ödəniş etdikdən sonra qəbzi yükləyin:</p>
-
-        <input type="file" id="receipt">
-
-        <button class="upload-btn" onclick="uploadReceipt()">Qəbzi göndər</button>
-
-        <p id="success" style="display:none; color:#22c55e;">
-            ✔ Qəbul edildi! Sizinlə əlaqə saxlanılacaq.
-        </p>
-    </div>
-
-    <p class="note">
-        Bu rəsmi WhatsApp deyil, xidmət təqdim olunur.
-    </p>
+<section id="popular-games">
+<h2>Populyar Oyunlar</h2>
+<div class="games-list">
+<div class="game-card" onclick="startSlot()">Slotlar</div>
+<div class="game-card" onclick="alert('Rulet oynanır')">Rulet</div>
+<div class="game-card" onclick="alert('Blackjack oynanır')">Blackjack</div>
+<div class="game-card" onclick="alert('Poker oynanır')">Poker</div>
+<div class="game-card" onclick="alert('Canlı Oyunlar oynanır')">Canlı Oyunlar</div>
+<div class="game-card" onclick="alert('Jackpotlar oynanır')">Jackpotlar</div>
 </div>
 
+<div id="slot-machine">
+<div class="slot" id="slot1">🍒</div>
+<div class="slot" id="slot2">🍋</div>
+<div class="slot" id="slot3">7️⃣</div>
+</div>
+<button onclick="startSlot()">Oyna</button>
+<div class="win-message" id="winMsg">Təbriklər! Siz qazandınız!</div>
+</section>
+
+<section id="bonuses">
+<h2>Bonuslar & Kampaniyalar</h2>
+<div class="bonus-list">
+<div class="bonus-card" onclick="alert('Qeydiyyat bonusu aktiv edildi')">Qeydiyyat Bonusu</div>
+<div class="bonus-card" onclick="alert('Depozit bonusu aktiv edildi')">Depozit Bonusu</div>
+<div class="bonus-card" onclick="alert('VIP kampaniyası aktiv edildi')">VIP Kampaniyası</div>
+</div>
+</section>
+
+<section id="vip">
+<h2>VIP & Sadiqlik Proqramı</h2>
+<p>VIP oyunçular üçün xüsusi bonuslar və üstünlüklər.</p>
+</section>
+
+<section id="mobile">
+<h2>Mobil Oyunlar</h2>
+<p>Hər yerdə, istənilən cihazdan oyun oynayın!</p>
+</section>
+
+<section id="support">
+<h2>Dəstək</h2>
+<p>Canlı chat və FAQ ilə bütün suallarınıza cavab tapın.</p>
+</section>
+</main>
+
+<footer>
+<p>&copy; 2026 Azərbaycan Kazinosu | Məxfilik Siyasəti | Şərtlər & Qaydalar</p>
+</footer>
+
 <script>
-function showPopup(){
-    document.getElementById("popup").style.display = "block";
-}
+const symbols = ["🍒","🍋","🍊","🍉","⭐","7️⃣"];
+function startSlot(){
+  const slot1 = document.getElementById("slot1");
+  const slot2 = document.getElementById("slot2");
+  const slot3 = document.getElementById("slot3");
+  const winMsg = document.getElementById("winMsg");
 
-function uploadReceipt(){
-    var file = document.getElementById("receipt").files.length;
-
-    if(file == 0){
-        alert("Zəhmət olmasa qəbz yükləyin");
-    } else {
-        document.getElementById("success").style.display = "block";
+  // Slot animasiyası
+  let i = 0;
+  const interval = setInterval(()=>{
+    slot1.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    slot2.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    slot3.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    i++;
+    if(i>15){
+      clearInterval(interval);
+      // Qələbə yoxlaması
+      if(slot1.textContent === slot2.textContent && slot2.textContent === slot3.textContent){
+        winMsg.style.display = "block";
+        setTimeout(()=>{winMsg.style.display="none";},3000);
+      }
     }
+  },100);
 }
 </script>
 
