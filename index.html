@@ -31,9 +31,7 @@ section{display:none;}
 <button onclick="login()">Daxil ol</button>
 <p id="lmsg"></p>
 
-<h3>Son çıxarışlar</h3>
-<ul id="fake-withdrawals"></ul>
-
+<!-- Qeydiyyat burada (DÜZGÜN YER) -->
 <p><a href="#" onclick="showReg()">Qeydiyyatdan keç</a></p>
 </section>
 
@@ -47,6 +45,11 @@ section{display:none;}
 <button onclick="register()">Qeydiyyatdan keç</button>
 <p id="rmsg"></p>
 
+<!-- SON ÇIXARIŞLAR BURADA -->
+<h3>Son çıxarışlar</h3>
+<ul id="fake-withdrawals"></ul>
+
+<!-- QEYDİYYAT SAYI BURADA -->
 <p id="reg-count"></p>
 
 <p><a href="#" onclick="showLogin()">Geri dön</a></p>
@@ -88,12 +91,18 @@ function start(){
 document.getElementById("main-title").style.display="none";
 document.querySelector("button").style.display="none";
 document.getElementById("login").style.display="block";
-generateFake();
-initRegistrationSystem();
+
+// ÇIXARIŞLAR CANLI
+updateFake();
+setInterval(updateFake,5000);
+
+// QEYDİYYAT SİSTEMİ
+initRegistration();
 }
 
-// FAKE WITHDRAWALS
-function generateFake(){
+// ===== CANLI ÇIXARIŞLAR =====
+function updateFake(){
+
 const names=["Elvin","Aysel","Murad","Leyla","Tural","Nigar","Ramin","Sevda","Fərid","Səbinə","Rəşad","Cavid"];
 const amounts=[10,20,13,18,49,57,33,72,46,39,11,77];
 
@@ -103,65 +112,50 @@ ul.innerHTML="";
 
 for(let i=0;i<5;i++){
 let n,a;
+
 do{n=names[Math.random()*names.length|0]}while(usedN.includes(n));
 do{a=amounts[Math.random()*amounts.length|0]}while(usedA.includes(a));
-usedN.push(n); usedA.push(a);
+
+usedN.push(n);
+usedA.push(a);
 
 let li=document.createElement("li");
-li.innerText=`${n} ${a}₼ çıxartdı`;
+li.innerText=`${n} istifadəçisi ${a}₼ çıxartdı`;
 ul.appendChild(li);
 }
 }
 
-// ===== REAL REGISTRATION SYSTEM =====
-function initRegistrationSystem(){
+// ===== QEYDİYYAT SAYI (REAL) =====
+function initRegistration(){
 
 let reg = localStorage.getItem("regCount");
-let lastTime = localStorage.getItem("lastUpdate");
+let last = localStorage.getItem("lastTime");
 
 if(!reg){
-    reg = 2738;
-    localStorage.setItem("regCount", reg);
-    localStorage.setItem("lastUpdate", Date.now());
+reg=2738;
+localStorage.setItem("regCount",reg);
+localStorage.setItem("lastTime",Date.now());
 }
 
-reg = parseInt(reg);
-lastTime = parseInt(lastTime);
+reg=parseInt(reg);
+last=parseInt(last);
 
-let now = Date.now();
+let now=Date.now();
+let interval=(Math.floor(Math.random()*7)+1)*60*60*1000;
 
-// 1-7 saat interval (millisecond)
-let interval = Math.floor(Math.random()*(7-1+1)+1) * 60 * 60 * 1000;
+if(now-last>=interval){
+let inc=Math.floor(Math.random()*11)+40;
+reg+=inc;
 
-// Əgər vaxt keçibsə artır
-if(now - lastTime >= interval){
-
-    let increment = Math.floor(Math.random()*11)+40; // 40-50
-    reg += increment;
-
-    localStorage.setItem("regCount", reg);
-    localStorage.setItem("lastUpdate", now);
-
-    addNewWithdrawals(increment);
+localStorage.setItem("regCount",reg);
+localStorage.setItem("lastTime",now);
 }
 
-// ekranda göstər
-document.getElementById("reg-count").innerText = "Qeydiyyat sayı: " + reg;
+// GÖSTƏR
+document.getElementById("reg-count").innerText="Qeydiyyat sayı: "+reg;
 }
 
-// yeni çıxarışlar əlavə
-function addNewWithdrawals(count){
-let names=["Elvin","Aysel","Murad","Leyla","Tural","Nigar","Ramin","Sevda"];
-let amounts=[10,20,13,18,49,57,33,72];
-
-for(let i=0;i<3;i++){
-let li=document.createElement("li");
-li.innerText = names[Math.random()*names.length|0] + " " + amounts[Math.random()*amounts.length|0] + "₼ çıxartdı";
-document.getElementById("fake-withdrawals").appendChild(li);
-}
-}
-
-// LOGIN/REGISTER
+// ===== LOGIN/REGISTER =====
 function showReg(){login.style.display="none";register.style.display="block";}
 function showLogin(){register.style.display="none";login.style.display="block";}
 
@@ -170,10 +164,9 @@ let u=ruser.value,p=rpass.value,p2=rpass2.value;
 if(p!=p2)return rmsg.innerText="Parol səhvdir";
 localStorage.setItem(u,p);
 rmsg.innerText="Qeydiyyat tamamlandı";
-initRegistrationSystem();
+initRegistration();
 }
 
-// LOGIN
 function login(){
 if(localStorage.getItem(luser.value)==lpass.value){
 localStorage.setItem("user",luser.value);
@@ -182,9 +175,8 @@ code.style.display="block";
 }else lmsg.innerText="Səhv";
 }
 
-// CODE SYSTEM
+// ===== KOD =====
 let codes={"Mak-1":1,"Mak-72":2,"Mak-8s":3,"Mak-90y":5,"Maw-49":10,"Ya-62":20};
-let spins=0;
 
 function checkCode(){
 let c=codeInput.value;
@@ -192,7 +184,6 @@ if(!codes[c])return codeMsg.innerText="Kod səhvdir";
 
 let bal=+localStorage.getItem("bal")||0;
 bal+=codes[c];
-spins=codes[c]*10;
 
 localStorage.setItem("bal",bal);
 
@@ -201,7 +192,7 @@ game.style.display="block";
 load();
 }
 
-// GAME
+// ===== OYUN =====
 let riddles=["Gecə gəlir gündüz gedir?","Hər şeyə sahibdir amma heç nəyi yoxdur?"];
 let answers=["kölgə","boşluq"];
 let i=0;
@@ -220,7 +211,7 @@ bal-=0.2;
 if(ans.value.toLowerCase()==answers[i]){
 bal+=0.12;
 i++;
-if(i>=riddles.length) i=0;
+if(i>=riddles.length)i=0;
 res.innerText="Düz!";
 }else res.innerText="Səhv";
 
@@ -228,7 +219,7 @@ localStorage.setItem("bal",bal);
 load();
 }
 
-// WHATSAPP
+// ===== WHATSAPP =====
 function withdraw(){
 window.open("https://wa.me/994552334814?text=Salam pul cixartmaq isteyirem");
 }
