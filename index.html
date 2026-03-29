@@ -3,22 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pulvar.Xyz</title>
+<title>TapMəni!</title>
 <style>
-body {margin:0; font-family: Arial, sans-serif; background:#111; color:#fff; text-align:center;}
-main {padding:20px; max-width:600px; margin:auto;}
-input[type="text"], input[type="password"], input[type="email"] {padding:10px; width:70%; margin:10px 0; border-radius:5px; border:none; display:block; margin-left:auto; margin-right:auto;}
+body {margin:0; font-family: Arial, sans-serif; background: linear-gradient(135deg, #111, #333); color:#fff; text-align:center;}
+main {padding:20px; max-width:700px; margin:auto;}
+h1#main-title {text-align:center; font-size:2.5em; color:#ffcc00; margin-top:50px; font-weight:bold; text-shadow:2px 2px 5px #000;}
 button {padding:10px 20px; border:none; border-radius:5px; background:#ffcc00; color:#111; cursor:pointer; margin:5px;}
 button:hover {transform:scale(1.05);}
-#result, #status {margin-top:10px;}
+input[type="text"], input[type="password"], input[type="email"] {padding:10px; width:70%; margin:10px 0; border-radius:5px; border:none; display:block; margin-left:auto; margin-right:auto;}
+#result,#login-result,#reg-result,#code-result,#status{margin-top:10px;}
+section{display:none;}
+a{color:#ffcc00; text-decoration:none; font-weight:bold;}
+a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
 
-<h1>Pulvar.Xyz</h1>
+<h1 id="main-title">Tapmacaya qoşul → Cavabları düzgün tap → Pul qazan!</h1>
+<button id="start-btn">Başla</button>
 
 <main>
-
 <!-- Login -->
 <section id="login-section">
 <h2>Login</h2>
@@ -26,11 +30,11 @@ button:hover {transform:scale(1.05);}
 <input type="password" id="login-password" placeholder="Parol">
 <button onclick="loginUser()">Daxil ol</button>
 <p id="login-result"></p>
-<p>Qeydiyyatdan keçmək üçün <a href="#" onclick="showRegister()">buraya klik et</a></p>
+<p><a href="#" onclick="showRegister()">Qeydiyyatdan keç</a></p>
 </section>
 
 <!-- Qeydiyyat -->
-<section id="register-section" style="display:none;">
+<section id="register-section">
 <h2>Qeydiyyat</h2>
 <input type="text" id="reg-username" placeholder="İstifadəçi adı">
 <input type="email" id="reg-email" placeholder="Email">
@@ -38,11 +42,11 @@ button:hover {transform:scale(1.05);}
 <input type="password" id="reg-password2" placeholder="Parol təsdiqi">
 <button onclick="registerUser()">Qeydiyyatdan keç</button>
 <p id="reg-result"></p>
-<p>Login üçün <a href="#" onclick="showLogin()">buraya klik et</a></p>
+<p><a href="#" onclick="showLogin()">Login üçün geri dön</a></p>
 </section>
 
 <!-- Kod Bölməsi -->
-<section id="code-section" style="display:none;">
+<section id="code-section">
 <h2>Məbləğ Kodunu Daxil edin</h2>
 <input type="text" id="enter-code" placeholder="Kod daxil edin">
 <button onclick="checkCode()">Daxil ol</button>
@@ -50,8 +54,8 @@ button:hover {transform:scale(1.05);}
 </section>
 
 <!-- Tapmaca Oyunu -->
-<section id="game-section" style="display:none;">
-<p id="status">Tapmaca 1 / 10 | Can: 3 | Balans: 0₼</p>
+<section id="game-section">
+<p id="status">Tapmaca 1 / 10 | Can: 3 | Qalan şans: 0</p>
 <h2 id="question">Tapmaca yüklənir...</h2>
 <input type="text" id="answer" placeholder="Cavabı yazın">
 <p id="result"></p>
@@ -60,6 +64,13 @@ button:hover {transform:scale(1.05);}
 </main>
 
 <script>
+// --- Ana ekrandan başlama düyməsi ---
+document.getElementById("start-btn").addEventListener("click", function(){
+    this.style.display="none";
+    document.getElementById("main-title").style.display="none";
+    document.getElementById("login-section").style.display="block";
+});
+
 // --- Login / Qeydiyyat ---
 function showRegister(){ document.getElementById("login-section").style.display="none"; document.getElementById("register-section").style.display="block";}
 function showLogin(){ document.getElementById("register-section").style.display="none"; document.getElementById("login-section").style.display="block";}
@@ -87,7 +98,6 @@ function loginUser(){
   if(user){
     localStorage.setItem("currentUser",JSON.stringify(user));
     document.getElementById("login-section").style.display="none";
-    document.getElementById("register-section").style.display="none";
     document.getElementById("code-section").style.display="block";
   } else {
     document.getElementById("login-result").textContent="İstifadəçi adı və ya parol səhvdir!";
@@ -95,12 +105,26 @@ function loginUser(){
 }
 
 // --- Kod Sistemi ---
-const validCodes = ["Mak-1","Mak-72","Mak-8s","Mak-90y","Maw-49","Ya-62"];
+const validCodes = {
+  "Mak-1":10,
+  "Mak-72":20,
+  "Mak-8s":30,
+  "Mak-90y":50,
+  "Maw-49":100,
+  "Ya-62":200
+};
+let remainingSpins = 0; // Qalan şanslar
 
 function checkCode(){
   const codeInput = document.getElementById("enter-code").value.trim();
   if(!codeInput){document.getElementById("code-result").textContent="Kod daxil edin!"; return;}
-  if(!validCodes.includes(codeInput)){document.getElementById("code-result").textContent="Kod səhvdir! Düzgün kod daxil edin."; return;}
+  if(!(codeInput in validCodes)){
+    document.getElementById("code-result").textContent="Kod səhvdir! Düzgün kod daxil edin."; 
+    return;
+  }
+  remainingSpins = validCodes[codeInput];
+  document.getElementById("code-result").textContent = `Kod qəbul edildi! ${remainingSpins} tapmaca oynaya bilərsiniz.`;
+  delete validCodes[codeInput]; // Kod bir dəfə istifadə olunur
   document.getElementById("code-section").style.display="none";
   document.getElementById("game-section").style.display="block";
   initGame();
@@ -130,30 +154,32 @@ function initGame(){
 }
 
 function updateStatus(){
-  document.getElementById("status").textContent = `Tapmaca ${current+1} / ${riddles.length} | Can: ${lives}`;
+  document.getElementById("status").textContent = `Tapmaca ${current+1} / ${riddles.length} | Can: ${lives} | Qalan şans: ${remainingSpins}`;
 }
 
 function loadRiddle(){
-  if(current<riddles.length){
+  if(current<riddles.length && remainingSpins>0){
     document.getElementById("question").textContent=riddles[current].question;
     document.getElementById("answer").value="";
     document.getElementById("result").textContent="";
     updateStatus();
   } else {
-    document.getElementById("question").textContent="Təbriklər! Bütün tapmacaları tamamladınız!";
+    document.getElementById("question").textContent="Oyun bitdi!";
     document.getElementById("answer").style.display="none";
-    document.getElementById("result").textContent="Bonus qazandınız!";
+    document.getElementById("result").textContent="Yeni kod daxil edin və oynamağa davam edin!";
   }
 }
 
 function checkAnswer(){
+  if(remainingSpins<=0) return;
   const userAns=document.getElementById("answer").value.toLowerCase().trim();
   const correctAns=riddles[current].answer.toLowerCase();
   const result=document.getElementById("result");
   if(!userAns){result.textContent="Cavabı daxil edin!"; return;}
+  remainingSpins--;
   if(userAns===correctAns){
     current++;
-    result.textContent="Düzdür! Növbəti tapmaca gəlir...";
+    result.textContent=`Düzdür! Növbəti tapmaca gəlir... Qalan şans: ${remainingSpins}`;
     result.style.color="#ffcc00";
     setTimeout(loadRiddle,500);
   } else {
@@ -162,9 +188,13 @@ function checkAnswer(){
       result.textContent="Oyun bitdi! Canlarınız qurtardı.";
       document.getElementById("answer").style.display="none";
     } else {
-      result.textContent=`Yanlış cavab! Qalan can: ${lives}`;
+      result.textContent=`Yanlış cavab! Qalan can: ${lives}, Qalan şans: ${remainingSpins}`;
     }
     updateStatus();
+  }
+  if(remainingSpins<=0){
+    result.textContent="Şanslarınız bitdi! Yenə kod daxil edin.";
+    document.getElementById("answer").style.display="none";
   }
 }
 </script>
