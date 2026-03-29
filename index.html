@@ -3,285 +3,244 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pulvar.XYZ – Tapmaca Oyunu</title>
+<title>Tapmaca Oyunu</title>
+
 <style>
-body {margin:0;font-family:'Arial',sans-serif;background:linear-gradient(135deg,#1e3c72,#2a5298);color:#fff;text-align:center;}
-main{padding:20px;max-width:600px;margin:auto;background:rgba(0,0,0,0.5);border-radius:15px;margin-top:30px;box-shadow:0 0 15px rgba(0,0,0,0.7);}
-h1#main-title{text-align:center;font-size:2em;color:#ffdd57;margin-top:20px;font-weight:bold;text-shadow:2px 2px 5px #000;}
-button{padding:12px 25px;border:none;border-radius:8px;background:#ffdd57;color:#111;cursor:pointer;margin:5px;font-weight:bold;}
-button:hover{transform:scale(1.05);}
-input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="file"]{padding:12px;width:75%;margin:10px 0;border-radius:8px;border:none;display:block;margin-left:auto;margin-right:auto;}
+body{margin:0;font-family:Arial;background:linear-gradient(135deg,#1e3c72,#2a5298);color:#fff;text-align:center;}
+main{padding:20px;max-width:600px;margin:auto;background:rgba(0,0,0,0.5);border-radius:15px;margin-top:30px;}
+button{padding:10px 20px;border:none;border-radius:8px;background:#ffdd57;cursor:pointer;margin:5px;font-weight:bold;}
+input{padding:10px;width:80%;margin:8px;border-radius:8px;border:none;}
 section{display:none;}
-a{color:#ffdd57;text-decoration:none;font-weight:bold;}
-a:hover{text-decoration:underline;}
-#balance-display{font-weight:bold;font-size:1.2em;}
-#status{margin-top:10px;font-weight:bold;}
-#fake-withdrawals{margin-top:15px;text-align:left;list-style:none;padding-left:0;}
-#fake-withdrawals li{margin:3px 0;font-size:0.9em;color:#ffd700;}
+#fake-withdrawals li{color:#ffd700;text-align:left;}
+#reg-count{color:#00ffcc;font-weight:bold;margin-top:10px;}
 </style>
 </head>
+
 <body>
 
 <h1 id="main-title">Tapmacaya qoşul → Cavabları düzgün tap → Pul qazan!</h1>
-<button id="start-btn">Başla</button>
+<button onclick="start()">Başla</button>
 
 <main>
-<!-- Login -->
-<section id="login-section">
+
+<!-- LOGIN -->
+<section id="login">
 <h2>Login</h2>
-<input type="text" id="login-username" placeholder="İstifadəçi adı">
-<input type="password" id="login-password" placeholder="Parol">
-<button onclick="loginUser()">Daxil ol</button>
-<p id="login-result"></p>
-<p><a href="#" onclick="showRegister()">Qeydiyyatdan keç</a></p>
+<input id="luser" placeholder="İstifadəçi adı">
+<input type="password" id="lpass" placeholder="Parol">
+<button onclick="login()">Daxil ol</button>
+<p id="lmsg"></p>
 
 <h3>Son çıxarışlar</h3>
 <ul id="fake-withdrawals"></ul>
+
+<p><a href="#" onclick="showReg()">Qeydiyyatdan keç</a></p>
 </section>
 
-<!-- Qeydiyyat -->
-<section id="register-section">
+<!-- REGISTER -->
+<section id="register">
 <h2>Qeydiyyat</h2>
-<input type="text" id="reg-username" placeholder="İstifadəçi adı">
-<input type="email" id="reg-email" placeholder="Email">
-<input type="password" id="reg-password" placeholder="Parol">
-<input type="password" id="reg-password2" placeholder="Parol təsdiqi">
-<button onclick="registerUser()">Qeydiyyatdan keç</button>
-<p id="reg-result"></p>
-<p><a href="#" onclick="showLogin()">Login üçün geri dön</a></p>
+<input id="ruser" placeholder="İstifadəçi adı">
+<input id="remail" placeholder="Email">
+<input type="password" id="rpass">
+<input type="password" id="rpass2">
+<button onclick="register()">Qeydiyyatdan keç</button>
+<p id="rmsg"></p>
+
+<p id="reg-count"></p>
+
+<p><a href="#" onclick="showLogin()">Geri dön</a></p>
 </section>
 
-<!-- Kod Bölməsi -->
-<section id="code-section">
-<h2>Məbləğ Kodunu Daxil edin</h2>
-<input type="text" id="enter-code" placeholder="Kod daxil edin">
+<!-- CODE -->
+<section id="code">
+<h2>Kod daxil et</h2>
+<input id="codeInput">
 <button onclick="checkCode()">Daxil ol</button>
-<p id="code-result"></p>
+<p id="codeMsg"></p>
 </section>
 
-<!-- Tapmaca Oyunu -->
-<section id="game-section">
-<p id="status">Tapmaca <span id="current-riddle">1</span> / <span id="total-riddles">3</span> | Can: <span id="lives">3</span></p>
-<p id="balance-display">Balans: 0₼</p>
-<h2 id="question">Tapmaca yüklənir...</h2>
-<input type="text" id="answer" placeholder="Cavabı yazın">
-<p id="result"></p>
-<div id="balance-section">
-<button onclick="showIncreaseBalance()">Balans artır</button>
-<button onclick="withdrawMoney()">Pul çıxart</button>
-</div>
+<!-- GAME -->
+<section id="game">
+<p id="balance">Balans: 0₼</p>
+<h2 id="q"></h2>
+<input id="ans">
+<button onclick="check()">Cavabla</button>
+<p id="res"></p>
 
-<!-- Balans artır bölməsi -->
-<section id="increase-balance-section">
-<h3>Balans artırmaq üçün məbləği yazın</h3>
-<input type="number" id="increase-amount" placeholder="Məbləği yazın (₼)">
-<input type="file" id="receipt-file">
-<button onclick="sendReceiptWithAmount()">Qəbz göndər</button>
-<p id="receipt-result"></p>
+<button onclick="withdraw()">Pul çıxart</button>
+<button onclick="showAdd()">Balans artır</button>
+
+<section id="add">
+<input type="number" id="amount" placeholder="Məbləğ">
+<input type="file" id="file">
+<button onclick="send()">Göndər</button>
+</section>
+
 </section>
 
 </main>
 
 <script>
-// --- Ana ekran ---
-document.getElementById("start-btn").addEventListener("click", function(){
-    this.style.display="none";
-    document.getElementById("main-title").style.display="none";
-    document.getElementById("login-section").style.display="block";
-    generateFakeWithdrawals();
-});
 
-// --- Fake withdrawals (tam fərqli ad və böyük ədədlər) ---
-function generateFakeWithdrawals(){
-    const names = ["Elvin", "Aysel", "Murad", "Leyla", "Tural", "Nigar", "Ramin", "Sevda", "Fərid", "Səbinə", "Rəşad", "Cavid"];
-    const amounts = [10,20,13,18,49,57,33,72,46,39,11,77];
-
-    const usedNames = [];
-    const usedAmounts = [];
-    const list = document.getElementById("fake-withdrawals");
-    list.innerHTML = "";
-
-    for(let i=0;i<5;i++){
-        let name;
-        do { name = names[Math.floor(Math.random()*names.length)]; } while(usedNames.includes(name));
-        usedNames.push(name);
-
-        let amount;
-        do { amount = amounts[Math.floor(Math.random()*amounts.length)]; } while(usedAmounts.includes(amount));
-        usedAmounts.push(amount);
-
-        const li = document.createElement("li");
-        li.textContent = `${name} istifadəçisi ${amount}₼ çıxartdı`;
-        list.appendChild(li);
-    }
+// START
+function start(){
+document.getElementById("main-title").style.display="none";
+document.querySelector("button").style.display="none";
+document.getElementById("login").style.display="block";
+generateFake();
+initRegistrationSystem();
 }
 
-// --- Login / Qeydiyyat ---
-function showRegister(){ document.getElementById("login-section").style.display="none"; document.getElementById("register-section").style.display="block";}
-function showLogin(){ document.getElementById("register-section").style.display="none"; document.getElementById("login-section").style.display="block";}
+// FAKE WITHDRAWALS
+function generateFake(){
+const names=["Elvin","Aysel","Murad","Leyla","Tural","Nigar","Ramin","Sevda","Fərid","Səbinə","Rəşad","Cavid"];
+const amounts=[10,20,13,18,49,57,33,72,46,39,11,77];
 
-function registerUser(){
-  const username=document.getElementById("reg-username").value.trim();
-  const email=document.getElementById("reg-email").value.trim();
-  const pass=document.getElementById("reg-password").value;
-  const pass2=document.getElementById("reg-password2").value;
-  if(!username||!email||!pass||!pass2){document.getElementById("reg-result").textContent="Bütün xanaları doldurun!"; return;}
-  if(pass!==pass2){document.getElementById("reg-result").textContent="Parollar uyğun deyil!"; return;}
-  let users=JSON.parse(localStorage.getItem("users")||"[]");
-  if(users.find(u=>u.username===username)){document.getElementById("reg-result").textContent="Bu istifadəçi adı mövcuddur!"; return;}
-  users.push({username,email,password:pass,balance:0});
-  localStorage.setItem("users",JSON.stringify(users));
-  document.getElementById("reg-result").textContent="Qeydiyyat uğurlu! İndi login olun.";
-  showLogin();
+let usedN=[], usedA=[];
+let ul=document.getElementById("fake-withdrawals");
+ul.innerHTML="";
+
+for(let i=0;i<5;i++){
+let n,a;
+do{n=names[Math.random()*names.length|0]}while(usedN.includes(n));
+do{a=amounts[Math.random()*amounts.length|0]}while(usedA.includes(a));
+usedN.push(n); usedA.push(a);
+
+let li=document.createElement("li");
+li.innerText=`${n} ${a}₼ çıxartdı`;
+ul.appendChild(li);
+}
 }
 
-function loginUser(){
-  const username=document.getElementById("login-username").value.trim();
-  const pass=document.getElementById("login-password").value;
-  let users=JSON.parse(localStorage.getItem("users")||"[]");
-  let user=users.find(u=>u.username===username && u.password===pass);
-  if(user){
-    localStorage.setItem("currentUser",JSON.stringify(user));
-    document.getElementById("login-section").style.display="none";
-    document.getElementById("code-section").style.display="block";
-    updateBalanceDisplay();
-  } else {
-    document.getElementById("login-result").textContent="İstifadəçi adı və ya parol səhvdir!";
-  }
+// ===== REAL REGISTRATION SYSTEM =====
+function initRegistrationSystem(){
+
+let reg = localStorage.getItem("regCount");
+let lastTime = localStorage.getItem("lastUpdate");
+
+if(!reg){
+    reg = 2738;
+    localStorage.setItem("regCount", reg);
+    localStorage.setItem("lastUpdate", Date.now());
 }
 
-// --- Kod Sistemi ---
-const codeValues = { 
-  "Mak-1": {amount:1, spins:10}, 
-  "Mak-72": {amount:2, spins:20}, 
-  "Mak-8s": {amount:3, spins:30}, 
-  "Mak-90y": {amount:5, spins:50}, 
-  "Maw-49": {amount:10, spins:100}, 
-  "Ya-62": {amount:20, spins:200} 
-};
-let remainingSpins = 0;
+reg = parseInt(reg);
+lastTime = parseInt(lastTime);
+
+let now = Date.now();
+
+// 1-7 saat interval (millisecond)
+let interval = Math.floor(Math.random()*(7-1+1)+1) * 60 * 60 * 1000;
+
+// Əgər vaxt keçibsə artır
+if(now - lastTime >= interval){
+
+    let increment = Math.floor(Math.random()*11)+40; // 40-50
+    reg += increment;
+
+    localStorage.setItem("regCount", reg);
+    localStorage.setItem("lastUpdate", now);
+
+    addNewWithdrawals(increment);
+}
+
+// ekranda göstər
+document.getElementById("reg-count").innerText = "Qeydiyyat sayı: " + reg;
+}
+
+// yeni çıxarışlar əlavə
+function addNewWithdrawals(count){
+let names=["Elvin","Aysel","Murad","Leyla","Tural","Nigar","Ramin","Sevda"];
+let amounts=[10,20,13,18,49,57,33,72];
+
+for(let i=0;i<3;i++){
+let li=document.createElement("li");
+li.innerText = names[Math.random()*names.length|0] + " " + amounts[Math.random()*amounts.length|0] + "₼ çıxartdı";
+document.getElementById("fake-withdrawals").appendChild(li);
+}
+}
+
+// LOGIN/REGISTER
+function showReg(){login.style.display="none";register.style.display="block";}
+function showLogin(){register.style.display="none";login.style.display="block";}
+
+function register(){
+let u=ruser.value,p=rpass.value,p2=rpass2.value;
+if(p!=p2)return rmsg.innerText="Parol səhvdir";
+localStorage.setItem(u,p);
+rmsg.innerText="Qeydiyyat tamamlandı";
+initRegistrationSystem();
+}
+
+// LOGIN
+function login(){
+if(localStorage.getItem(luser.value)==lpass.value){
+localStorage.setItem("user",luser.value);
+login.style.display="none";
+code.style.display="block";
+}else lmsg.innerText="Səhv";
+}
+
+// CODE SYSTEM
+let codes={"Mak-1":1,"Mak-72":2,"Mak-8s":3,"Mak-90y":5,"Maw-49":10,"Ya-62":20};
+let spins=0;
 
 function checkCode(){
-  const codeInput = document.getElementById("enter-code").value.trim();
-  if(!codeInput){document.getElementById("code-result").textContent="Kod daxil edin!"; return;}
-  if(!(codeInput in codeValues)){document.getElementById("code-result").textContent="Kod səhvdir!"; return;}
-  const val = codeValues[codeInput];
-  let user=JSON.parse(localStorage.getItem("currentUser"));
-  user.balance = parseFloat(user.balance) || 0;
-  user.balance += parseFloat(val.amount);
-  remainingSpins = parseInt(val.spins);
-  localStorage.setItem("currentUser", JSON.stringify(user));
-  document.getElementById("balance-display").textContent = `Balans: ${user.balance.toFixed(2)}₼`;
-  document.getElementById("code-result").textContent = `Kod qəbul edildi! Balans +${val.amount}₼, ${val.spins} tapmaca oynaya bilərsiniz.`;
-  delete codeValues[codeInput];
-  document.getElementById("code-section").style.display="none";
-  document.getElementById("game-section").style.display="block";
-  initGame();
+let c=codeInput.value;
+if(!codes[c])return codeMsg.innerText="Kod səhvdir";
+
+let bal=+localStorage.getItem("bal")||0;
+bal+=codes[c];
+spins=codes[c]*10;
+
+localStorage.setItem("bal",bal);
+
+code.style.display="none";
+game.style.display="block";
+load();
 }
 
-// --- Tapmacalar ---
-const riddles = [
-  {question:"Gecə gəlib, gündüz gedir, amma heç ayaq izi qoymur. Nədir?", answer:"kölgə"},
-  {question:"Hər şeyə sahibdir, amma heç nəyi yox. Nədir?", answer:"boşluq"},
-  {question:"Hər gün gəlib gedir, amma heç bir yerdə dayanmaz. Nədir?", answer:"zaman"}
-];
+// GAME
+let riddles=["Gecə gəlir gündüz gedir?","Hər şeyə sahibdir amma heç nəyi yoxdur?"];
+let answers=["kölgə","boşluq"];
+let i=0;
 
-let current=0,lives=3;
-
-function initGame(){
-  loadRiddle();
-  document.getElementById("answer").addEventListener("keydown",function(e){
-    if(e.key==="Enter") checkAnswer();
-  });
-  updateBalanceDisplay();
+function load(){
+q.innerText=riddles[i];
+balance.innerText="Balans: "+(+localStorage.getItem("bal")).toFixed(2)+"₼";
 }
 
-function updateStatus(){
-  document.getElementById("current-riddle").textContent = current+1;
-  document.getElementById("total-riddles").textContent = riddles.length;
-  document.getElementById("lives").textContent = lives;
+function check(){
+let bal=+localStorage.getItem("bal")||0;
+if(bal<0.2)return res.innerText="Balans yoxdur";
+
+bal-=0.2;
+
+if(ans.value.toLowerCase()==answers[i]){
+bal+=0.12;
+i++;
+if(i>=riddles.length) i=0;
+res.innerText="Düz!";
+}else res.innerText="Səhv";
+
+localStorage.setItem("bal",bal);
+load();
 }
 
-function updateBalanceDisplay(){
-  let user=JSON.parse(localStorage.getItem("currentUser"));
-  user.balance = parseFloat(user.balance) || 0;
-  document.getElementById("balance-display").textContent = `Balans: ${user.balance.toFixed(2)}₼`;
+// WHATSAPP
+function withdraw(){
+window.open("https://wa.me/994552334814?text=Salam pul cixartmaq isteyirem");
 }
 
-function loadRiddle(){
-  if(current<riddles.length && remainingSpins>0){
-    document.getElementById("question").textContent=riddles[current].question;
-    document.getElementById("answer").value="";
-    document.getElementById("result").textContent="";
-    updateStatus();
-  } else {
-    document.getElementById("question").textContent="Oyun bitdi!";
-    document.getElementById("answer").style.display="none";
-    document.getElementById("result").textContent="Yeni kod daxil edin və oynamağa davam edin!";
-  }
+function showAdd(){add.style.display="block";}
+
+function send(){
+let m=amount.value;
+window.open("https://wa.me/994552334814?text=Balans artirmaq "+m+"₼");
 }
 
-function checkAnswer(){
-  if(remainingSpins<=0) return;
-  let userAns=document.getElementById("answer").value.toLowerCase().trim();
-  let correctAns=riddles[current].answer.toLowerCase();
-  let result=document.getElementById("result");
-  let user=JSON.parse(localStorage.getItem("currentUser"));
-  
-  user.balance = parseFloat(user.balance) || 0;
-  
-  if(user.balance<0.2){result.textContent="Balansınız kifayət qədər deyil!"; return;}
-  
-  remainingSpins--;
-  user.balance-=0.2;
-  
-  if(!userAns){result.textContent="Cavabı daxil edin!"; return;}
-  if(userAns===correctAns){
-    current++;
-    user.balance+=0.12;
-    result.textContent=`Düzdür! Növbəti tapmaca gəlir...`;
-    setTimeout(loadRiddle,500);
-  } else {
-    lives--;
-    if(lives<=0){result.textContent="Oyun bitdi! Canlarınız qurtardı."; document.getElementById("answer").style.display="none";}
-    else{result.textContent=`Yanlış cavab! Qalan can: ${lives}`;}
-    updateStatus();
-  }
-  
-  localStorage.setItem("currentUser",JSON.stringify(user));
-  updateBalanceDisplay();
-  
-  if(remainingSpins<=0){result.textContent="Şanslarınız bitdi! Yenə kod daxil edin."; document.getElementById("answer").style.display="none";}
-}
-
-// --- Pul çıxartmaq / Balans artır ---
-function withdrawMoney(){
-  const phone = "0552334814";
-  const message = encodeURIComponent("Salam, birdaha mən pul çıxartmaq istəyirəm.");
-  window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
-}
-
-function showIncreaseBalance(){
-  document.getElementById("increase-balance-section").style.display="block";
-}
-
-function sendReceiptWithAmount(){
-  const amount=parseFloat(document.getElementById("increase-amount").value);
-  const file=document.getElementById("receipt-file").files[0];
-  if(isNaN(amount)){document.getElementById("receipt-result").textContent="Məbləği düzgün yazın!"; return;}
-  if(!file){document.getElementById("receipt-result").textContent="Zəhmət olmasa qəbz seçin!"; return;}
-  
-  let user=JSON.parse(localStorage.getItem("currentUser"));
-  user.balance = parseFloat(user.balance) || 0;
-  user.balance += amount;
-  localStorage.setItem("currentUser", JSON.stringify(user));
-  updateBalanceDisplay();
-  
-  const phone = "0552334814";
-  const message = encodeURIComponent(`Men balansimi artirmaq isteyirem. Məbləğ: ${amount}₼`);
-  window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
-  
-  document.getElementById("receipt-result").textContent="Qəbz uğurla göndərildi!";
-  document.getElementById("increase-balance-section").style.display="none";
-}
 </script>
+
+</body>
+</html>
