@@ -4,21 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tapmaca</title>
-
 <style>
 body{font-family:Arial;background:#1e3c72;color:white;text-align:center;margin:0;}
-main{max-width:500px;margin:auto;padding:20px;background:#00000066;border-radius:10px;margin-top:30px;}
+main{max-width:600px;margin:auto;padding:20px;background:#00000066;border-radius:10px;margin-top:30px;}
 input{width:80%;padding:10px;margin:5px;border-radius:6px;border:none;}
-button{padding:10px 20px;border:none;background:gold;border-radius:6px;margin:5px;}
+button{padding:10px 20px;border:none;background:gold;border-radius:6px;margin:5px;cursor:pointer;}
 ul{list-style:none;padding:0;}
 li{color:gold;text-align:left;}
 section{display:none;}
+#withdrawList li{margin:5px 0;}
 </style>
 </head>
-
 <body>
 
-<h2 id="title">Tapmacaya qoşul → Pul qazan</h2>
+<h2 id="title">Tapmacaya qoşul → Cavabları düzgün tap → Pul qazan!</h2>
 <button onclick="start()">Başla</button>
 
 <main>
@@ -30,7 +29,6 @@ section{display:none;}
 <input type="password" id="pass" placeholder="Parol">
 <button onclick="login()">Daxil ol</button>
 <p id="loginMsg"></p>
-
 <p><a href="#" onclick="openRegister()">Qeydiyyatdan keç</a></p>
 </section>
 
@@ -47,133 +45,100 @@ section{display:none;}
 <ul id="withdrawList"></ul>
 
 <p id="regCount"></p>
-
 <p><a href="#" onclick="backLogin()">Geri</a></p>
 </section>
 
 </main>
 
 <script>
-
-// START
+// ================= START =================
 function start(){
-document.getElementById("title").style.display="none";
-document.querySelector("button").style.display="none";
-document.getElementById("login").style.display="block";
-
-startWithdraws();
-initReg();
+  document.getElementById("title").style.display="none";
+  document.querySelector("button").style.display="none";
+  document.getElementById("login").style.display="block";
+  startWithdraws();
+  initReg();
 }
 
-// ===== LOGIN (DÜZGÜN) =====
+// ================= LOGIN =================
 function login(){
-let u=user.value.trim();
-let p=pass.value.trim();
-
-let users = JSON.parse(localStorage.getItem("users") || "{}");
-
-if(users[u] && users[u] === p){
-loginMsg.innerText="Giriş uğurlu ✅";
-}else{
-loginMsg.innerText="İstifadəçi və ya parol səhv ❌";
-}
+  let u = user.value.trim();
+  let p = pass.value.trim();
+  let users = JSON.parse(localStorage.getItem("users")||"{}");
+  if(users[u] && users[u]===p){
+    loginMsg.innerText = "Giriş uğurlu ✅";
+  }else{
+    loginMsg.innerText = "İstifadəçi və ya parol səhv ❌";
+  }
 }
 
-// ===== REGISTER (DÜZGÜN SAXLAMA) =====
+// ================= REGISTER =================
 function openRegister(){
-login.style.display="none";
-register.style.display="block";
+  login.style.display="none";
+  register.style.display="block";
 }
 
 function backLogin(){
-register.style.display="none";
-login.style.display="block";
+  register.style.display="none";
+  login.style.display="block";
 }
 
 function registerUser(){
-let u=ruser.value.trim();
-let p=rpass.value;
-let p2=rpass2.value;
+  let u = ruser.value.trim();
+  let p = rpass.value;
+  let p2 = rpass2.value;
+  if(!u || !p){ regMsg.innerText="Boş buraxma!"; return; }
+  if(p!==p2){ regMsg.innerText="Parollar uyğun deyil!"; return; }
 
-if(!u || !p){
-regMsg.innerText="Boş buraxma!";
-return;
+  let users = JSON.parse(localStorage.getItem("users")||"{}");
+  if(users[u]){ regMsg.innerText="Bu istifadəçi artıq var!"; return; }
+  users[u] = p;
+  localStorage.setItem("users", JSON.stringify(users));
+  regMsg.innerText="Qeydiyyat tamamlandı ✅";
 }
 
-if(p !== p2){
-regMsg.innerText="Parollar uyğun deyil!";
-return;
-}
-
-let users = JSON.parse(localStorage.getItem("users") || "{}");
-
-if(users[u]){
-regMsg.innerText="Bu istifadəçi artıq var!";
-return;
-}
-
-users[u] = p;
-localStorage.setItem("users", JSON.stringify(users));
-
-regMsg.innerText="Qeydiyyat tamamlandı ✅";
-}
-
-// ===== CANLI ÇIXARIŞ =====
+// ================= SON ÇIXARIŞLAR =================
 function startWithdraws(){
-updateWithdraws();
-setInterval(updateWithdraws,5000);
+  updateWithdraws();
+  setInterval(updateWithdraws,5000);
 }
 
 function updateWithdraws(){
-let names=["Elvin","Aysel","Murad","Leyla","Tural","Nigar","Ramin","Sevda"];
-let amounts=[10,20,13,18,49,57,33,72];
+  let names=["Elvin","Aysel","Murad","Leyla","Tural","Nigar","Ramin","Sevda","Fərid","Səbinə"];
+  let amounts=[10,20,13,18,49,57,33,72,46,39,11,77];
 
-let ul=document.getElementById("withdrawList");
-ul.innerHTML="";
+  let ul = document.getElementById("withdrawList");
+  ul.innerHTML="";
 
-let used=[];
+  let usedNames=[];
+  let usedAmounts=[];
+  for(let i=0;i<5;i++){
+    let n,a;
+    do{ n = names[Math.floor(Math.random()*names.length)]; }while(usedNames.includes(n));
+    do{ a = amounts[Math.floor(Math.random()*amounts.length)]; }while(usedAmounts.includes(a));
+    usedNames.push(n); usedAmounts.push(a);
 
-for(let i=0;i<5;i++){
-let n;
-do{n=names[Math.random()*names.length|0]}while(used.includes(n));
-used.push(n);
-
-let a=amounts[Math.random()*amounts.length|0];
-
-let li=document.createElement("li");
-li.innerText=n+" "+a+"₼ çıxartdı";
-ul.appendChild(li);
+    let li = document.createElement("li");
+    li.innerText = n + " istifadəçisi " + a + "₼ çıxartdı (İndi çıxardı)";
+    ul.appendChild(li);
+  }
 }
-}
 
-// ===== QEYDİYYAT SAYI =====
+// ================= QEYDİYYAT SAYI =================
 function initReg(){
-
-let reg=localStorage.getItem("reg");
-
-if(!reg){
-reg=2738;
-localStorage.setItem("reg",reg);
-localStorage.setItem("time",Date.now());
+  let reg = localStorage.getItem("reg");
+  if(!reg){ reg=2738; localStorage.setItem("reg",reg); localStorage.setItem("time",Date.now()); }
+  let last = parseInt(localStorage.getItem("time"));
+  let now = Date.now();
+  let interval = (Math.random()*6+1)*60*60*1000;
+  if(now-last>interval){
+    let inc = Math.floor(Math.random()*11)+40;
+    reg=parseInt(reg)+inc;
+    localStorage.setItem("reg",reg);
+    localStorage.setItem("time",now);
+  }
+  document.getElementById("regCount").innerText="Qeydiyyat sayı: "+reg;
 }
-
-let last=localStorage.getItem("time");
-let now=Date.now();
-
-let interval=(Math.random()*6+1)*60*60*1000;
-
-if(now-last>interval){
-let inc=Math.floor(Math.random()*11)+40;
-reg=parseInt(reg)+inc;
-localStorage.setItem("reg",reg);
-localStorage.setItem("time",now);
-}
-
-document.getElementById("regCount").innerText="Qeydiyyat sayı: "+reg;
-
-}
-
 </script>
-
 </body>
 </html>
