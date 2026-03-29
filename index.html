@@ -15,7 +15,6 @@ input[type="text"], input[type="password"], input[type="email"], input[type="num
 section{display:none;}
 a{color:#ffcc00; text-decoration:none; font-weight:bold;}
 a:hover{text-decoration:underline;}
-#balance-section button{display:block; margin:10px auto;}
 </style>
 </head>
 <body>
@@ -68,13 +67,11 @@ a:hover{text-decoration:underline;}
 
 <!-- Balans artır bölməsi -->
 <section id="increase-balance-section">
-<h3>Balans artır</h3>
-<p>Kart məlumatı: Leo Bank 4098-5844-7823-5656</p>
+<h3>Balans artırmaq üçün məbləği yazın</h3>
 <input type="number" id="increase-amount" placeholder="Məbləği yazın (₼)">
 <input type="file" id="receipt-file">
 <button onclick="sendReceiptWithAmount()">Qəbz göndər</button>
 <p id="receipt-result"></p>
-</section>
 </section>
 
 </main>
@@ -141,14 +138,7 @@ function checkCode(){
 const riddles = [
   {question:"Gecə gəlib, gündüz gedir, amma heç ayaq izi qoymur. Nədir?", answer:"kölgə"},
   {question:"Hər şeyə sahibdir, amma heç nəyi yox. Nədir?", answer:"boşluq"},
-  {question:"Hər gün gəlib gedir, amma heç bir yerdə dayanmaz. Nədir?", answer:"zaman"},
-  {question:"Qışda ağ, yayda yaşıl, ağacdan asılı. Nədir?", answer:"yarpaq"},
-  {question:"Məni qırarsan amma mən ağlamaram. Nədir?", answer:"yumurta"},
-  {question:"Daşım var amma hərəkət edə bilmirəm. Nədir?", answer:"dağ"},
-  {question:"Bütün günü suda olur, amma yaş olmur. Nədir?", answer:"balıq"},
-  {question:"Hər yerdə var, amma toxunmaq olmaz. Nədir?", answer:"hava"},
-  {question:"Səni izləyir amma heç səsini çıxarmır. Nədir?", answer:"gölge"},
-  {question:"Bütün evləri gəzər amma heç yerdə qalmır. Nədir?", answer:"yol"}
+  {question:"Hər gün gəlib gedir, amma heç bir yerdə dayanmaz. Nədir?", answer:"zaman"}
 ];
 
 let current=0,lives=3;
@@ -193,14 +183,13 @@ function checkAnswer(){
   if(user.balance<0.2){result.textContent="Balansınız kifayət qədər deyil!"; return;}
   
   remainingSpins--;
-  user.balance-=0.2; // oyun üçün çıxılır
+  user.balance-=0.2;
   
   if(!userAns){result.textContent="Cavabı daxil edin!"; return;}
   if(userAns===correctAns){
     current++;
-    user.balance+=0.12; // düzgün cavab balans artırır
+    user.balance+=0.12;
     result.textContent=`Düzdür! Növbəti tapmaca gəlir... Qalan şans: ${remainingSpins}`;
-    result.style.color="#ffcc00";
     setTimeout(loadRiddle,500);
   } else {
     lives--;
