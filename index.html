@@ -3,115 +3,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Çətin Tapmaca Marafonu</title>
+<title>Tapmaca Marafonu Demo</title>
 <style>
 body { margin:0; font-family: Arial, sans-serif; background:#111; color:#fff; }
 header { background:#000; padding:20px; text-align:center; }
 header h1 { color:#ffcc00; margin:0; }
 main { padding:20px; max-width:700px; margin:auto; }
-section { margin-bottom:40px; }
-input[type="text"] { padding:10px; width:70%; border-radius:5px; border:none; margin-right:10px; }
-#result { margin-top:15px; font-size:1.2em; }
-#status { font-size:1.2em; margin-bottom:15px; }
-footer { background:#000; padding:20px; text-align:center; color:#aaa; }
+section { margin-bottom:30px; }
+input[type="text"], input[type="password"], input[type="email"] { padding:10px; width:65%; border-radius:5px; border:none; margin-bottom:10px; display:block; }
+button { padding:10px 15px; background:#ffcc00; border:none; color:#111; cursor:pointer; border-radius:5px; margin-top:10px; }
+button:hover { transform:scale(1.05); }
+#result, #status { margin-top:10px; font-size:1.1em; }
+footer { background:#000; padding:20px; text-align:center; color:#aaa; margin-top:50px;}
+.referral { color:#ffcc00; margin-bottom:20px; }
 </style>
 </head>
 <body>
 
 <header>
-<h1>Çətin Tapmaca Marafonu</h1>
-<p>Hər tapmacanı düzgün cavablayın və bonus qazanın!</p>
+<h1>Tapmaca Marafonu Demo</h1>
+<p>Tapmacaları həll et və balansını artır!</p>
 </header>
 
 <main>
-<section id="status-section">
-<p id="status">Tapmaca 1 / 10 | Can: 3 | Xal: 0</p>
+<section id="login-section">
+<h2>Login</h2>
+<input type="text" id="login-username" placeholder="İstifadəçi adı">
+<input type="password" id="login-password" placeholder="Parol">
+<button onclick="loginUser()">Giriş et</button>
+<p id="login-result"></p>
+<p>Qeydiyyatdan keçmək üçün <a href="#" onclick="showRegister()">buraya klik et</a></p>
 </section>
 
-<section id="riddle-section">
+<section id="register-section" style="display:none;">
+<h2>Qeydiyyat</h2>
+<input type="text" id="reg-username" placeholder="İstifadəçi adı">
+<input type="email" id="reg-email" placeholder="Email">
+<input type="password" id="reg-password" placeholder="Parol">
+<input type="password" id="reg-password2" placeholder="Parol təsdiqi">
+<button onclick="registerUser()">Qeydiyyatdan keç</button>
+<p id="reg-result"></p>
+<p>Login üçün <a href="#" onclick="showLogin()">buraya klik et</a></p>
+</section>
+
+<section id="game-section" style="display:none;">
+<p class="referral">Dostunu dəvət et və 1₼ kod qazanın!</p>
+<p id="status">Tapmaca 1 / 10 | Can: 3 | Balans: 0₼</p>
 <h2 id="question">Tapmaca yüklənir...</h2>
 <input type="text" id="answer" placeholder="Cavabı yazın">
 <p id="result"></p>
+<button onclick="withdraw()">Pul çıxart</button>
 </section>
+
 </main>
 
 <footer>
-<p>&copy; 2026 Tapmaca Saytı</p>
+<p>&copy; 2026 Tapmaca Marafonu Demo</p>
 </footer>
 
 <script>
-// Çətin tapmacalar siyahısı
-const riddles = [
-  {question: "Gecə gəlib, gündüz gedir, amma heç ayaq izi qoymur. Nədir?", answer: "kölgə"},
-  {question: "Hər şeyə sahibdir, amma heç nəyi yox. Nədir?", answer: "boşluq"},
-  {question: "Hər gün gəlib gedir, amma heç bir yerdə dayanmaz. Nədir?", answer: "zaman"},
-  {question: "Qışda ağ, yayda yaşıl, ağacdan asılı. Nədir?", answer: "yarpaq"},
-  {question: "Məni qırarsan amma mən ağlamaram. Nədir?", answer: "yumurta"},
-  {question: "Daşım var amma hərəkət edə bilmirəm. Nədir?", answer: "dağ"},
-  {question: "Bütün günü suda olur, amma yaş olmur. Nədir?", answer: "balıq"},
-  {question: "Hər yerdə var, amma toxunmaq olmaz. Nədir?", answer: "hava"},
-  {question: "Səni izləyir amma heç səsini çıxarmır. Nədir?", answer: "gölge"},
-  {question: "Bütün evləri gəzər amma heç yerdə qalmır. Nədir?", answer: "yol"}
-];
+// Demo istifadəçilər localStorage-da saxlanır
+function showRegister(){ document.getElementById("login-section").style.display="none"; document.getElementById("register-section").style.display="block";}
+function showLogin(){ document.getElementById("register-section").style.display="none"; document.getElementById("login-section").style.display="block";}
 
-let current = 0;
-let score = 0;
-let lives = 3;
+// Qeydiyyat
+function registerUser(){
+  const username = document.getElementById("reg-username").value.trim();
+  const email = document.getElementById("reg-email").value.trim();
+  const pass = document.getElementById("reg-password").value;
+  const pass2 = document.getElementById("reg-password2").value;
+  if(!username || !email || !pass || !pass2){document.getElementById("reg-result").textContent="Bütün xanaları doldurun!";return;}
+  if(pass !== pass2){document.getElementById("reg-result").textContent="Parollar uyğun deyil!"; return;}
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
+  if(users.find(u=>u.username===username)){document.getElementById("reg-result").textContent="Bu istifadəçi adı mövcuddur!"; return;}
+  users.push({username,email,password:pass,balance:0});
+  localStorage.setItem("users",JSON.stringify(users));
+  document.getElementById("reg-result").textContent="Qeydiyyat uğurlu! İndi login olun.";
+  showLogin();
+}
 
-// Tapmacanı göstər
-function loadRiddle(){
-  if(current < riddles.length){
-    document.getElementById("question").textContent = riddles[current].question;
-    document.getElementById("answer").value = "";
-    document.getElementById("result").textContent = "";
-    updateStatus();
+// Login
+function loginUser(){
+  const username = document.getElementById("login-username").value.trim();
+  const pass = document.getElementById("login-password").value;
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
+  let user = users.find(u=>u.username===username && u.password===pass);
+  if(user){
+    localStorage.setItem("currentUser",JSON.stringify(user));
+    document.getElementById("login-section").style.display="none";
+    document.getElementById("game-section").style.display="block";
+    initGame();
   } else {
-    document.getElementById("question").textContent = "Təbriklər! Siz bütün tapmacaları tamamladınız!";
-    document.getElementById("answer").style.display = "none";
-    document.getElementById("result").textContent = "Simulyasiya olaraq siz bonus qazandınız!";
-    document.getElementById("result").style.color = "#ffcc00";
+    document.getElementById("login-result").textContent="İstifadəçi adı və ya parol səhvdir!";
   }
 }
 
-// Status panelini yenilə
-function updateStatus(){
-  document.getElementById("status").textContent = `Tapmaca ${current+1} / ${riddles.length} | Can: ${lives} | Xal: ${score}`;
+// Tapmacalar
+const riddles = [
+  {question:"Gecə gəlib, gündüz gedir, amma heç ayaq izi qoymur. Nədir?", answer:"kölgə"},
+  {question:"Hər şeyə sahibdir, amma heç nəyi yox. Nədir?", answer:"boşluq"},
+  {question:"Hər gün gəlib gedir, amma heç bir yerdə dayanmaz. Nədir?", answer:"zaman"},
+  {question:"Qışda ağ, yayda yaşıl, ağacdan asılı. Nədir?", answer:"yarpaq"},
+  {question:"Məni qırarsan amma mən ağlamaram. Nədir?", answer:"yumurta"},
+  {question:"Daşım var amma hərəkət edə bilmirəm. Nədir?", answer:"dağ"},
+  {question:"Bütün günü suda olur, amma yaş olmur. Nədir?", answer:"balıq"},
+  {question:"Hər yerdə var, amma toxunmaq olmaz. Nədir?", answer:"hava"},
+  {question:"Səni izləyir amma heç səsini çıxarmır. Nədir?", answer:"gölge"},
+  {question:"Bütün evləri gəzər amma heç yerdə qalmır. Nədir?", answer:"yol"}
+];
+
+let current=0,score=0,lives=3;
+
+function initGame(){
+  loadRiddle();
+  document.getElementById("answer").addEventListener("keydown",function(e){
+    if(e.key==="Enter") checkAnswer();
+  });
 }
 
-// Cavabı yoxla
-function checkAnswer(){
-  const userAns = document.getElementById("answer").value.toLowerCase().trim();
-  const correctAns = riddles[current].answer.toLowerCase();
-  const result = document.getElementById("result");
+function updateStatus(){
+  let user = JSON.parse(localStorage.getItem("currentUser"));
+  document.getElementById("status").textContent = `Tapmaca ${current+1} / ${riddles.length} | Can: ${lives} | Balans: ${user.balance.toFixed(2)}₼`;
+}
 
-  if(userAns === correctAns){
-    score += 1;
-    current += 1;
-    result.textContent = "Düzdür! Növbəti tapmaca avtomatik gəlir...";
-    result.style.color = "#ffcc00";
-    setTimeout(loadRiddle, 500); // avtomatik növbəti tapmaca
+function loadRiddle(){
+  if(current<riddles.length){
+    document.getElementById("question").textContent=riddles[current].question;
+    document.getElementById("answer").value="";
+    document.getElementById("result").textContent="";
+    updateStatus();
   } else {
-    lives -= 1;
-    if(lives <= 0){
-      result.textContent = "Oyun bitdi! Canlarınız qurtardı.";
-      result.style.color = "#ff5555";
-      document.getElementById("answer").style.display = "none";
+    document.getElementById("question").textContent="Təbriklər! Bütün tapmacaları tamamladınız!";
+    document.getElementById("answer").style.display="none";
+    document.getElementById("result").textContent="Simulyasiya olaraq bonus qazandınız!";
+    document.getElementById("result").style.color="#ffcc00";
+  }
+}
+
+function checkAnswer(){
+  const userAns=document.getElementById("answer").value.toLowerCase().trim();
+  const correctAns=riddles[current].answer.toLowerCase();
+  const result=document.getElementById("result");
+  let user=JSON.parse(localStorage.getItem("currentUser"));
+  let users=JSON.parse(localStorage.getItem("users")||"[]");
+
+  if(!userAns){result.textContent="Cavabı daxil edin!"; return;}
+
+  if(userAns===correctAns){
+    score+=1;
+    user.balance+=0.12; // hər tapmaca üçün bonus
+    user.balance-=0.20; // balansdan çıxır
+    current+=1;
+    localStorage.setItem("currentUser",JSON.stringify(user));
+    let idx=users.findIndex(u=>u.username===user.username); users[idx]=user;
+    localStorage.setItem("users",JSON.stringify(users));
+    result.textContent="Düzdür! Növbəti tapmaca gəlir...";
+    result.style.color="#ffcc00";
+    setTimeout(loadRiddle,500);
+  } else {
+    lives-=1;
+    if(lives<=0){
+      result.textContent="Oyun bitdi! Canlarınız qurtardı.";
+      result.style.color="#ff5555";
+      document.getElementById("answer").style.display="none";
     } else {
-      result.textContent = `Yanlış cavab! Canınızdan 1 itdi. Qalan can: ${lives}`;
-      result.style.color = "#ff5555";
+      result.textContent=`Yanlış cavab! Canınızdan 1 itdi. Qalan can: ${lives}`;
+      result.style.color="#ff5555";
     }
     updateStatus();
   }
 }
 
-// Enter basanda da yoxlamaq
-document.getElementById("answer").addEventListener("keydown", function(e){
-  if(e.key === "Enter") checkAnswer();
-});
-
-// İlk tapmacanı yüklə
-loadRiddle();
+// Demo Pul çıxart funksiyası
+function withdraw(){
+  let user=JSON.parse(localStorage.getItem("currentUser"));
+  if(user.balance>=50){
+    window.open("https://wa.me/0552334814?text=Salam,+balansım+50₼+çıxarılsın.","_blank");
+  } else {
+    alert("Pul çıxarmaq üçün balansınız 50₼ olmalıdır!");
+  }
+}
 </script>
-
-</body>
-</html>
