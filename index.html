@@ -3,18 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TapMəni!</title>
+<title>Pulvar.XYZ – Tapmaca Oyunu</title>
 <style>
-body {margin:0; font-family: Arial, sans-serif; background: linear-gradient(135deg,#111,#333); color:#fff; text-align:center;}
-main {padding:20px; max-width:700px; margin:auto;}
-h1#main-title {text-align:center; font-size:2.5em; color:#ffcc00; margin-top:50px; font-weight:bold; text-shadow:2px 2px 5px #000;}
-button {padding:10px 20px; border:none; border-radius:5px; background:#ffcc00; color:#111; cursor:pointer; margin:5px;}
+body {
+  margin:0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg,#1e3c72,#2a5298);
+  color:#fff;
+  text-align:center;
+}
+main {
+  padding:20px;
+  max-width:600px;
+  margin:auto;
+  background: rgba(0,0,0,0.5);
+  border-radius:15px;
+  margin-top:30px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.7);
+}
+h1#main-title {
+  text-align:center;
+  font-size:2em;
+  color:#ffdd57;
+  margin-top:20px;
+  font-weight:bold;
+  text-shadow:2px 2px 5px #000;
+}
+button {
+  padding:12px 25px;
+  border:none;
+  border-radius:8px;
+  background:#ffdd57;
+  color:#111;
+  cursor:pointer;
+  margin:5px;
+  font-weight:bold;
+}
 button:hover {transform:scale(1.05);}
-input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="file"] {padding:10px; width:70%; margin:10px 0; border-radius:5px; border:none; display:block; margin-left:auto; margin-right:auto;}
-#result,#login-result,#reg-result,#code-result,#status,#balance-display,#receipt-result{margin-top:10px;}
+input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="file"] {
+  padding:12px;
+  width:75%;
+  margin:10px 0;
+  border-radius:8px;
+  border:none;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+}
 section{display:none;}
-a{color:#ffcc00; text-decoration:none; font-weight:bold;}
+a{color:#ffdd57; text-decoration:none; font-weight:bold;}
 a:hover{text-decoration:underline;}
+#balance-display {font-weight:bold; font-size:1.2em;}
+#status {margin-top:10px; font-weight:bold;}
 </style>
 </head>
 <body>
