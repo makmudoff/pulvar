@@ -3,152 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Azərbaycan Kazinosu Demo</title>
+<title>1000 Tapmaca Marafonu</title>
 <style>
 body { margin:0; font-family: Arial, sans-serif; background:#111; color:#fff; }
-header { background:#000; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+header { background:#000; padding:20px; text-align:center; }
 header h1 { color:#ffcc00; margin:0; }
-nav ul { list-style:none; display:flex; margin:0; padding:0; flex-wrap:wrap; }
-nav ul li { position:relative; margin-right:20px; }
-nav ul li a { color:#fff; text-decoration:none; padding:5px 0; display:block; }
-nav ul li ul { display:none; position:absolute; top:30px; left:0; background:#222; padding:10px; list-style:none; }
-nav ul li:hover ul { display:block; }
-nav ul li ul li { margin:0; }
-button { background:#ffcc00; border:none; padding:10px 20px; color:#111; cursor:pointer; margin:5px; transition:0.2s; }
-button:hover { transform: scale(1.05); }
-main { padding:20px; }
+main { padding:20px; max-width:700px; margin:auto; }
 section { margin-bottom:40px; }
-.games-list, .bonus-list { display:flex; flex-wrap:wrap; gap:15px; }
-.game-card, .bonus-card { background:#222; padding:15px; border-radius:8px; width: calc(33% - 10px); text-align:center; cursor:pointer; transition:0.3s; }
-.game-card:hover, .bonus-card:hover { background:#333; transform:scale(1.05); }
+input[type="text"] { padding:10px; width:65%; border-radius:5px; border:none; margin-right:10px; }
+button { padding:10px 15px; background:#ffcc00; border:none; color:#111; cursor:pointer; border-radius:5px; }
+button:hover { transform:scale(1.05); }
+#result { margin-top:15px; font-size:1.2em; }
 footer { background:#000; padding:20px; text-align:center; color:#aaa; }
-#slot-machine { display:flex; justify-content:center; align-items:center; gap:15px; margin-top:20px; }
-.slot { background:#222; padding:30px; border-radius:8px; font-size:2em; width:60px; text-align:center; transition:0.3s; }
-.win-message { text-align:center; color:#ffcc00; font-size:1.5em; margin-top:15px; display:none; }
-@media(max-width:768px){ .game-card, .bonus-card { width:100%; } nav ul { flex-direction:column; } nav ul li { margin:0; } nav ul li ul { position:static; } }
+#status { font-size:1.2em; margin-bottom:15px; }
 </style>
 </head>
 <body>
 
 <header>
-<h1>Azərbaycan Kazinosu</h1>
-<nav>
-<ul>
-<li><a href="#">Ana Səhifə</a></li>
-<li><a href="#">Haqqımızda</a></li>
-<li>
-<a href="#">Oyunlar</a>
-<ul>
-<li><a href="#">Slotlar</a></li>
-<li><a href="#">Rulet</a></li>
-<li><a href="#">Blackjack</a></li>
-<li><a href="#">Poker</a></li>
-<li><a href="#">Canlı Oyunlar</a></li>
-<li><a href="#">Jackpotlar</a></li>
-</ul>
-</li>
-<li><a href="#">Bonuslar & Kampaniyalar</a></li>
-<li><a href="#">VIP & Sadiqlik</a></li>
-<li><a href="#">Mobil Oyunlar</a></li>
-<li><a href="#">Dəstək</a></li>
-<li><a href="#">Xəbərlər</a></li>
-<li><a href="#">Əlaqə</a></li>
-<li>
-<a href="#">Hesabım</a>
-<ul>
-<li><a href="#" onclick="alert('Depozit simulyasiyası');">Depozit</a></li>
-<li><a href="#" onclick="alert('Pul Çıxarış simulyasiyası');">Pul Çıxarış</a></li>
-<li><a href="#">Əməliyyat Tarixi</a></li>
-<li><a href="#">Hesab Parametrləri</a></li>
-<li><a href="#">Bonuslarım</a></li>
-</ul>
-</li>
-</ul>
-</nav>
+<h1>1000 Tapmaca Marafonu</h1>
+<p>Hər tapmacanı düzgün cavablayın və 100 AZN qazanın!</p>
 </header>
 
 <main>
-<section id="hero">
-<h2>Xoş Gəlmisiniz!</h2>
-<p>Azərbaycan dilində kazino oyunlarının ən geniş seçimi burada!</p>
-<button onclick="alert('Qeydiyyat simulyasiyası')">Qeydiyyat</button>
-<button onclick="alert('Daxil ol simulyasiyası')">Daxil ol</button>
+<section id="status-section">
+<p id="status">Tapmaca 1 / 1000 | Can: 3 | Xal: 0</p>
 </section>
 
-<section id="popular-games">
-<h2>Populyar Oyunlar</h2>
-<div class="games-list">
-<div class="game-card" onclick="startSlot()">Slotlar</div>
-<div class="game-card" onclick="alert('Rulet oynanır')">Rulet</div>
-<div class="game-card" onclick="alert('Blackjack oynanır')">Blackjack</div>
-<div class="game-card" onclick="alert('Poker oynanır')">Poker</div>
-<div class="game-card" onclick="alert('Canlı Oyunlar oynanır')">Canlı Oyunlar</div>
-<div class="game-card" onclick="alert('Jackpotlar oynanır')">Jackpotlar</div>
-</div>
-
-<div id="slot-machine">
-<div class="slot" id="slot1">🍒</div>
-<div class="slot" id="slot2">🍋</div>
-<div class="slot" id="slot3">7️⃣</div>
-</div>
-<button onclick="startSlot()">Oyna</button>
-<div class="win-message" id="winMsg">Təbriklər! Siz qazandınız!</div>
-</section>
-
-<section id="bonuses">
-<h2>Bonuslar & Kampaniyalar</h2>
-<div class="bonus-list">
-<div class="bonus-card" onclick="alert('Qeydiyyat bonusu aktiv edildi')">Qeydiyyat Bonusu</div>
-<div class="bonus-card" onclick="alert('Depozit bonusu aktiv edildi')">Depozit Bonusu</div>
-<div class="bonus-card" onclick="alert('VIP kampaniyası aktiv edildi')">VIP Kampaniyası</div>
-</div>
-</section>
-
-<section id="vip">
-<h2>VIP & Sadiqlik Proqramı</h2>
-<p>VIP oyunçular üçün xüsusi bonuslar və üstünlüklər.</p>
-</section>
-
-<section id="mobile">
-<h2>Mobil Oyunlar</h2>
-<p>Hər yerdə, istənilən cihazdan oyun oynayın!</p>
-</section>
-
-<section id="support">
-<h2>Dəstək</h2>
-<p>Canlı chat və FAQ ilə bütün suallarınıza cavab tapın.</p>
+<section id="riddle-section">
+<h2 id="question">Tapmaca yüklənir...</h2>
+<input type="text" id="answer" placeholder="Cavabı yazın">
+<button onclick="checkAnswer()">Yoxla</button>
+<p id="result"></p>
 </section>
 </main>
 
 <footer>
-<p>&copy; 2026 Azərbaycan Kazinosu | Məxfilik Siyasəti | Şərtlər & Qaydalar</p>
+<p>&copy; 2026 Tapmaca Marafonu</p>
 </footer>
 
 <script>
-const symbols = ["🍒","🍋","🍊","🍉","⭐","7️⃣"];
-function startSlot(){
-  const slot1 = document.getElementById("slot1");
-  const slot2 = document.getElementById("slot2");
-  const slot3 = document.getElementById("slot3");
-  const winMsg = document.getElementById("winMsg");
-
-  // Slot animasiyası
-  let i = 0;
-  const interval = setInterval(()=>{
-    slot1.textContent = symbols[Math.floor(Math.random()*symbols.length)];
-    slot2.textContent = symbols[Math.floor(Math.random()*symbols.length)];
-    slot3.textContent = symbols[Math.floor(Math.random()*symbols.length)];
-    i++;
-    if(i>15){
-      clearInterval(interval);
-      // Qələbə yoxlaması
-      if(slot1.textContent === slot2.textContent && slot2.textContent === slot3.textContent){
-        winMsg.style.display = "block";
-        setTimeout(()=>{winMsg.style.display="none";},3000);
-      }
-    }
-  },100);
+// Demo üçün 1000 tapmaca generasiya
+const riddles = [];
+for(let i=1;i<=1000;i++){
+  riddles.push({question: `Tapmaca ${i}: Nömrə ${i} ilə bağlı sadə cavab nədir?`, answer: `${i}`});
 }
+
+let current = 0;
+let score = 0;
+let lives = 3;
+
+// Tapmacanı göstər
+function loadRiddle(){
+  if(current < riddles.length){
+    document.getElementById("question").textContent = riddles[current].question;
+    document.getElementById("answer").value = "";
+    document.getElementById("result").textContent = "";
+    updateStatus();
+  } else {
+    document.getElementById("question").textContent = "Təbriklər! Siz bütün 1000 tapmacanı tamamladınız!";
+    document.getElementById("answer").style.display = "none";
+    document.querySelector("button").style.display = "none";
+    document.getElementById("result").textContent = "Simulyasiya olaraq siz 100 AZN qazandınız!";
+    document.getElementById("result").style.color = "#ffcc00";
+  }
+}
+
+// Status panelini yenilə
+function updateStatus(){
+  document.getElementById("status").textContent = `Tapmaca ${current+1} / ${riddles.length} | Can: ${lives} | Xal: ${score}`;
+}
+
+// Cavabı yoxla
+function checkAnswer(){
+  const userAns = document.getElementById("answer").value.trim();
+  const correctAns = riddles[current].answer.trim();
+  const result = document.getElementById("result");
+
+  if(userAns === correctAns){
+    score += 1;
+    result.textContent = "Düzdür! Növbəti tapmaca gəlir...";
+    result.style.color = "#ffcc00";
+    current += 1;
+    setTimeout(loadRiddle, 500);
+  } else {
+    lives -= 1;
+    if(lives <= 0){
+      result.textContent = "Oyun bitdi! Canlarınız qurtardı.";
+      result.style.color = "#ff5555";
+      document.getElementById("answer").style.display = "none";
+      document.querySelector("button").style.display = "none";
+    } else {
+      result.textContent = `Yanlış cavab! Canınızdan 1 itdi. Qalan can: ${lives}`;
+      result.style.color = "#ff5555";
+    }
+    updateStatus();
+  }
+}
+
+// İlk tapmacanı yüklə
+loadRiddle();
 </script>
 
 </body>
