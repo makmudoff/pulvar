@@ -97,7 +97,6 @@ h1{color:#ff3b00; margin-bottom:20px;}
 </div>
 
 <script>
-// Istifadeci listi
 let users=[], currentUser=null;
 const codeMap={"12-m":1,"78-m":5,"120-m":10};
 let totalQuestions=20, questionCount=0;
@@ -124,7 +123,6 @@ const puzzles=[
 {q:"Hər kəs onu istifadə edir amma heç kim ona baxmır. Nədir?", a:"Telefon"}
 ];
 
-// DOM
 const loginDiv=document.getElementById('loginDiv');
 const registerDiv=document.getElementById('registerDiv');
 const codeDiv=document.getElementById('codeDiv');
@@ -138,7 +136,6 @@ const winnersList=document.getElementById('winnersList');
 const getCodeLink=document.getElementById('getCodeLink');
 const balanceNotice=document.getElementById('balanceNotice');
 
-// Funksiyalar
 function showDiv(div){
   loginDiv.classList.add('hidden'); 
   registerDiv.classList.add('hidden'); 
@@ -149,7 +146,6 @@ function showDiv(div){
 }
 function isValidEmail(email){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);}
 
-// Login / Register
 document.getElementById('goToRegisterBtn').onclick=()=>showDiv(registerDiv);
 document.getElementById('backToLoginBtn').onclick=()=>showDiv(loginDiv);
 
@@ -175,11 +171,10 @@ document.getElementById('loginBtn').onclick=()=>{
   showDiv(codeDiv);
 };
 
-// Kod təsdiqlə
 document.getElementById('verifyCodeBtn').onclick=()=>{
   const code=document.getElementById('gameCodeInput').value.trim();
   if(!codeMap[code]){alert("Kod səhvdir!"); return;}
-  currentUser.balance=codeMap[code]; // Başlanğıc balans
+  currentUser.balance=codeMap[code];
   showDiv(gameDiv);
   gameBalanceSpan.innerText=currentUser.balance.toFixed(2)+'₼';
   questionCount=0;
@@ -188,7 +183,6 @@ document.getElementById('verifyCodeBtn').onclick=()=>{
   nextPuzzle();
 };
 
-// Kod əldə et linki
 getCodeLink.onclick=()=>{
   const message="Salam, mən oyun kodu istəyirəm!";
   const phone="994552334815";
@@ -196,11 +190,11 @@ getCodeLink.onclick=()=>{
   window.open(url,'_blank');
 };
 
-// Oyun funksiyaları
 function nextPuzzle(){
   if(currentUser.balance<=0){
     balanceNotice.innerText="Balansda kifayət qədər məbləğ yoxdur!";
     exitBtn.disabled=false;
+    questionDiv.innerHTML="";
     return;
   }
   if(questionCount>=totalQuestions){
@@ -222,7 +216,6 @@ function nextPuzzle(){
   };
 }
 
-// Çıxarış et
 exitBtn.onclick=()=>showDiv(withdrawDiv);
 
 document.getElementById('withdrawBtn').onclick=()=>{
@@ -234,7 +227,6 @@ document.getElementById('withdrawBtn').onclick=()=>{
   window.open(url,'_blank');
 };
 
-// Balansı artır
 document.getElementById('addBalanceBtn').onclick=()=>{
   const amount=document.getElementById('addBalanceAmount').value.trim();
   if(!amount || isNaN(amount)){alert("Düzgün məbləğ yazın!"); return;}
@@ -244,11 +236,9 @@ document.getElementById('addBalanceBtn').onclick=()=>{
   window.open(url,'_blank');
 };
 
-// Qeydiyyat sayı avtomatik artım
 let registerCount=3638;
 setInterval(()=>{registerCount++; registerCountSpan.innerText=registerCount;},90000);
 
-// Son çıxarış edənlər
 const sampleNames=["Aysel","Ferid","Leqeb","Nijat","Elvin","Rufat","Samir","Gunel","Leyla","Farid","Ramin","Nurlan","Aysu","Cavid","Turan","Rafael","Sevda","Kamran","Rauf","Sahin"];
 function updateWinners(){
   winnersList.innerHTML="";
