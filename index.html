@@ -2,79 +2,59 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Login və Oyun</title>
+<title>Tapmaca Tap Real Pul Qazan!</title>
 <style>
 body {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #f2f2f2;
   margin:0;
   display:flex;
   justify-content:center;
-  align-items:center;
+  align-items:flex-start;
   min-height:100vh;
+  padding-top:20px;
 }
 .container {
-  width:90%;
+  width:100%;
   max-width:400px;
   background:#fff;
   padding:20px;
   border-radius:15px;
+  box-sizing:border-box;
+  text-align:center;
 }
-h2{text-align:center;}
+h1{color:#ff3b00; margin-bottom:20px;}
 .input{width:100%; padding:15px; margin-top:15px; border-radius:15px; border:1px solid #ccc; font-size:16px;}
-.text{font-size:14px; color:#666; margin-top:10px;}
-.row{display:flex; align-items:center; margin-top:15px;}
 .btn{width:100%; padding:15px; margin-top:20px; border-radius:15px; border:none; font-size:18px; cursor:pointer;}
 .login-btn{background:#ff3b00; color:white;}
 .register-btn{background:white; color:#ff3b00; border:2px solid #ff3b00;}
 .hidden{display:none;}
-#recentWinners{font-size:13px; color:#333; margin-top:10px;}
+#codeDiv,#gameDiv{margin-top:20px;}
+#recentWinners{font-size:13px; color:#333; margin-top:10px; text-align:left;}
 #gameBalance{font-weight:bold;}
-#gameDiv{background:#fff3e0; padding:20px; border-radius:15px; margin-top:10px;}
+#questionDiv{margin-top:10px; text-align:left;}
 </style>
 </head>
 <body>
 
 <div class="container">
 
-  <!-- Qeydiyyat -->
-  <div id="registerDiv" class="hidden">
-    <h2>Qeydiyyat</h2>
-    <input class="input" id="regPhone" placeholder="Mobil nömrə/Üzv Nömrəsi">
-    <input class="input" id="regEmail" placeholder="Email">
-    <input class="input" type="password" id="regPassword" placeholder="Şifrə">
-    <button class="btn login-btn" id="registerBtn">QEYDİYYATDAN KEÇ</button>
-    <button class="btn register-btn" id="backToLoginBtn">GERİ DAXİL OL</button>
-  </div>
+  <h1>Tapmaca Tap Real Pul Qazan!</h1>
 
-  <!-- Login -->
+  <!-- Login Bölməsi -->
   <div id="loginDiv">
-    <h2>Daxil ol</h2>
     <input class="input" id="loginPhone" placeholder="Mobil nömrə/Üzv Nömrəsi">
     <input class="input" type="password" id="loginPassword" placeholder="Şifrə">
-    <div class="row">
-      <input type="checkbox" id="rememberMe"><span style="margin-left:10px;">Məni xatırla</span>
-    </div>
     <button class="btn login-btn" id="loginBtn">DAXİL OL</button>
-    <button class="btn register-btn" id="goToRegisterBtn">QEYDİYYATDAN KEÇ</button>
-    <div class="text" id="registerStats">
-      Qeydiyyat Sayı: 3638
-      <div id="recentWinners">
-        <strong>Son çıxarış edənlər:</strong>
-        <ul id="winnersList"></ul>
-      </div>
-    </div>
   </div>
 
-  <!-- Kod -->
+  <!-- Kod Bölməsi -->
   <div id="codeDiv" class="hidden">
-    <h2>Oyun Kodunu Daxil Edin</h2>
-    <input class="input" id="gameCode" placeholder="Oyun kodunu yazın">
-    <button class="btn login-btn" id="submitCodeBtn">Təsdiqlə</button>
-    <div id="codeMessage" class="text"></div>
+    <p>Sizin oyun kodunuz yoxdur?</p>
+    <button class="btn register-btn" id="getCodeBtn">Oyun kodu əldə edin</button>
   </div>
 
-  <!-- Oyun -->
+  <!-- Oyun Bölməsi -->
   <div id="gameDiv" class="hidden">
     <h2>Oyun Balansı: <span id="gameBalance">0₼</span></h2>
     <p>20 çətin tapmaca. Hər cavab +0.20₼ / -0.20₼</p>
@@ -82,11 +62,26 @@ h2{text-align:center;}
     <button class="btn register-btn" id="exitBtn" disabled>ÇIXARİŞ ET</button>
   </div>
 
+  <!-- Qeydiyyat Statistikası -->
+  <div class="text" id="registerStats">
+    Qeydiyyat Sayı: <span id="registerCount">3638</span>
+    <div id="recentWinners">
+      <strong>Son çıxarış edənlər:</strong>
+      <ul id="winnersList"></ul>
+    </div>
+  </div>
+
 </div>
 
 <script>
+// İstifadəçilər
 let users=[], currentUser=null;
+
+// Kod və balans sistemi
 const codeMap={"12-m":1,"78-m":5,"120-m":10};
+let questionCount=0,totalQuestions=20;
+
+// Tapmacalar
 const puzzles=[
 {q:"Mənim bir qardaşım var, amma mənim qardaşımın heç qardaşı yoxdur. Mən kiməm?", a:"Mən özüm"},
 {q:"Hansı ay 28 gündən az deyil?", a:"Bütün aylar"},
@@ -110,56 +105,40 @@ const puzzles=[
 {q:"Hər kəs onu istifadə edir amma heç kim ona baxmır. Nədir?", a:"Telefon"}
 ];
 
-const registerDiv=document.getElementById('registerDiv');
+// DOM elementləri
 const loginDiv=document.getElementById('loginDiv');
 const codeDiv=document.getElementById('codeDiv');
 const gameDiv=document.getElementById('gameDiv');
-const winnersList=document.getElementById('winnersList');
+const questionDiv=document.getElementById('questionDiv');
 const exitBtn=document.getElementById('exitBtn');
+const gameBalanceSpan=document.getElementById('gameBalance');
+const registerCountSpan=document.getElementById('registerCount');
+const winnersList=document.getElementById('winnersList');
 
-function showDiv(div){
-  registerDiv.classList.add('hidden'); loginDiv.classList.add('hidden');
-  codeDiv.classList.add('hidden'); gameDiv.classList.add('hidden');
-  div.classList.remove('hidden');
-}
-function isValidEmail(email){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);}
-
-document.getElementById('goToRegisterBtn').onclick=()=>showDiv(registerDiv);
-document.getElementById('backToLoginBtn').onclick=()=>showDiv(loginDiv);
-
-document.getElementById('registerBtn').onclick=()=>{
-  const phone=document.getElementById('regPhone').value.trim();
-  const email=document.getElementById('regEmail').value.trim();
-  const password=document.getElementById('regPassword').value;
-  if(!phone||!email||!password){alert("Bütün sahələri doldurun!");return;}
-  if(!isValidEmail(email)){alert("Email düzgün deyil!");return;}
-  users.push({phone,email,password,balance:0});
-  alert("Qeydiyyat uğurla başa çatdı!");
-  showDiv(loginDiv);
-};
-
+// Login funksiyası
 document.getElementById('loginBtn').onclick=()=>{
   const phone=document.getElementById('loginPhone').value.trim();
-  const password=document.getElementById('loginPassword').value;
-  const user=users.find(u=>u.phone===phone && u.password===password);
-  if(!user){alert("İstifadəçi tapılmadı və ya şifrə səhvdir!");return;}
-  currentUser=user;
-  showDiv(codeDiv);
+  const password=document.getElementById('loginPassword').value.trim();
+  if(!phone||!password){alert("Bütün sahələri doldurun!"); return;}
+  currentUser={phone,password,balance:0}; // Sadə demo üçün
+  codeDiv.classList.remove('hidden');
 };
 
-document.getElementById('submitCodeBtn').onclick=()=>{
-  const code=document.getElementById('gameCode').value.trim();
-  if(!codeMap[code]){alert("Kod düzgün deyil!");return;}
-  currentUser.balance=codeMap[code];
-  showGameInterface();
+// Kod əldə et düyməsi
+document.getElementById('getCodeBtn').onclick=()=>{
+  const message="Salam, mən oyun kodu istəyirəm!";
+  const phone="0552334815";
+  const url=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  window.open(url,'_blank');
 };
 
-let questionCount=0,totalQuestions=20;
-function showGameInterface(){
-  showDiv(gameDiv);
-  document.getElementById('gameBalance').innerText=currentUser.balance.toFixed(2)+'₼';
+// Oyun funksiyaları
+function startGame(code){
+  currentUser.balance=codeMap[code] || 0;
+  gameDiv.classList.remove('hidden');
   questionCount=0;
   exitBtn.disabled=true;
+  gameBalanceSpan.innerText=currentUser.balance.toFixed(2)+'₼';
   nextPuzzle();
 }
 
@@ -169,25 +148,33 @@ function nextPuzzle(){
     exitBtn.disabled=false;
     return;
   }
-  const qDiv=document.getElementById('questionDiv');
   const puzzle=puzzles[questionCount];
-  qDiv.innerHTML=`<p>Sual ${questionCount+1}: ${puzzle.q}</p>
+  questionDiv.innerHTML=`<p>Sual ${questionCount+1}: ${puzzle.q}</p>
   <input class="input" id="answerInput">
   <button class="btn login-btn" id="submitAnswerBtn">CAVABLA</button>`;
   document.getElementById('submitAnswerBtn').onclick=()=>{
     const ans=document.getElementById('answerInput').value.trim().toLowerCase();
-    if(ans===puzzle.a.toLowerCase()){currentUser.balance+=0.2;alert("Düzgün cavab! +0.20₼");}
-    else{currentUser.balance-=0.2;alert(`Səhv! -0.20₼. Düzgün cavab: ${puzzle.a}`);}
-    document.getElementById('gameBalance').innerText=currentUser.balance.toFixed(2)+'₼';
+    if(ans===puzzle.a.toLowerCase()){currentUser.balance+=0.2; alert("Düzgün cavab! +0.20₼");}
+    else{currentUser.balance-=0.2; alert(`Səhv! -0.20₼. Düzgün cavab: ${puzzle.a}`);}
+    gameBalanceSpan.innerText=currentUser.balance.toFixed(2)+'₼';
     questionCount++;
     nextPuzzle();
   };
 }
 
+// Çıxarış düyməsi
 exitBtn.onclick=()=>{
   alert(`WhatsApp avtomatik mesaj: Mən çıxarış etmək istəyirəm! Balansım: ${currentUser.balance.toFixed(2)}₼`);
 };
 
+// Qeydiyyat sayı avtomatik artırmaq
+let registerCount=3638;
+setInterval(()=>{
+  registerCount++;
+  registerCountSpan.innerText=registerCount;
+},90000);
+
+// Son çıxarış edənlər (avto)
 const sampleNames=["Aysel","Ferid","Leqeb","Nijat","Elvin","Rufat","Samir","Gunel","Leyla","Farid","Ramin","Nurlan","Aysu","Cavid","Turan","Rafael","Sevda","Kamran","Rauf","Sahin"];
 function updateWinners(){
   winnersList.innerHTML="";
