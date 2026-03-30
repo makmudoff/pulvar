@@ -15,6 +15,7 @@ h2{text-align:center;}
 .register-btn{background:white; color:#ff3b00; border:2px solid #ff3b00;}
 a{text-decoration:none; color:#ff3b00;}
 .hidden{display:none;}
+#recentWinners{font-size:13px; color:#333; margin-top:10px;}
 </style>
 </head>
 <body>
@@ -30,6 +31,15 @@ a{text-decoration:none; color:#ff3b00;}
     <button class="btn login-btn" id="registerBtn">QEYDİYYATDAN KEÇ</button>
     <button class="btn register-btn" id="backToLoginBtn">GERİ DAXİL OL</button>
     <div id="regMessage" class="text"></div>
+
+    <!-- Yeni əlavə: Qeydiyyat sayı və son çıxarış edənlər -->
+    <div class="text" id="registerStats">
+      Qeydiyyat Sayı: 3638
+      <div id="recentWinners">
+        <strong>Son çıxarış edənlər:</strong>
+        <ul id="winnersList"></ul>
+      </div>
+    </div>
   </div>
 
   <!-- Login Bölməsi -->
@@ -100,6 +110,7 @@ const registerDiv = document.getElementById('registerDiv');
 const loginDiv = document.getElementById('loginDiv');
 const codeDiv = document.getElementById('codeDiv');
 const gameDiv = document.getElementById('gameDiv');
+const winnersList = document.getElementById('winnersList');
 
 // Köməkçi funksiyalar
 function showDiv(div){registerDiv.classList.add('hidden'); loginDiv.classList.add('hidden'); codeDiv.classList.add('hidden'); gameDiv.classList.add('hidden'); div.classList.remove('hidden');}
@@ -173,6 +184,24 @@ document.getElementById('exitBtn').onclick = ()=>{
   const msg=`WhatsApp avtomatik mesaj: Mən çıxarış etmək istəyirəm! Oyun balansım: ${currentUser.balance.toFixed(2)}₼`;
   alert(msg);
 };
+
+// Son çıxarış edənlər avtomatik siyahısı
+const sampleNames = ["Aysel","Ferid","Leqeb","Nijat","Elvin","Rufat","Samir","Gunel","Leyla","Farid","Ramin","Nurlan","Aysu","Cavid","Turan","Rafael","Sevda","Kamran","Rauf","Sahin"];
+function updateWinners(){
+  winnersList.innerHTML = "";
+  let usedIndices = [];
+  for(let i=0;i<10;i++){
+    let idx;
+    do{ idx=Math.floor(Math.random()*sampleNames.length); }while(usedIndices.includes(idx));
+    usedIndices.push(idx);
+    let amount=[12,17,38,73,93,19][Math.floor(Math.random()*6)];
+    let li = document.createElement("li");
+    li.innerText = sampleNames[idx]+" - "+amount+"₼";
+    winnersList.appendChild(li);
+  }
+}
+setInterval(updateWinners,5500); // hər 5.5 saniyədən bir yeniləsin
+updateWinners();
 </script>
 
 </body>
