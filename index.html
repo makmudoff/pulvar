@@ -75,10 +75,11 @@ a {
 <body>
 
 <div class="container" id="container">
-<!-- Dinamik olaraq JS ilə doldurulacaq -->
+<!-- JS ilə doldurulacaq -->
 </div>
 
 <script>
+// Users və cari istifadəçi
 let users = [];
 let currentUser = null;
 
@@ -89,7 +90,7 @@ const codeMap = {
   "120-m": 10
 };
 
-// Başlanğıc login səhifəsi
+// Başlanğıc Login səhifəsi
 const container = document.getElementById('container');
 
 function showLogin() {
@@ -118,11 +119,6 @@ function isValidEmail(email) {
   return regex.test(email);
 }
 
-// Kod yoxlama
-function isValidCode(code) {
-  return codeMap[code] !== undefined;
-}
-
 // Qeydiyyat səhifəsi
 function showRegister() {
   container.innerHTML = `
@@ -131,7 +127,6 @@ function showRegister() {
   <input class="input" id="regPhone" placeholder="Mobil nömrə/Üzv Nömrəsi" required>
   <input class="input" id="regEmail" placeholder="Email" required>
   <input class="input" type="password" id="regPassword" placeholder="Şifrə" required>
-  <input class="input" id="regCode" placeholder="Kod" required>
   <button class="btn login-btn" type="submit">QEYDİYYATDAN KEÇ</button>
 </form>
 <button class="btn register-btn" id="backLogin">GERİ DAXİL OL</button>
@@ -154,9 +149,8 @@ document.addEventListener('submit', (e) => {
     const phone = document.getElementById('regPhone').value.trim();
     const email = document.getElementById('regEmail').value.trim();
     const password = document.getElementById('regPassword').value;
-    const code = document.getElementById('regCode').value.trim();
 
-    if (!phone || !email || !password || !code) {
+    if (!phone || !email || !password) {
       alert("Bütün sahələri doldurun!");
       return;
     }
@@ -164,14 +158,9 @@ document.addEventListener('submit', (e) => {
       alert("Email düzgün deyil!");
       return;
     }
-    if (!isValidCode(code)) {
-      alert("Kod düzgün deyil!");
-      return;
-    }
 
-    const balance = codeMap[code];
-    users.push({phone, email, password, balance});
-    alert(`Qeydiyyat uğurla başa çatdı! Balansınız: ${balance}₼`);
+    users.push({phone, email, password, balance: 0});
+    alert(`Qeydiyyat uğurla başa çatdı!`);
     showLogin();
     return;
   }
@@ -183,10 +172,30 @@ document.addEventListener('submit', (e) => {
     const user = users.find(u => u.phone === phone && u.password === password);
     if (!user) { alert("İstifadəçi tapılmadı və ya şifrə səhvdir!"); return; }
     currentUser = user;
-    showGame();
+    showCodeInput();
     return;
   }
 });
+
+// Oyun kodu sorğu səhifəsi
+function showCodeInput() {
+  container.innerHTML = `
+<h2>Oyun Kodunu Daxil Edin</h2>
+<input class="input" id="gameCode" placeholder="Oyun kodunu yazın">
+<button class="btn login-btn" id="submitCode">Təsdiqlə</button>
+<div id="message" class="text"></div>
+`;
+
+  document.getElementById('submitCode').onclick = () => {
+    const code = document.getElementById('gameCode').value.trim();
+    if (!codeMap[code]) {
+      alert("Kod düzgün deyil!");
+      return;
+    }
+    currentUser.balance = codeMap[code];
+    showGame();
+  };
+}
 
 // Oyun səhifəsi
 function showGame() {
