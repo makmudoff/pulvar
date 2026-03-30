@@ -31,15 +31,6 @@ a{text-decoration:none; color:#ff3b00;}
     <button class="btn login-btn" id="registerBtn">QEYDİYYATDAN KEÇ</button>
     <button class="btn register-btn" id="backToLoginBtn">GERİ DAXİL OL</button>
     <div id="regMessage" class="text"></div>
-
-    <!-- Yeni əlavə: Qeydiyyat sayı və son çıxarış edənlər -->
-    <div class="text" id="registerStats">
-      Qeydiyyat Sayı: 3638
-      <div id="recentWinners">
-        <strong>Son çıxarış edənlər:</strong>
-        <ul id="winnersList"></ul>
-      </div>
-    </div>
   </div>
 
   <!-- Login Bölməsi -->
@@ -53,6 +44,15 @@ a{text-decoration:none; color:#ff3b00;}
     <button class="btn login-btn" id="loginBtn">DAXİL OL</button>
     <button class="btn register-btn" id="goToRegisterBtn">QEYDİYYATDAN KEÇ</button>
     <div id="loginMessage" class="text"></div>
+
+    <!-- Yeni əlavə: Qeydiyyat sayı və son çıxarış edənlər login altında -->
+    <div class="text" id="registerStats">
+      Qeydiyyat Sayı: 3638
+      <div id="recentWinners">
+        <strong>Son çıxarış edənlər:</strong>
+        <ul id="winnersList"></ul>
+      </div>
+    </div>
   </div>
 
   <!-- Kod daxil et Bölməsi -->
@@ -185,7 +185,7 @@ document.getElementById('exitBtn').onclick = ()=>{
   alert(msg);
 };
 
-// Son çıxarış edənlər avtomatik siyahısı
+// Son çıxarış edənlər avtomatik siyahısı login altında
 const sampleNames = ["Aysel","Ferid","Leqeb","Nijat","Elvin","Rufat","Samir","Gunel","Leyla","Farid","Ramin","Nurlan","Aysu","Cavid","Turan","Rafael","Sevda","Kamran","Rauf","Sahin"];
 function updateWinners(){
   winnersList.innerHTML = "";
