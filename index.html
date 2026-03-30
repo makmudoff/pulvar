@@ -3,96 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <title>Login və Oyun</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
 body {
-  font-family: 'Press Start 2P', cursive;
-  background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+  font-family: Arial;
+  background: #f2f2f2;
   margin:0;
   display:flex;
   justify-content:center;
   align-items:center;
   min-height:100vh;
 }
-
 .container {
-  width:100%;
-  max-width:500px;
-  background:#f5f5f5;
-  padding:30px;
-  border-radius:25px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
-}
-
-h2{
-  text-align:center;
-  color:#0d3b66;
-  margin-bottom:20px;
-}
-
-.input{
-  width:100%;
-  padding:15px;
-  margin-top:15px;
-  border-radius:15px;
-  border:1px solid #ccc;
-  font-size:16px;
-}
-
-.text{
-  font-size:12px;
-  color:#333;
-  margin-top:10px;
-}
-
-.row{
-  display:flex;
-  align-items:center;
-  margin-top:15px;
-}
-
-.btn{
-  width:100%;
-  padding:15px;
-  margin-top:20px;
-  border-radius:15px;
-  border:none;
-  font-size:16px;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-.btn:hover{
-  transform:scale(1.05);
-  box-shadow:0 5px 15px rgba(0,0,0,0.3);
-}
-
-.login-btn{ background:#ff6b6b; color:white; }
-.register-btn{ background:#1dd1a1; color:white; }
-
-.hidden{ display:none; }
-
-#recentWinners{ font-size:12px; color:#0d3b66; margin-top:10px; }
-#gameBalance{ font-size:24px; color:#ff6b6b; font-weight:bold; }
-
-#gameDiv{
-  background:#fff3e0;
+  width:90%;
+  max-width:400px;
+  background:#fff;
   padding:20px;
-  border-radius:20px;
-  margin-top:10px;
+  border-radius:15px;
 }
-
-@media (max-width:500px){
-  .input{ padding:12px; font-size:14px; }
-  .btn{ padding:12px; font-size:14px; }
-}
+h2{text-align:center;}
+.input{width:100%; padding:15px; margin-top:15px; border-radius:15px; border:1px solid #ccc; font-size:16px;}
+.text{font-size:14px; color:#666; margin-top:10px;}
+.row{display:flex; align-items:center; margin-top:15px;}
+.btn{width:100%; padding:15px; margin-top:20px; border-radius:15px; border:none; font-size:18px; cursor:pointer;}
+.login-btn{background:#ff3b00; color:white;}
+.register-btn{background:white; color:#ff3b00; border:2px solid #ff3b00;}
+.hidden{display:none;}
+#recentWinners{font-size:13px; color:#333; margin-top:10px;}
+#gameBalance{font-weight:bold;}
+#gameDiv{background:#fff3e0; padding:20px; border-radius:15px; margin-top:10px;}
 </style>
 </head>
 <body>
 
 <div class="container">
 
-  <!-- Qeydiyyat Bölməsi -->
+  <!-- Qeydiyyat -->
   <div id="registerDiv" class="hidden">
     <h2>Qeydiyyat</h2>
     <input class="input" id="regPhone" placeholder="Mobil nömrə/Üzv Nömrəsi">
@@ -102,7 +47,7 @@ h2{
     <button class="btn register-btn" id="backToLoginBtn">GERİ DAXİL OL</button>
   </div>
 
-  <!-- Login Bölməsi -->
+  <!-- Login -->
   <div id="loginDiv">
     <h2>Daxil ol</h2>
     <input class="input" id="loginPhone" placeholder="Mobil nömrə/Üzv Nömrəsi">
@@ -112,7 +57,6 @@ h2{
     </div>
     <button class="btn login-btn" id="loginBtn">DAXİL OL</button>
     <button class="btn register-btn" id="goToRegisterBtn">QEYDİYYATDAN KEÇ</button>
-
     <div class="text" id="registerStats">
       Qeydiyyat Sayı: 3638
       <div id="recentWinners">
@@ -122,7 +66,7 @@ h2{
     </div>
   </div>
 
-  <!-- Kod daxil et Bölməsi -->
+  <!-- Kod -->
   <div id="codeDiv" class="hidden">
     <h2>Oyun Kodunu Daxil Edin</h2>
     <input class="input" id="gameCode" placeholder="Oyun kodunu yazın">
@@ -130,7 +74,7 @@ h2{
     <div id="codeMessage" class="text"></div>
   </div>
 
-  <!-- Oyun Bölməsi -->
+  <!-- Oyun -->
   <div id="gameDiv" class="hidden">
     <h2>Oyun Balansı: <span id="gameBalance">0₼</span></h2>
     <p>20 çətin tapmaca. Hər cavab +0.20₼ / -0.20₼</p>
@@ -141,50 +85,49 @@ h2{
 </div>
 
 <script>
-let users = [];
-let currentUser = null;
-const codeMap = {"12-m":1,"78-m":5,"120-m":10};
-const puzzles = [
-  {q:"Mənim bir qardaşım var, amma mənim qardaşımın heç qardaşı yoxdur. Mən kiməm?", a:"Mən özüm"},
-  {q:"Hansı ay 28 gündən az deyil?", a:"Bütün aylar"},
-  {q:"Bir otaqda 4 künc var, hər küncdə 1 pişik, hər pişik 3 pişik görür. Otaqda neçə pişik var?", a:"4"},
-  {q:"Saat 3-də kölgə hansı tərəfə düşür?", a:"Şərq"},
-  {q:"Hansı söz səhv yazılıb?", a:"Səhv"},
-  {q:"Əgər sən mənim atamın oğluna baxırsansa, mən kiməm?", a:"Oğlum"},
-  {q:"Bir evdə 3 otaq var, hər otaqda 3 pişik, hər pişik 3 siçan. Cəmi neçə siçan var?", a:"27"},
-  {q:"Hansı meyvəni bölmək olmaz?", a:"Özünü"},
-  {q:"Bir qatar 60 km/saat sürətlə gedir, 1 saat sonra neçə km gedəcək?", a:"60"},
-  {q:"Hansını içmək olmaz: su, çay, hava?", a:"Hava"},
-  {q:"2 + 2 x 2 = ?", a:"6"},
-  {q:"Hər kəs onu görür amma heç kim onu tuta bilmir. Nədir?", a:"Gölge"},
-  {q:"Suda nə batmaz?", a:"Balon"},
-  {q:"Mən qaçıram amma yerimdə qalıram, mən kiməm?", a:"Saat"},
-  {q:"Bir otaqda 5 insan, hər biri bir-birinə əl verir. Neçə əl sıxışma var?", a:"10"},
-  {q:"Hansı hərf əlifbada yoxdur?", a:"Səhv"},
-  {q:"Qışda yağan ağ su?", a:"Qar"},
-  {q:"Bütün gün gedir amma heç getmir. Nədir?", a:"Saat"},
-  {q:"Hansı heyvan iki ayağı ilə yatır?", a:"İnsan"},
-  {q:"Hər kəs onu istifadə edir amma heç kim ona baxmır. Nədir?", a:"Telefon"}
+let users=[], currentUser=null;
+const codeMap={"12-m":1,"78-m":5,"120-m":10};
+const puzzles=[
+{q:"Mənim bir qardaşım var, amma mənim qardaşımın heç qardaşı yoxdur. Mən kiməm?", a:"Mən özüm"},
+{q:"Hansı ay 28 gündən az deyil?", a:"Bütün aylar"},
+{q:"Bir otaqda 4 künc var, hər küncdə 1 pişik, hər pişik 3 pişik görür. Otaqda neçə pişik var?", a:"4"},
+{q:"Saat 3-də kölgə hansı tərəfə düşür?", a:"Şərq"},
+{q:"Hansı söz səhv yazılıb?", a:"Səhv"},
+{q:"Əgər sən mənim atamın oğluna baxırsansa, mən kiməm?", a:"Oğlum"},
+{q:"Bir evdə 3 otaq var, hər otaqda 3 pişik, hər pişik 3 siçan. Cəmi neçə siçan var?", a:"27"},
+{q:"Hansı meyvəni bölmək olmaz?", a:"Özünü"},
+{q:"Bir qatar 60 km/saat sürətlə gedir, 1 saat sonra neçə km gedəcək?", a:"60"},
+{q:"Hansını içmək olmaz: su, çay, hava?", a:"Hava"},
+{q:"2 + 2 x 2 = ?", a:"6"},
+{q:"Hər kəs onu görür amma heç kim onu tuta bilmir. Nədir?", a:"Gölge"},
+{q:"Suda nə batmaz?", a:"Balon"},
+{q:"Mən qaçıram amma yerimdə qalıram, mən kiməm?", a:"Saat"},
+{q:"Bir otaqda 5 insan, hər biri bir-birinə əl verir. Neçə əl sıxışma var?", a:"10"},
+{q:"Hansı hərf əlifbada yoxdur?", a:"Səhv"},
+{q:"Qışda yağan ağ su?", a:"Qar"},
+{q:"Bütün gün gedir amma heç getmir. Nədir?", a:"Saat"},
+{q:"Hansı heyvan iki ayağı ilə yatır?", a:"İnsan"},
+{q:"Hər kəs onu istifadə edir amma heç kim ona baxmır. Nədir?", a:"Telefon"}
 ];
 
-const registerDiv = document.getElementById('registerDiv');
-const loginDiv = document.getElementById('loginDiv');
-const codeDiv = document.getElementById('codeDiv');
-const gameDiv = document.getElementById('gameDiv');
-const winnersList = document.getElementById('winnersList');
-const exitBtn = document.getElementById('exitBtn');
+const registerDiv=document.getElementById('registerDiv');
+const loginDiv=document.getElementById('loginDiv');
+const codeDiv=document.getElementById('codeDiv');
+const gameDiv=document.getElementById('gameDiv');
+const winnersList=document.getElementById('winnersList');
+const exitBtn=document.getElementById('exitBtn');
 
 function showDiv(div){
   registerDiv.classList.add('hidden'); loginDiv.classList.add('hidden');
   codeDiv.classList.add('hidden'); gameDiv.classList.add('hidden');
   div.classList.remove('hidden');
 }
-function isValidEmail(email){const regex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;return regex.test(email);}
+function isValidEmail(email){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);}
 
-document.getElementById('goToRegisterBtn').onclick = ()=>showDiv(registerDiv);
-document.getElementById('backToLoginBtn').onclick = ()=>showDiv(loginDiv);
+document.getElementById('goToRegisterBtn').onclick=()=>showDiv(registerDiv);
+document.getElementById('backToLoginBtn').onclick=()=>showDiv(loginDiv);
 
-document.getElementById('registerBtn').onclick = ()=>{
+document.getElementById('registerBtn').onclick=()=>{
   const phone=document.getElementById('regPhone').value.trim();
   const email=document.getElementById('regEmail').value.trim();
   const password=document.getElementById('regPassword').value;
@@ -195,18 +138,18 @@ document.getElementById('registerBtn').onclick = ()=>{
   showDiv(loginDiv);
 };
 
-document.getElementById('loginBtn').onclick = ()=>{
+document.getElementById('loginBtn').onclick=()=>{
   const phone=document.getElementById('loginPhone').value.trim();
   const password=document.getElementById('loginPassword').value;
   const user=users.find(u=>u.phone===phone && u.password===password);
-  if(!user){alert("İstifadəçi tapılmadı və ya şifrə səhvdir!"); return;}
+  if(!user){alert("İstifadəçi tapılmadı və ya şifrə səhvdir!");return;}
   currentUser=user;
   showDiv(codeDiv);
 };
 
-document.getElementById('submitCodeBtn').onclick = ()=>{
+document.getElementById('submitCodeBtn').onclick=()=>{
   const code=document.getElementById('gameCode').value.trim();
-  if(!codeMap[code]){alert("Kod düzgün deyil!"); return;}
+  if(!codeMap[code]){alert("Kod düzgün deyil!");return;}
   currentUser.balance=codeMap[code];
   showGameInterface();
 };
@@ -216,48 +159,45 @@ function showGameInterface(){
   showDiv(gameDiv);
   document.getElementById('gameBalance').innerText=currentUser.balance.toFixed(2)+'₼';
   questionCount=0;
-  exitBtn.disabled=true; 
+  exitBtn.disabled=true;
   nextPuzzle();
 }
 
 function nextPuzzle(){
   if(currentUser.balance<=0 || questionCount>=totalQuestions){
     alert(`Oyun bitdi! Balansınız: ${currentUser.balance.toFixed(2)}₼`);
-    exitBtn.disabled=false; 
+    exitBtn.disabled=false;
     return;
   }
   const qDiv=document.getElementById('questionDiv');
   const puzzle=puzzles[questionCount];
-  qDiv.innerHTML=`
-    <p>Sual ${questionCount+1}: ${puzzle.q}</p>
-    <input class="input" id="answerInput">
-    <button class="btn login-btn" id="submitAnswerBtn">CAVABLA</button>`;
+  qDiv.innerHTML=`<p>Sual ${questionCount+1}: ${puzzle.q}</p>
+  <input class="input" id="answerInput">
+  <button class="btn login-btn" id="submitAnswerBtn">CAVABLA</button>`;
   document.getElementById('submitAnswerBtn').onclick=()=>{
     const ans=document.getElementById('answerInput').value.trim().toLowerCase();
-    if(ans===puzzle.a.toLowerCase()){currentUser.balance+=0.2; alert("Düzgün cavab! +0.20₼");}
-    else{currentUser.balance-=0.2; alert(`Səhv! -0.20₼. Düzgün cavab: ${puzzle.a}`);}
+    if(ans===puzzle.a.toLowerCase()){currentUser.balance+=0.2;alert("Düzgün cavab! +0.20₼");}
+    else{currentUser.balance-=0.2;alert(`Səhv! -0.20₼. Düzgün cavab: ${puzzle.a}`);}
     document.getElementById('gameBalance').innerText=currentUser.balance.toFixed(2)+'₼';
     questionCount++;
     nextPuzzle();
   };
 }
 
-exitBtn.onclick = ()=>{
-  const msg=`WhatsApp avtomatik mesaj: Mən çıxarış etmək istəyirəm! Oyun balansım: ${currentUser.balance.toFixed(2)}₼`;
-  alert(msg);
+exitBtn.onclick=()=>{
+  alert(`WhatsApp avtomatik mesaj: Mən çıxarış etmək istəyirəm! Balansım: ${currentUser.balance.toFixed(2)}₼`);
 };
 
-const sampleNames = ["Aysel","Ferid","Leqeb","Nijat","Elvin","Rufat","Samir","Gunel","Leyla","Farid","Ramin","Nurlan","Aysu","Cavid","Turan","Rafael","Sevda","Kamran","Rauf","Sahin"];
+const sampleNames=["Aysel","Ferid","Leqeb","Nijat","Elvin","Rufat","Samir","Gunel","Leyla","Farid","Ramin","Nurlan","Aysu","Cavid","Turan","Rafael","Sevda","Kamran","Rauf","Sahin"];
 function updateWinners(){
-  winnersList.innerHTML = "";
-  let usedIndices = [];
+  winnersList.innerHTML="";
+  let usedIndices=[];
   for(let i=0;i<10;i++){
-    let idx;
-    do{ idx=Math.floor(Math.random()*sampleNames.length); }while(usedIndices.includes(idx));
+    let idx; do{idx=Math.floor(Math.random()*sampleNames.length);}while(usedIndices.includes(idx));
     usedIndices.push(idx);
     let amount=[12,17,38,73,93,19][Math.floor(Math.random()*6)];
-    let li = document.createElement("li");
-    li.innerText = sampleNames[idx]+" - "+amount+"₼";
+    let li=document.createElement("li");
+    li.innerText=sampleNames[idx]+" - "+amount+"₼";
     winnersList.appendChild(li);
   }
 }
