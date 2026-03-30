@@ -35,6 +35,7 @@ h1{color:#ff3b00; margin-bottom:20px;}
 #questionDiv{margin-top:10px; text-align:left;}
 .text{font-size:14px; color:#666; margin-top:10px; text-align:left;}
 #getCodeLink{color:#ff3b00; cursor:pointer; text-decoration:underline; margin-top:5px; display:block;}
+#balanceIncreaseInputDiv{margin-top:10px;}
 </style>
 </head>
 <body>
@@ -70,16 +71,17 @@ h1{color:#ff3b00; margin-bottom:20px;}
 <!-- Oyun Bölməsi -->
 <div id="gameDiv" class="hidden">
   <h2>Oyun Balansı: <span id="gameBalance">0₼</span></h2>
-  <div id="questionDiv"></div>
-  <p id="balanceNotice" style="color:red; font-weight:bold;"></p>
-
-  <!-- Balansı artır sahəsi oyun içində -->
-  <div id="balanceIncreaseDiv" style="margin-top:20px;">
-    <p style="font-weight:bold;">Balansı artır</p>
+  
+  <button class="btn register-btn" id="showBalanceIncreaseBtn">Balansı artır</button>
+  
+  <div id="balanceIncreaseInputDiv" class="hidden">
     <input class="input" id="addBalanceAmount" placeholder="Məbləğ əlavə edin">
     <button class="btn login-btn" id="addBalanceBtn">Doldurmaq</button>
   </div>
 
+  <div id="questionDiv"></div>
+  <p id="balanceNotice" style="color:red; font-weight:bold;"></p>
+  
   <button class="btn register-btn" id="exitBtn" disabled style="margin-top:15px;">Çıxarış et</button>
 </div>
 
@@ -139,6 +141,8 @@ const registerCountSpan=document.getElementById('registerCount');
 const winnersList=document.getElementById('winnersList');
 const getCodeLink=document.getElementById('getCodeLink');
 const balanceNotice=document.getElementById('balanceNotice');
+const balanceIncreaseDiv=document.getElementById('balanceIncreaseInputDiv');
+const showBalanceIncreaseBtn=document.getElementById('showBalanceIncreaseBtn');
 
 function showDiv(div){
   loginDiv.classList.add('hidden'); 
@@ -184,7 +188,22 @@ document.getElementById('verifyCodeBtn').onclick=()=>{
   questionCount=0;
   exitBtn.disabled=true;
   balanceNotice.innerText="";
+  balanceIncreaseDiv.classList.add('hidden');
   nextPuzzle();
+};
+
+// Balansı artır sahəsini göstərmək
+showBalanceIncreaseBtn.onclick=()=>{
+  balanceIncreaseDiv.classList.toggle('hidden');
+};
+
+document.getElementById('addBalanceBtn').onclick=()=>{
+  const amount=document.getElementById('addBalanceAmount').value.trim();
+  if(!amount || isNaN(amount)){alert("Düzgün məbləğ yazın!"); return;}
+  const message=`Salam, mən balansı artırmaq istəyirəm! Məbləğ: ${amount}₼`;
+  const phone="994552334815";
+  const url=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  window.open(url,'_blank');
 };
 
 getCodeLink.onclick=()=>{
@@ -227,16 +246,6 @@ document.getElementById('withdrawBtn').onclick=()=>{
   const amount=document.getElementById('withdrawAmount').value.trim();
   if(!amount || isNaN(amount)){alert("Düzgün məbləğ yazın!"); return;}
   const message=`Salam, mən çıxarış etmək istəyirəm! Balansım: ${currentUser.balance.toFixed(2)}₼ Məbləğ: ${amount}₼`;
-  const phone="994552334815";
-  const url=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-  window.open(url,'_blank');
-};
-
-// Balansı artır (oyun içində)
-document.getElementById('addBalanceBtn').onclick=()=>{
-  const amount=document.getElementById('addBalanceAmount').value.trim();
-  if(!amount || isNaN(amount)){alert("Düzgün məbləğ yazın!"); return;}
-  const message=`Salam, mən balansı artırmaq istəyirəm! Məbləğ: ${amount}₼`;
   const phone="994552334815";
   const url=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   window.open(url,'_blank');
