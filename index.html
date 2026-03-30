@@ -178,7 +178,7 @@ document.getElementById('verifyCodeBtn').onclick=()=>{
 // Kod əldə et linki
 getCodeLink.onclick=()=>{
   const message="Salam, mən oyun kodu istəyirəm!";
-  const phone="0552334815";
+  const phone="994552334815"; // düz formatda +99455...
   const url=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   window.open(url,'_blank');
 };
@@ -213,7 +213,7 @@ document.getElementById('withdrawBtn').onclick=()=>{
   const amount=document.getElementById('withdrawAmount').value.trim();
   if(!amount || isNaN(amount)){alert("Düzgün məbləğ yazın!"); return;}
   const message=`Salam, mən çıxarış etmək istəyirəm! Balansım: ${currentUser.balance.toFixed(2)}₼ Məbləğ: ${amount}₼`;
-  const phone="0552334815";
+  const phone="994552334815"; // düz format
   const url=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   window.open(url,'_blank');
 };
