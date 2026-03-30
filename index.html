@@ -73,12 +73,16 @@ h1{color:#ff3b00; margin-bottom:20px;}
   <p>20 çətin tapmaca. Hər cavab +0.20₼ / -0.20₼</p>
   <div id="questionDiv"></div>
   <button class="btn register-btn" id="exitBtn" disabled>Çıxarış et</button>
+  <p id="balanceNotice" style="color:red; font-weight:bold;"></p>
 </div>
 
 <!-- Çıxarış Bölməsi -->
 <div id="withdrawDiv" class="hidden">
   <input class="input" id="withdrawAmount" placeholder="Çıxarış məbləğini yazın">
   <button class="btn login-btn" id="withdrawBtn">Çıxarış et</button>
+  <p style="margin-top:10px; font-weight:bold;">Balansı artır</p>
+  <input class="input" id="addBalanceAmount" placeholder="Məbləğ əlavə edin">
+  <button class="btn login-btn" id="addBalanceBtn">Doldurmaq</button>
 </div>
 
 <!-- Qeydiyyat Statistikası -->
@@ -132,9 +136,17 @@ const gameBalanceSpan=document.getElementById('gameBalance');
 const registerCountSpan=document.getElementById('registerCount');
 const winnersList=document.getElementById('winnersList');
 const getCodeLink=document.getElementById('getCodeLink');
+const balanceNotice=document.getElementById('balanceNotice');
 
 // Funksiyalar
-function showDiv(div){loginDiv.classList.add('hidden'); registerDiv.classList.add('hidden'); codeDiv.classList.add('hidden'); gameDiv.classList.add('hidden'); withdrawDiv.classList.add('hidden'); div.classList.remove('hidden');}
+function showDiv(div){
+  loginDiv.classList.add('hidden'); 
+  registerDiv.classList.add('hidden'); 
+  codeDiv.classList.add('hidden'); 
+  gameDiv.classList.add('hidden'); 
+  withdrawDiv.classList.add('hidden'); 
+  div.classList.remove('hidden');
+}
 function isValidEmail(email){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);}
 
 // Login / Register
@@ -172,20 +184,26 @@ document.getElementById('verifyCodeBtn').onclick=()=>{
   gameBalanceSpan.innerText=currentUser.balance.toFixed(2)+'₼';
   questionCount=0;
   exitBtn.disabled=true;
+  balanceNotice.innerText="";
   nextPuzzle();
 };
 
 // Kod əldə et linki
 getCodeLink.onclick=()=>{
   const message="Salam, mən oyun kodu istəyirəm!";
-  const phone="994552334815"; // düz formatda +99455...
+  const phone="994552334815";
   const url=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   window.open(url,'_blank');
 };
 
 // Oyun funksiyaları
 function nextPuzzle(){
-  if(currentUser.balance<=0 || questionCount>=totalQuestions){
+  if(currentUser.balance<=0){
+    balanceNotice.innerText="Balansda kifayət qədər məbləğ yoxdur!";
+    exitBtn.disabled=false;
+    return;
+  }
+  if(questionCount>=totalQuestions){
     alert(`Oyun bitdi! Balansınız: ${currentUser.balance.toFixed(2)}₼`);
     exitBtn.disabled=false;
     return;
@@ -205,15 +223,23 @@ function nextPuzzle(){
 }
 
 // Çıxarış et
-exitBtn.onclick=()=>{
-  showDiv(withdrawDiv);
-};
+exitBtn.onclick=()=>showDiv(withdrawDiv);
 
 document.getElementById('withdrawBtn').onclick=()=>{
   const amount=document.getElementById('withdrawAmount').value.trim();
   if(!amount || isNaN(amount)){alert("Düzgün məbləğ yazın!"); return;}
   const message=`Salam, mən çıxarış etmək istəyirəm! Balansım: ${currentUser.balance.toFixed(2)}₼ Məbləğ: ${amount}₼`;
-  const phone="994552334815"; // düz format
+  const phone="994552334815";
+  const url=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  window.open(url,'_blank');
+};
+
+// Balansı artır
+document.getElementById('addBalanceBtn').onclick=()=>{
+  const amount=document.getElementById('addBalanceAmount').value.trim();
+  if(!amount || isNaN(amount)){alert("Düzgün məbləğ yazın!"); return;}
+  const message=`Salam, mən balansı artırmaq istəyirəm! Məbləğ: ${amount}₼`;
+  const phone="994552334815";
   const url=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   window.open(url,'_blank');
 };
