@@ -1,402 +1,221 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oyuna Daxil Ol</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giriş</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial,sans-serif;
     }
 
-    body {
-      min-height: 100vh;
-      background:
-        linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.82)),
-        radial-gradient(circle at top, #2a2a2a 0%, #111 45%, #050505 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      overflow: hidden;
+    body{
+      background:#0b0b0b;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:0;
     }
 
-    .bg-glow {
-      position: fixed;
-      width: 420px;
-      height: 420px;
-      border-radius: 50%;
-      filter: blur(90px);
-      opacity: 0.22;
-      z-index: 0;
+    .overlay{
+      width:100%;
+      min-height:100vh;
+      background:rgba(0,0,0,0.75);
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding-top:90px;
     }
 
-    .glow-1 {
-      top: -80px;
-      left: -80px;
-      background: #1e90ff;
+    .login-box{
+      width:100%;
+      max-width:430px;
+      background:#fff;
+      border-radius:28px 28px 0 0;
+      padding:22px 18px 28px;
+      position:relative;
+      min-height:78vh;
     }
 
-    .glow-2 {
-      bottom: -100px;
-      right: -80px;
-      background: #00c853;
+    .close{
+      position:absolute;
+      right:18px;
+      top:18px;
+      font-size:24px;
+      color:#777;
+      cursor:pointer;
+      border:none;
+      background:none;
     }
 
-    .login-card {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 430px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-radius: 24px;
-      padding: 26px 22px 22px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    .title{
+      font-size:30px;
+      font-weight:700;
+      color:#111;
+      margin-bottom:18px;
     }
 
-    .close-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: none;
-      background: rgba(255,255,255,0.08);
-      color: #fff;
-      font-size: 24px;
-      cursor: pointer;
+    .tabs{
+      display:flex;
+      gap:10px;
+      margin-bottom:16px;
     }
 
-    .logo {
-      width: 78px;
-      height: 78px;
-      margin: 0 auto 14px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, #1e90ff, #00c853);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 28px;
-      font-weight: bold;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    .tab{
+      flex:1;
+      height:56px;
+      border:none;
+      border-radius:18px;
+      background:#efefef;
+      font-size:18px;
+      font-weight:600;
+      color:#111;
+      cursor:pointer;
     }
 
-    .title {
-      color: #fff;
-      text-align: center;
-      font-size: 30px;
-      font-weight: 700;
-      margin-bottom: 8px;
+    .tab.active{
+      background:#2f73f6;
+      color:#fff;
     }
 
-    .subtitle {
-      color: rgba(255,255,255,0.75);
-      text-align: center;
-      font-size: 15px;
-      line-height: 1.45;
-      margin-bottom: 22px;
+    .field{
+      width:100%;
+      height:62px;
+      border:none;
+      outline:none;
+      background:#f1f1f1;
+      border-radius:18px;
+      padding:0 18px;
+      font-size:18px;
+      color:#111;
+      margin-bottom:14px;
     }
 
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
+    .field::placeholder{
+      color:#8c8c8c;
     }
 
-    .tab {
-      flex: 1;
-      padding: 14px 10px;
-      text-align: center;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.08);
-      color: #dcdcdc;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: 0.2s;
-      user-select: none;
+    .forgot{
+      display:inline-block;
+      margin:4px 0 18px;
+      color:#2f73f6;
+      text-decoration:none;
+      font-size:16px;
+      font-weight:500;
     }
 
-    .tab.active {
-      background: linear-gradient(135deg, #2979ff, #1e90ff);
-      color: #fff;
-      border-color: rgba(255,255,255,0.15);
-      box-shadow: 0 8px 20px rgba(30,144,255,0.28);
+    .login-btn{
+      width:100%;
+      height:64px;
+      border:none;
+      border-radius:18px;
+      background:#56b653;
+      color:#fff;
+      font-size:20px;
+      font-weight:700;
+      cursor:pointer;
+      margin-bottom:22px;
     }
 
-    .form-group {
-      margin-bottom: 14px;
-    }
-
-    .input-wrap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 16px;
-      padding: 0 14px;
-      height: 58px;
-    }
-
-    .icon {
-      font-size: 18px;
-      color: rgba(255,255,255,0.75);
-      min-width: 22px;
-      text-align: center;
-    }
-
-    input {
-      width: 100%;
-      height: 100%;
-      border: none;
-      outline: none;
-      background: transparent;
-      color: #fff;
-      font-size: 16px;
-    }
-
-    input::placeholder {
-      color: rgba(255,255,255,0.55);
-    }
-
-    .forgot {
-      display: inline-block;
-      margin: 2px 0 18px;
-      color: #6eb6ff;
-      text-decoration: none;
-      font-size: 15px;
-    }
-
-    .login-btn {
-      width: 100%;
-      height: 58px;
-      border: none;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #17c964, #00a63e);
-      color: #fff;
-      font-size: 20px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 14px 30px rgba(0, 166, 62, 0.28);
-      transition: transform 0.15s ease;
-    }
-
-    .login-btn:active {
-      transform: scale(0.98);
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 22px 0 18px;
-      color: rgba(255,255,255,0.58);
-      font-size: 14px;
+    .divider{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      color:#777;
+      font-size:18px;
+      margin-bottom:20px;
     }
 
     .divider::before,
-    .divider::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: rgba(255,255,255,0.12);
+    .divider::after{
+      content:"";
+      flex:1;
+      height:1px;
+      background:#ddd;
     }
 
-    .socials {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
+    .socials{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:26px;
     }
 
-    .social-btn {
-      height: 54px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.07);
-      color: #fff;
-      font-size: 22px;
-      cursor: pointer;
+    .social{
+      width:52px;
+      height:52px;
+      border-radius:14px;
+      border:none;
+      font-size:22px;
+      cursor:pointer;
+      color:#fff;
     }
 
-    .register {
-      text-align: center;
-      color: rgba(255,255,255,0.75);
-      font-size: 15px;
-      margin-bottom: 18px;
+    .g{background:#f1f1f1;color:#444;}
+    .vk{background:#3b82f6;}
+    .tg{background:#3aa7e8;}
+    .mail{background:#3268f2;}
+    .ya{background:#ef4444;}
+    .ok{background:#f59e0b;}
+    .st{background:#0f172a;}
+
+    .bottom-text{
+      text-align:center;
+      color:#666;
+      font-size:18px;
+      line-height:1.5;
     }
 
-    .register a {
-      color: #fff;
-      font-weight: bold;
-      text-decoration: none;
-      margin-left: 6px;
+    .bottom-text a{
+      color:#2f73f6;
+      text-decoration:none;
+      font-weight:700;
+      display:block;
+      margin-top:6px;
+      font-size:18px;
     }
 
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+    #emailFields{
+      display:none;
     }
 
-    .feature-box {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 14px;
-      padding: 12px 8px;
-      text-align: center;
-      color: #fff;
-    }
-
-    .feature-box span {
-      display: block;
-      font-size: 19px;
-      margin-bottom: 6px;
-    }
-
-    .feature-box small {
-      color: rgba(255,255,255,0.72);
-      font-size: 12px;
-      line-height: 1.3;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    @media (max-width: 480px) {
-      .login-card {
-        padding: 22px 16px 18px;
-        border-radius: 20px;
+    @media (max-width:480px){
+      .overlay{
+        padding-top:82px;
       }
 
-      .title {
-        font-size: 26px;
+      .login-box{
+        max-width:100%;
+        border-radius:26px 26px 0 0;
+        min-height:80vh;
       }
 
-      .subtitle {
-        font-size: 14px;
+      .title{
+        font-size:28px;
       }
 
-      .socials {
-        grid-template-columns: repeat(4, 1fr);
+      .tab{
+        height:54px;
+        font-size:17px;
       }
 
-      .features {
-        grid-template-columns: 1fr;
+      .field{
+        height:60px;
+        font-size:17px;
+      }
+
+      .login-btn{
+        height:62px;
+        font-size:19px;
+      }
+
+      .social{
+        width:48px;
+        height:48px;
+        font-size:20px;
       }
     }
-  </style>
-</head>
-<body>
-
-  <div class="bg-glow glow-1"></div>
-  <div class="bg-glow glow-2"></div>
-
-  <div class="login-card">
-    <button class="close-btn" onclick="closePopup()">×</button>
-
-    <div class="logo">★</div>
-
-    <div class="title">Oyuna Daxil Ol</div>
-    <div class="subtitle">
-      Hesabına giriş et və platformada oyun imkanlarına davam et.
-    </div>
-
-    <div class="tabs">
-      <div class="tab active" id="phoneTab" onclick="showPhone()">Telefon</div>
-      <div class="tab" id="emailTab" onclick="showEmail()">E-poçt</div>
-    </div>
-
-    <form>
-      <div id="phoneFields">
-        <div class="form-group">
-          <div class="input-wrap">
-            <div class="icon">📱</div>
-            <input type="text" placeholder="+994 xx xxx xx xx">
-          </div>
-        </div>
-      </div>
-
-      <div id="emailFields" class="hidden">
-        <div class="form-group">
-          <div class="input-wrap">
-            <div class="icon">✉️</div>
-            <input type="email" placeholder="E-poçtunuzu daxil edin">
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <div class="input-wrap">
-          <div class="icon">🔒</div>
-          <input type="password" placeholder="Şifrə">
-        </div>
-      </div>
-
-      <a href="#" class="forgot">Şifrəni unutmusunuz?</a>
-
-      <button type="button" class="login-btn">Giriş et</button>
-    </form>
-
-    <div class="divider">və ya</div>
-
-    <div class="socials">
-      <button class="social-btn" type="button">G</button>
-      <button class="social-btn" type="button">VK</button>
-      <button class="social-btn" type="button">✈</button>
-      <button class="social-btn" type="button">f</button>
-    </div>
-
-    <div class="register">
-      Hesabın yoxdur?<a href="#">Qeydiyyatdan keç</a>
-    </div>
-
-    <div class="features">
-      <div class="feature-box">
-        <span>⚡</span>
-        <small>Sürətli giriş</small>
-      </div>
-      <div class="feature-box">
-        <span>🎁</span>
-        <small>Bonus imkanları</small>
-      </div>
-      <div class="feature-box">
-        <span>🛡</span>
-        <small>Rahat istifadə</small>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function showPhone() {
-      document.getElementById("phoneFields").classList.remove("hidden");
-      document.getElementById("emailFields").classList.add("hidden");
-      document.getElementById("phoneTab").classList.add("active");
-      document.getElementById("emailTab").classList.remove("active");
-    }
-
-    function showEmail() {
-      document.getElementById("emailFields").classList.remove("hidden");
-      document.getElementById("phoneFields").classList.add("hidden");
-      document.getElementById("emailTab").classList.add("active");
-      document.getElementById("phoneTab").classList.remove("active");
-    }
-
-    function closePopup() {
-      document.querySelector(".login-card").style.display = "none";
-    }
-  </script>
-
-</body>
-</html>
