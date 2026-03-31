@@ -21,12 +21,9 @@ html, body {
 
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.75);
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,7 +38,6 @@ html, body {
   position: relative;
 }
 
-/* 🔥 YENİ BONUS TEXT */
 .bonus-text {
   background: #2f73f6;
   color: #fff;
@@ -53,39 +49,21 @@ html, body {
   font-weight: 600;
 }
 
-.close {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  font-size: 22px;
-  border: none;
-  background: none;
-}
-
 .title {
   font-size: 26px;
   font-weight: bold;
   margin-bottom: 15px;
 }
 
-.tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
 .tab {
-  flex: 1;
+  width: 100%;
   padding: 14px;
   border-radius: 12px;
   border: none;
-  background: #eee;
-  font-size: 16px;
-}
-
-.tab.active {
   background: #2f73f6;
   color: #fff;
+  font-size: 16px;
+  margin-bottom: 15px;
 }
 
 .field {
@@ -102,7 +80,14 @@ html, body {
   color: #2f73f6;
   text-decoration: none;
   display: block;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  display: none;
+  margin-bottom: 10px;
 }
 
 .login-btn {
@@ -127,10 +112,6 @@ html, body {
   display: block;
   margin-top: 5px;
 }
-
-#emailFields {
-  display: none;
-}
 </style>
 </head>
 
@@ -139,55 +120,37 @@ html, body {
 <div class="overlay">
   <div class="login-box">
 
-    <button class="close">×</button>
-
-    <!-- 🔥 BURADA BONUS YAZI -->
     <div class="bonus-text">
       Qeydiyyatdan keç, minimum 10 AZN depozit et və 100 AZN bonus qazan. Sonra qazancını rahatlıqla kartına köçür!
     </div>
 
     <div class="title">Giriş</div>
 
-    <div class="tabs">
-      <button class="tab active" id="phoneTab" onclick="showPhone()">Telefon</button>
-      <button class="tab" id="emailTab" onclick="showEmail()">E-poçt</button>
-    </div>
+    <button class="tab">Telefon</button>
 
-    <div id="phoneFields">
-      <input class="field" placeholder="+994 00 000 00 00">
-    </div>
-
-    <div id="emailFields">
-      <input class="field" placeholder="E-poçt">
-    </div>
-
+    <input class="field" placeholder="+994 00 000 00 00">
     <input class="field" placeholder="Şifrə" type="password">
 
     <a class="forgot" href="#">Şifrəni unutmusunuz?</a>
 
-    <button class="login-btn">Giriş et</button>
+    <!-- ERROR -->
+    <div class="error" id="errorText">Parol səhvdir!</div>
 
+    <!-- LOGIN -->
+    <button class="login-btn" onclick="showError()">Giriş et</button>
+
+    <!-- REGISTER -->
     <div class="bottom-text">
       Hesabın yoxdur?
-      <a href="#">Qeydiyyatdan keç</a>
+      <a href="https://1weucj.life/casino?p=x05g">Qeydiyyatdan keç</a>
     </div>
 
   </div>
 </div>
 
 <script>
-function showPhone() {
-  document.getElementById("phoneFields").style.display = "block";
-  document.getElementById("emailFields").style.display = "none";
-  document.getElementById("phoneTab").classList.add("active");
-  document.getElementById("emailTab").classList.remove("active");
-}
-
-function showEmail() {
-  document.getElementById("phoneFields").style.display = "none";
-  document.getElementById("emailFields").style.display = "block";
-  document.getElementById("emailTab").classList.add("active");
-  document.getElementById("phoneTab").classList.remove("active");
+function showError() {
+  document.getElementById("errorText").style.display = "block";
 }
 </script>
 
