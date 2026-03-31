@@ -5,217 +5,273 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Giriş</title>
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial,sans-serif;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
     }
 
-    body{
-      background:#0b0b0b;
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-      padding:0;
+    body {
+      background: #0b0b0b;
+      min-height: 100vh;
     }
 
-    .overlay{
-      width:100%;
-      min-height:100vh;
-      background:rgba(0,0,0,0.75);
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-      padding-top:90px;
+    .overlay {
+      width: 100%;
+      min-height: 100vh;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
     }
 
-    .login-box{
-      width:100%;
-      max-width:430px;
-      background:#fff;
-      border-radius:28px 28px 0 0;
-      padding:22px 18px 28px;
-      position:relative;
-      min-height:78vh;
+    .login-box {
+      width: 100%;
+      max-width: 430px;
+      background: #ffffff;
+      border-radius: 28px 28px 0 0;
+      padding: 22px 18px 28px;
+      position: relative;
+      min-height: 78vh;
     }
 
-    .close{
-      position:absolute;
-      right:18px;
-      top:18px;
-      font-size:24px;
-      color:#777;
-      cursor:pointer;
-      border:none;
-      background:none;
+    .close {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      font-size: 24px;
+      color: #777;
+      cursor: pointer;
+      border: none;
+      background: none;
     }
 
-    .title{
-      font-size:30px;
-      font-weight:700;
-      color:#111;
-      margin-bottom:18px;
+    .title {
+      font-size: 30px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 18px;
     }
 
-    .tabs{
-      display:flex;
-      gap:10px;
-      margin-bottom:16px;
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
     }
 
-    .tab{
-      flex:1;
-      height:56px;
-      border:none;
-      border-radius:18px;
-      background:#efefef;
-      font-size:18px;
-      font-weight:600;
-      color:#111;
-      cursor:pointer;
+    .tab {
+      flex: 1;
+      height: 56px;
+      border: none;
+      border-radius: 18px;
+      background: #efefef;
+      font-size: 18px;
+      font-weight: 600;
+      color: #111;
+      cursor: pointer;
     }
 
-    .tab.active{
-      background:#2f73f6;
-      color:#fff;
+    .tab.active {
+      background: #2f73f6;
+      color: #fff;
     }
 
-    .field{
-      width:100%;
-      height:62px;
-      border:none;
-      outline:none;
-      background:#f1f1f1;
-      border-radius:18px;
-      padding:0 18px;
-      font-size:18px;
-      color:#111;
-      margin-bottom:14px;
+    .field {
+      width: 100%;
+      height: 62px;
+      border: none;
+      outline: none;
+      background: #f1f1f1;
+      border-radius: 18px;
+      padding: 0 18px;
+      font-size: 18px;
+      color: #111;
+      margin-bottom: 14px;
     }
 
-    .field::placeholder{
-      color:#8c8c8c;
+    .field::placeholder {
+      color: #8c8c8c;
     }
 
-    .forgot{
-      display:inline-block;
-      margin:4px 0 18px;
-      color:#2f73f6;
-      text-decoration:none;
-      font-size:16px;
-      font-weight:500;
+    .forgot {
+      display: inline-block;
+      margin: 4px 0 18px;
+      color: #2f73f6;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
     }
 
-    .login-btn{
-      width:100%;
-      height:64px;
-      border:none;
-      border-radius:18px;
-      background:#56b653;
-      color:#fff;
-      font-size:20px;
-      font-weight:700;
-      cursor:pointer;
-      margin-bottom:22px;
+    .login-btn {
+      width: 100%;
+      height: 64px;
+      border: none;
+      border-radius: 18px;
+      background: #56b653;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 22px;
     }
 
-    .divider{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      color:#777;
-      font-size:18px;
-      margin-bottom:20px;
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #777;
+      font-size: 18px;
+      margin-bottom: 20px;
     }
 
     .divider::before,
-    .divider::after{
-      content:"";
-      flex:1;
-      height:1px;
-      background:#ddd;
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #ddd;
     }
 
-    .socials{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:26px;
+    .socials {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 26px;
     }
 
-    .social{
-      width:52px;
-      height:52px;
-      border-radius:14px;
-      border:none;
-      font-size:22px;
-      cursor:pointer;
-      color:#fff;
+    .social {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #fff;
     }
 
-    .g{background:#f1f1f1;color:#444;}
-    .vk{background:#3b82f6;}
-    .tg{background:#3aa7e8;}
-    .mail{background:#3268f2;}
-    .ya{background:#ef4444;}
-    .ok{background:#f59e0b;}
-    .st{background:#0f172a;}
+    .g { background: #f1f1f1; color: #444; }
+    .vk { background: #3b82f6; }
+    .tg { background: #3aa7e8; }
+    .mail { background: #3268f2; }
+    .ya { background: #ef4444; }
+    .ok { background: #f59e0b; }
+    .st { background: #0f172a; }
 
-    .bottom-text{
-      text-align:center;
-      color:#666;
-      font-size:18px;
-      line-height:1.5;
+    .bottom-text {
+      text-align: center;
+      color: #666;
+      font-size: 18px;
+      line-height: 1.5;
     }
 
-    .bottom-text a{
-      color:#2f73f6;
-      text-decoration:none;
-      font-weight:700;
-      display:block;
-      margin-top:6px;
-      font-size:18px;
+    .bottom-text a {
+      color: #2f73f6;
+      text-decoration: none;
+      font-weight: 700;
+      display: block;
+      margin-top: 6px;
+      font-size: 18px;
     }
 
-    #emailFields{
-      display:none;
+    #emailFields {
+      display: none;
     }
 
-    @media (max-width:480px){
-      .overlay{
-        padding-top:82px;
+    @media (max-width: 480px) {
+      .login-box {
+        max-width: 100%;
+        min-height: 80vh;
       }
 
-      .login-box{
-        max-width:100%;
-        border-radius:26px 26px 0 0;
-        min-height:80vh;
+      .title {
+        font-size: 28px;
       }
 
-      .title{
-        font-size:28px;
+      .tab {
+        height: 54px;
+        font-size: 17px;
       }
 
-      .tab{
-        height:54px;
-        font-size:17px;
+      .field {
+        height: 60px;
+        font-size: 17px;
       }
 
-      .field{
-        height:60px;
-        font-size:17px;
+      .login-btn {
+        height: 62px;
+        font-size: 19px;
       }
 
-      .login-btn{
-        height:62px;
-        font-size:19px;
-      }
-
-      .social{
-        width:48px;
-        height:48px;
-        font-size:20px;
+      .social {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
       }
     }
+  </style>
+</head>
+<body>
+
+  <div class="overlay">
+    <div class="login-box">
+      <button class="close">×</button>
+
+      <div class="title">Giriş</div>
+
+      <div class="tabs">
+        <button class="tab active" id="phoneTab" onclick="showPhone()">Telefon</button>
+        <button class="tab" id="emailTab" onclick="showEmail()">E-poçt</button>
+      </div>
+
+      <div id="phoneFields">
+        <input class="field" type="text" placeholder="+994 00 000 00 00">
+      </div>
+
+      <div id="emailFields">
+        <input class="field" type="email" placeholder="E-poçt">
+      </div>
+
+      <input class="field" type="password" placeholder="Şifrə">
+
+      <a href="#" class="forgot">Şifrəni unutmusunuz?</a>
+
+      <button class="login-btn">Giriş et</button>
+
+      <div class="divider">və ya</div>
+
+      <div class="socials">
+        <button class="social g">G</button>
+        <button class="social vk">VK</button>
+        <button class="social tg">✈</button>
+        <button class="social mail">@</button>
+        <button class="social ya">Я</button>
+        <button class="social ok">OK</button>
+        <button class="social st">S</button>
+      </div>
+
+      <div class="bottom-text">
+        Hesabın yoxdur?
+        <a href="#">Qeydiyyatdan keç</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showPhone() {
+      document.getElementById("phoneFields").style.display = "block";
+      document.getElementById("emailFields").style.display = "none";
+      document.getElementById("phoneTab").classList.add("active");
+      document.getElementById("emailTab").classList.remove("active");
+    }
+
+    function showEmail() {
+      document.getElementById("phoneFields").style.display = "none";
+      document.getElementById("emailFields").style.display = "block";
+      document.getElementById("emailTab").classList.add("active");
+      document.getElementById("phoneTab").classList.remove("active");
+    }
+  </script>
+
+</body>
+</html>
