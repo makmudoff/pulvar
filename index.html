@@ -13,6 +13,19 @@
 
 <script>
 
+function getImage(item){
+  if(item.thumbnail) return item.thumbnail;
+
+  if(item.enclosure && item.enclosure.link) return item.enclosure.link;
+
+  if(item.description){
+    let match = item.description.match(/<img.*?src="(.*?)"/);
+    if(match) return match[1];
+  }
+
+  return "https://via.placeholder.com/600x300?text=Xeber";
+}
+
 fetch("https://api.rss2json.com/v1/api.json?rss_url=https://report.az/rss/")
 .then(res => res.json())
 .then(data => {
@@ -20,6 +33,8 @@ fetch("https://api.rss2json.com/v1/api.json?rss_url=https://report.az/rss/")
 let html = "";
 
 data.items.slice(0,8).forEach(item => {
+
+let img = getImage(item);
 
 html += `
 <div style="
@@ -29,7 +44,7 @@ html += `
   overflow:hidden;
 ">
 
-<img src="${item.thumbnail || 'https://via.placeholder.com/600x300'}"
+<img src="${img}" 
 style="width:100%; height:200px; object-fit:cover;">
 
 <div style="padding:10px;">
@@ -46,8 +61,8 @@ ${item.title}
 document.getElementById("news").innerHTML = html;
 
 })
-.catch(() => {
-document.getElementById("news").innerHTML = "Xəbərlər yüklənmədi ❌";
+.catch(()=>{
+document.getElementById("news").innerHTML="Xəbərlər yüklənmədi ❌";
 });
 
 </script>
