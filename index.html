@@ -14,17 +14,21 @@ body {
     text-align:center;
 }
 
-/* HEADER */
 h1 {
     margin-top:20px;
     color:#00e5ff;
 }
 
-/* SUBTITLE */
 .subtitle {
     font-size:14px;
     color:#aaa;
-    margin-bottom:20px;
+    margin-bottom:10px;
+}
+
+.ucStats {
+    font-size:14px;
+    color:#00e5ff;
+    margin-bottom:15px;
 }
 
 /* CARDS */
@@ -107,16 +111,51 @@ h1 {
     cursor:pointer;
 }
 
-/* BACK BUTTON */
 .back {
     margin-bottom:15px;
     display:inline-block;
     cursor:pointer;
     color:#00e5ff;
 }
+
+/* FOOTER */
+.footer {
+    margin-top:40px;
+    padding:20px;
+    font-size:13px;
+    color:#aaa;
+    border-top:1px solid rgba(255,255,255,0.1);
+}
 </style>
 
 <script>
+/* UC SATIŞ SAYĞACI */
+function updateUC(){
+    let now = Date.now();
+
+    let savedUC = localStorage.getItem("ucCount");
+    let lastUpdate = localStorage.getItem("ucTime");
+
+    if(!savedUC){
+        savedUC = 8420;
+        localStorage.setItem("ucCount", savedUC);
+        localStorage.setItem("ucTime", now);
+    }
+
+    let diff = now - lastUpdate;
+
+    if(diff > 1800000){ // 30 dəqiqə
+        let add = Math.floor(Math.random()*100)+200;
+        savedUC = parseInt(savedUC) + add;
+
+        localStorage.setItem("ucCount", savedUC);
+        localStorage.setItem("ucTime", now);
+    }
+
+    document.getElementById("ucSold").innerText = Number(savedUC).toLocaleString();
+}
+
+/* ORDER */
 function openOrder(uc, price){
     document.getElementById("mainPage").style.display="none";
     document.getElementById("orderPage").style.display="block";
@@ -142,7 +181,7 @@ function send(){
 
 </head>
 
-<body>
+<body onload="updateUC()">
 
 <!-- MAIN -->
 <div id="mainPage">
@@ -152,6 +191,11 @@ function send(){
 <div class="subtitle">
 PUBG Mobile üçün UC balansınızı təhlükəsiz və sürətli şəkildə artırın.<br>
 Sürətli UC yükləmə • Etibarlı xidmət • Rahat sifariş
+</div>
+
+<div class="ucStats">
+🔥 Bu gün <span id="ucSold">8420</span> UC satılıb<br>
+⚡ Sifarişlər davam edir
 </div>
 
 <div class="container">
@@ -177,7 +221,7 @@ Sürətli UC yükləmə • Etibarlı xidmət • Rahat sifariş
 
 </div>
 
-<!-- ORDER PAGE -->
+<!-- ORDER -->
 <div id="orderPage">
 
 <div class="back" onclick="goBack()">← Geri qayıt</div>
@@ -212,6 +256,12 @@ Ad Soyad: M.A
 
 </div>
 
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+Platformada təqdim olunan xidmətlər istifadəçilərin PUBG Mobile hesablarına UC yüklənməsi üçün nəzərdə tutulmuşdur.<br>
+Sifariş zamanı daxil edilən məlumatların düzgünlüyü istifadəçinin məsuliyyətindədir.
 </div>
 
 </body>
