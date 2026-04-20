@@ -1,292 +1,109 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PUBG UC Satışı</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PUBG UC Satışı</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+body {
+    margin:0;
+    font-family: Arial;
+    background: linear-gradient(135deg,#0b0b14,#1a1a3a);
+    color:white;
+    text-align:center;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: radial-gradient(circle at top, #1a1a3a 0%, #0b0b14 45%, #050508 100%);
-      color: white;
-      min-height: 100vh;
-      overflow-x: hidden;
-      text-align: center;
-    }
+h1 {
+    margin-top:20px;
+    font-size:35px;
+    animation: glow 1.5s infinite alternate;
+}
 
-    .overlay {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.08), transparent 20%),
-        radial-gradient(circle at 80% 20%, rgba(255, 0, 128, 0.08), transparent 20%),
-        radial-gradient(circle at 50% 80%, rgba(255, 255, 0, 0.06), transparent 25%);
-      animation: bgPulse 4s infinite alternate;
-    }
+@keyframes glow {
+    0% {color:#00e5ff; text-shadow:0 0 10px #00e5ff;}
+    100% {color:#ff00aa; text-shadow:0 0 20px #ff00aa;}
+}
 
-    @keyframes bgPulse {
-      0% { opacity: 0.7; }
-      100% { opacity: 1; }
-    }
+.container {
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    padding:20px;
+}
 
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 30px 15px 50px;
-      position: relative;
-      z-index: 2;
-    }
+.card {
+    background:#111827;
+    padding:20px;
+    border-radius:15px;
+    animation: blink 1s infinite alternate;
+}
 
-    h1 {
-      font-size: 40px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      letter-spacing: 2px;
-      text-shadow: 0 0 15px #00e5ff;
-      animation: titleBlink 1.5s infinite alternate;
-    }
+@keyframes blink {
+    0% {box-shadow:0 0 10px #00e5ff;}
+    25% {box-shadow:0 0 10px #ff00aa;}
+    50% {box-shadow:0 0 10px #ffe600;}
+    75% {box-shadow:0 0 10px #00ff85;}
+    100% {box-shadow:0 0 10px #ff7b00;}
+}
 
-    @keyframes titleBlink {
-      0% {
-        color: #ffffff;
-        text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff;
-      }
-      50% {
-        color: #00e5ff;
-        text-shadow: 0 0 15px #ff00aa, 0 0 30px #ff00aa;
-      }
-      100% {
-        color: #ffe600;
-        text-shadow: 0 0 12px #ffe600, 0 0 25px #ff7b00;
-      }
-    }
+.uc {
+    font-size:22px;
+    font-weight:bold;
+}
 
-    .subtitle {
-      font-size: 18px;
-      color: #d7d7d7;
-      margin-bottom: 35px;
-    }
+.price {
+    margin:10px 0;
+    font-size:18px;
+    color:#ffe600;
+}
 
-    .telegram-box {
-      display: inline-block;
-      margin-bottom: 30px;
-      padding: 14px 22px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      font-size: 20px;
-      font-weight: bold;
-      animation: tgBlink 1.2s infinite alternate;
-      box-shadow: 0 0 15px rgba(0,255,255,0.18);
-    }
+button {
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(90deg,#ff00aa,#00e5ff,#ffe600);
+    color:#000;
+    font-weight:bold;
+    cursor:pointer;
+}
+</style>
 
-    .telegram-box a {
-      color: #ffffff;
-      text-decoration: none;
-    }
+<script>
+function buyUC(paket){
+    alert(paket + " seçdiniz. Telegrama yönləndirilirsiniz.");
+    let msg = encodeURIComponent("Salam, mən " + paket + " almaq istəyirəm");
+    window.open("https://t.me/miko_0055?text=" + msg, "_blank");
+}
+</script>
 
-    @keyframes tgBlink {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 10px #00e5ff;
-      }
-      100% {
-        transform: scale(1.03);
-        box-shadow: 0 0 20px #ff00aa, 0 0 30px #00e5ff;
-      }
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-      margin-top: 10px;
-    }
-
-    .card {
-      padding: 24px 18px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(6px);
-      transition: transform 0.25s ease;
-      cursor: pointer;
-      animation: rainbowBlink 1s infinite alternate;
-    }
-
-    .card:hover {
-      transform: translateY(-6px) scale(1.02);
-    }
-
-    .card:nth-child(1) { animation-delay: 0s; }
-    .card:nth-child(2) { animation-delay: 0.2s; }
-    .card:nth-child(3) { animation-delay: 0.4s; }
-    .card:nth-child(4) { animation-delay: 0.6s; }
-    .card:nth-child(5) { animation-delay: 0.8s; }
-    .card:nth-child(6) { animation-delay: 1s; }
-
-    @keyframes rainbowBlink {
-      0% {
-        box-shadow: 0 0 10px #00e5ff, 0 0 20px rgba(0,229,255,0.5);
-        border-color: #00e5ff;
-      }
-      25% {
-        box-shadow: 0 0 10px #ff00aa, 0 0 20px rgba(255,0,170,0.5);
-        border-color: #ff00aa;
-      }
-      50% {
-        box-shadow: 0 0 10px #ffe600, 0 0 20px rgba(255,230,0,0.5);
-        border-color: #ffe600;
-      }
-      75% {
-        box-shadow: 0 0 10px #00ff85, 0 0 20px rgba(0,255,133,0.5);
-        border-color: #00ff85;
-      }
-      100% {
-        box-shadow: 0 0 10px #ff7b00, 0 0 20px rgba(255,123,0,0.5);
-        border-color: #ff7b00;
-      }
-    }
-
-    .uc-title {
-      font-size: 28px;
-      font-weight: bold;
-      margin-bottom: 12px;
-      color: #ffffff;
-      text-shadow: 0 0 10px rgba(255,255,255,0.4);
-    }
-
-    .price {
-      font-size: 24px;
-      margin-bottom: 18px;
-      color: #ffe600;
-      font-weight: bold;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: bold;
-      color: #fff;
-      background: linear-gradient(90deg, #ff00aa, #00e5ff, #ffe600, #00ff85);
-      background-size: 300% 300%;
-      animation: buttonGlow 2s linear infinite;
-      cursor: pointer;
-    }
-
-    @keyframes buttonGlow {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
-    }
-
-    .top-note {
-      margin-bottom: 25px;
-      font-size: 17px;
-      color: #ffffff;
-      animation: noteBlink 1.3s infinite alternate;
-    }
-
-    @keyframes noteBlink {
-      0% { opacity: 0.8; text-shadow: 0 0 8px #00e5ff; }
-      100% { opacity: 1; text-shadow: 0 0 15px #ff00aa; }
-    }
-
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 30px;
-      }
-
-      .subtitle {
-        font-size: 16px;
-      }
-
-      .telegram-box {
-        font-size: 17px;
-        padding: 12px 16px;
-      }
-
-      .uc-title {
-        font-size: 24px;
-      }
-
-      .price {
-        font-size: 21px;
-      }
-    }
-  </style>
 </head>
 <body>
 
-  <div class="overlay"></div>
+<h1>PUBG MOBILE UC</h1>
+<p>⚡ Paket seç və sifariş et</p>
 
-  <div class="container">
-    <h1>PUBG MOBILE UC</h1>
-    <div class="subtitle">Sürətli • Etibarlı • Rahat Sifariş</div>
+<div class="container">
 
-    <div class="telegram-box">
-      <a href="https://t.me/miko_0055" target="_blank">📩 Sifariş üçün Telegram: t.me/miko_0055</a>
-    </div>
+<div class="card"><div class="uc">60 UC</div><div class="price">1.10 ₼</div><button onclick="buyUC('60 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">120 UC</div><div class="price">3 ₼</div><button onclick="buyUC('120 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">180 UC</div><div class="price">5 ₼</div><button onclick="buyUC('180 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">240 UC</div><div class="price">6.50 ₼</div><button onclick="buyUC('240 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">325 UC</div><div class="price">8.10 ₼</div><button onclick="buyUC('325 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">385 UC</div><div class="price">10 ₼</div><button onclick="buyUC('385 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">660 UC</div><div class="price">14 ₼</div><button onclick="buyUC('660 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">720 UC</div><div class="price">17 ₼</div><button onclick="buyUC('720 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">780 UC</div><div class="price">20 ₼</div><button onclick="buyUC('780 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">1045 UC</div><div class="price">24 ₼</div><button onclick="buyUC('1045 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">1800 UC</div><div class="price">35 ₼</div><button onclick="buyUC('1800 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">3850 UC</div><div class="price">60 ₼</div><button onclick="buyUC('3850 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">8100 UC</div><div class="price">135 ₼</div><button onclick="buyUC('8100 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">16200 UC</div><div class="price">265 ₼</div><button onclick="buyUC('16200 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">24300 UC</div><div class="price">389 ₼</div><button onclick="buyUC('24300 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">32400 UC</div><div class="price">547 ₼</div><button onclick="buyUC('32400 UC')">Sifariş et</button></div>
 
-    <div class="top-note">Paket seç — sonra birbaşa Telegrama keç</div>
-
-    <div class="cards">
-      <div class="card">
-        <div class="uc-title">60 UC</div>
-        <div class="price">2 AZN</div>
-        <button class="btn" onclick="buyUC('60 UC')">Sifariş et</button>
-      </div>
-
-      <div class="card">
-        <div class="uc-title">325 UC</div>
-        <div class="price">8 AZN</div>
-        <button class="btn" onclick="buyUC('325 UC')">Sifariş et</button>
-      </div>
-
-      <div class="card">
-        <div class="uc-title">660 UC</div>
-        <div class="price">15 AZN</div>
-        <button class="btn" onclick="buyUC('660 UC')">Sifariş et</button>
-      </div>
-
-      <div class="card">
-        <div class="uc-title">1800 UC</div>
-        <div class="price">38 AZN</div>
-        <button class="btn" onclick="buyUC('1800 UC')">Sifariş et</button>
-      </div>
-
-      <div class="card">
-        <div class="uc-title">3850 UC</div>
-        <div class="price">75 AZN</div>
-        <button class="btn" onclick="buyUC('3850 UC')">Sifariş et</button>
-      </div>
-
-      <div class="card">
-        <div class="uc-title">8100 UC</div>
-        <div class="price">145 AZN</div>
-        <button class="btn" onclick="buyUC('8100 UC')">Sifariş et</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function buyUC(packageName) {
-      alert(packageName + " seçdiniz. İndi Telegrama yönləndirilirsiniz.");
-      const message = encodeURIComponent("Salam, mən " + packageName + " almaq istəyirəm.");
-      window.open("https://t.me/miko_0055?text=" + message, "_blank");
-    }
-  </script>
+</div>
 
 </body>
 </html>
