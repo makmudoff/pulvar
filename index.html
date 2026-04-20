@@ -9,72 +9,59 @@
 body {
     margin:0;
     font-family: Arial;
-    background: linear-gradient(135deg,#0b0b14,#1a1a3a);
+    background:#0b0b14;
     color:white;
     text-align:center;
 }
 
 h1 {
-    margin-top:20px;
-    font-size:35px;
-    animation: glow 1.5s infinite alternate;
-}
-
-@keyframes glow {
-    0% {color:#00e5ff; text-shadow:0 0 10px #00e5ff;}
-    100% {color:#ff00aa; text-shadow:0 0 20px #ff00aa;}
+    margin:20px;
+    color:#00e5ff;
 }
 
 .container {
     display:grid;
-    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
-    padding:20px;
+    grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
+    gap:10px;
+    padding:10px;
 }
 
 .card {
     background:#111827;
-    padding:20px;
-    border-radius:15px;
+    padding:15px;
+    border-radius:12px;
     animation: blink 1s infinite alternate;
 }
 
 @keyframes blink {
     0% {box-shadow:0 0 10px #00e5ff;}
-    25% {box-shadow:0 0 10px #ff00aa;}
-    50% {box-shadow:0 0 10px #ffe600;}
-    75% {box-shadow:0 0 10px #00ff85;}
-    100% {box-shadow:0 0 10px #ff7b00;}
+    50% {box-shadow:0 0 10px #ff00aa;}
+    100% {box-shadow:0 0 10px #ffe600;}
 }
 
 .uc {
-    font-size:22px;
     font-weight:bold;
+    font-size:18px;
 }
 
 .price {
     margin:10px 0;
-    font-size:18px;
     color:#ffe600;
 }
 
 button {
     width:100%;
-    padding:10px;
+    padding:8px;
     border:none;
-    border-radius:10px;
-    background:linear-gradient(90deg,#ff00aa,#00e5ff,#ffe600);
-    color:#000;
+    border-radius:8px;
+    background:#00e5ff;
     font-weight:bold;
-    cursor:pointer;
 }
 </style>
 
 <script>
-function buyUC(paket){
-    alert(paket + " seçdiniz. Telegrama yönləndirilirsiniz.");
-    let msg = encodeURIComponent("Salam, mən " + paket + " almaq istəyirəm");
-    window.open("https://t.me/miko_0055?text=" + msg, "_blank");
+function goOrder(uc, price){
+    window.location.href = "order.html?uc=" + uc + "&price=" + price;
 }
 </script>
 
@@ -82,26 +69,25 @@ function buyUC(paket){
 <body>
 
 <h1>PUBG MOBILE UC</h1>
-<p>⚡ Paket seç və sifariş et</p>
 
 <div class="container">
 
-<div class="card"><div class="uc">60 UC</div><div class="price">1.10 ₼</div><button onclick="buyUC('60 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">120 UC</div><div class="price">3 ₼</div><button onclick="buyUC('120 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">180 UC</div><div class="price">5 ₼</div><button onclick="buyUC('180 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">240 UC</div><div class="price">6.50 ₼</div><button onclick="buyUC('240 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">325 UC</div><div class="price">8.10 ₼</div><button onclick="buyUC('325 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">385 UC</div><div class="price">10 ₼</div><button onclick="buyUC('385 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">660 UC</div><div class="price">14 ₼</div><button onclick="buyUC('660 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">720 UC</div><div class="price">17 ₼</div><button onclick="buyUC('720 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">780 UC</div><div class="price">20 ₼</div><button onclick="buyUC('780 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">1045 UC</div><div class="price">24 ₼</div><button onclick="buyUC('1045 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">1800 UC</div><div class="price">35 ₼</div><button onclick="buyUC('1800 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">3850 UC</div><div class="price">60 ₼</div><button onclick="buyUC('3850 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">8100 UC</div><div class="price">135 ₼</div><button onclick="buyUC('8100 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">16200 UC</div><div class="price">265 ₼</div><button onclick="buyUC('16200 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">24300 UC</div><div class="price">389 ₼</div><button onclick="buyUC('24300 UC')">Sifariş et</button></div>
-<div class="card"><div class="uc">32400 UC</div><div class="price">547 ₼</div><button onclick="buyUC('32400 UC')">Sifariş et</button></div>
+<div class="card"><div class="uc">60 UC</div><div class="price">1.10 ₼</div><button onclick="goOrder('60 UC','1.10')">Sifariş et</button></div>
+<div class="card"><div class="uc">120 UC</div><div class="price">3 ₼</div><button onclick="goOrder('120 UC','3')">Sifariş et</button></div>
+<div class="card"><div class="uc">180 UC</div><div class="price">5 ₼</div><button onclick="goOrder('180 UC','5')">Sifariş et</button></div>
+<div class="card"><div class="uc">240 UC</div><div class="price">6.50 ₼</div><button onclick="goOrder('240 UC','6.50')">Sifariş et</button></div>
+<div class="card"><div class="uc">325 UC</div><div class="price">8.10 ₼</div><button onclick="goOrder('325 UC','8.10')">Sifariş et</button></div>
+<div class="card"><div class="uc">385 UC</div><div class="price">10 ₼</div><button onclick="goOrder('385 UC','10')">Sifariş et</button></div>
+<div class="card"><div class="uc">660 UC</div><div class="price">14 ₼</div><button onclick="goOrder('660 UC','14')">Sifariş et</button></div>
+<div class="card"><div class="uc">720 UC</div><div class="price">17 ₼</div><button onclick="goOrder('720 UC','17')">Sifariş et</button></div>
+<div class="card"><div class="uc">780 UC</div><div class="price">20 ₼</div><button onclick="goOrder('780 UC','20')">Sifariş et</button></div>
+<div class="card"><div class="uc">1045 UC</div><div class="price">24 ₼</div><button onclick="goOrder('1045 UC','24')">Sifariş et</button></div>
+<div class="card"><div class="uc">1800 UC</div><div class="price">35 ₼</div><button onclick="goOrder('1800 UC','35')">Sifariş et</button></div>
+<div class="card"><div class="uc">3850 UC</div><div class="price">60 ₼</div><button onclick="goOrder('3850 UC','60')">Sifariş et</button></div>
+<div class="card"><div class="uc">8100 UC</div><div class="price">135 ₼</div><button onclick="goOrder('8100 UC','135')">Sifariş et</button></div>
+<div class="card"><div class="uc">16200 UC</div><div class="price">265 ₼</div><button onclick="goOrder('16200 UC','265')">Sifariş et</button></div>
+<div class="card"><div class="uc">24300 UC</div><div class="price">389 ₼</div><button onclick="goOrder('24300 UC','389')">Sifariş et</button></div>
+<div class="card"><div class="uc">32400 UC</div><div class="price">547 ₼</div><button onclick="goOrder('32400 UC','547')">Sifariş et</button></div>
 
 </div>
 
