@@ -1,117 +1,201 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PUBG UC Satışı</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUBG UC Satışı</title>
 
-<style>
-body {
-    margin:0;
-    font-family: Arial;
-    background:#0f172a;
-    color:white;
-    text-align:center;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-h1 {
-    margin-top:20px;
-    color:#00ffcc;
-}
+    body {
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #1a1a3a 0%, #0b0b14 45%, #050508 100%);
+      color: white;
+      min-height: 100vh;
+      overflow-x: hidden;
+      text-align: center;
+    }
 
-.container {
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    margin-top:30px;
-}
+    .overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.08), transparent 20%),
+        radial-gradient(circle at 80% 20%, rgba(255, 0, 128, 0.08), transparent 20%),
+        radial-gradient(circle at 50% 80%, rgba(255, 255, 0, 0.06), transparent 25%);
+      animation: bgPulse 4s infinite alternate;
+    }
 
-.card {
-    background:#1e293b;
-    padding:20px;
-    margin:10px;
-    border-radius:15px;
-    width:200px;
-    box-shadow:0 0 15px #00ffcc55;
-}
+    @keyframes bgPulse {
+      0% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
 
-.card h2 {
-    color:#00ffcc;
-}
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 15px 50px;
+      position: relative;
+      z-index: 2;
+    }
 
-.price {
-    font-size:20px;
-    margin:10px 0;
-}
+    h1 {
+      font-size: 40px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px #00e5ff;
+      animation: titleBlink 1.5s infinite alternate;
+    }
 
-button {
-    background:#00ffcc;
-    border:none;
-    padding:10px;
-    width:100%;
-    border-radius:10px;
-    font-weight:bold;
-    cursor:pointer;
-}
+    @keyframes titleBlink {
+      0% {
+        color: #ffffff;
+        text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff;
+      }
+      50% {
+        color: #00e5ff;
+        text-shadow: 0 0 15px #ff00aa, 0 0 30px #ff00aa;
+      }
+      100% {
+        color: #ffe600;
+        text-shadow: 0 0 12px #ffe600, 0 0 25px #ff7b00;
+      }
+    }
 
-button:hover {
-    background:#00cca3;
-}
-</style>
+    .subtitle {
+      font-size: 18px;
+      color: #d7d7d7;
+      margin-bottom: 35px;
+    }
 
-<script>
-function buy(packageName){
-    alert("Seçdiyiniz paket: " + packageName + "\\nTelegrama yönləndirilirsiniz...");
-    
-    window.location.href = "https://t.me/miko_0055";
-}
-</script>
+    .telegram-box {
+      display: inline-block;
+      margin-bottom: 30px;
+      padding: 14px 22px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 20px;
+      font-weight: bold;
+      animation: tgBlink 1.2s infinite alternate;
+      box-shadow: 0 0 15px rgba(0,255,255,0.18);
+    }
 
-</head>
+    .telegram-box a {
+      color: #ffffff;
+      text-decoration: none;
+    }
 
-<body>
+    @keyframes tgBlink {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px #00e5ff;
+      }
+      100% {
+        transform: scale(1.03);
+        box-shadow: 0 0 20px #ff00aa, 0 0 30px #00e5ff;
+      }
+    }
 
-<h1>PUBG UC Satışı</h1>
-<p>⚡ Sürətli | Etibarlı | Ucuz qiymət</p>
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 10px;
+    }
 
-<div class="container">
+    .card {
+      padding: 24px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(6px);
+      transition: transform 0.25s ease;
+      cursor: pointer;
+      animation: rainbowBlink 1s infinite alternate;
+    }
 
-<div class="card">
-    <h2>60 UC</h2>
-    <div class="price">1.49 AZN</div>
-    <button onclick="buy('60 UC')">Sifariş et</button>
-</div>
+    .card:hover {
+      transform: translateY(-6px) scale(1.02);
+    }
 
-<div class="card">
-    <h2>325 UC</h2>
-    <div class="price">6.99 AZN</div>
-    <button onclick="buy('325 UC')">Sifariş et</button>
-</div>
+    .card:nth-child(1) { animation-delay: 0s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.4s; }
+    .card:nth-child(4) { animation-delay: 0.6s; }
+    .card:nth-child(5) { animation-delay: 0.8s; }
+    .card:nth-child(6) { animation-delay: 1s; }
 
-<div class="card">
-    <h2>660 UC</h2>
-    <div class="price">13.49 AZN</div>
-    <button onclick="buy('660 UC')">Sifariş et</button>
-</div>
+    @keyframes rainbowBlink {
+      0% {
+        box-shadow: 0 0 10px #00e5ff, 0 0 20px rgba(0,229,255,0.5);
+        border-color: #00e5ff;
+      }
+      25% {
+        box-shadow: 0 0 10px #ff00aa, 0 0 20px rgba(255,0,170,0.5);
+        border-color: #ff00aa;
+      }
+      50% {
+        box-shadow: 0 0 10px #ffe600, 0 0 20px rgba(255,230,0,0.5);
+        border-color: #ffe600;
+      }
+      75% {
+        box-shadow: 0 0 10px #00ff85, 0 0 20px rgba(0,255,133,0.5);
+        border-color: #00ff85;
+      }
+      100% {
+        box-shadow: 0 0 10px #ff7b00, 0 0 20px rgba(255,123,0,0.5);
+        border-color: #ff7b00;
+      }
+    }
 
-<div class="card">
-    <h2>1800 UC</h2>
-    <div class="price">35.99 AZN</div>
-    <button onclick="buy('1800 UC')">Sifariş et</button>
-</div>
+    .uc-title {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(255,255,255,0.4);
+    }
 
-<div class="card">
-    <h2>3850 UC</h2>
-    <div class="price">72.99 AZN</div>
-    <button onclick="buy('3850 UC')">Sifariş et</button>
-</div>
+    .price {
+      font-size: 24px;
+      margin-bottom: 18px;
+      color: #ffe600;
+      font-weight: bold;
+    }
 
-</div>
+    .btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(90deg, #ff00aa, #00e5ff, #ffe600, #00ff85);
+      background-size: 300% 300%;
+      animation: buttonGlow 2s linear infinite;
+      cursor: pointer;
+    }
 
-<p style="margin-top:30px;">
-📩 Sifariş üçün Telegram: <br>
-<b>t.me/miko_0055</b>
-</p>
+    @keyframes buttonGlow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
 
-</body>
-</html>
+    .top-note {
+      margin-bottom: 25px;
+      font-size: 17px;
+      color: #ffffff;
+      animation: noteBlink 1.3s infinite alternate;
+    }
+
+    @
