@@ -198,4 +198,95 @@
       animation: noteBlink 1.3s infinite alternate;
     }
 
-    @
+    @keyframes noteBlink {
+      0% { opacity: 0.8; text-shadow: 0 0 8px #00e5ff; }
+      100% { opacity: 1; text-shadow: 0 0 15px #ff00aa; }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 30px;
+      }
+
+      .subtitle {
+        font-size: 16px;
+      }
+
+      .telegram-box {
+        font-size: 17px;
+        padding: 12px 16px;
+      }
+
+      .uc-title {
+        font-size: 24px;
+      }
+
+      .price {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="overlay"></div>
+
+  <div class="container">
+    <h1>PUBG MOBILE UC</h1>
+    <div class="subtitle">Sürətli • Etibarlı • Rahat Sifariş</div>
+
+    <div class="telegram-box">
+      <a href="https://t.me/miko_0055" target="_blank">📩 Sifariş üçün Telegram: t.me/miko_0055</a>
+    </div>
+
+    <div class="top-note">Paket seç — sonra birbaşa Telegrama keç</div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="uc-title">60 UC</div>
+        <div class="price">2 AZN</div>
+        <button class="btn" onclick="buyUC('60 UC')">Sifariş et</button>
+      </div>
+
+      <div class="card">
+        <div class="uc-title">325 UC</div>
+        <div class="price">8 AZN</div>
+        <button class="btn" onclick="buyUC('325 UC')">Sifariş et</button>
+      </div>
+
+      <div class="card">
+        <div class="uc-title">660 UC</div>
+        <div class="price">15 AZN</div>
+        <button class="btn" onclick="buyUC('660 UC')">Sifariş et</button>
+      </div>
+
+      <div class="card">
+        <div class="uc-title">1800 UC</div>
+        <div class="price">38 AZN</div>
+        <button class="btn" onclick="buyUC('1800 UC')">Sifariş et</button>
+      </div>
+
+      <div class="card">
+        <div class="uc-title">3850 UC</div>
+        <div class="price">75 AZN</div>
+        <button class="btn" onclick="buyUC('3850 UC')">Sifariş et</button>
+      </div>
+
+      <div class="card">
+        <div class="uc-title">8100 UC</div>
+        <div class="price">145 AZN</div>
+        <button class="btn" onclick="buyUC('8100 UC')">Sifariş et</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function buyUC(packageName) {
+      alert(packageName + " seçdiniz. İndi Telegrama yönləndirilirsiniz.");
+      const message = encodeURIComponent("Salam, mən " + packageName + " almaq istəyirəm.");
+      window.open("https://t.me/miko_0055?text=" + message, "_blank");
+    }
+  </script>
+
+</body>
+</html>
