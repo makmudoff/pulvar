@@ -7,85 +7,147 @@
 
 <style>
 body {
-    margin:0;
-    font-family: Arial;
-    background:#0b0b14;
-    color:white;
-    text-align:center;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b0b14;
+    color: white;
+    text-align: center;
 }
 
 h1 {
-    margin:20px;
-    color:#00e5ff;
+    margin: 20px 20px 10px 20px;
+    color: #00e5ff;
+    font-size: 34px;
+    text-shadow: 0 0 10px #00e5ff;
+}
+
+.subtitle {
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+    padding: 0 15px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #e5e7eb;
+    text-shadow: 0 0 8px rgba(255,255,255,0.15);
 }
 
 .container {
-    display:grid;
+    display: grid;
     grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
-    gap:10px;
-    padding:10px;
+    gap: 10px;
+    padding: 10px;
 }
 
 .card {
-    background:#111827;
-    padding:15px;
-    border-radius:12px;
-    animation: blink 1s infinite alternate;
+    background: #111827;
+    padding: 15px;
+    border-radius: 12px;
+    animation: glow 1s infinite alternate;
 }
 
-@keyframes blink {
-    0% {box-shadow:0 0 10px #00e5ff;}
-    50% {box-shadow:0 0 10px #ff00aa;}
-    100% {box-shadow:0 0 10px #ffe600;}
+@keyframes glow {
+    0% { box-shadow: 0 0 10px #00e5ff; }
+    50% { box-shadow: 0 0 10px #ff00aa; }
+    100% { box-shadow: 0 0 10px #ffe600; }
 }
 
-.uc {font-weight:bold;}
-.price {margin:10px 0;color:#ffe600;}
+.uc {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.price {
+    margin: 10px 0;
+    color: #ffe600;
+    font-size: 18px;
+    font-weight: bold;
+}
 
 button {
-    width:100%;
-    padding:8px;
-    border:none;
-    border-radius:8px;
-    background:#00e5ff;
-    font-weight:bold;
-    cursor:pointer;
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    background: #00e5ff;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
 }
 
+/* ORDER BOX DARK */
 #orderBox {
-    display:none;
-    background:white;
-    color:black;
-    margin:20px;
-    padding:20px;
-    border-radius:10px;
-    text-align:left;
+    display: none;
+    background: #111827;
+    color: white;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #00e5ff;
+    animation: boxGlow 1.5s infinite alternate;
+    text-align: left;
+}
+
+@keyframes boxGlow {
+    0% { box-shadow: 0 0 15px #00e5ff; }
+    100% { box-shadow: 0 0 25px #ff00aa; }
+}
+
+#orderBox h2 {
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
 }
 
 .input {
-    width:100%;
-    padding:10px;
-    margin-top:10px;
-    margin-bottom:15px;
-    border-radius:8px;
-    border:1px solid #ccc;
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: none;
+    background: #1f2937;
+    color: white;
+    box-sizing: border-box;
+    font-size: 16px;
 }
 
 .yellow {
-    background:yellow;
-    color:red;
-    padding:10px;
-    font-weight:bold;
+    background: yellow;
+    color: red;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
 
 .confirm {
-    background:orange;
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
+    background: linear-gradient(90deg,#ff00aa,#00e5ff,#ffe600);
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    animation: btnGlow 2s infinite linear;
+    color: #111;
+    font-size: 18px;
+}
+
+@keyframes btnGlow {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.4); }
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    .subtitle {
+        font-size: 15px;
+    }
 }
 </style>
 
@@ -94,16 +156,18 @@ function openOrder(uc, price){
     document.getElementById("orderBox").style.display = "block";
     document.getElementById("uc").value = "PUBG Mobile " + uc;
     document.getElementById("price").value = price + " AZN";
-    window.scrollTo(0, document.body.scrollHeight);
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth"
+    });
 }
 
 function send(){
     let uc = document.getElementById("uc").value;
     let id = document.getElementById("player").value;
 
-    let text = "Salam, sifariş:\n" + uc + "\nID: " + id;
-
-    window.open("https://t.me/miko_0055?text=" + encodeURIComponent(text));
+    let text = "Salam, sifariş:%0A" + uc + "%0AOyunçu ID: " + id;
+    window.open("https://t.me/miko_0055?text=" + text, "_blank");
 }
 </script>
 
@@ -112,6 +176,11 @@ function send(){
 <body>
 
 <h1>PUBG MOBILE UC</h1>
+
+<div class="subtitle">
+    PUBG Mobile üçün UC balansınızı təhlükəsiz və sürətli şəkildə artırın.<br>
+    Sürətli UC yükləmə • Etibarlı xidmət • Rahat sifariş
+</div>
 
 <div class="container">
 
@@ -135,34 +204,33 @@ function send(){
 </div>
 
 <div id="orderBox">
+    <h2>Sifariş Məlumatları</h2>
 
-<h2>Sifariş Məlumatları</h2>
+    <label>Məhsul</label>
+    <input class="input" id="uc" readonly>
 
-<label>Məhsul</label>
-<input class="input" id="uc" readonly>
+    <label>Miqdar</label>
+    <input class="input" value="1" readonly>
 
-<label>Miqdar</label>
-<input class="input" value="1">
+    <label>Ümumi Məbləğ</label>
+    <input class="input" id="price" readonly>
 
-<label>Ümumi Məbləğ</label>
-<input class="input" id="price" readonly>
+    <label>Oyunçu ID</label>
+    <input class="input" id="player" placeholder="ID yaz">
 
-<label>Oyunçu ID</label>
-<input class="input" id="player" placeholder="ID yaz">
+    <div class="yellow">
+        Səhər 08:00 gecə 02:00 qədər
+    </div>
 
-<div class="yellow">
-Səhər 08:00 gecə 02:00 qədər
-</div>
+    <p>
+        <b>Kart:</b><br>
+        4127 2141 2112 2730<br>
+        ABB Bank<br>
+        Ad Soyad: M.A<br><br>
+        <b>Qəbzi göndərin</b>
+    </p>
 
-<p><b>Kart:</b><br>
-4127 2141 2112 2730<br>
-ABB Bank<br>
-Ad Soyad: M.A<br><br>
-<b>Qəbzi göndərin</b>
-</p>
-
-<button class="confirm" onclick="send()">Sifarişi Təsdiqlə</button>
-
+    <button class="confirm" onclick="send()">Sifarişi Təsdiqlə</button>
 </div>
 
 </body>
