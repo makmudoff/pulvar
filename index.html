@@ -1,236 +1,108 @@
 <!DOCTYPE html>
-<html lang="az">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Online Cüzdan 2026</title>
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-    }
+<meta charset="UTF-8">
+<title>Online Cüzdan 2026</title>
+<style>
+body{
+ font-family:sans-serif;
+ background:#eef4f7;
+ text-align:center;
+}
 
-    body{
-      background:#eef4f7;
-      color:#111827;
-    }
+.box{
+ background:white;
+ padding:20px;
+ border-radius:10px;
+ width:300px;
+ margin:100px auto;
+}
 
-    .hidden{
-      display:none !important;
-    }
+input{
+ width:100%;
+ padding:10px;
+ margin:5px 0;
+}
 
-    .screen{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-    }
+button{
+ width:100%;
+ padding:10px;
+ background:blue;
+ color:white;
+ border:none;
+ margin-top:5px;
+}
+.hidden{display:none;}
+</style>
+</head>
 
-    .auth-wrap{
-      width:100%;
-      max-width:420px;
-    }
+<body>
 
-    .brand{
-      text-align:center;
-      margin-bottom:18px;
-    }
+<div id="login" class="box">
+<h2>Giriş</h2>
+<input id="email" placeholder="Email">
+<input id="pass" type="password" placeholder="Şifrə">
+<button onclick="login()">Daxil ol</button>
+<button onclick="showReg()">Qeydiyyat</button>
+</div>
 
-    .brand h1{
-      font-size:30px;
-      font-weight:800;
-      margin-bottom:8px;
-    }
+<div id="register" class="box hidden">
+<h2>Qeydiyyat</h2>
+<input id="rEmail" placeholder="Email">
+<input id="rPass" type="password" placeholder="Şifrə">
+<button onclick="register()">Qeydiyyat et</button>
+</div>
 
-    .brand p{
-      color:#6b7280;
-      font-size:14px;
-      line-height:1.5;
-    }
+<div id="app" class="hidden">
+<h1>Online Cüzdan 2026</h1>
+<h2 id="bal">0 AZN</h2>
 
-    .auth-card{
-      background:#fff;
-      border-radius:24px;
-      padding:22px;
-      box-shadow:0 12px 40px rgba(0,0,0,0.08);
-    }
+<input id="money" placeholder="Məbləğ">
+<button onclick="add()">Balans artır</button>
 
-    .tabs{
-      display:flex;
-      background:#f3f4f6;
-      border-radius:16px;
-      padding:4px;
-      margin-bottom:18px;
-    }
+<button onclick="logout()">Çıxış</button>
+</div>
 
-    .tab-btn{
-      flex:1;
-      border:none;
-      background:transparent;
-      padding:12px;
-      border-radius:12px;
-      font-size:15px;
-      font-weight:700;
-      cursor:pointer;
-      color:#6b7280;
-    }
+<script>
+let bal=0;
 
-    .tab-btn.active{
-      background:#12c7cf;
-      color:#fff;
-    }
+function register(){
+ let e=document.getElementById("rEmail").value;
+ let p=document.getElementById("rPass").value;
+ localStorage.setItem("user",JSON.stringify({e,p}));
+ alert("Qeydiyyat tamam");
+}
 
-    .panel-title{
-      font-size:24px;
-      font-weight:800;
-      margin-bottom:8px;
-    }
+function login(){
+ let e=document.getElementById("email").value;
+ let p=document.getElementById("pass").value;
+ let u=JSON.parse(localStorage.getItem("user"));
 
-    .panel-sub{
-      color:#6b7280;
-      font-size:14px;
-      margin-bottom:16px;
-    }
+ if(u && u.e==e && u.p==p){
+   document.getElementById("login").classList.add("hidden");
+   document.getElementById("app").classList.remove("hidden");
+ }else{
+   alert("Səhv məlumat");
+ }
+}
 
-    .field{
-      margin-bottom:12px;
-    }
+function add(){
+ let m=parseFloat(document.getElementById("money").value);
+ if(m>0){
+   bal+=m;
+   document.getElementById("bal").innerText=bal+" AZN";
+ }
+}
 
-    .field label{
-      display:block;
-      margin-bottom:8px;
-      font-size:14px;
-      font-weight:700;
-    }
+function logout(){
+ location.reload();
+}
 
-    .field input,
-    .field select{
-      width:100%;
-      height:50px;
-      border:1px solid #d1d5db;
-      border-radius:14px;
-      padding:0 14px;
-      font-size:15px;
-      outline:none;
-      background:#fff;
-    }
+function showReg(){
+ document.getElementById("login").classList.add("hidden");
+ document.getElementById("register").classList.remove("hidden");
+}
+</script>
 
-    .field input:focus,
-    .field select:focus{
-      border-color:#12c7cf;
-      box-shadow:0 0 0 3px rgba(18,199,207,0.12);
-    }
-
-    .main-btn{
-      width:100%;
-      height:52px;
-      border:none;
-      border-radius:16px;
-      background:#12c7cf;
-      color:#fff;
-      font-size:16px;
-      font-weight:800;
-      cursor:pointer;
-      margin-top:4px;
-    }
-
-    .sub-btn{
-      width:100%;
-      height:50px;
-      border:none;
-      border-radius:14px;
-      background:#111827;
-      color:#fff;
-      font-size:15px;
-      font-weight:700;
-      cursor:pointer;
-    }
-
-    .ghost-btn{
-      width:100%;
-      height:50px;
-      border:none;
-      border-radius:14px;
-      background:#eef4f7;
-      color:#111827;
-      font-size:15px;
-      font-weight:700;
-      cursor:pointer;
-    }
-
-    .demo-note{
-      margin-top:16px;
-      font-size:13px;
-      color:#6b7280;
-      text-align:center;
-      line-height:1.5;
-    }
-
-    .app{
-      max-width:430px;
-      margin:0 auto;
-      min-height:100vh;
-      background:#eef4f7;
-      position:relative;
-      padding-bottom:100px;
-    }
-
-    .top-area{
-      background:linear-gradient(180deg,#dff3f2 0%, #e8f6f5 100%);
-      padding:18px 16px 26px;
-      border-bottom-left-radius:28px;
-      border-bottom-right-radius:28px;
-    }
-
-    .top-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:18px;
-    }
-
-    .user-box{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
-    .avatar{
-      width:50px;
-      height:50px;
-      border-radius:50%;
-      background:#fff;
-      border:2px solid #12c7cf;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:800;
-      font-size:18px;
-    }
-
-    .user-text small{
-      color:#12aeb5;
-      display:block;
-      margin-bottom:4px;
-      font-size:14px;
-    }
-
-    .user-text strong{
-      font-size:20px;
-      line-height:1.2;
-    }
-
-    .icon-btn{
-      width:42px;
-      height:42px;
-      border:none;
-      border-radius:14px;
-      background:#fff;
-      font-size:20px;
-      cursor:pointer;
-    }
-
-    .
+</body>
+</html>
