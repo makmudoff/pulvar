@@ -13,28 +13,26 @@
 
 <script>
 
-function getImage(item){
-  if(item.thumbnail) return item.thumbnail;
-
-  if(item.enclosure && item.enclosure.link) return item.enclosure.link;
-
-  if(item.description){
-    let match = item.description.match(/<img.*?src="(.*?)"/);
-    if(match) return match[1];
-  }
-
-  return "https://via.placeholder.com/600x300?text=Xeber";
-}
-
-fetch("https://api.rss2json.com/v1/api.json?rss_url=https://report.az/rss/")
-.then(res => res.json())
+fetch("https://api.allorigins.win/raw?url=https://report.az/rss/")
+.then(res => res.text())
+.then(str => new DOMParser().parseFromString(str, "text/xml"))
 .then(data => {
 
+let items = data.querySelectorAll("item");
 let html = "";
 
-data.items.slice(0,8).forEach(item => {
+items.forEach((el, i) => {
 
-let img = getImage(item);
+if(i > 7) return;
+
+let title = el.querySelector("title").textContent;
+let link = el.querySelector("link").textContent;
+
+let desc = el.querySelector("description").textContent;
+
+// şəkil çıxarmaq
+let imgMatch = desc.match(/<img.*?src="(.*?)"/);
+let img = imgMatch ? imgMatch[1] : "https://picsum.photos/600/300";
 
 html += `
 <div style="
@@ -48,8 +46,8 @@ html += `
 style="width:100%; height:200px; object-fit:cover;">
 
 <div style="padding:10px;">
-<a href="${item.link}" target="_blank" style="color:white; text-decoration:none;">
-${item.title}
+<a href="${link}" target="_blank" style="color:white; text-decoration:none;">
+${title}
 </a>
 </div>
 
@@ -60,9 +58,6 @@ ${item.title}
 
 document.getElementById("news").innerHTML = html;
 
-})
-.catch(()=>{
-document.getElementById("news").innerHTML="Xəbərlər yüklənmədi ❌";
 });
 
 </script>
