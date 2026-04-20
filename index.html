@@ -1,52 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Xəbərlər</title>
+</head>
+
+<body style="background:#020617; color:white; font-family:sans-serif;">
+
+<h2 style="text-align:center;">🇦🇿 Azərbaycan Xəbərləri</h2>
+
+<div id="news" style="padding:20px;"></div>
+
 <script>
-function loadAZNews(type){
 
-let rss = "";
-
-if(type=="report"){
-  rss = "https://report.az/rss/";
-}
-else if(type=="apa"){
-  rss = "https://apa.az/rss";
-}
-else{
-  rss = "https://report.az/rss/";
-}
-
-fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(rss))
+fetch("https://api.allorigins.win/raw?url=https://report.az/rss/")
 .then(res => res.text())
-.then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+.then(str => new DOMParser().parseFromString(str, "text/xml"))
 .then(data => {
 
 let items = data.querySelectorAll("item");
 let html = "";
 
-items.forEach((el, index) => {
+items.forEach((el, i) => {
+  if(i > 5) return;
 
-if(index > 8) return;
+  let title = el.querySelector("title").textContent;
+  let link = el.querySelector("link").textContent;
 
-let title = el.querySelector("title").textContent;
-let link = el.querySelector("link").textContent;
-
-html += `
-<div style="
-  background:#0f172a;
-  padding:15px;
-  border-radius:15px;
-  margin:10px;
-">
-<a href="${link}" target="_blank" style="color:white; text-decoration:none;">
-  ${title}
-</a>
-</div>
-`;
-
+  html += `
+    <div style="margin:15px; padding:15px; background:#0f172a; border-radius:10px;">
+      <a href="${link}" target="_blank" style="color:white;">
+        ${title}
+      </a>
+    </div>
+  `;
 });
 
 document.getElementById("news").innerHTML = html;
 
 });
-}
 
-loadAZNews('all');
 </script>
+
+</body>
+</html>
