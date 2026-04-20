@@ -1,31 +1,4 @@
-<section style="padding:20px; max-width:1200px; margin:0 auto;">
-  <h2 style="color:white; text-align:center; font-size:28px; margin-bottom:20px;">
-    🇦🇿 Azərbaycan Xəbərləri
-  </h2>
-
-  <div style="text-align:center; margin:20px 0;">
-    <button onclick="loadAZNews('all')" style="margin:5px; padding:10px 15px; border:none; border-radius:10px; background:#22c55e; color:white;">Ümumi</button>
-    <button onclick="loadAZNews('report')" style="margin:5px; padding:10px 15px; border:none; border-radius:10px; background:#1e293b; color:white;">Report</button>
-    <button onclick="loadAZNews('apa')" style="margin:5px; padding:10px 15px; border:none; border-radius:10px; background:#1e293b; color:white;">APA</button>
-  </div>
-
-  <div id="news" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px;"></div>
-</section>
-
 <script>
-function getImage(item) {
-  if (item.thumbnail) return item.thumbnail;
-
-  if (item.enclosure && item.enclosure.link) return item.enclosure.link;
-
-  if (item.description) {
-    const match = item.description.match(/<img[^>]+src="([^">]+)"/i);
-    if (match) return match[1];
-  }
-
-  return "https://via.placeholder.com/600x340/111827/ffffff?text=Xeber";
-}
-
 function loadAZNews(type){
 
 let rss = "";
@@ -40,32 +13,30 @@ else{
   rss = "https://report.az/rss/";
 }
 
-fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(rss))
-.then(res => res.json())
+fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(rss))
+.then(res => res.text())
+.then(str => new window.DOMParser().parseFromString(str, "text/xml"))
 .then(data => {
 
+let items = data.querySelectorAll("item");
 let html = "";
 
-data.items.slice(0,9).forEach(item => {
+items.forEach((el, index) => {
 
-let img = getImage(item);
+if(index > 8) return;
+
+let title = el.querySelector("title").textContent;
+let link = el.querySelector("link").textContent;
 
 html += `
 <div style="
   background:#0f172a;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 8px 20px rgba(0,0,0,0.5);
+  padding:15px;
+  border-radius:15px;
+  margin:10px;
 ">
-<a href="${item.link}" target="_blank" style="text-decoration:none; color:white;">
-
-<img src="${img}" style="width:100%; height:220px; object-fit:cover;">
-
-<div style="padding:12px;">
-<h3 style="font-size:16px;">${item.title}</h3>
-<p style="font-size:13px; opacity:0.7;">Ətraflı oxu →</p>
-</div>
-
+<a href="${link}" target="_blank" style="color:white; text-decoration:none;">
+  ${title}
 </a>
 </div>
 `;
