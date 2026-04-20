@@ -2,64 +2,247 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Pulvar Xəbər</title>
+<title>Online Cüzdan 2026</title>
+
+<style>
+body{
+ margin:0;
+ font-family:sans-serif;
+ background:#eaf3ff;
+}
+
+.container{
+ padding:20px;
+}
+
+.card{
+ background:white;
+ padding:20px;
+ border-radius:15px;
+ margin-bottom:15px;
+ box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input{
+ width:100%;
+ padding:10px;
+ margin:5px 0;
+ border-radius:10px;
+ border:1px solid #ccc;
+}
+
+button{
+ width:100%;
+ padding:12px;
+ border:none;
+ border-radius:10px;
+ background:#2a7cff;
+ color:white;
+ margin-top:10px;
+}
+
+.menu button{
+ width:48%;
+ margin:1%;
+}
+
+.hidden{
+ display:none;
+}
+
+.center{
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ height:100vh;
+}
+</style>
+
 </head>
+<body>
 
-<body style="margin:0; background:#020617; color:white; font-family:sans-serif;">
+<!-- LOGIN -->
+<div id="loginPage" class="center">
+<div class="card">
+<h2>Giriş Et</h2>
+<input id="loginEmail" placeholder="Email">
+<input id="loginPass" type="password" placeholder="Şifrə">
+<button onclick="login()">Giriş Et</button>
+<p onclick="showRegister()">Qeydiyyatdan keç</p>
+</div>
+</div>
 
-<h2 style="text-align:center; padding:20px;">🇦🇿 Azərbaycan Xəbərləri</h2>
+<!-- REGISTER -->
+<div id="registerPage" class="center hidden">
+<div class="card">
+<h2>Qeydiyyat</h2>
+<input id="regEmail" placeholder="Email">
+<input id="regPass" type="password" placeholder="Şifrə">
+<button onclick="register()">Qeydiyyatdan keç</button>
+</div>
+</div>
 
-<div id="news" style="padding:10px;"></div>
+<!-- APP -->
+<div id="app" class="hidden container">
+
+<div class="card">
+<h2>Online Cüzdan 2026</h2>
+<p>Balans: <b id="balance">100 AZN</b></p>
+</div>
+
+<div class="menu">
+<button onclick="showTransfer()">Köçürmə</button>
+<button onclick="showPayment()">Ödəniş</button>
+<button onclick="showProfile()">Profil</button>
+</div>
+
+<!-- TRANSFER -->
+<div id="transfer" class="card hidden">
+<h3>Köçürmə</h3>
+<input id="toUser" placeholder="Kimə">
+<input id="amount" placeholder="Məbləğ">
+<button onclick="transfer()">Göndər</button>
+</div>
+
+<!-- PAYMENT -->
+<div id="payment" class="card hidden">
+<h3>Ödəniş</h3>
+<input id="service" placeholder="Xidmət (mobil, qaz...)">
+<input id="payAmount" placeholder="Məbləğ">
+<button onclick="pay()">Ödə</button>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="card hidden">
+<h3>Profil</h3>
+<p id="userEmail"></p>
+
+<input placeholder="Kart nömrəsi">
+<input placeholder="Ad Soyad">
+<button>Kart əlavə et</button>
+
+<button onclick="logout()">Çıxış</button>
+</div>
+
+<!-- HISTORY -->
+<div class="card">
+<h3>Son əməliyyatlar</h3>
+<ul id="history"></ul>
+</div>
+
+</div>
 
 <script>
+let balance = 100;
 
-fetch("https://api.allorigins.win/raw?url=https://report.az/rss/")
-.then(res => res.text())
-.then(str => new DOMParser().parseFromString(str, "text/xml"))
-.then(data => {
+function register(){
+ let email = document.getElementById("regEmail").value;
+ let pass = document.getElementById("regPass").value;
 
-let items = data.querySelectorAll("item");
-let html = "";
+ localStorage.setItem("user", JSON.stringify({email, pass}));
+ alert("Qeydiyyat tamamlandı");
+ showLogin();
+}
 
-items.forEach((el, i) => {
+function login(){
+ let email = document.getElementById("loginEmail").value;
+ let pass = document.getElementById("loginPass").value;
 
-if(i > 7) return;
+ let user = JSON.parse(localStorage.getItem("user"));
 
-let title = el.querySelector("title").textContent;
-let link = el.querySelector("link").textContent;
+ if(user && user.email==email && user.pass==pass){
+   localStorage.setItem("login", "true");
+   startApp();
+ } else {
+   alert("Yanlış məlumat");
+ }
+}
 
-let desc = el.querySelector("description").textContent;
+function logout(){
+ localStorage.removeItem("login");
+ location.reload();
+}
 
-// şəkil çıxarmaq
-let imgMatch = desc.match(/<img.*?src="(.*?)"/);
-let img = imgMatch ? imgMatch[1] : "https://picsum.photos/600/300";
+function showRegister(){
+ document.getElementById("loginPage").classList.add("hidden");
+ document.getElementById("registerPage").classList.remove("hidden");
+}
 
-html += `
-<div style="
-  background:#0f172a;
-  margin:15px 0;
-  border-radius:15px;
-  overflow:hidden;
-">
+function showLogin(){
+ document.getElementById("registerPage").classList.add("hidden");
+ document.getElementById("loginPage").classList.remove("hidden");
+}
 
-<img src="${img}" 
-style="width:100%; height:200px; object-fit:cover;">
+function startApp(){
+ document.getElementById("loginPage").classList.add("hidden");
+ document.getElementById("registerPage").classList.add("hidden");
+ document.getElementById("app").classList.remove("hidden");
 
-<div style="padding:10px;">
-<a href="${link}" target="_blank" style="color:white; text-decoration:none;">
-${title}
-</a>
-</div>
+ let user = JSON.parse(localStorage.getItem("user"));
+ document.getElementById("userEmail").innerText = user.email;
+}
 
-</div>
-`;
+function showTransfer(){
+ hideAll();
+ document.getElementById("transfer").classList.remove("hidden");
+}
 
-});
+function showPayment(){
+ hideAll();
+ document.getElementById("payment").classList.remove("hidden");
+}
 
-document.getElementById("news").innerHTML = html;
+function showProfile(){
+ hideAll();
+ document.getElementById("profile").classList.remove("hidden");
+}
 
-});
+function hideAll(){
+ document.getElementById("transfer").classList.add("hidden");
+ document.getElementById("payment").classList.add("hidden");
+ document.getElementById("profile").classList.add("hidden");
+}
 
+function transfer(){
+ let to = document.getElementById("toUser").value;
+ let amt = parseFloat(document.getElementById("amount").value);
+
+ if(amt>0 && amt<=balance){
+   balance -= amt;
+   updateBalance();
+   addHistory("Köçürmə: "+amt+" AZN → "+to);
+ } else {
+   alert("Balans çatmır");
+ }
+}
+
+function pay(){
+ let service = document.getElementById("service").value;
+ let amt = parseFloat(document.getElementById("payAmount").value);
+
+ if(amt>0 && amt<=balance){
+   balance -= amt;
+   updateBalance();
+   addHistory("Ödəniş: "+service+" - "+amt+" AZN");
+ } else {
+   alert("Balans çatmır");
+ }
+}
+
+function updateBalance(){
+ document.getElementById("balance").innerText = balance+" AZN";
+}
+
+function addHistory(text){
+ let li = document.createElement("li");
+ li.innerText = text;
+ document.getElementById("history").appendChild(li);
+}
+
+// auto login
+if(localStorage.getItem("login")=="true"){
+ startApp();
+}
 </script>
 
 </body>
