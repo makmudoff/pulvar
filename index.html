@@ -1,168 +1,81 @@
-<!DOCTYPE html>
-<html lang="az">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Takipçi Artımı</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<section style="padding:20px; max-width:1200px; margin:0 auto;">
+  <h2 style="color:white; text-align:center; font-size:28px; margin-bottom:20px;">
+    🇦🇿 Azərbaycan Xəbərləri
+  </h2>
 
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #111827, #1f2937, #0f172a);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 500px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 30px 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      backdrop-filter: blur(10px);
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 28px;
-      margin-bottom: 18px;
-      color: #ffffff;
-    }
-
-    .subtitle {
-      font-size: 18px;
-      margin-bottom: 20px;
-      color: #d1d5db;
-    }
-
-    .section {
-      background: rgba(255,255,255,0.06);
-      border-radius: 14px;
-      padding: 18px;
-      margin-top: 15px;
-      text-align: left;
-    }
-
-    .section h2 {
-      font-size: 20px;
-      margin-bottom: 12px;
-      color: #ffffff;
-    }
-
-    .text {
-      font-size: 17px;
-      line-height: 1.7;
-      color: #f3f4f6;
-    }
-
-    .highlight {
-      color: #22c55e;
-      font-weight: bold;
-    }
-
-    .contact {
-      margin-top: 22px;
-      font-size: 17px;
-      line-height: 1.7;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 25px;
-      background: #22c55e;
-      color: #fff;
-      text-decoration: none;
-      padding: 15px 35px;
-      border-radius: 12px;
-      font-size: 20px;
-      font-weight: bold;
-      transition: 0.3s ease;
-      box-shadow: 0 6px 18px rgba(34, 197, 94, 0.35);
-    }
-
-    .btn:hover {
-      background: #16a34a;
-      transform: scale(1.04);
-    }
-
-    .footer {
-      margin-top: 18px;
-      font-size: 14px;
-      color: #cbd5e1;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        padding: 22px 16px;
-      }
-
-      h1 {
-        font-size: 24px;
-      }
-
-      .subtitle,
-      .text,
-      .contact {
-        font-size: 16px;
-      }
-
-      .btn {
-        width: 100%;
-        padding: 14px 20px;
-        font-size: 18px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="container">
-    <h1>📢 Səhifəni böyütmək istəyirsən?</h1>
-    <div class="subtitle">📈 Takipçi artımı bizdə!</div>
-
-    <div class="section">
-      <h2>📱 TikTok Takipçi 👇</h2>
-      <div class="text">
-        ✔️ 1K — 8.72 AZN <br>
-        ✔️ 5K — 29.73 AZN <br>
-        ✔️ 10K — 65.99 AZN
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>📸 Instagram Takipçi 👇</h2>
-      <div class="text">
-        ✔️ 1K — 5.78 AZN <br>
-        ✔️ 5K — 39.73 AZN <br>
-        ✔️ 10K — 67.39 AZN
-      </div>
-    </div>
-
-    <div class="contact">
-      ⚡ Sürətli və təhlükəsiz xidmət <br>
-      🎁 Daimi müştərilərə endirim <br><br>
-      💬 Əlaqə üçün: WhatsApp <br>
-      📩 İndi yaz – səhifəni birlikdə böyüdək 🚀
-    </div>
-
-    <a class="btn" href="https://t.me/kenrrry" target="_blank">
-      Sifariş et
-    </a>
-
-    <div class="footer">
-      Düyməyə klik etdikdə birbaşa Telegram-a yönləndiriləcəksiniz.
-    </div>
+  <div style="text-align:center; margin:20px 0;">
+    <button onclick="loadAZNews('all')" style="margin:5px; padding:10px 15px; border:none; border-radius:10px; background:#22c55e; color:white;">Ümumi</button>
+    <button onclick="loadAZNews('report')" style="margin:5px; padding:10px 15px; border:none; border-radius:10px; background:#1e293b; color:white;">Report</button>
+    <button onclick="loadAZNews('apa')" style="margin:5px; padding:10px 15px; border:none; border-radius:10px; background:#1e293b; color:white;">APA</button>
   </div>
 
-</body>
-</html>
+  <div id="news" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px;"></div>
+</section>
+
+<script>
+function getImage(item) {
+  if (item.thumbnail) return item.thumbnail;
+
+  if (item.enclosure && item.enclosure.link) return item.enclosure.link;
+
+  if (item.description) {
+    const match = item.description.match(/<img[^>]+src="([^">]+)"/i);
+    if (match) return match[1];
+  }
+
+  return "https://via.placeholder.com/600x340/111827/ffffff?text=Xeber";
+}
+
+function loadAZNews(type){
+
+let rss = "";
+
+if(type=="report"){
+  rss = "https://report.az/rss/";
+}
+else if(type=="apa"){
+  rss = "https://apa.az/rss";
+}
+else{
+  rss = "https://report.az/rss/";
+}
+
+fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(rss))
+.then(res => res.json())
+.then(data => {
+
+let html = "";
+
+data.items.slice(0,9).forEach(item => {
+
+let img = getImage(item);
+
+html += `
+<div style="
+  background:#0f172a;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 8px 20px rgba(0,0,0,0.5);
+">
+<a href="${item.link}" target="_blank" style="text-decoration:none; color:white;">
+
+<img src="${img}" style="width:100%; height:220px; object-fit:cover;">
+
+<div style="padding:12px;">
+<h3 style="font-size:16px;">${item.title}</h3>
+<p style="font-size:13px; opacity:0.7;">Ətraflı oxu →</p>
+</div>
+
+</a>
+</div>
+`;
+
+});
+
+document.getElementById("news").innerHTML = html;
+
+});
+}
+
+loadAZNews('all');
+</script>
