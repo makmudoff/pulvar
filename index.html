@@ -1,143 +1,236 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Online Cüzdan 2026</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online Cüzdan 2026</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    }
 
-<style>
-body{
- margin:0;
- font-family:sans-serif;
- background:#eaf3ff;
- text-align:center;
-}
+    body{
+      background:#eef4f7;
+      color:#111827;
+    }
 
-.app{
- max-width:400px;
- margin:0 auto;
- padding:20px;
-}
+    .hidden{
+      display:none !important;
+    }
 
-.balance{
- font-size:40px;
- margin:20px 0;
-}
+    .screen{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
 
-button{
- width:100%;
- padding:12px;
- margin:5px 0;
- border:none;
- border-radius:10px;
- background:#2a7cff;
- color:white;
- font-size:16px;
-}
+    .auth-wrap{
+      width:100%;
+      max-width:420px;
+    }
 
-.card{
- background:white;
- padding:15px;
- border-radius:15px;
- margin-top:15px;
-}
+    .brand{
+      text-align:center;
+      margin-bottom:18px;
+    }
 
-.hidden{
- display:none;
-}
-</style>
+    .brand h1{
+      font-size:30px;
+      font-weight:800;
+      margin-bottom:8px;
+    }
 
-</head>
-<body>
+    .brand p{
+      color:#6b7280;
+      font-size:14px;
+      line-height:1.5;
+    }
 
-<div class="app">
+    .auth-card{
+      background:#fff;
+      border-radius:24px;
+      padding:22px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.08);
+    }
 
-<h2>Online Cüzdan 2026</h2>
+    .tabs{
+      display:flex;
+      background:#f3f4f6;
+      border-radius:16px;
+      padding:4px;
+      margin-bottom:18px;
+    }
 
-<div class="balance" id="balance">0 AZN</div>
+    .tab-btn{
+      flex:1;
+      border:none;
+      background:transparent;
+      padding:12px;
+      border-radius:12px;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+      color:#6b7280;
+    }
 
-<button onclick="show('add')">Balans artır</button>
-<button onclick="show('transfer')">Köçürmə</button>
-<button onclick="show('pay')">Ödəniş</button>
+    .tab-btn.active{
+      background:#12c7cf;
+      color:#fff;
+    }
 
-<div id="add" class="card hidden">
-<h3>Balans artır</h3>
-<input id="addAmount" placeholder="Məbləğ">
-<button onclick="addMoney()">Əlavə et</button>
-</div>
+    .panel-title{
+      font-size:24px;
+      font-weight:800;
+      margin-bottom:8px;
+    }
 
-<div id="transfer" class="card hidden">
-<h3>Köçürmə</h3>
-<input id="to" placeholder="Kimə">
-<input id="amount" placeholder="Məbləğ">
-<button onclick="send()">Göndər</button>
-</div>
+    .panel-sub{
+      color:#6b7280;
+      font-size:14px;
+      margin-bottom:16px;
+    }
 
-<div id="pay" class="card hidden">
-<h3>Ödəniş</h3>
-<input id="service" placeholder="Xidmət">
-<input id="payAmount" placeholder="Məbləğ">
-<button onclick="pay()">Ödə</button>
-</div>
+    .field{
+      margin-bottom:12px;
+    }
 
-<div class="card">
-<h3>Tarixçə</h3>
-<ul id="history"></ul>
-</div>
+    .field label{
+      display:block;
+      margin-bottom:8px;
+      font-size:14px;
+      font-weight:700;
+    }
 
-</div>
+    .field input,
+    .field select{
+      width:100%;
+      height:50px;
+      border:1px solid #d1d5db;
+      border-radius:14px;
+      padding:0 14px;
+      font-size:15px;
+      outline:none;
+      background:#fff;
+    }
 
-<script>
-let balance = 0;
+    .field input:focus,
+    .field select:focus{
+      border-color:#12c7cf;
+      box-shadow:0 0 0 3px rgba(18,199,207,0.12);
+    }
 
-function update(){
- document.getElementById("balance").innerText = balance + " AZN";
-}
+    .main-btn{
+      width:100%;
+      height:52px;
+      border:none;
+      border-radius:16px;
+      background:#12c7cf;
+      color:#fff;
+      font-size:16px;
+      font-weight:800;
+      cursor:pointer;
+      margin-top:4px;
+    }
 
-function show(id){
- document.getElementById("add").classList.add("hidden");
- document.getElementById("transfer").classList.add("hidden");
- document.getElementById("pay").classList.add("hidden");
- document.getElementById(id).classList.remove("hidden");
-}
+    .sub-btn{
+      width:100%;
+      height:50px;
+      border:none;
+      border-radius:14px;
+      background:#111827;
+      color:#fff;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+    }
 
-function addMoney(){
- let a = parseFloat(document.getElementById("addAmount").value);
- if(a>0){
-   balance+=a;
-   update();
-   addHistory("Balans artırıldı: "+a);
- }
-}
+    .ghost-btn{
+      width:100%;
+      height:50px;
+      border:none;
+      border-radius:14px;
+      background:#eef4f7;
+      color:#111827;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+    }
 
-function send(){
- let a = parseFloat(document.getElementById("amount").value);
- let to = document.getElementById("to").value;
- if(a>0 && a<=balance){
-   balance-=a;
-   update();
-   addHistory("Göndərildi "+a+" → "+to);
- }
-}
+    .demo-note{
+      margin-top:16px;
+      font-size:13px;
+      color:#6b7280;
+      text-align:center;
+      line-height:1.5;
+    }
 
-function pay(){
- let a = parseFloat(document.getElementById("payAmount").value);
- let s = document.getElementById("service").value;
- if(a>0 && a<=balance){
-   balance-=a;
-   update();
-   addHistory("Ödəniş "+s+" "+a);
- }
-}
+    .app{
+      max-width:430px;
+      margin:0 auto;
+      min-height:100vh;
+      background:#eef4f7;
+      position:relative;
+      padding-bottom:100px;
+    }
 
-function addHistory(t){
- let li = document.createElement("li");
- li.innerText = t;
- document.getElementById("history").appendChild(li);
-}
+    .top-area{
+      background:linear-gradient(180deg,#dff3f2 0%, #e8f6f5 100%);
+      padding:18px 16px 26px;
+      border-bottom-left-radius:28px;
+      border-bottom-right-radius:28px;
+    }
 
-update();
-</script>
+    .top-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
 
-</body>
-</html>
+    .user-box{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .avatar{
+      width:50px;
+      height:50px;
+      border-radius:50%;
+      background:#fff;
+      border:2px solid #12c7cf;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      font-size:18px;
+    }
+
+    .user-text small{
+      color:#12aeb5;
+      display:block;
+      margin-bottom:4px;
+      font-size:14px;
+    }
+
+    .user-text strong{
+      font-size:20px;
+      line-height:1.2;
+    }
+
+    .icon-btn{
+      width:42px;
+      height:42px;
+      border:none;
+      border-radius:14px;
+      background:#fff;
+      font-size:20px;
+      cursor:pointer;
+    }
+
+    .
