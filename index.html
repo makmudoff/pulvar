@@ -1,108 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Online Cüzdan 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PUBG UC Satışı</title>
+
 <style>
-body{
- font-family:sans-serif;
- background:#eef4f7;
- text-align:center;
+body {
+    margin:0;
+    font-family: Arial;
+    background:#0f172a;
+    color:white;
+    text-align:center;
 }
 
-.box{
- background:white;
- padding:20px;
- border-radius:10px;
- width:300px;
- margin:100px auto;
+h1 {
+    margin-top:20px;
+    color:#00ffcc;
 }
 
-input{
- width:100%;
- padding:10px;
- margin:5px 0;
+.container {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-top:30px;
 }
 
-button{
- width:100%;
- padding:10px;
- background:blue;
- color:white;
- border:none;
- margin-top:5px;
+.card {
+    background:#1e293b;
+    padding:20px;
+    margin:10px;
+    border-radius:15px;
+    width:200px;
+    box-shadow:0 0 15px #00ffcc55;
 }
-.hidden{display:none;}
+
+.card h2 {
+    color:#00ffcc;
+}
+
+.price {
+    font-size:20px;
+    margin:10px 0;
+}
+
+button {
+    background:#00ffcc;
+    border:none;
+    padding:10px;
+    width:100%;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover {
+    background:#00cca3;
+}
 </style>
+
+<script>
+function buy(packageName){
+    alert("Seçdiyiniz paket: " + packageName + "\\nTelegrama yönləndirilirsiniz...");
+    
+    window.location.href = "https://t.me/miko_0055";
+}
+</script>
+
 </head>
 
 <body>
 
-<div id="login" class="box">
-<h2>Giriş</h2>
-<input id="email" placeholder="Email">
-<input id="pass" type="password" placeholder="Şifrə">
-<button onclick="login()">Daxil ol</button>
-<button onclick="showReg()">Qeydiyyat</button>
+<h1>PUBG UC Satışı</h1>
+<p>⚡ Sürətli | Etibarlı | Ucuz qiymət</p>
+
+<div class="container">
+
+<div class="card">
+    <h2>60 UC</h2>
+    <div class="price">1.49 AZN</div>
+    <button onclick="buy('60 UC')">Sifariş et</button>
 </div>
 
-<div id="register" class="box hidden">
-<h2>Qeydiyyat</h2>
-<input id="rEmail" placeholder="Email">
-<input id="rPass" type="password" placeholder="Şifrə">
-<button onclick="register()">Qeydiyyat et</button>
+<div class="card">
+    <h2>325 UC</h2>
+    <div class="price">6.99 AZN</div>
+    <button onclick="buy('325 UC')">Sifariş et</button>
 </div>
 
-<div id="app" class="hidden">
-<h1>Online Cüzdan 2026</h1>
-<h2 id="bal">0 AZN</h2>
-
-<input id="money" placeholder="Məbləğ">
-<button onclick="add()">Balans artır</button>
-
-<button onclick="logout()">Çıxış</button>
+<div class="card">
+    <h2>660 UC</h2>
+    <div class="price">13.49 AZN</div>
+    <button onclick="buy('660 UC')">Sifariş et</button>
 </div>
 
-<script>
-let bal=0;
+<div class="card">
+    <h2>1800 UC</h2>
+    <div class="price">35.99 AZN</div>
+    <button onclick="buy('1800 UC')">Sifariş et</button>
+</div>
 
-function register(){
- let e=document.getElementById("rEmail").value;
- let p=document.getElementById("rPass").value;
- localStorage.setItem("user",JSON.stringify({e,p}));
- alert("Qeydiyyat tamam");
-}
+<div class="card">
+    <h2>3850 UC</h2>
+    <div class="price">72.99 AZN</div>
+    <button onclick="buy('3850 UC')">Sifariş et</button>
+</div>
 
-function login(){
- let e=document.getElementById("email").value;
- let p=document.getElementById("pass").value;
- let u=JSON.parse(localStorage.getItem("user"));
+</div>
 
- if(u && u.e==e && u.p==p){
-   document.getElementById("login").classList.add("hidden");
-   document.getElementById("app").classList.remove("hidden");
- }else{
-   alert("Səhv məlumat");
- }
-}
-
-function add(){
- let m=parseFloat(document.getElementById("money").value);
- if(m>0){
-   bal+=m;
-   document.getElementById("bal").innerText=bal+" AZN";
- }
-}
-
-function logout(){
- location.reload();
-}
-
-function showReg(){
- document.getElementById("login").classList.add("hidden");
- document.getElementById("register").classList.remove("hidden");
-}
-</script>
+<p style="margin-top:30px;">
+📩 Sifariş üçün Telegram: <br>
+<b>t.me/miko_0055</b>
+</p>
 
 </body>
 </html>
