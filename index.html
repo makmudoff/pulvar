@@ -6,133 +6,269 @@
 <title>PUBG UC Satışı</title>
 
 <style>
-body {
+*{
+    box-sizing:border-box;
+}
+
+body{
     margin:0;
-    font-family: Arial;
+    font-family:Arial, sans-serif;
     background:#070b18;
-    color:white;
+    color:#fff;
     text-align:center;
 }
 
-h1 {
+/* HEAD */
+h1{
     margin-top:20px;
     color:#00e5ff;
+    font-size:34px;
+    text-shadow:0 0 12px #00e5ff;
 }
 
-.subtitle {
+.subtitle{
     font-size:14px;
-    color:#aaa;
-    margin-bottom:10px;
+    color:#c8d0df;
+    margin:0 auto 10px;
+    max-width:900px;
+    line-height:1.6;
+    padding:0 14px;
 }
 
-.ucStats {
+.ucStats{
     font-size:14px;
     color:#00e5ff;
-    margin-bottom:15px;
+    margin-bottom:16px;
+    line-height:1.6;
+    text-shadow:0 0 10px rgba(0,229,255,0.45);
 }
 
-/* CARDS */
-.container {
+/* MAIN CARDS */
+.container{
     display:grid;
-    grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
-    gap:12px;
-    padding:10px;
+    grid-template-columns:repeat(auto-fit,minmax(165px,1fr));
+    gap:14px;
+    padding:12px;
 }
 
-.card {
-    background:#0f172a;
-    padding:15px;
-    border-radius:15px;
-    box-shadow:0 0 15px rgba(0,229,255,0.2);
+.card{
+    background:#0b1530;
+    padding:18px 14px;
+    border-radius:18px;
+    border:1px solid rgba(0,229,255,0.16);
+    animation:cardBlink 1.3s infinite alternate;
 }
 
-.uc {
+.card:nth-child(2n){
+    animation-delay:.25s;
+}
+.card:nth-child(3n){
+    animation-delay:.45s;
+}
+
+@keyframes cardBlink{
+    0%{
+        box-shadow:
+            0 0 8px rgba(0,229,255,.35),
+            0 0 16px rgba(0,229,255,.18),
+            inset 0 0 4px rgba(0,229,255,.06);
+        border-color:rgba(0,229,255,.28);
+        transform:translateY(0);
+    }
+    50%{
+        box-shadow:
+            0 0 10px rgba(153,50,255,.38),
+            0 0 22px rgba(153,50,255,.2),
+            inset 0 0 6px rgba(153,50,255,.08);
+        border-color:rgba(153,50,255,.34);
+    }
+    100%{
+        box-shadow:
+            0 0 14px rgba(0,229,255,.52),
+            0 0 28px rgba(0,229,255,.24),
+            inset 0 0 8px rgba(0,229,255,.10);
+        border-color:rgba(0,229,255,.42);
+        transform:translateY(-1px);
+    }
+}
+
+.uc{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:10px;
+    color:#ffffff;
+}
+
+.price{
+    color:#ffd84d;
     font-size:18px;
-    font-weight:bold;
+    margin-bottom:16px;
+    text-shadow:0 0 8px rgba(255,216,77,.22);
 }
 
-.price {
-    color:#ffd700;
-    margin:10px 0;
-}
-
-.btn {
-    background:#00e5ff;
-    border:none;
-    padding:10px;
+.btn{
     width:100%;
-    border-radius:10px;
-    font-weight:bold;
+    border:none;
+    border-radius:14px;
+    padding:12px;
+    font-weight:700;
+    font-size:16px;
     cursor:pointer;
+    color:#2140c8;
+    background:#52dfff;
+    animation:btnBlink 1.1s infinite alternate;
+}
+
+@keyframes btnBlink{
+    0%{
+        box-shadow:0 0 10px rgba(82,223,255,.35);
+        filter:brightness(1);
+    }
+    100%{
+        box-shadow:0 0 18px rgba(82,223,255,.7);
+        filter:brightness(1.1);
+    }
 }
 
 /* ORDER PAGE */
-#orderPage {
+#orderPage{
     display:none;
-    padding:20px;
+    padding:18px;
 }
 
-.order-box {
-    background:#0f172a;
-    padding:20px;
-    border-radius:15px;
-    max-width:500px;
-    margin:auto;
-    text-align:left;
-    box-shadow:0 0 20px rgba(0,229,255,0.2);
-}
-
-.input {
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border:none;
-    border-radius:10px;
-    background:#1e293b;
-    color:white;
-}
-
-.info {
-    background:#111827;
-    padding:12px;
-    border-radius:10px;
-    margin:10px 0;
-    color:#ccc;
-}
-
-.confirm {
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    font-weight:bold;
-    background:linear-gradient(90deg,#ff00aa,#00e5ff,#00ffcc);
-    color:black;
-    cursor:pointer;
-}
-
-.back {
-    margin-bottom:15px;
+.back{
+    margin:6px auto 16px;
     display:inline-block;
+    color:#61e9ff;
     cursor:pointer;
-    color:#00e5ff;
+    font-weight:700;
+    text-shadow:0 0 8px rgba(97,233,255,.35);
+}
+
+.order-box{
+    background:#0b1530;
+    max-width:540px;
+    margin:0 auto;
+    padding:22px;
+    border-radius:22px;
+    text-align:left;
+    border:1px solid rgba(0,229,255,.18);
+    box-shadow:
+        0 0 14px rgba(0,229,255,.28),
+        0 0 34px rgba(0,229,255,.12);
+    animation:orderGlow 1.4s infinite alternate;
+}
+
+@keyframes orderGlow{
+    0%{
+        box-shadow:
+            0 0 14px rgba(0,229,255,.28),
+            0 0 34px rgba(0,229,255,.12);
+    }
+    100%{
+        box-shadow:
+            0 0 18px rgba(153,50,255,.32),
+            0 0 38px rgba(153,50,255,.14);
+    }
+}
+
+.order-box h2{
+    margin-top:0;
+    margin-bottom:18px;
+    font-size:34px;
+    color:#fff;
+}
+
+.order-box label{
+    display:block;
+    font-size:16px;
+    margin:14px 0 8px;
+    color:#ffffff;
+}
+
+.input{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:14px;
+    background:#1b2741;
+    color:#fff;
+    font-size:16px;
+    outline:none;
+}
+
+.input::placeholder{
+    color:#9aa5bd;
+}
+
+.info{
+    background:#121d33;
+    padding:14px;
+    border-radius:14px;
+    margin-top:14px;
+    color:#d8deea;
+    line-height:1.7;
+    border:1px solid rgba(255,255,255,.05);
+}
+
+.confirm{
+    width:100%;
+    margin-top:18px;
+    padding:15px;
+    border:none;
+    border-radius:16px;
+    font-size:18px;
+    font-weight:800;
+    cursor:pointer;
+    color:#08111f;
+    background:linear-gradient(90deg,#ff30d5,#67d7ff,#e8ff53);
+    background-size:200% 200%;
+    animation:confirmMove 1.8s linear infinite;
+}
+
+@keyframes confirmMove{
+    0%{
+        background-position:0% 50%;
+        box-shadow:0 0 14px rgba(103,215,255,.22);
+    }
+    100%{
+        background-position:100% 50%;
+        box-shadow:0 0 18px rgba(255,48,213,.24);
+    }
 }
 
 /* FOOTER */
-.footer {
-    margin-top:40px;
-    padding:20px;
+.footer{
+    margin-top:36px;
+    padding:22px 14px 28px;
     font-size:13px;
-    color:#aaa;
-    border-top:1px solid rgba(255,255,255,0.1);
+    color:#98a3bb;
+    line-height:1.8;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+@media (max-width:600px){
+    h1{
+        font-size:28px;
+    }
+    .uc{
+        font-size:18px;
+    }
+    .price{
+        font-size:17px;
+    }
+    .btn{
+        font-size:15px;
+    }
+    .order-box h2{
+        font-size:28px;
+    }
 }
 </style>
 
 <script>
-/* UC SATIŞ SAYĞACI */
 function updateUC(){
     let now = Date.now();
-
     let savedUC = localStorage.getItem("ucCount");
     let lastUpdate = localStorage.getItem("ucTime");
 
@@ -140,128 +276,123 @@ function updateUC(){
         savedUC = 8420;
         localStorage.setItem("ucCount", savedUC);
         localStorage.setItem("ucTime", now);
+        lastUpdate = now;
     }
 
-    let diff = now - lastUpdate;
+    let diff = now - Number(lastUpdate);
 
-    if(diff > 1800000){ // 30 dəqiqə
-        let add = Math.floor(Math.random()*100)+200;
+    if(diff >= 1800000){
+        let add = Math.floor(Math.random() * 101) + 200; // 200-300
         savedUC = parseInt(savedUC) + add;
-
         localStorage.setItem("ucCount", savedUC);
         localStorage.setItem("ucTime", now);
     }
 
-    document.getElementById("ucSold").innerText = Number(savedUC).toLocaleString();
+    document.getElementById("ucSold").innerText = Number(localStorage.getItem("ucCount")).toLocaleString();
 }
 
-/* ORDER */
 function openOrder(uc, price){
-    document.getElementById("mainPage").style.display="none";
-    document.getElementById("orderPage").style.display="block";
+    document.getElementById("mainPage").style.display = "none";
+    document.getElementById("orderPage").style.display = "block";
 
-    document.getElementById("uc").value="PUBG Mobile " + uc;
-    document.getElementById("price").value=price + " AZN";
+    document.getElementById("ucInput").value = "PUBG Mobile " + uc;
+    document.getElementById("priceInput").value = price + " AZN";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
 function goBack(){
-    document.getElementById("orderPage").style.display="none";
-    document.getElementById("mainPage").style.display="block";
+    document.getElementById("orderPage").style.display = "none";
+    document.getElementById("mainPage").style.display = "block";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
 function send(){
-    let uc=document.getElementById("uc").value;
-    let id=document.getElementById("player").value;
+    let uc = document.getElementById("ucInput").value;
+    let id = document.getElementById("player").value.trim();
 
-    let text="Salam, sifariş:\n"+uc+"\nID: "+id;
-
-    window.open("https://t.me/miko_0055?text="+encodeURIComponent(text));
+    let text = "Salam, sifariş:%0A" + uc + "%0AOyunçu ID: " + id;
+    window.open("https://t.me/miko_0055?text=" + text, "_blank");
 }
 </script>
-
 </head>
-
 <body onload="updateUC()">
 
-<!-- MAIN -->
 <div id="mainPage">
+    <h1>PUBG MOBILE UC</h1>
 
-<h1>PUBG MOBILE UC</h1>
+    <div class="subtitle">
+        PUBG Mobile üçün UC balansınızı təhlükəsiz və sürətli şəkildə artırın.<br>
+        Sürətli UC yükləmə • Etibarlı xidmət • Rahat sifariş
+    </div>
 
-<div class="subtitle">
-PUBG Mobile üçün UC balansınızı təhlükəsiz və sürətli şəkildə artırın.<br>
-Sürətli UC yükləmə • Etibarlı xidmət • Rahat sifariş
+    <div class="ucStats">
+        🔥 Bu gün <span id="ucSold">8420</span> UC satılıb<br>
+        ⚡ Sifarişlər davam edir
+    </div>
+
+    <div class="container">
+        <div class="card"><div class="uc">60 UC</div><div class="price">1.10 ₼</div><button class="btn" onclick="openOrder('60 UC','1.10')">Sifariş et</button></div>
+        <div class="card"><div class="uc">120 UC</div><div class="price">3 ₼</div><button class="btn" onclick="openOrder('120 UC','3')">Sifariş et</button></div>
+        <div class="card"><div class="uc">180 UC</div><div class="price">5 ₼</div><button class="btn" onclick="openOrder('180 UC','5')">Sifariş et</button></div>
+        <div class="card"><div class="uc">240 UC</div><div class="price">6.50 ₼</div><button class="btn" onclick="openOrder('240 UC','6.50')">Sifariş et</button></div>
+        <div class="card"><div class="uc">325 UC</div><div class="price">8.10 ₼</div><button class="btn" onclick="openOrder('325 UC','8.10')">Sifariş et</button></div>
+        <div class="card"><div class="uc">385 UC</div><div class="price">10 ₼</div><button class="btn" onclick="openOrder('385 UC','10')">Sifariş et</button></div>
+        <div class="card"><div class="uc">660 UC</div><div class="price">14 ₼</div><button class="btn" onclick="openOrder('660 UC','14')">Sifariş et</button></div>
+        <div class="card"><div class="uc">720 UC</div><div class="price">17 ₼</div><button class="btn" onclick="openOrder('720 UC','17')">Sifariş et</button></div>
+        <div class="card"><div class="uc">780 UC</div><div class="price">20 ₼</div><button class="btn" onclick="openOrder('780 UC','20')">Sifariş et</button></div>
+        <div class="card"><div class="uc">1045 UC</div><div class="price">24 ₼</div><button class="btn" onclick="openOrder('1045 UC','24')">Sifariş et</button></div>
+        <div class="card"><div class="uc">1800 UC</div><div class="price">35 ₼</div><button class="btn" onclick="openOrder('1800 UC','35')">Sifariş et</button></div>
+        <div class="card"><div class="uc">3850 UC</div><div class="price">60 ₼</div><button class="btn" onclick="openOrder('3850 UC','60')">Sifariş et</button></div>
+        <div class="card"><div class="uc">8100 UC</div><div class="price">135 ₼</div><button class="btn" onclick="openOrder('8100 UC','135')">Sifariş et</button></div>
+        <div class="card"><div class="uc">16200 UC</div><div class="price">265 ₼</div><button class="btn" onclick="openOrder('16200 UC','265')">Sifariş et</button></div>
+        <div class="card"><div class="uc">24300 UC</div><div class="price">389 ₼</div><button class="btn" onclick="openOrder('24300 UC','389')">Sifariş et</button></div>
+        <div class="card"><div class="uc">32400 UC</div><div class="price">547 ₼</div><button class="btn" onclick="openOrder('32400 UC','547')">Sifariş et</button></div>
+    </div>
 </div>
 
-<div class="ucStats">
-🔥 Bu gün <span id="ucSold">8420</span> UC satılıb<br>
-⚡ Sifarişlər davam edir
-</div>
-
-<div class="container">
-
-<div class="card"><div class="uc">60 UC</div><div class="price">1.10 ₼</div><button class="btn" onclick="openOrder('60 UC','1.10')">Sifariş et</button></div>
-<div class="card"><div class="uc">120 UC</div><div class="price">3 ₼</div><button class="btn" onclick="openOrder('120 UC','3')">Sifariş et</button></div>
-<div class="card"><div class="uc">180 UC</div><div class="price">5 ₼</div><button class="btn" onclick="openOrder('180 UC','5')">Sifariş et</button></div>
-<div class="card"><div class="uc">240 UC</div><div class="price">6.50 ₼</div><button class="btn" onclick="openOrder('240 UC','6.50')">Sifariş et</button></div>
-<div class="card"><div class="uc">325 UC</div><div class="price">8.10 ₼</div><button class="btn" onclick="openOrder('325 UC','8.10')">Sifariş et</button></div>
-<div class="card"><div class="uc">385 UC</div><div class="price">10 ₼</div><button class="btn" onclick="openOrder('385 UC','10')">Sifariş et</button></div>
-<div class="card"><div class="uc">660 UC</div><div class="price">14 ₼</div><button class="btn" onclick="openOrder('660 UC','14')">Sifariş et</button></div>
-<div class="card"><div class="uc">720 UC</div><div class="price">17 ₼</div><button class="btn" onclick="openOrder('720 UC','17')">Sifariş et</button></div>
-<div class="card"><div class="uc">780 UC</div><div class="price">20 ₼</div><button class="btn" onclick="openOrder('780 UC','20')">Sifariş et</button></div>
-<div class="card"><div class="uc">1045 UC</div><div class="price">24 ₼</div><button class="btn" onclick="openOrder('1045 UC','24')">Sifariş et</button></div>
-<div class="card"><div class="uc">1800 UC</div><div class="price">35 ₼</div><button class="btn" onclick="openOrder('1800 UC','35')">Sifariş et</button></div>
-<div class="card"><div class="uc">3850 UC</div><div class="price">60 ₼</div><button class="btn" onclick="openOrder('3850 UC','60')">Sifariş et</button></div>
-<div class="card"><div class="uc">8100 UC</div><div class="price">135 ₼</div><button class="btn" onclick="openOrder('8100 UC','135')">Sifariş et</button></div>
-<div class="card"><div class="uc">16200 UC</div><div class="price">265 ₼</div><button class="btn" onclick="openOrder('16200 UC','265')">Sifariş et</button></div>
-<div class="card"><div class="uc">24300 UC</div><div class="price">389 ₼</div><button class="btn" onclick="openOrder('24300 UC','389')">Sifariş et</button></div>
-<div class="card"><div class="uc">32400 UC</div><div class="price">547 ₼</div><button class="btn" onclick="openOrder('32400 UC','547')">Sifariş et</button></div>
-
-</div>
-
-</div>
-
-<!-- ORDER -->
 <div id="orderPage">
+    <div class="back" onclick="goBack()">← Geri qayıt</div>
 
-<div class="back" onclick="goBack()">← Geri qayıt</div>
+    <div class="order-box">
+        <h2>Sifariş</h2>
 
-<div class="order-box">
+        <label>Məhsul</label>
+        <input class="input" id="ucInput" readonly>
 
-<h2>Sifariş</h2>
+        <label>Miqdar</label>
+        <input class="input" value="1" readonly>
 
-<label>Məhsul</label>
-<input class="input" id="uc" readonly>
+        <label>Ümumi Məbləğ</label>
+        <input class="input" id="priceInput" readonly>
 
-<label>Miqdar</label>
-<input class="input" value="1" readonly>
+        <label>Oyunçu ID</label>
+        <input class="input" id="player" placeholder="ID yaz">
 
-<label>Ümumi Məbləğ</label>
-<input class="input" id="price" readonly>
+        <div class="info">
+            İş saatı: 08:00 - 02:00
+        </div>
 
-<label>Oyunçu ID</label>
-<input class="input" id="player" placeholder="ID yaz">
+        <div class="info">
+            Kart: 4127 2141 2112 2730<br>
+            ABB Bank<br>
+            Ad Soyad: M.A
+        </div>
 
-<div class="info">
-İş saatı: 08:00 - 02:00
+        <button class="confirm" onclick="send()">Sifarişi təsdiqlə</button>
+    </div>
 </div>
 
-<div class="info">
-Kart: 4127 2141 2112 2730<br>
-ABB Bank<br>
-Ad Soyad: M.A
-</div>
-
-<button class="confirm" onclick="send()">Sifarişi təsdiqlə</button>
-
-</div>
-
-</div>
-
-<!-- FOOTER -->
 <div class="footer">
-Platformada təqdim olunan xidmətlər istifadəçilərin PUBG Mobile hesablarına UC yüklənməsi üçün nəzərdə tutulmuşdur.<br>
-Sifariş zamanı daxil edilən məlumatların düzgünlüyü istifadəçinin məsuliyyətindədir.
+    Platformada təqdim olunan xidmətlər istifadəçilərin PUBG Mobile hesablarına UC yüklənməsi üçün nəzərdə tutulmuşdur.<br>
+    Sifariş zamanı daxil edilən məlumatların düzgünlüyü istifadəçinin məsuliyyətindədir.
 </div>
 
 </body>
