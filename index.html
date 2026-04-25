@@ -4,260 +4,281 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PULVAR Kredit</title>
-
 <style>
-body{
-  margin:0;
-  font-family:Arial;
-  background:#c40000;
-  color:#fff;
-}
-.container{
-  max-width:420px;
-  margin:auto;
-  padding:20px;
-}
-.logo{
-  text-align:center;
-  font-size:32px;
-  font-weight:900;
-}
-.subtitle{
-  text-align:center;
-  margin-bottom:20px;
-}
-.card{
-  background:#e10000;
-  padding:20px;
-  border-radius:25px;
-}
-.top{
-  display:flex;
-  justify-content:space-between;
-  font-size:22px;
-  font-weight:900;
-}
-input[type=range]{
-  width:100%;
-  margin:25px 0;
-}
-.row{
-  display:flex;
-  justify-content:space-between;
-  padding:12px 0;
-  border-top:2px solid #fff;
-  font-weight:800;
-}
-.info{
-  margin-top:15px;
-  font-size:15px;
-}
-.btn{
-  width:100%;
-  margin-top:20px;
-  padding:18px;
-  border:none;
-  border-radius:30px;
-  font-size:22px;
-  font-weight:900;
-  background:linear-gradient(90deg,#d9ff00,#3fd6c4);
-  color:#000;
-}
-.section{
-  display:none;
-  background:#fff;
-  color:#000;
-  padding:20px;
-  border-radius:20px;
-  margin-top:20px;
-}
-input{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:10px;
-  border:1px solid #ccc;
-}
-.error{
-  color:red;
-  font-weight:700;
-}
-.wait{
-  text-align:center;
-  font-size:20px;
-  font-weight:900;
-}
-.payBox{
-  text-align:center;
-}
-.payBtn{
-  margin-top:15px;
-  padding:15px 25px;
-  border:none;
-  border-radius:12px;
-  background:green;
-  color:#fff;
-  font-size:18px;
-  font-weight:900;
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#c90000;color:#fff}
+.container{max-width:420px;margin:auto;padding:20px 18px 60px}
+.lang{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.lang button{background:#d90000;color:#fff;border:2px solid #fff;border-radius:25px;padding:8px 12px;font-weight:900}
+.logo{text-align:center;font-size:32px;font-weight:900;margin-top:22px}
+.subtitle{text-align:center;font-size:16px;font-weight:700;margin-bottom:20px}
+.card{background:#ed0000;border-radius:28px;padding:20px;box-shadow:0 14px 35px rgba(0,0,0,.25)}
+.top{display:flex;justify-content:space-between;font-size:22px;font-weight:900}
+input[type=range]{width:100%;margin:30px 0;accent-color:#38e0c5}
+.row{display:flex;justify-content:space-between;border-top:2px solid #fff;padding:14px 0;font-weight:900}
+.info{margin-top:15px;font-size:15px;line-height:1.45;font-weight:700}
+.btn{width:100%;border:0;margin-top:20px;padding:18px;border-radius:30px;font-size:21px;font-weight:900;background:linear-gradient(90deg,#d9ff00,#38d9c5);color:#000}
+.section{display:none;background:#fff;color:#111;margin-top:18px;border-radius:22px;padding:20px;text-align:center}
+.section h3{margin-top:0}
+input{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid #ccc;font-size:16px;font-weight:700}
+.error{color:#c90000;font-weight:900}
+.payBtn,.contactBtn{background:#16a34a;color:#fff;border:0;border-radius:14px;padding:15px 22px;font-size:18px;font-weight:900;margin-top:12px}
+.about,.livebox{background:#e80000;border-radius:22px;padding:18px;margin-top:18px}
+.about h3,.livebox h3{margin:0 0 10px}
+.liveitem{background:#fff;color:#111;border-radius:14px;padding:10px;margin:8px 0;font-weight:900}
+.stat{display:flex;justify-content:space-between;gap:10px;margin-top:12px}
+.stat div{background:#fff;color:#c90000;border-radius:14px;padding:10px;width:50%;font-weight:900;text-align:center}
+.footer{text-align:center;margin-top:20px;font-size:13px;font-weight:800}
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<div class="logo">PULVAR Kredit</div>
-<div class="subtitle">Sürətli kredit müraciəti</div>
+  <div class="lang">
+    <button onclick="setLang('az')">🇦🇿 AZ</button>
+    <button onclick="setLang('ru')">🇷🇺 RU</button>
+    <button onclick="setLang('tr')">🇹🇷 TR</button>
+  </div>
 
-<div class="card">
+  <div class="logo" id="logo">PULVAR Kredit</div>
+  <div class="subtitle" id="subtitle">Sürətli kredit müraciəti</div>
 
-<div class="top">
-<span>Məbləği seçin</span>
-<span><b id="amountText">20</b> ₼</span>
-</div>
+  <div class="card">
+    <div class="top">
+      <span id="chooseText">Məbləği seçin</span>
+      <span><b id="amountText">20</b> ₼</span>
+    </div>
 
-<input type="range" id="amount" min="20" max="220" step="10" value="20">
+    <input type="range" id="amount" min="20" max="220" step="10" value="20">
 
-<div class="row">
-<span>Kreditin məbləği</span>
-<span><b id="amountResult">20</b> ₼</span>
-</div>
+    <div class="row">
+      <span id="amountLabel">Kreditin məbləği</span>
+      <span><b id="amountResult">20</b> ₼</span>
+    </div>
 
-<div class="row">
-<span>Kreditin müddəti</span>
-<span>45 gün</span>
-</div>
+    <div class="row">
+      <span id="termLabel">Kreditin müddəti</span>
+      <span id="termText">45 gün</span>
+    </div>
 
-<div class="row">
-<span>Ödəniş tarixi</span>
-<span id="date"></span>
-</div>
+    <div class="row">
+      <span id="dateLabel">Ödəniş tarixi</span>
+      <span id="date"></span>
+    </div>
 
-<div class="info" id="tableInfo"></div>
+    <div class="info" id="tableInfo"></div>
 
-<button class="btn" onclick="openForm()">Vəsait əldə etmək</button>
+    <button class="btn" onclick="openForm()" id="mainBtn">Vəsait əldə etmək</button>
+  </div>
 
-</div>
+  <div class="section" id="formBox">
+    <h3 id="formTitle">Məlumatları daxil et</h3>
+    <input id="name" placeholder="Ad Soyad">
+    <input id="fin" placeholder="FIN kod">
+    <input id="phone" placeholder="Mobil nömrə">
+    <button class="btn" onclick="checkForm()" id="continueBtn">Davam et</button>
+    <div class="error" id="error"></div>
+  </div>
 
-<!-- FORM -->
-<div class="section" id="formBox">
-<h3>Məlumatları daxil et</h3>
-<input id="name" placeholder="Ad Soyad">
-<input id="fin" placeholder="FIN kod">
-<input id="phone" placeholder="Nömrə">
-<button class="btn" onclick="checkForm()">Davam et</button>
-<div class="error" id="error"></div>
-</div>
+  <div class="section" id="waitBox">
+    <h3 id="waitTitle">Yoxlanılır...</h3>
+    <p><b id="count">30</b> saniyə gözləyin</p>
+  </div>
 
-<!-- WAIT -->
-<div class="section wait" id="waitBox">
-<p>Yoxlanılır...</p>
-<p><span id="count">30</span> saniyə gözləyin</p>
-</div>
+  <div class="section" id="payBox">
+    <h3 id="dearText">Hörmətli müştəri!</h3>
+    <p id="payText"></p>
+    <button class="payBtn" onclick="payNow()" id="payBtn">Ödəniş et</button>
+  </div>
 
-<!-- PAYMENT -->
-<div class="section payBox" id="payBox">
-<h3>Hörmətli müştəri!</h3>
-<p id="payText"></p>
+  <div class="about">
+    <h3 id="aboutTitle">Sayt haqqında</h3>
+    <p id="aboutText">
+      PULVAR.XYZ onlayn kredit müraciəti üçün hazırlanmış rəqəmsal platformadır.
+      Müştəri məbləği seçir, şəxsi məlumatlarını daxil edir və müraciət ilkin yoxlanışa göndərilir.
+    </p>
+    <button class="contactBtn" onclick="openContact()" id="contactOpen">Bizimlə əlaqə</button>
+  </div>
 
-<button class="payBtn" onclick="payNow()">
-Ödəniş et
-</button>
-</div>
+  <div class="section" id="contactBox">
+    <h3>Telegram dəstək</h3>
+    <p>Telegramda bizə yazın:</p>
+    <button class="contactBtn" onclick="location.href='https://t.me/Pulvar.Xyz'">
+      Https://pulvarxyz Telegramda Yaz
+    </button>
+  </div>
+
+  <div class="livebox">
+    <h3 id="liveTitle">Son müraciətlər</h3>
+    <div id="liveList"></div>
+    <div class="stat">
+      <div><span id="approved">128</span><br>təsdiqlənən</div>
+      <div><span id="rejected">17</span><br>imtina</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    PULVAR.XYZ<br>
+    💳 MASTERCARD
+  </div>
 
 </div>
 
 <script>
-const amount = document.getElementById("amount");
-const amountText = document.getElementById("amountText");
-const amountResult = document.getElementById("amountResult");
-const tableInfo = document.getElementById("tableInfo");
+const amount=document.getElementById("amount");
+const amountText=document.getElementById("amountText");
+const amountResult=document.getElementById("amountResult");
+const tableInfo=document.getElementById("tableInfo");
 
 function calc(){
-  let val = parseInt(amount.value);
+  let val=parseInt(amount.value);
+  amountText.innerText=val;
+  amountResult.innerText=val;
 
-  amountText.innerText = val;
-  amountResult.innerText = val;
+  let f15=Math.round(val*0.15);
+  let f25=Math.round(val*0.20);
+  let f35=Math.round(val*0.25);
+  let f45=Math.round(val*0.30);
 
-  let f15 = Math.round(val * 0.15);
-  let f25 = Math.round(val * 0.20);
-  let f35 = Math.round(val * 0.25);
-  let f45 = Math.round(val * 0.30);
-
-  tableInfo.innerHTML = `
+  tableInfo.innerHTML=`
   15 gün: ${f15} ₼ (Ümumi: ${val+f15} ₼)<br>
   25 gün: ${f25} ₼ (Ümumi: ${val+f25} ₼)<br>
   35 gün: ${f35} ₼ (Ümumi: ${val+f35} ₼)<br>
   45 gün: ${f45} ₼ (Ümumi: ${val+f45} ₼)
   `;
 }
-
-amount.oninput = calc;
+amount.oninput=calc;
 calc();
 
-// tarix
-let d = new Date();
+let d=new Date();
 d.setDate(d.getDate()+45);
-document.getElementById("date").innerText =
-d.toLocaleDateString("az-AZ");
+document.getElementById("date").innerText=d.toLocaleDateString("az-AZ");
 
-// FORM
 function openForm(){
-  document.getElementById("formBox").style.display="block";
+  formBox.style.display="block";
+  formBox.scrollIntoView({behavior:"smooth"});
 }
 
-// CHECK
 function checkForm(){
-  let name = document.getElementById("name").value.trim();
-  let fin = document.getElementById("fin").value.trim();
-  let phone = document.getElementById("phone").value.trim();
-  let error = document.getElementById("error");
-
+  let n=name.value.trim();
+  let f=fin.value.trim();
+  let p=phone.value.trim();
   error.innerText="";
 
-  if(name.length < 5 || !name.includes(" ")){
-    error.innerText="Ad soyadı düzgün yaz!";
-    return;
-  }
+  if(n.length<5 || !n.includes(" ")){error.innerText="Ad və soyadı düzgün yazın";return}
+  if(f.length<6){error.innerText="FIN kod düzgün deyil";return}
+  if(p.length<9){error.innerText="Mobil nömrə düzgün deyil";return}
 
-  if(fin.length < 6){
-    error.innerText="FIN səhvdir!";
-    return;
-  }
+  formBox.style.display="none";
+  waitBox.style.display="block";
 
-  if(phone.length < 9){
-    error.innerText="Nömrə səhvdir!";
-    return;
-  }
+  let sec=30;
+  count.innerText=sec;
 
-  document.getElementById("formBox").style.display="none";
-  document.getElementById("waitBox").style.display="block";
-
-  let sec = 30;
-  let count = document.getElementById("count");
-
-  let timer = setInterval(()=>{
+  let timer=setInterval(()=>{
     sec--;
-    count.innerText = sec;
-
-    if(sec == 0){
+    count.innerText=sec;
+    if(sec<=0){
       clearInterval(timer);
-
-      document.getElementById("waitBox").style.display="none";
-      document.getElementById("payBox").style.display="block";
-
-      document.getElementById("payText").innerHTML =
-      name + `, kredit tarixçənizin yoxlanılması üçün ödəniş tələb olunur.<br><br>
+      waitBox.style.display="none";
+      payBox.style.display="block";
+      payText.innerHTML=
+      `<b>${n}</b>, kredit tarixçənizin yoxlanılması üçün ödəniş tələb olunur.<br><br>
       Ödəniş etdiyiniz məbləğ avtomatik olaraq bank hesabınıza geri qaytarılacaq.`;
+      payBox.scrollIntoView({behavior:"smooth"});
     }
-
   },1000);
 }
 
-// PAYMENT
 function payNow(){
-  window.location.href = "https://epoint.az/pay/SENIN_LINK";
+  location.href="https://epoint.az/pay/SENIN_LINK";
+}
+
+function openContact(){
+  contactBox.style.display="block";
+  contactBox.scrollIntoView({behavior:"smooth"});
+}
+
+const names=["K***N","M***D","A***R","S***A","E***N","R***L","N***R","T***N","V***D"];
+const amounts=[20,30,40,50,70,90,120,150,180,220];
+
+function addLive(){
+  let item=document.createElement("div");
+  item.className="liveitem";
+  let name=names[Math.floor(Math.random()*names.length)];
+  let money=amounts[Math.floor(Math.random()*amounts.length)];
+  item.innerText=`${name} ${money} AZN kredit müraciəti etdi`;
+  liveList.prepend(item);
+
+  if(liveList.children.length>5){
+    liveList.removeChild(liveList.lastChild);
+  }
+
+  approved.innerText=parseInt(approved.innerText)+1;
+
+  if(Math.random()>0.65){
+    rejected.innerText=parseInt(rejected.innerText)+1;
+  }
+}
+
+for(let i=0;i<4;i++) addLive();
+setInterval(addLive,10000);
+
+function setLang(lang){
+  if(lang==="az"){
+    subtitle.innerText="Sürətli kredit müraciəti";
+    chooseText.innerText="Məbləği seçin";
+    amountLabel.innerText="Kreditin məbləği";
+    termLabel.innerText="Kreditin müddəti";
+    termText.innerText="45 gün";
+    dateLabel.innerText="Ödəniş tarixi";
+    mainBtn.innerText="Vəsait əldə etmək";
+    formTitle.innerText="Məlumatları daxil et";
+    continueBtn.innerText="Davam et";
+    waitTitle.innerText="Yoxlanılır...";
+    dearText.innerText="Hörmətli müştəri!";
+    payBtn.innerText="Ödəniş et";
+    aboutTitle.innerText="Sayt haqqında";
+    contactOpen.innerText="Bizimlə əlaqə";
+    liveTitle.innerText="Son müraciətlər";
+  }
+
+  if(lang==="ru"){
+    subtitle.innerText="Быстрая кредитная заявка";
+    chooseText.innerText="Выберите сумму";
+    amountLabel.innerText="Сумма кредита";
+    termLabel.innerText="Срок кредита";
+    termText.innerText="45 дней";
+    dateLabel.innerText="Дата оплаты";
+    mainBtn.innerText="Получить средства";
+    formTitle.innerText="Введите данные";
+    continueBtn.innerText="Продолжить";
+    waitTitle.innerText="Проверяется...";
+    dearText.innerText="Уважаемый клиент!";
+    payBtn.innerText="Оплатить";
+    aboutTitle.innerText="О сайте";
+    contactOpen.innerText="Связаться с нами";
+    liveTitle.innerText="Последние заявки";
+  }
+
+  if(lang==="tr"){
+    subtitle.innerText="Hızlı kredi başvurusu";
+    chooseText.innerText="Tutar seçin";
+    amountLabel.innerText="Kredi tutarı";
+    termLabel.innerText="Kredi süresi";
+    termText.innerText="45 gün";
+    dateLabel.innerText="Ödeme tarihi";
+    mainBtn.innerText="Para al";
+    formTitle.innerText="Bilgileri girin";
+    continueBtn.innerText="Devam et";
+    waitTitle.innerText="Kontrol ediliyor...";
+    dearText.innerText="Sayın müşteri!";
+    payBtn.innerText="Ödeme yap";
+    aboutTitle.innerText="Site hakkında";
+    contactOpen.innerText="Bizimle iletişim";
+    liveTitle.innerText="Son başvurular";
+  }
 }
 </script>
 
