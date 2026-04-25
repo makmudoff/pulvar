@@ -6,126 +6,612 @@
 <title>Pulvar Kredit</title>
 
 <style>
-body{font-family:Arial;margin:0;background:#f4fffc}
-.top-banner{background:#00b894;color:#fff;padding:15px;text-align:center;font-weight:bold}
-.header{display:flex;justify-content:space-between;padding:20px}
-.logo{font-size:28px;font-weight:bold}
-.logo span{color:#00b894}
-.lang button{padding:8px 14px;border:none;border-radius:10px;margin-left:5px}
-.active{background:#111;color:#fff}
-.hero{text-align:center;padding:20px}
-.card{width:90%;max-width:500px;margin:auto;background:#fff;padding:20px;border-radius:20px}
-.info-line{display:flex;justify-content:space-between;margin:10px 0}
-.apply-box input{width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #ccc}
-.apply-box button{width:100%;padding:14px;background:#00b894;color:#fff;border:none;border-radius:12px;font-size:16px}
-.bottom-menu{position:fixed;bottom:0;width:100%;display:grid;grid-template-columns:1fr 1fr;background:#fff;padding:10px}
-.bottom-menu a{text-align:center;padding:12px;border:1px solid #ccc;border-radius:10px;text-decoration:none;color:#00b894;font-weight:bold}
-.bottom-menu a:last-child{background:#00b894;color:#fff}
-.terms-page{position:fixed;inset:0;background:#fff;display:none;overflow:auto;padding:20px}
-.back-btn{font-size:30px;border:none;background:none}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  background:#f4fffc;
+  color:#111827;
+  padding-bottom:90px;
+}
+
+.top-banner{
+  background:linear-gradient(90deg,#00796b,#00b894);
+  color:white;
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:14px;
+}
+
+.top-banner b{
+  font-size:17px;
+}
+
+.top-banner button{
+  background:white;
+  color:#00796b;
+  border:none;
+  padding:11px 18px;
+  border-radius:25px;
+  font-weight:bold;
+}
+
+.header{
+  padding:28px 22px 10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:34px;
+  font-weight:900;
+}
+
+.logo span{
+  color:#00b894;
+}
+
+.lang{
+  background:#e8f8f4;
+  padding:6px;
+  border-radius:25px;
+}
+
+.lang button{
+  border:none;
+  padding:9px 16px;
+  border-radius:20px;
+  font-weight:bold;
+}
+
+.lang .active{
+  background:#111827;
+  color:white;
+}
+
+.hero{
+  text-align:center;
+  padding:25px 20px;
+}
+
+.hero h1{
+  font-size:36px;
+  margin-bottom:18px;
+}
+
+.hero h2{
+  font-size:24px;
+  font-weight:500;
+  line-height:1.4;
+}
+
+.hero p{
+  margin-top:20px;
+  color:#6b7280;
+  font-size:19px;
+  line-height:1.5;
+}
+
+.card{
+  width:90%;
+  max-width:520px;
+  margin:25px auto;
+  background:linear-gradient(180deg,#f1fffb,#ffffff);
+  border:3px solid #b8eee1;
+  border-radius:28px;
+  padding:25px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.08);
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.row h3{
+  font-size:21px;
+}
+
+.toggle{
+  display:flex;
+  background:#e5f5f0;
+  padding:5px;
+  border-radius:18px;
+}
+
+.toggle button{
+  border:none;
+  padding:12px 18px;
+  border-radius:15px;
+  font-weight:bold;
+  color:#6b7280;
+}
+
+.toggle .on{
+  background:#8edbc8;
+  color:white;
+}
+
+.info-box{
+  border:2px dashed #9de2d2;
+  border-radius:22px;
+  padding:20px;
+  margin:20px 0;
+}
+
+.info-line{
+  display:flex;
+  justify-content:space-between;
+  font-size:20px;
+  margin:15px 0;
+}
+
+.info-line b{
+  color:#111827;
+}
+
+input[type=range]{
+  width:100%;
+  accent-color:#00b894;
+  margin:30px 0 10px;
+}
+
+.range-label{
+  display:flex;
+  justify-content:space-between;
+  color:#6b7280;
+  font-size:17px;
+}
+
+.select-box{
+  margin:22px 0;
+}
+
+.select-box label{
+  font-weight:bold;
+  font-size:18px;
+  display:block;
+  margin-bottom:10px;
+}
+
+.select-box select{
+  width:100%;
+  padding:15px;
+  border:2px solid #b8eee1;
+  border-radius:15px;
+  font-size:18px;
+  background:white;
+}
+
+.pay-title{
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+  margin:30px 0 18px;
+}
+
+.schedule{
+  border:2px dashed #9de2d2;
+  border-radius:22px;
+  padding:20px;
+}
+
+.schedule div{
+  display:flex;
+  justify-content:space-between;
+  font-size:19px;
+  margin:13px 0;
+}
+
+.apply-box{
+  margin-top:25px;
+  background:#e9fff8;
+  border-radius:22px;
+  padding:20px;
+}
+
+.apply-box input{
+  width:100%;
+  padding:16px;
+  margin:9px 0;
+  border:2px solid #b8eee1;
+  border-radius:15px;
+  font-size:17px;
+}
+
+.apply-box button{
+  width:100%;
+  padding:17px;
+  margin-top:12px;
+  border:none;
+  border-radius:18px;
+  background:linear-gradient(90deg,#00b894,#00cec9);
+  color:white;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.bottom-menu{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:white;
+  padding:13px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  box-shadow:0 -5px 25px rgba(0,0,0,0.12);
+  z-index:50;
+}
+
+.bottom-menu a{
+  text-align:center;
+  text-decoration:none;
+  padding:16px 5px;
+  border-radius:15px;
+  border:2px solid #9de2d2;
+  color:#00a884;
+  font-weight:bold;
+  font-size:16px;
+}
+
+.bottom-menu a:last-child{
+  background:#00b894;
+  color:white;
+}
+
+.notice{
+  text-align:center;
+  color:#6b7280;
+  padding:20px;
+  font-size:14px;
+}
+
+.terms-page{
+  position:fixed;
+  inset:0;
+  background:white;
+  z-index:9999;
+  display:none;
+  overflow-y:auto;
+  padding:35px 28px 120px;
+}
+
+.terms-logo{
+  text-align:center;
+  font-size:34px;
+  font-weight:900;
+  margin:20px 0 45px;
+}
+
+.terms-logo span{
+  color:#00b894;
+}
+
+.back-btn{
+  font-size:42px;
+  background:none;
+  border:none;
+  color:#111827;
+  margin-bottom:35px;
+}
+
+.terms-page h1{
+  font-size:34px;
+  margin-bottom:18px;
+}
+
+.terms-page h2{
+  font-size:28px;
+  margin:35px 0 18px;
+}
+
+.terms-page li{
+  font-size:24px;
+  line-height:1.6;
+  color:#777;
+  margin-bottom:8px;
+}
+
+.terms-page ul{
+  padding-left:22px;
+}
+
+.pay-btn{
+  width:100%;
+  margin-top:35px;
+  padding:20px;
+  border:none;
+  border-radius:22px;
+  background:linear-gradient(90deg,#f5b642,#ffcf5a);
+  color:#111827;
+  font-size:22px;
+  font-weight:bold;
+}
+
+@media(max-width:480px){
+  .hero h1{font-size:31px;}
+  .hero h2{font-size:21px;}
+  .card{width:92%; padding:20px;}
+}
 </style>
 </head>
 
 <body>
 
-<div class="top-banner" id="banner">Sürətli kredit xidməti</div>
+<div class="top-banner">
+  <div>
+    <b id="bannerTitle">5%-dən başlayan komissiya</b><br>
+    <span id="bannerText">Sürətli və rahat online kredit xidməti</span>
+  </div>
+  <button onclick="openTerms()" id="bannerBtn">Müraciət et</button>
+</div>
 
 <div class="header">
   <div class="logo">pul<span>var</span></div>
   <div class="lang">
-    <button class="active" onclick="setLang('az')">AZ</button>
-    <button onclick="setLang('ru')">RU</button>
+    <button id="azBtn" class="active" onclick="setLang('az')">AZ</button>
+    <button id="ruBtn" onclick="setLang('ru')">RU</button>
   </div>
 </div>
 
-<div class="hero">
-  <h2 id="title">Banksız kredit</h2>
-  <p id="desc">Sadəcə FIN ilə müraciət et</p>
-</div>
+<section class="hero">
+  <h1 id="mainTitle">Banksız onlayn kredit!</h1>
+  <h2 id="mainSub">İş yeri olmayanlara 100 - 500 AZN,<br>rəsmi iş yeri olanlara isə 100 - 3000 AZN</h2>
+  <p id="mainDesc">Sadəcə şəxsiyyət vəsiqənizlə sürətli kredit müraciəti edin.</p>
+</section>
 
 <div class="card">
-  <div class="info-line">
-    <span id="amountText">Məbləğ</span>
-    <b>200 ₼</b>
+
+  <div class="row">
+    <h3 id="jobTitle">Rəsmi işin var?</h3>
+    <div class="toggle">
+      <button class="on" id="noBtn">Xeyr</button>
+      <button id="yesBtn">Bəli</button>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <div class="info-line">
+      <span id="amountLabel">Kredit məbləği</span>
+      <b id="amountText">500 ₼</b>
+    </div>
+    <div class="info-line">
+      <span id="returnLabel">Geri ödəniş</span>
+      <b id="returnText">642 ₼</b>
+    </div>
+    <div class="info-line">
+      <span id="timeLabel">Müddət</span>
+      <b id="timeText">1 ay</b>
+    </div>
+  </div>
+
+  <input type="range" min="100" max="500" step="50" value="500" id="amountRange">
+
+  <div class="range-label">
+    <span>100 ₼</span>
+    <span>500 ₼</span>
+  </div>
+
+  <div class="select-box">
+    <label id="selectLabel">Müddət seçin</label>
+    <select id="timeSelect">
+      <option value="45">45 gün</option>
+      <option value="60">2 ay</option>
+      <option value="90">3 ay</option>
+      <option value="180">6 ay</option>
+      <option value="270">9 ay</option>
+      <option value="365">12 ay</option>
+    </select>
+  </div>
+
+  <div class="pay-title" id="payTitle">Tez ödə - az ödə!</div>
+
+  <div class="schedule">
+    <div><span id="d15Label">15-ci gün</span><b id="d15">546 ₼</b></div>
+    <div><span id="d20Label">20-ci gün</span><b id="d20">578 ₼</b></div>
+    <div><span id="d25Label">25-ci gün</span><b id="d25">610 ₼</b></div>
+    <div><span id="d30Label">30-cu gün</span><b id="d30">642 ₼</b></div>
   </div>
 
   <div class="apply-box">
-    <input placeholder="Ad Soyad" id="name">
-    <input placeholder="Telefon" id="phone">
-    <input placeholder="FIN kod" id="fin">
-
+    <input id="nameInput" type="text" placeholder="Ad və soyad">
+    <input id="phoneInput" type="tel" placeholder="Telefon nömrəsi">
+    <input id="finInput" type="text" placeholder="FIN kod">
     <button onclick="openTerms()" id="applyBtn">Kredit al</button>
   </div>
+
 </div>
 
-<div class="bottom-menu">
-  <a href="#" onclick="openTerms()" id="menuApply">Kredit al</a>
-  <a href="#" id="menuInfo">Məlumat</a>
-</div>
-
-<!-- ŞƏRTLƏR -->
-<div class="terms-page" id="termsPage">
-
-<button class="back-btn" onclick="closeTerms()">←</button>
-
-<h2 id="termsTitle">Şərtlər</h2>
-<p id="termsText">
-Kredit tarixçəniz yoxlanılır. Uyğun olarsa təsdiqlənir.
+<p class="notice" id="noticeText">
+  Bu səhifə demo dizayndır. Kredit şərtləri nümunə olaraq göstərilib.
 </p>
 
-<ul id="termsList">
-<li>Son 9 ay müsbət tarixçə</li>
-<li>Gecikmə olmamalıdır</li>
-<li>21-60 yaş</li>
-</ul>
+<div class="bottom-menu">
+  <a href="#" onclick="openTerms()" id="infoBtn">Məlumat</a>
+  <a href="#" onclick="openTerms()" id="creditBtn">Kredit al</a>
+</div>
 
-<button onclick="pay()" id="payBtn">1 AZN ödə</button>
+<div class="terms-page" id="termsPage">
+
+  <div class="terms-logo">pul<span>var</span></div>
+
+  <button class="back-btn" onclick="closeTerms()">‹</button>
+
+  <h1 id="termsMainTitle">Hörmətli Müştəri!</h1>
+
+  <h2 id="termsTitle">Kredit tarixçəsi üzrə tələblər:</h2>
+
+  <ul id="termsList">
+    <li>Son 9 ayda ümumi tarixçəniz müsbət olmalıdır</li>
+    <li>Son aktiv kreditinizdə gecikmə olmamalıdır</li>
+    <li>9 aylıq kredit tarixçəsinə 30 gün gecikmə varsa — kredit verilmir</li>
+    <li>Məbləğ 50–200 AZN: 0 gün gecikmə</li>
+    <li>Məbləğ 200–2000 AZN: 5 gün gecikmə</li>
+  </ul>
+
+  <h2 id="whoTitle">Kimlər müraciət edə bilər:</h2>
+
+  <ul id="whoList">
+    <li>21–60 yaş arası Azərbaycan Respublikasının vətəndaşları</li>
+    <li>19–20 yaş Azərbaycan Respublikasının vətəndaşları yalnız rəsmi iş yeri olduqda müraciət edə bilər</li>
+  </ul>
+
+  <h2 id="attentionTitle">Diqqət:</h2>
+
+  <ul id="attentionList">
+    <li>Kredit tarixçəsi yoxlanıldıqdan sonra müraciət nəticəsi bildirilir</li>
+    <li>Əgər tarixçəniz şərtlərə uyğun deyilsə, müraciət təsdiqlənməyə bilər</li>
+    <li>Müraciət məlumatlarını düzgün daxil etməyiniz vacibdir</li>
+  </ul>
+
+  <button class="pay-btn" onclick="pay()" id="payBtn">1 AZN ödə və davam et</button>
 
 </div>
 
 <script>
-function openTerms(){
- document.getElementById("termsPage").style.display="block";
+let currentLang = "az";
+
+const range = document.getElementById("amountRange");
+const timeSelect = document.getElementById("timeSelect");
+
+function calc(){
+  let amount = Number(range.value);
+  let days = Number(timeSelect.value);
+
+  let percent = 0.20 + (days / 365) * 0.35;
+  let total = Math.round(amount + amount * percent);
+
+  document.getElementById("amountText").innerText = amount + " ₼";
+  document.getElementById("returnText").innerText = total + " ₼";
+  document.getElementById("timeText").innerText = timeSelect.options[timeSelect.selectedIndex].text;
+
+  document.getElementById("d15").innerText = Math.round(total * 0.85) + " ₼";
+  document.getElementById("d20").innerText = Math.round(total * 0.90) + " ₼";
+  document.getElementById("d25").innerText = Math.round(total * 0.95) + " ₼";
+  document.getElementById("d30").innerText = total + " ₼";
 }
+
+range.addEventListener("input", calc);
+timeSelect.addEventListener("change", calc);
+
+function openTerms(){
+  document.getElementById("termsPage").style.display = "block";
+}
+
 function closeTerms(){
- document.getElementById("termsPage").style.display="none";
+  document.getElementById("termsPage").style.display = "none";
 }
 
 function pay(){
- alert("Burda Epoint link olacaq");
+  alert("Buraya Epoint ödəniş linki əlavə ediləcək");
 }
 
-/* DİL SİSTEMİ */
 function setLang(lang){
+  currentLang = lang;
 
-let az = {
-banner:"Sürətli kredit xidməti",
-title:"Banksız kredit",
-desc:"Sadəcə FIN ilə müraciət et",
-apply:"Kredit al",
-terms:"Şərtlər",
-pay:"1 AZN ödə"
-};
+  document.getElementById("azBtn").classList.remove("active");
+  document.getElementById("ruBtn").classList.remove("active");
 
-let ru = {
-banner:"Быстрый кредит онлайн",
-title:"Кредит без банка",
-desc:"Оформите заявку с FIN кодом",
-apply:"Получить кредит",
-terms:"Условия",
-pay:"Оплатить 1 AZN"
-};
+  if(lang === "az"){
+    document.getElementById("azBtn").classList.add("active");
 
-let t = (lang=="ru") ? ru : az;
+    bannerTitle.innerText = "5%-dən başlayan komissiya";
+    bannerText.innerText = "Sürətli və rahat online kredit xidməti";
+    bannerBtn.innerText = "Müraciət et";
 
-document.getElementById("banner").innerText=t.banner;
-document.getElementById("title").innerText=t.title;
-document.getElementById("desc").innerText=t.desc;
-document.getElementById("applyBtn").innerText=t.apply;
-document.getElementById("menuApply").innerText=t.apply;
-document.getElementById("termsTitle").innerText=t.terms;
-document.getElementById("payBtn").innerText=t.pay;
+    mainTitle.innerText = "Banksız onlayn kredit!";
+    mainSub.innerHTML = "İş yeri olmayanlara 100 - 500 AZN,<br>rəsmi iş yeri olanlara isə 100 - 3000 AZN";
+    mainDesc.innerText = "Sadəcə şəxsiyyət vəsiqənizlə sürətli kredit müraciəti edin.";
+
+    jobTitle.innerText = "Rəsmi işin var?";
+    noBtn.innerText = "Xeyr";
+    yesBtn.innerText = "Bəli";
+
+    amountLabel.innerText = "Kredit məbləği";
+    returnLabel.innerText = "Geri ödəniş";
+    timeLabel.innerText = "Müddət";
+    selectLabel.innerText = "Müddət seçin";
+    payTitle.innerText = "Tez ödə - az ödə!";
+
+    d15Label.innerText = "15-ci gün";
+    d20Label.innerText = "20-ci gün";
+    d25Label.innerText = "25-ci gün";
+    d30Label.innerText = "30-cu gün";
+
+    nameInput.placeholder = "Ad və soyad";
+    phoneInput.placeholder = "Telefon nömrəsi";
+    finInput.placeholder = "FIN kod";
+
+    applyBtn.innerText = "Kredit al";
+    infoBtn.innerText = "Məlumat";
+    creditBtn.innerText = "Kredit al";
+
+    noticeText.innerText = "Bu səhifə demo dizayndır. Kredit şərtləri nümunə olaraq göstərilib.";
+
+    termsMainTitle.innerText = "Hörmətli Müştəri!";
+    termsTitle.innerText = "Kredit tarixçəsi üzrə tələblər:";
+    whoTitle.innerText = "Kimlər müraciət edə bilər:";
+    attentionTitle.innerText = "Diqqət:";
+    payBtn.innerText = "1 AZN ödə və davam et";
+
+  } else {
+    document.getElementById("ruBtn").classList.add("active");
+
+    bannerTitle.innerText = "Комиссия от 5%";
+    bannerText.innerText = "Быстрый и удобный онлайн кредит";
+    bannerBtn.innerText = "Подать заявку";
+
+    mainTitle.innerText = "Онлайн кредит без банка!";
+    mainSub.innerHTML = "Без официальной работы 100 - 500 AZN,<br>с официальной работой до 3000 AZN";
+    mainDesc.innerText = "Оформите быструю заявку только по удостоверению личности.";
+
+    jobTitle.innerText = "Есть официальная работа?";
+    noBtn.innerText = "Нет";
+    yesBtn.innerText = "Да";
+
+    amountLabel.innerText = "Сумма кредита";
+    returnLabel.innerText = "К возврату";
+    timeLabel.innerText = "Срок";
+    selectLabel.innerText = "Выберите срок";
+    payTitle.innerText = "Плати раньше — плати меньше!";
+
+    d15Label.innerText = "15-й день";
+    d20Label.innerText = "20-й день";
+    d25Label.innerText = "25-й день";
+    d30Label.innerText = "30-й день";
+
+    nameInput.placeholder = "Имя и фамилия";
+    phoneInput.placeholder = "Номер телефона";
+    finInput.placeholder = "FIN код";
+
+    applyBtn.innerText = "Получить кредит";
+    infoBtn.innerText = "Информация";
+    creditBtn.innerText = "Получить кредит";
+
+    noticeText.innerText = "Демо-страница. Условия кредита указаны как пример.";
+
+    termsMainTitle.innerText = "Уважаемый клиент!";
+    termsTitle.innerText = "Требования к кредитной истории:";
+    whoTitle.innerText = "Кто может подать заявку:";
+    attentionTitle.innerText = "Внимание:";
+    payBtn.innerText = "Оплатить 1 AZN и продолжить";
+  }
+
+  calc();
 }
+
+calc();
 </script>
 
 </body>
