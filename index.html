@@ -12,75 +12,71 @@ body{background:#f4fffc;color:#111;padding-bottom:90px;}
 .top-banner{
 background:linear-gradient(90deg,#00796b,#00b894);
 color:white;padding:14px;
-display:flex;justify-content:space-between;align-items:center;
+display:flex;justify-content:space-between;
 }
-.top-banner button{
-background:white;color:#00796b;border:none;
-padding:10px 16px;border-radius:20px;font-weight:bold;
-}
-.header{display:flex;justify-content:space-between;align-items:center;padding:20px;}
+
+.header{display:flex;justify-content:space-between;padding:20px;}
 .logo{font-size:28px;font-weight:bold;}
 .logo span{color:#00b894;}
-.lang button{padding:8px 12px;border:none;border-radius:8px;margin-left:5px;}
-.lang .active{background:#111;color:white;}
+
+.lang button{padding:8px;border:none;margin-left:5px;}
+.active{background:black;color:white;}
+
 .hero{text-align:center;padding:20px;}
-.hero h2{font-size:30px;margin-bottom:10px;}
-.hero p{color:#666;line-height:1.5;}
 
 .card{
-width:90%;max-width:600px;margin:auto;background:#fff;
-padding:20px;border-radius:20px;border:2px solid #b8eee1;
+width:90%;margin:auto;background:#fff;
+padding:20px;border-radius:20px;
+border:2px solid #b8eee1;
 }
-.row{display:flex;justify-content:space-between;align-items:center;}
+
+.row{display:flex;justify-content:space-between;}
+
 .toggle{background:#e5f5f0;padding:5px;border-radius:15px;}
-.toggle button{padding:10px 15px;border:none;border-radius:10px;}
+.toggle button{padding:10px;border:none;border-radius:10px;}
 .toggle .on{background:#00b894;color:white;}
+
 .info-box{
 border:2px dashed #9de2d2;
 padding:15px;border-radius:15px;margin:15px 0;
 }
+
 .info-line{display:flex;justify-content:space-between;margin:8px 0;}
+
 input,select{
-width:100%;padding:12px;margin-top:10px;
+width:100%;padding:10px;margin-top:10px;
 border:2px solid #b8eee1;border-radius:10px;
 }
-input[type=range]{accent-color:#00b894;}
 
 .schedule{
 border:2px dashed #9de2d2;
 padding:15px;border-radius:15px;margin-top:20px;
 }
-.schedule div{display:flex;justify-content:space-between;margin:8px 0;}
 
-.apply-box{margin-top:20px;}
+.schedule div{display:flex;justify-content:space-between;margin:6px 0;}
+
 .apply-box button{
-width:100%;padding:14px;margin-top:10px;
+width:100%;padding:12px;margin-top:10px;
 background:#00b894;color:white;border:none;border-radius:10px;
-font-weight:bold;font-size:16px;
 }
+
 .bottom-menu{
-position:fixed;bottom:0;left:0;width:100%;
+position:fixed;bottom:0;width:100%;
 display:grid;grid-template-columns:1fr 1fr;
-background:#fff;padding:10px;gap:10px;
-box-shadow:0 -4px 20px rgba(0,0,0,.08);
+background:#fff;padding:10px;
 }
+
 .bottom-menu a{
-text-align:center;padding:12px;
+text-align:center;padding:10px;
 border:2px solid #b8eee1;color:#00b894;
-border-radius:10px;text-decoration:none;font-weight:bold;
+border-radius:10px;text-decoration:none;
 }
+
 .bottom-menu a:last-child{background:#00b894;color:white;}
 
 #termsPage,#infoPage{
 position:fixed;inset:0;background:white;
-display:none;padding:22px;z-index:9999;overflow:auto;
-}
-.back{font-size:30px;border:none;background:none;margin-bottom:20px;}
-.pageText{font-size:18px;line-height:1.6;color:#444;}
-.payBtn{
-margin-top:30px;padding:14px;width:100%;
-background:#00b894;color:white;border:none;border-radius:10px;
-font-size:18px;font-weight:bold;
+display:none;padding:20px;z-index:9999;
 }
 </style>
 </head>
@@ -88,237 +84,155 @@ font-size:18px;font-weight:bold;
 <body>
 
 <div class="top-banner">
-  <div id="bannerText">5%-dən başlayan komissiya</div>
-  <button onclick="submitForm()" id="topApply">Müraciət et</button>
+<div id="banner">5%-dən başlayan komissiya</div>
+<button onclick="submitForm()">Müraciət et</button>
 </div>
 
 <div class="header">
-  <div class="logo">pul<span>var</span></div>
-  <div class="lang">
-    <button id="azBtn" class="active" onclick="setLang('az')">AZ</button>
-    <button id="ruBtn" onclick="setLang('ru')">RU</button>
-  </div>
+<div class="logo">pul<span>var</span></div>
+<div>
+<button onclick="setLang('az')" class="active">AZ</button>
+<button onclick="setLang('ru')">RU</button>
+</div>
 </div>
 
 <div class="hero">
-  <h2 id="title">Banksız kredit</h2>
-  <p id="subtitle">Sadəcə şəxsiyyət vəsiqənizlə sürətli kredit müraciəti edin.</p>
+<h2 id="title">Banksız kredit</h2>
 </div>
 
 <div class="card">
 
-  <div class="row">
-    <h3 id="jobTitle">Rəsmi işin var?</h3>
-    <div class="toggle">
-      <button class="on" id="noBtn">Xeyr</button>
-      <button id="yesBtn">Bəli</button>
-    </div>
-  </div>
+<div class="row">
+<h3 id="job">Rəsmi işin var?</h3>
+<div class="toggle">
+<button class="on" id="noBtn">Xeyr</button>
+<button id="yesBtn">Bəli</button>
+</div>
+</div>
 
-  <div class="info-box">
-    <div class="info-line"><span id="amountLabel">Məbləğ</span><b id="amount">500 ₼</b></div>
-    <div class="info-line"><span id="returnLabel">Geri ödəniş</span><b id="returnPay">642 ₼</b></div>
-    <div class="info-line"><span id="timeLabel">Müddət</span><b id="timeText">45 gün</b></div>
-  </div>
+<div class="info-box">
+<div class="info-line"><span>Məbləğ</span><b id="amount">500 ₼</b></div>
+<div class="info-line"><span>Geri ödəniş</span><b id="return">642 ₼</b></div>
+<div class="info-line"><span>Müddət</span><b id="timeText">45 gün</b></div>
+</div>
 
-  <input type="range" min="100" max="500" value="500" step="50" id="range">
+<input type="range" min="100" max="500" value="500" id="range">
 
-  <select id="timeSelect">
-    <option value="45">45 gün</option>
-    <option value="60">2 ay</option>
-    <option value="90">3 ay</option>
-    <option value="180">6 ay</option>
-    <option value="270">9 ay</option>
-    <option value="365">12 ay</option>
-  </select>
+<select id="timeSelect">
+<option value="45">45 gün</option>
+<option value="60">2 ay</option>
+<option value="90">3 ay</option>
+<option value="180">6 ay</option>
+<option value="270">9 ay</option>
+<option value="365">12 ay</option>
+</select>
 
-  <div class="schedule">
-    <div><span id="s1label">15 gün</span><b id="d15"></b></div>
-    <div><span id="s2label">20 gün</span><b id="d20"></b></div>
-    <div><span id="s3label">25 gün</span><b id="d25"></b></div>
-    <div><span id="s4label">30 gün</span><b id="d30"></b></div>
-  </div>
+<div class="schedule">
+<div><span id="l1">15 gün</span><b id="d1"></b></div>
+<div><span id="l2">20 gün</span><b id="d2"></b></div>
+<div><span id="l3">25 gün</span><b id="d3"></b></div>
+<div><span id="l4">30 gün</span><b id="d4"></b></div>
+</div>
 
-  <div class="apply-box">
-    <input id="name" placeholder="Ad soyad">
-    <input id="phone" placeholder="Telefon nömrəsi">
-    <input id="fin" placeholder="FIN kod">
-    <button onclick="submitForm()" id="applyBtn">Kredit al</button>
-  </div>
+<div class="apply-box">
+<input id="name" placeholder="Ad soyad">
+<input id="phone" placeholder="Telefon nömrəsi">
+<input id="fin" placeholder="FIN kod">
+<button onclick="submitForm()">Kredit al</button>
+</div>
 
 </div>
 
 <div class="bottom-menu">
-  <a href="#" onclick="openInfo()" id="infoBtn">Məlumat</a>
-  <a href="#" onclick="submitForm()" id="bottomApply">Kredit al</a>
+<a href="#" onclick="openInfo()">Məlumat</a>
+<a href="#" onclick="submitForm()">Kredit al</a>
 </div>
 
 <div id="termsPage">
-  <button class="back" onclick="closeTerms()">←</button>
-  <h2>Hörmətli Müştəri!</h2>
-  <p class="pageText" style="margin-top:15px;">
-    Kredit tarixçənizin yoxlanılması üçün<br>
-    Azərbaycan Kredit Bürosuna sorğu<br>
-    göndərmək məqsədi ilə <b>1 AZN</b> ödəniş tələb olunur.<br><br>
-    Sonra 1 AZN pulunuz avtomatik geri qayıdacaq balansınıza.
-  </p>
-  <button class="payBtn">1 AZN ödə</button>
+<button onclick="closeTerms()">←</button>
+<h2>Hörmətli Müştəri!</h2>
+<p>Kredit tarixçəsi üçün 1 AZN tələb olunur.</p>
 </div>
 
 <div id="infoPage">
-  <button class="back" onclick="closeInfo()">←</button>
-  <h2>Pulvar</h2>
-  <p class="pageText" style="margin-top:15px;">
-    Pulvar — sürətli və rahat onlayn kredit platformasıdır.<br><br>
-    Platformamız vasitəsilə vətəndaşlar banka getmədən, növbə gözləmədən qısa müddət ərzində kredit müraciəti edə bilərlər. Müraciətlər avtomatlaşdırılmış sistem vasitəsilə yoxlanılır və uyğun olan istifadəçilərə kredit təklifi təqdim olunur.<br><br>
-    <b>Kredit şərtləri:</b><br>
-    • Məbləğ: 100 AZN – 3000 AZN<br>
-    • Müddət: 45 gün – 12 ay<br>
-    • Sürətli cavab müddəti<br>
-    • Sadəcə şəxsiyyət vəsiqəsi ilə müraciət<br><br>
-    <b>Üstünlüklər:</b><br>
-    • Tam onlayn proses<br>
-    • Sürətli təsdiq sistemi<br>
-    • Sadə və rahat istifadə<br>
-    • Gecikməsiz müştərilər üçün xüsusi şərtlər<br><br>
-    <b>Qeyd:</b><br>
-    Müraciətlər kredit tarixçəsi nəzərə alınmaqla qiymətləndirilir. Uyğun olmayan müraciətlərə imtina verilə bilər.
-  </p>
+<button onclick="closeInfo()">←</button>
+<h2>Pulvar</h2>
+<p>Platforma haqqında məlumat...</p>
 </div>
 
 <script>
-const range = document.getElementById("range");
-const timeSelect = document.getElementById("timeSelect");
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
+const range=document.getElementById("range");
+const timeSelect=document.getElementById("timeSelect");
 
 function calc(){
-  let amountVal = Number(range.value);
-  let days = Number(timeSelect.value);
+let amount=Number(range.value);
+let days=Number(timeSelect.value);
 
-  let percent = 0;
+// faiz
+let percent = days/365*0.5;
+let total=Math.round(amount+(amount*percent));
 
-  if(days === 45) percent = 0.24;
-  if(days === 60) percent = 0.28;
-  if(days === 90) percent = 0.34;
-  if(days === 180) percent = 0.42;
-  if(days === 270) percent = 0.46;
-  if(days === 365) percent = 0.50;
+document.getElementById("amount").innerText=amount+" ₼";
+document.getElementById("return").innerText=total+" ₼";
+document.getElementById("timeText").innerText=timeSelect.options[timeSelect.selectedIndex].text;
 
-  let total = Math.round(amountVal + amountVal * percent);
+// 🔥 əsas düzəliş
+if(days==45){
+l1.innerText="15 gün";
+l2.innerText="20 gün";
+l3.innerText="25 gün";
+l4.innerText="30 gün";
 
-  document.getElementById("amount").innerText = amountVal + " ₼";
-  document.getElementById("returnPay").innerText = total + " ₼";
-  document.getElementById("timeText").innerText = timeSelect.options[timeSelect.selectedIndex].text;
+d1.innerText=Math.round(total*0.85)+" ₼";
+d2.innerText=Math.round(total*0.9)+" ₼";
+d3.innerText=Math.round(total*0.95)+" ₼";
+d4.innerText=total+" ₼";
 
-  document.getElementById("d15").innerText = Math.round(total * 0.85) + " ₼";
-  document.getElementById("d20").innerText = Math.round(total * 0.90) + " ₼";
-  document.getElementById("d25").innerText = Math.round(total * 0.95) + " ₼";
-  document.getElementById("d30").innerText = total + " ₼";
+}else{
+let months=Math.round(days/30);
+
+l1.innerText="1 ay";
+l2.innerText="2 ay";
+l3.innerText="3 ay";
+l4.innerText=months+" ay";
+
+d1.innerText=Math.round(total*0.25)+" ₼";
+d2.innerText=Math.round(total*0.5)+" ₼";
+d3.innerText=Math.round(total*0.75)+" ₼";
+d4.innerText=total+" ₼";
+}
 }
 
-range.addEventListener("input", calc);
-timeSelect.addEventListener("change", calc);
-timeSelect.addEventListener("input", calc);
-
-noBtn.onclick = function(){
-  noBtn.classList.add("on");
-  yesBtn.classList.remove("on");
-  range.max = 500;
-  if(Number(range.value) > 500) range.value = 500;
-  calc();
-};
-
-yesBtn.onclick = function(){
-  yesBtn.classList.add("on");
-  noBtn.classList.remove("on");
-  range.max = 3000;
-  calc();
-};
+range.oninput=calc;
+timeSelect.onchange=calc;
+calc();
 
 function submitForm(){
-  let name = document.getElementById("name").value.trim();
-  let phone = document.getElementById("phone").value.trim();
-  let fin = document.getElementById("fin").value.trim();
+let name=document.getElementById("name").value;
+let phone=document.getElementById("phone").value;
+let fin=document.getElementById("fin").value;
 
-  if(name.length < 5){
-    alert("Ad soyad düzgün yazılmayıb");
-    return;
-  }
+if(name.length<5){alert("Ad səhv");return;}
+if(phone.length<9){alert("Telefon səhv");return;}
+if(fin.length!=7){alert("FIN səhv");return;}
 
-  if(phone.length < 9){
-    alert("Telefon nömrəsini düzgün daxil edin");
-    return;
-  }
-
-  if(fin.length != 7){
-    alert("FIN kod səhvdir");
-    return;
-  }
-
-  openTerms();
+openTerms();
 }
 
-function openTerms(){
-  document.getElementById("termsPage").style.display = "block";
+function openTerms(){termsPage.style.display="block";}
+function closeTerms(){termsPage.style.display="none";}
+function openInfo(){infoPage.style.display="block";}
+function closeInfo(){infoPage.style.display="none";}
+
+function setLang(l){
+if(l=="ru"){
+title.innerText="Кредит без банка";
+job.innerText="Есть работа?";
+}else{
+title.innerText="Banksız kredit";
+job.innerText="Rəsmi işin var?";
 }
-
-function closeTerms(){
-  document.getElementById("termsPage").style.display = "none";
 }
-
-function openInfo(){
-  document.getElementById("infoPage").style.display = "block";
-}
-
-function closeInfo(){
-  document.getElementById("infoPage").style.display = "none";
-}
-
-function setLang(lang){
-  document.getElementById("azBtn").classList.remove("active");
-  document.getElementById("ruBtn").classList.remove("active");
-
-  if(lang === "ru"){
-    document.getElementById("ruBtn").classList.add("active");
-    document.getElementById("bannerText").innerText = "Комиссия от 5%";
-    document.getElementById("topApply").innerText = "Подать заявку";
-    document.getElementById("title").innerText = "Кредит без банка";
-    document.getElementById("subtitle").innerText = "Оформите быструю заявку по удостоверению личности.";
-    document.getElementById("jobTitle").innerText = "Есть официальная работа?";
-    document.getElementById("noBtn").innerText = "Нет";
-    document.getElementById("yesBtn").innerText = "Да";
-    document.getElementById("amountLabel").innerText = "Сумма";
-    document.getElementById("returnLabel").innerText = "К возврату";
-    document.getElementById("timeLabel").innerText = "Срок";
-    document.getElementById("name").placeholder = "Имя и фамилия";
-    document.getElementById("phone").placeholder = "Номер телефона";
-    document.getElementById("fin").placeholder = "FIN код";
-    document.getElementById("applyBtn").innerText = "Получить кредит";
-    document.getElementById("bottomApply").innerText = "Получить кредит";
-    document.getElementById("infoBtn").innerText = "Информация";
-  }else{
-    document.getElementById("azBtn").classList.add("active");
-    document.getElementById("bannerText").innerText = "5%-dən başlayan komissiya";
-    document.getElementById("topApply").innerText = "Müraciət et";
-    document.getElementById("title").innerText = "Banksız kredit";
-    document.getElementById("subtitle").innerText = "Sadəcə şəxsiyyət vəsiqənizlə sürətli kredit müraciəti edin.";
-    document.getElementById("jobTitle").innerText = "Rəsmi işin var?";
-    document.getElementById("noBtn").innerText = "Xeyr";
-    document.getElementById("yesBtn").innerText = "Bəli";
-    document.getElementById("amountLabel").innerText = "Məbləğ";
-    document.getElementById("returnLabel").innerText = "Geri ödəniş";
-    document.getElementById("timeLabel").innerText = "Müddət";
-    document.getElementById("name").placeholder = "Ad soyad";
-    document.getElementById("phone").placeholder = "Telefon nömrəsi";
-    document.getElementById("fin").placeholder = "FIN kod";
-    document.getElementById("applyBtn").innerText = "Kredit al";
-    document.getElementById("bottomApply").innerText = "Kredit al";
-    document.getElementById("infoBtn").innerText = "Məlumat";
-  }
-}
-
-calc();
 </script>
 
 </body>
