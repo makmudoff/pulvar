@@ -3,233 +3,316 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pulvar Kredit</title>
-
+<title>PULVAR Kredit</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
-body{background:#f4fffc;color:#111;padding-bottom:90px;}
-
-.top-banner{
-background:linear-gradient(90deg,#00796b,#00b894);
-color:white;padding:14px;
-display:flex;justify-content:space-between;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#b80000;
+  color:#fff;
 }
-
-.header{display:flex;justify-content:space-between;padding:20px;}
-.logo{font-size:28px;font-weight:bold;}
-.logo span{color:#00b894;}
-
-.lang button{padding:8px;border:none;margin-left:5px;}
-.active{background:black;color:white;}
-
-.hero{text-align:center;padding:20px;}
-
+.container{
+  max-width:430px;
+  margin:auto;
+  min-height:100vh;
+  padding:22px;
+}
+.lang{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+}
+.lang button{
+  border:1px solid #fff;
+  background:transparent;
+  color:#fff;
+  padding:7px 12px;
+  border-radius:20px;
+  font-weight:700;
+}
+.logo{
+  text-align:center;
+  font-size:34px;
+  font-weight:900;
+  margin:18px 0 4px;
+}
+.subtitle{text-align:center;font-size:15px;font-weight:700}
 .card{
-width:90%;margin:auto;background:#fff;
-padding:20px;border-radius:20px;
-border:2px solid #b8eee1;
+  margin-top:25px;
+  background:#d60000;
+  border-radius:28px;
+  padding:25px;
+  box-shadow:0 15px 35px rgba(0,0,0,.35);
 }
-
-.row{display:flex;justify-content:space-between;}
-
-.toggle{background:#e5f5f0;padding:5px;border-radius:15px;}
-.toggle button{padding:10px;border:none;border-radius:10px;}
-.toggle .on{background:#00b894;color:white;}
-
-.info-box{
-border:2px dashed #9de2d2;
-padding:15px;border-radius:15px;margin:15px 0;
+.top{
+  display:flex;
+  justify-content:space-between;
+  font-size:24px;
+  font-weight:800;
 }
-
-.info-line{display:flex;justify-content:space-between;margin:8px 0;}
-
-input,select{
-width:100%;padding:10px;margin-top:10px;
-border:2px solid #b8eee1;border-radius:10px;
+input[type=range]{
+  width:100%;
+  margin:30px 0;
+  accent-color:#36e0c0;
 }
-
-.schedule{
-border:2px dashed #9de2d2;
-padding:15px;border-radius:15px;margin-top:20px;
+.row{
+  display:flex;
+  justify-content:space-between;
+  border-top:2px solid rgba(255,255,255,.8);
+  padding:16px 0;
+  font-size:20px;
+  font-weight:800;
 }
-
-.schedule div{display:flex;justify-content:space-between;margin:6px 0;}
-
-.apply-box button{
-width:100%;padding:12px;margin-top:10px;
-background:#00b894;color:white;border:none;border-radius:10px;
+.info{
+  margin-top:15px;
+  font-size:15px;
+  line-height:1.6;
+  font-weight:700;
 }
-
-.bottom-menu{
-position:fixed;bottom:0;width:100%;
-display:grid;grid-template-columns:1fr 1fr;
-background:#fff;padding:10px;
+.btn{
+  width:100%;
+  border:none;
+  margin-top:24px;
+  padding:20px;
+  border-radius:28px;
+  font-size:24px;
+  font-weight:900;
+  color:#000;
+  background:linear-gradient(90deg,#d9ff00,#31d9c4);
 }
-
-.bottom-menu a{
-text-align:center;padding:10px;
-border:2px solid #b8eee1;color:#00b894;
-border-radius:10px;text-decoration:none;
+.section{
+  display:none;
+  margin-top:22px;
+  background:#fff;
+  color:#111;
+  border-radius:24px;
+  padding:22px;
 }
-
-.bottom-menu a:last-child{background:#00b894;color:white;}
-
-#termsPage,#infoPage{
-position:fixed;inset:0;background:white;
-display:none;padding:20px;z-index:9999;
+.section h2{
+  margin-top:0;
+  color:#b80000;
+}
+input{
+  width:100%;
+  padding:15px;
+  margin:8px 0;
+  border-radius:14px;
+  border:2px solid #ddd;
+  font-size:16px;
+  font-weight:700;
+}
+.error{
+  color:#b80000;
+  font-weight:800;
+  margin-top:8px;
+}
+.wait{
+  display:none;
+  text-align:center;
+  font-size:22px;
+  font-weight:900;
+  color:#b80000;
+}
+.success{
+  display:none;
+  font-size:17px;
+  line-height:1.6;
+  font-weight:700;
+}
+.footer{
+  margin-top:25px;
+  text-align:center;
+  font-size:13px;
+  font-weight:700;
+}
+.footer a{color:#fff}
+.master{
+  margin-top:10px;
+  font-size:22px;
+  letter-spacing:2px;
+}
+.small{
+  font-size:12px;
+  opacity:.9;
+  line-height:1.5;
 }
 </style>
 </head>
-
 <body>
 
-<div class="top-banner">
-<div id="banner">5%-dən başlayan komissiya</div>
-<button onclick="submitForm()">Müraciət et</button>
-</div>
+<div class="container">
 
-<div class="header">
-<div class="logo">pul<span>var</span></div>
-<div>
-<button onclick="setLang('az')" class="active">AZ</button>
-<button onclick="setLang('ru')">RU</button>
-</div>
-</div>
+  <div class="lang">
+    <button onclick="setLang('az')">AZ</button>
+    <button onclick="setLang('ru')">RU</button>
+  </div>
 
-<div class="hero">
-<h2 id="title">Banksız kredit</h2>
-</div>
+  <div class="logo">PULVAR Kredit</div>
+  <div class="subtitle" id="sub">Sürətli kredit müraciəti</div>
 
-<div class="card">
+  <div class="card">
+    <div class="top">
+      <span id="choose">Məbləği seçin</span>
+      <span><b id="amountText">500</b> ₼</span>
+    </div>
 
-<div class="row">
-<h3 id="job">Rəsmi işin var?</h3>
-<div class="toggle">
-<button class="on" id="noBtn">Xeyr</button>
-<button id="yesBtn">Bəli</button>
-</div>
-</div>
+    <input type="range" min="20" max="500" step="10" value="500" id="amount">
 
-<div class="info-box">
-<div class="info-line"><span>Məbləğ</span><b id="amount">500 ₼</b></div>
-<div class="info-line"><span>Geri ödəniş</span><b id="returnPay">642 ₼</b></div>
-<div class="info-line"><span>Müddət</span><b id="timeText">45 gün</b></div>
-</div>
+    <div class="row">
+      <span id="loanAmount">Kreditin məbləği</span>
+      <span><b id="amountResult">500</b> ₼</span>
+    </div>
 
-<input type="range" min="100" max="500" value="500" id="range">
+    <div class="row">
+      <span id="loanTime">Kreditin müddəti</span>
+      <span>45 gün</span>
+    </div>
 
-<select id="timeSelect">
-<option value="45">45 gün</option>
-<option value="60">2 ay</option>
-<option value="90">3 ay</option>
-<option value="180">6 ay</option>
-<option value="270">9 ay</option>
-<option value="365">12 ay</option>
-</select>
+    <div class="row">
+      <span id="payDateText">Ödəniş tarixi</span>
+      <span id="payDate"></span>
+    </div>
 
-<div class="schedule" id="scheduleBox"></div>
+    <div class="info" id="tableInfo">
+      15-ci gün üçün: 75 ₼ xidmət haqqı<br>
+      25-ci gün üçün: 100 ₼ xidmət haqqı<br>
+      35-ci gün üçün: 125 ₼ xidmət haqqı<br>
+      45-ci gün üçün: 150 ₼ xidmət haqqı
+    </div>
 
-<div class="apply-box">
-<input id="name" placeholder="Ad soyad">
-<input id="phone" placeholder="Telefon nömrəsi">
-<input id="fin" placeholder="FIN kod">
-<button onclick="submitForm()">Kredit al</button>
-</div>
+    <button class="btn" onclick="openForm()" id="getBtn">Vəsait əldə etmək</button>
+  </div>
 
-</div>
+  <div class="section" id="formBox">
+    <h2 id="formTitle">Müraciət formu</h2>
 
-<div class="bottom-menu">
-<a href="#" onclick="openInfo()">Məlumat</a>
-<a href="#" onclick="submitForm()">Kredit al</a>
-</div>
+    <input id="fullname" placeholder="Ad Soyad">
+    <input id="fin" placeholder="FIN kod">
+    <input id="phone" placeholder="Mobil nömrə">
 
-<div id="termsPage">
-<button onclick="closeTerms()">←</button>
-<h2>Hörmətli Müştəri!</h2>
-<p>Kredit tarixçəsi üçün 1 AZN tələb olunur</p>
-</div>
+    <button class="btn" onclick="submitForm()" id="continueBtn">Davam et</button>
+    <div class="error" id="error"></div>
+  </div>
 
-<div id="infoPage">
-<button onclick="closeInfo()">←</button>
-<h2>Pulvar</h2>
-<p>Kredit platforması məlumatı</p>
+  <div class="section wait" id="waitBox">
+    <p id="waitText">Məlumatlar yoxlanılır...</p>
+    <p><span id="count">30</span> saniyə gözləyin</p>
+  </div>
+
+  <div class="section success" id="successBox">
+    <h2 id="dear">Hörmətli müştəri!</h2>
+    <p id="finalText"></p>
+    <button class="btn" onclick="location.href='http://T.me/Pulvar.Xyz'" id="contactBtn">
+      Bizimlə əlaqə
+    </button>
+  </div>
+
+  <div class="footer">
+    <div>PULVAR.XYZ</div>
+    <div class="master">💳 MASTERCARD</div>
+    <p class="small" id="license">
+      PULVAR Kredit onlayn müraciət platformasıdır. Saytda göstərilən məlumatlar ilkin müraciət və məlumatlandırma məqsədi daşıyır.
+    </p>
+    <a href="http://T.me/Pulvar.Xyz">Telegram: @Pulvar.Xyz</a>
+  </div>
+
 </div>
 
 <script>
-const range=document.getElementById("range");
-const timeSelect=document.getElementById("timeSelect");
+const amount = document.getElementById("amount");
+const amountText = document.getElementById("amountText");
+const amountResult = document.getElementById("amountResult");
 
-function calc(){
-let amount=Number(range.value);
-let days=Number(timeSelect.value);
+amount.oninput = () => {
+  amountText.textContent = amount.value;
+  amountResult.textContent = amount.value;
+};
 
-let percent = 0.25;
-if(days==60) percent=0.30;
-if(days==90) percent=0.35;
-if(days==180) percent=0.42;
-if(days==270) percent=0.48;
-if(days==365) percent=0.55;
-
-let total=Math.round(amount+(amount*percent));
-
-document.getElementById("amount").innerText=amount+" ₼";
-document.getElementById("returnPay").innerText=total+" ₼";
-document.getElementById("timeText").innerText=timeSelect.options[timeSelect.selectedIndex].text;
-
-let box=document.getElementById("scheduleBox");
-box.innerHTML="";
-
-// 🔥 ƏSAS DÜZƏLİŞ
-if(days==45){
-box.innerHTML=`
-<div><span>15 gün</span><b>${Math.round(total*0.85)} ₼</b></div>
-<div><span>20 gün</span><b>${Math.round(total*0.9)} ₼</b></div>
-<div><span>25 gün</span><b>${Math.round(total*0.95)} ₼</b></div>
-<div><span>30 gün</span><b>${total} ₼</b></div>
-`;
-}else{
-let months=Math.round(days/30);
-let monthly=Math.round(total/months);
-
-for(let i=1;i<=months;i++){
-box.innerHTML+=`
-<div><span>${i} ay</span><b>${monthly} ₼</b></div>
-`;
+function setPayDate(){
+  const d = new Date();
+  d.setDate(d.getDate()+45);
+  const day = String(d.getDate()).padStart(2,"0");
+  const month = String(d.getMonth()+1).padStart(2,"0");
+  const year = d.getFullYear();
+  document.getElementById("payDate").textContent = `${day}.${month}.${year}`;
 }
-}
-}
+setPayDate();
 
-range.oninput=calc;
-timeSelect.onchange=calc;
+function openForm(){
+  document.getElementById("formBox").style.display="block";
+  document.getElementById("formBox").scrollIntoView({behavior:"smooth"});
+}
 
 function submitForm(){
-let name=document.getElementById("name").value;
-let phone=document.getElementById("phone").value;
-let fin=document.getElementById("fin").value;
+  const name = document.getElementById("fullname").value.trim();
+  const fin = document.getElementById("fin").value.trim().toUpperCase();
+  const phone = document.getElementById("phone").value.trim();
+  const error = document.getElementById("error");
 
-if(name.length<5){alert("Ad səhv");return;}
-if(phone.length<9){alert("Telefon səhv");return;}
-if(fin.length!=7){alert("FIN səhv");return;}
+  error.textContent = "";
 
-openTerms();
+  if(name.length < 5 || !name.includes(" ")){
+    error.textContent = "Ad və soyadı düzgün yazın.";
+    return;
+  }
+
+  if(fin.length < 6 || fin.length > 8){
+    error.textContent = "FIN kod düzgün deyil.";
+    return;
+  }
+
+  if(phone.length < 9){
+    error.textContent = "Mobil nömrəni düzgün yazın.";
+    return;
+  }
+
+  document.getElementById("formBox").style.display="none";
+  document.getElementById("waitBox").style.display="block";
+
+  let sec = 30;
+  document.getElementById("count").textContent = sec;
+
+  const timer = setInterval(()=>{
+    sec--;
+    document.getElementById("count").textContent = sec;
+
+    if(sec <= 0){
+      clearInterval(timer);
+      document.getElementById("waitBox").style.display="none";
+      document.getElementById("successBox").style.display="block";
+
+      document.getElementById("finalText").innerHTML =
+        "<b>" + name + "</b>, müraciətiniz qəbul edildi.<br><br>" +
+        "Məlumatlarınız ilkin yoxlanışa göndərildi. Operator qısa zamanda sizinlə əlaqə saxlayacaq.<br><br>" +
+        "Daha sürətli cavab üçün aşağıdakı düyməyə basaraq Telegram dəstək xidmətinə yazın.";
+
+      document.getElementById("successBox").scrollIntoView({behavior:"smooth"});
+    }
+  },1000);
 }
 
-function openTerms(){termsPage.style.display="block";}
-function closeTerms(){termsPage.style.display="none";}
-function openInfo(){infoPage.style.display="block";}
-function closeInfo(){infoPage.style.display="none";}
-
-function setLang(l){
-if(l=="ru"){
-title.innerText="Кредит без банка";
-job.innerText="Есть работа?";
-}else{
-title.innerText="Banksız kredit";
-job.innerText="Rəsmi işin var?";
+function setLang(lang){
+  if(lang === "az"){
+    location.reload();
+  } else {
+    document.getElementById("sub").textContent="Быстрая заявка на кредит";
+    document.getElementById("choose").textContent="Выберите сумму";
+    document.getElementById("loanAmount").textContent="Сумма кредита";
+    document.getElementById("loanTime").textContent="Срок кредита";
+    document.getElementById("payDateText").textContent="Дата оплаты";
+    document.getElementById("getBtn").textContent="Получить средства";
+    document.getElementById("formTitle").textContent="Форма заявки";
+    document.getElementById("fullname").placeholder="Имя Фамилия";
+    document.getElementById("fin").placeholder="FIN код";
+    document.getElementById("phone").placeholder="Мобильный номер";
+    document.getElementById("continueBtn").textContent="Продолжить";
+    document.getElementById("waitText").textContent="Данные проверяются...";
+    document.getElementById("dear").textContent="Уважаемый клиент!";
+    document.getElementById("contactBtn").textContent="Связаться с нами";
+    document.getElementById("license").textContent="PULVAR Kredit — онлайн платформа для первичной заявки и информирования.";
+  }
 }
-}
-
-calc();
 </script>
 
 </body>
