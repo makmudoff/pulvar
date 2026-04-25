@@ -19,9 +19,6 @@ display:flex;justify-content:space-between;
 .logo{font-size:28px;font-weight:bold;}
 .logo span{color:#00b894;}
 
-.lang button{padding:8px;border:none;margin-left:5px;}
-.active{background:black;color:white;}
-
 .hero{text-align:center;padding:20px;}
 
 .card{
@@ -29,12 +26,6 @@ width:90%;margin:auto;background:#fff;
 padding:20px;border-radius:20px;
 border:2px solid #b8eee1;
 }
-
-.row{display:flex;justify-content:space-between;}
-
-.toggle{background:#e5f5f0;padding:5px;border-radius:15px;}
-.toggle button{padding:10px;border:none;border-radius:10px;}
-.toggle .on{background:#00b894;color:white;}
 
 .info-box{
 border:2px dashed #9de2d2;
@@ -53,30 +44,13 @@ border:2px dashed #9de2d2;
 padding:15px;border-radius:15px;margin-top:20px;
 }
 
-.schedule div{display:flex;justify-content:space-between;margin:6px 0;}
+.schedule div{
+display:flex;justify-content:space-between;margin:6px 0;
+}
 
-.apply-box button{
+button{
 width:100%;padding:12px;margin-top:10px;
 background:#00b894;color:white;border:none;border-radius:10px;
-}
-
-.bottom-menu{
-position:fixed;bottom:0;width:100%;
-display:grid;grid-template-columns:1fr 1fr;
-background:#fff;padding:10px;
-}
-
-.bottom-menu a{
-text-align:center;padding:10px;
-border:2px solid #b8eee1;color:#00b894;
-border-radius:10px;text-decoration:none;
-}
-
-.bottom-menu a:last-child{background:#00b894;color:white;}
-
-#termsPage,#infoPage{
-position:fixed;inset:0;background:white;
-display:none;padding:20px;z-index:9999;
 }
 </style>
 </head>
@@ -84,39 +58,27 @@ display:none;padding:20px;z-index:9999;
 <body>
 
 <div class="top-banner">
-<div id="banner">5%-dən başlayan komissiya</div>
+<div>5%-dən başlayan komissiya</div>
 <button onclick="submitForm()">Müraciət et</button>
 </div>
 
 <div class="header">
 <div class="logo">pul<span>var</span></div>
-<div>
-<button onclick="setLang('az')" class="active">AZ</button>
-<button onclick="setLang('ru')">RU</button>
-</div>
 </div>
 
 <div class="hero">
-<h2 id="title">Banksız kredit</h2>
+<h2>Banksız kredit</h2>
 </div>
 
 <div class="card">
 
-<div class="row">
-<h3 id="job">Rəsmi işin var?</h3>
-<div class="toggle">
-<button class="on" id="noBtn">Xeyr</button>
-<button id="yesBtn">Bəli</button>
-</div>
-</div>
-
 <div class="info-box">
 <div class="info-line"><span>Məbləğ</span><b id="amount">500 ₼</b></div>
-<div class="info-line"><span>Geri ödəniş</span><b id="return">642 ₼</b></div>
+<div class="info-line"><span>Geri ödəniş</span><b id="total">700 ₼</b></div>
 <div class="info-line"><span>Müddət</span><b id="timeText">45 gün</b></div>
 </div>
 
-<input type="range" min="100" max="500" value="500" id="range">
+<input type="range" min="100" max="3000" value="500" id="range">
 
 <select id="timeSelect">
 <option value="45">45 gün</option>
@@ -127,85 +89,66 @@ display:none;padding:20px;z-index:9999;
 <option value="365">12 ay</option>
 </select>
 
-<div class="schedule">
-<div><span id="l1">15 gün</span><b id="d1"></b></div>
-<div><span id="l2">20 gün</span><b id="d2"></b></div>
-<div><span id="l3">25 gün</span><b id="d3"></b></div>
-<div><span id="l4">30 gün</span><b id="d4"></b></div>
-</div>
+<div class="schedule" id="scheduleBox"></div>
 
-<div class="apply-box">
 <input id="name" placeholder="Ad soyad">
 <input id="phone" placeholder="Telefon nömrəsi">
 <input id="fin" placeholder="FIN kod">
+
 <button onclick="submitForm()">Kredit al</button>
-</div>
 
-</div>
-
-<div class="bottom-menu">
-<a href="#" onclick="openInfo()">Məlumat</a>
-<a href="#" onclick="submitForm()">Kredit al</a>
-</div>
-
-<div id="termsPage">
-<button onclick="closeTerms()">←</button>
-<h2>Hörmətli Müştəri!</h2>
-<p>Kredit tarixçəsi üçün 1 AZN tələb olunur.</p>
-</div>
-
-<div id="infoPage">
-<button onclick="closeInfo()">←</button>
-<h2>Pulvar</h2>
-<p>Platforma haqqında məlumat...</p>
 </div>
 
 <script>
-const range=document.getElementById("range");
-const timeSelect=document.getElementById("timeSelect");
+const range = document.getElementById("range");
+const timeSelect = document.getElementById("timeSelect");
 
 function calc(){
-let amount=Number(range.value);
-let days=Number(timeSelect.value);
+let amount = Number(range.value);
+let days = Number(timeSelect.value);
 
 // faiz
-let percent = days/365*0.5;
-let total=Math.round(amount+(amount*percent));
+let percent = 0.25;
+if(days==60) percent=0.30;
+if(days==90) percent=0.35;
+if(days==180) percent=0.42;
+if(days==270) percent=0.48;
+if(days==365) percent=0.55;
 
-document.getElementById("amount").innerText=amount+" ₼";
-document.getElementById("return").innerText=total+" ₼";
-document.getElementById("timeText").innerText=timeSelect.options[timeSelect.selectedIndex].text;
+let total = Math.round(amount + amount*percent);
 
-// 🔥 əsas düzəliş
+document.getElementById("amount").innerText = amount+" ₼";
+document.getElementById("total").innerText = total+" ₼";
+document.getElementById("timeText").innerText = timeSelect.options[timeSelect.selectedIndex].text;
+
+let box = document.getElementById("scheduleBox");
+box.innerHTML="";
+
+// 🔥 BURDA ƏSAS DÜZƏLİŞ
 if(days==45){
-l1.innerText="15 gün";
-l2.innerText="20 gün";
-l3.innerText="25 gün";
-l4.innerText="30 gün";
-
-d1.innerText=Math.round(total*0.85)+" ₼";
-d2.innerText=Math.round(total*0.9)+" ₼";
-d3.innerText=Math.round(total*0.95)+" ₼";
-d4.innerText=total+" ₼";
-
+box.innerHTML = `
+<div><span>15 gün</span><b>${Math.round(total*0.85)} ₼</b></div>
+<div><span>20 gün</span><b>${Math.round(total*0.9)} ₼</b></div>
+<div><span>25 gün</span><b>${Math.round(total*0.95)} ₼</b></div>
+<div><span>30 gün</span><b>${total} ₼</b></div>
+`;
 }else{
-let months=Math.round(days/30);
 
-l1.innerText="1 ay";
-l2.innerText="2 ay";
-l3.innerText="3 ay";
-l4.innerText=months+" ay";
+let months = Math.round(days/30);
+let monthly = Math.round(total / months);
 
-d1.innerText=Math.round(total*0.25)+" ₼";
-d2.innerText=Math.round(total*0.5)+" ₼";
-d3.innerText=Math.round(total*0.75)+" ₼";
-d4.innerText=total+" ₼";
+// 🔥 AYLIQ TAKSİT
+for(let i=1;i<=months;i++){
+box.innerHTML += `
+<div><span>${i} ay</span><b>${monthly} ₼</b></div>
+`;
+}
+
 }
 }
 
 range.oninput=calc;
 timeSelect.onchange=calc;
-calc();
 
 function submitForm(){
 let name=document.getElementById("name").value;
@@ -216,23 +159,10 @@ if(name.length<5){alert("Ad səhv");return;}
 if(phone.length<9){alert("Telefon səhv");return;}
 if(fin.length!=7){alert("FIN səhv");return;}
 
-openTerms();
+alert("Müraciət qəbul edildi");
 }
 
-function openTerms(){termsPage.style.display="block";}
-function closeTerms(){termsPage.style.display="none";}
-function openInfo(){infoPage.style.display="block";}
-function closeInfo(){infoPage.style.display="none";}
-
-function setLang(l){
-if(l=="ru"){
-title.innerText="Кредит без банка";
-job.innerText="Есть работа?";
-}else{
-title.innerText="Banksız kredit";
-job.innerText="Rəsmi işin var?";
-}
-}
+calc();
 </script>
 
 </body>
