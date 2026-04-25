@@ -19,6 +19,11 @@ display:flex;justify-content:space-between;
 .logo{font-size:28px;font-weight:bold;}
 .logo span{color:#00b894;}
 
+.lang button{
+padding:8px 12px;border:none;border-radius:8px;margin-left:5px;
+}
+.active{background:#111;color:white;}
+
 .hero{text-align:center;padding:20px;}
 
 .card{
@@ -81,22 +86,26 @@ display:none;padding:20px;z-index:9999;overflow:auto;
 <body>
 
 <div class="top-banner">
-<div>5%-dən başlayan komissiya</div>
+<div id="banner">5%-dən başlayan komissiya</div>
 <button onclick="submitForm()">Müraciət et</button>
 </div>
 
 <div class="header">
 <div class="logo">pul<span>var</span></div>
+<div class="lang">
+<button class="active" onclick="setLang('az')" id="azBtn">AZ</button>
+<button onclick="setLang('ru')" id="ruBtn">RU</button>
+</div>
 </div>
 
 <div class="hero">
-<h2>Banksız kredit</h2>
+<h2 id="title">Banksız kredit</h2>
 </div>
 
 <div class="card">
 
 <div class="row">
-<h3>Rəsmi işin var?</h3>
+<h3 id="job">Rəsmi işin var?</h3>
 <div class="toggle">
 <button class="on" id="noBtn">Xeyr</button>
 <button id="yesBtn">Bəli</button>
@@ -104,9 +113,9 @@ display:none;padding:20px;z-index:9999;overflow:auto;
 </div>
 
 <div class="info-box">
-<div class="info-line"><span>Məbləğ</span><b id="amount">500 ₼</b></div>
-<div class="info-line"><span>Geri ödəniş</span><b id="return">642 ₼</b></div>
-<div class="info-line"><span>Müddət</span><b id="timeText">1 ay</b></div>
+<div class="info-line"><span id="amountText">Məbləğ</span><b id="amount">500 ₼</b></div>
+<div class="info-line"><span id="returnText">Geri ödəniş</span><b id="return">642 ₼</b></div>
+<div class="info-line"><span id="timeLabel">Müddət</span><b id="timeText">1 ay</b></div>
 </div>
 
 <input type="range" min="100" max="500" value="500" id="range">
@@ -143,49 +152,19 @@ display:none;padding:20px;z-index:9999;overflow:auto;
 <!-- TERMS -->
 <div id="termsPage">
 <button onclick="closeTerms()">←</button>
-
 <h2>Hörmətli Müştəri!</h2>
-
-<p style="margin-top:15px;font-size:18px;line-height:1.5;">
-Kredit tarixçənizin yoxlanılması üçün<br>
-Azərbaycan Kredit Bürosuna sorğu<br>
-göndərmək məqsədi ilə <b>1 AZN</b> ödəniş tələb olunur.<br><br>
-Sonra 1 AZN pulunuz avtomatik geri qayıdacaq balansınıza.
+<p style="margin-top:15px;font-size:18px;">
+Kredit tarixçənizin yoxlanılması üçün Azərbaycan Kredit Bürosuna sorğu göndərmək məqsədi ilə 1 AZN ödəniş tələb olunur. Sonra pul geri qaytarılır.
 </p>
-
-<button style="margin-top:30px;padding:12px;width:100%;background:#00b894;color:white;border:none;border-radius:10px;">
-1 AZN ödə
-</button>
-
 </div>
 
-<!-- MELUMAT -->
+<!-- INFO -->
 <div id="infoPage">
 <button onclick="closeInfo()">←</button>
-
-<h2 style="margin-top:10px;">Pulvar</h2>
-
-<p style="margin-top:15px;line-height:1.6;">
-Pulvar — sürətli və rahat onlayn kredit platformasıdır.<br><br>
-
-Platformamız vasitəsilə vətəndaşlar banka getmədən, növbə gözləmədən qısa müddət ərzində kredit müraciəti edə bilərlər. Müraciətlər avtomatlaşdırılmış sistem vasitəsilə yoxlanılır və uyğun olan istifadəçilərə kredit təklifi təqdim olunur.<br><br>
-
-<b>Kredit şərtləri:</b><br>
-• Məbləğ: 100 AZN – 3000 AZN<br>
-• Müddət: 45 gün – 12 ay<br>
-• Sürətli cavab müddəti<br>
-• Sadəcə şəxsiyyət vəsiqəsi ilə müraciət<br><br>
-
-<b>Üstünlüklər:</b><br>
-• Tam onlayn proses<br>
-• Sürətli təsdiq sistemi<br>
-• Sadə və rahat istifadə<br>
-• Gecikməsiz müştərilər üçün xüsusi şərtlər<br><br>
-
-<b>Qeyd:</b><br>
-Müraciətlər kredit tarixçəsi nəzərə alınmaqla qiymətləndirilir. Uyğun olmayan müraciətlərə imtina verilə bilər.
+<h2>Pulvar</h2>
+<p style="margin-top:15px;">
+Pulvar — sürətli və rahat onlayn kredit platformasıdır...
 </p>
-
 </div>
 
 <script>
@@ -197,8 +176,8 @@ let amount=Number(range.value);
 let days=Number(timeSelect.value);
 let total=Math.round(amount+(amount*(0.2+(days/365)*0.3)));
 
-amount.innerText=amount+" ₼";
-return.innerText=total+" ₼";
+amountEl.innerText=amount+" ₼";
+returnEl.innerText=total+" ₼";
 timeText.innerText=timeSelect.options[timeSelect.selectedIndex].text;
 
 d15.innerText=Math.round(total*0.85)+" ₼";
@@ -211,29 +190,35 @@ range.oninput=calc;
 timeSelect.onchange=calc;
 calc();
 
-/* TOGGLE */
 noBtn.onclick=()=>{noBtn.classList.add("on");yesBtn.classList.remove("on");range.max=500;calc();}
 yesBtn.onclick=()=>{yesBtn.classList.add("on");noBtn.classList.remove("on");range.max=3000;calc();}
 
-/* TERMS */
-function openTerms(){termsPage.style.display="block";}
-function closeTerms(){termsPage.style.display="none";}
-
-/* INFO */
-function openInfo(){infoPage.style.display="block";}
-function closeInfo(){infoPage.style.display="none";}
-
-/* VALIDATION */
 function submitForm(){
 let name=nameInput.value.trim();
 let phone=phoneInput.value.trim();
 let fin=finInput.value.trim();
 
-if(name.length<5){alert("Ad soyad düzgün yazılmayıb");return;}
-if(phone.length<9){alert("Telefon nömrəsini düzgün daxil edin");return;}
-if(fin.length!=7){alert("FIN kod səhvdir");return;}
+if(name.length<5){alert("Ad soyad səhvdir");return;}
+if(phone.length<9){alert("Telefon səhvdir");return;}
+if(fin.length!=7){alert("FIN səhvdir");return;}
 
 openTerms();
+}
+
+function openTerms(){termsPage.style.display="block";}
+function closeTerms(){termsPage.style.display="none";}
+
+function openInfo(){infoPage.style.display="block";}
+function closeInfo(){infoPage.style.display="none";}
+
+function setLang(l){
+if(l=="ru"){
+title.innerText="Кредит без банка";
+job.innerText="Есть работа?";
+}else{
+title.innerText="Banksız kredit";
+job.innerText="Rəsmi işin var?";
+}
 }
 </script>
 
