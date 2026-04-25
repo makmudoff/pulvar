@@ -14,21 +14,15 @@ background:linear-gradient(90deg,#00796b,#00b894);
 color:white;padding:14px;
 display:flex;justify-content:space-between;align-items:center;
 }
-
 .top-banner button{
 background:white;color:#00796b;border:none;
 padding:10px 16px;border-radius:20px;font-weight:bold;
 }
-
 .header{display:flex;justify-content:space-between;align-items:center;padding:20px;}
 .logo{font-size:28px;font-weight:bold;}
 .logo span{color:#00b894;}
-
-.lang button{
-padding:8px 12px;border:none;border-radius:8px;margin-left:5px;
-}
+.lang button{padding:8px 12px;border:none;border-radius:8px;margin-left:5px;}
 .lang .active{background:#111;color:white;}
-
 .hero{text-align:center;padding:20px;}
 .hero h2{font-size:30px;margin-bottom:10px;}
 .hero p{color:#666;line-height:1.5;}
@@ -37,32 +31,25 @@ padding:8px 12px;border:none;border-radius:8px;margin-left:5px;
 width:90%;max-width:600px;margin:auto;background:#fff;
 padding:20px;border-radius:20px;border:2px solid #b8eee1;
 }
-
 .row{display:flex;justify-content:space-between;align-items:center;}
-
 .toggle{background:#e5f5f0;padding:5px;border-radius:15px;}
 .toggle button{padding:10px 15px;border:none;border-radius:10px;}
 .toggle .on{background:#00b894;color:white;}
-
 .info-box{
 border:2px dashed #9de2d2;
 padding:15px;border-radius:15px;margin:15px 0;
 }
-
 .info-line{display:flex;justify-content:space-between;margin:8px 0;}
-
 input,select{
 width:100%;padding:12px;margin-top:10px;
 border:2px solid #b8eee1;border-radius:10px;
 }
-
 input[type=range]{accent-color:#00b894;}
 
 .schedule{
 border:2px dashed #9de2d2;
 padding:15px;border-radius:15px;margin-top:20px;
 }
-
 .schedule div{display:flex;justify-content:space-between;margin:8px 0;}
 
 .apply-box{margin-top:20px;}
@@ -71,35 +58,25 @@ width:100%;padding:14px;margin-top:10px;
 background:#00b894;color:white;border:none;border-radius:10px;
 font-weight:bold;font-size:16px;
 }
-
 .bottom-menu{
 position:fixed;bottom:0;left:0;width:100%;
 display:grid;grid-template-columns:1fr 1fr;
 background:#fff;padding:10px;gap:10px;
 box-shadow:0 -4px 20px rgba(0,0,0,.08);
 }
-
 .bottom-menu a{
 text-align:center;padding:12px;
 border:2px solid #b8eee1;color:#00b894;
 border-radius:10px;text-decoration:none;font-weight:bold;
 }
-
 .bottom-menu a:last-child{background:#00b894;color:white;}
 
 #termsPage,#infoPage{
 position:fixed;inset:0;background:white;
 display:none;padding:22px;z-index:9999;overflow:auto;
 }
-
-.back{
-font-size:30px;border:none;background:none;margin-bottom:20px;
-}
-
-.pageText{
-font-size:18px;line-height:1.6;color:#444;
-}
-
+.back{font-size:30px;border:none;background:none;margin-bottom:20px;}
+.pageText{font-size:18px;line-height:1.6;color:#444;}
 .payBtn{
 margin-top:30px;padding:14px;width:100%;
 background:#00b894;color:white;border:none;border-radius:10px;
@@ -141,7 +118,7 @@ font-size:18px;font-weight:bold;
   <div class="info-box">
     <div class="info-line"><span id="amountLabel">Məbləğ</span><b id="amount">500 ₼</b></div>
     <div class="info-line"><span id="returnLabel">Geri ödəniş</span><b id="returnPay">642 ₼</b></div>
-    <div class="info-line"><span id="timeLabel">Müddət</span><b id="timeText">1 ay</b></div>
+    <div class="info-line"><span id="timeLabel">Müddət</span><b id="timeText">45 gün</b></div>
   </div>
 
   <input type="range" min="100" max="500" value="500" step="50" id="range">
@@ -156,10 +133,10 @@ font-size:18px;font-weight:bold;
   </select>
 
   <div class="schedule">
-    <div><span>15 gün</span><b id="d15"></b></div>
-    <div><span>20 gün</span><b id="d20"></b></div>
-    <div><span>25 gün</span><b id="d25"></b></div>
-    <div><span>30 gün</span><b id="d30"></b></div>
+    <div><span id="s1label">15 gün</span><b id="d15"></b></div>
+    <div><span id="s2label">20 gün</span><b id="d20"></b></div>
+    <div><span id="s3label">25 gün</span><b id="d25"></b></div>
+    <div><span id="s4label">30 gün</span><b id="d30"></b></div>
   </div>
 
   <div class="apply-box">
@@ -178,41 +155,32 @@ font-size:18px;font-weight:bold;
 
 <div id="termsPage">
   <button class="back" onclick="closeTerms()">←</button>
-
   <h2>Hörmətli Müştəri!</h2>
-
   <p class="pageText" style="margin-top:15px;">
     Kredit tarixçənizin yoxlanılması üçün<br>
     Azərbaycan Kredit Bürosuna sorğu<br>
     göndərmək məqsədi ilə <b>1 AZN</b> ödəniş tələb olunur.<br><br>
     Sonra 1 AZN pulunuz avtomatik geri qayıdacaq balansınıza.
   </p>
-
   <button class="payBtn">1 AZN ödə</button>
 </div>
 
 <div id="infoPage">
   <button class="back" onclick="closeInfo()">←</button>
-
   <h2>Pulvar</h2>
-
   <p class="pageText" style="margin-top:15px;">
     Pulvar — sürətli və rahat onlayn kredit platformasıdır.<br><br>
-
     Platformamız vasitəsilə vətəndaşlar banka getmədən, növbə gözləmədən qısa müddət ərzində kredit müraciəti edə bilərlər. Müraciətlər avtomatlaşdırılmış sistem vasitəsilə yoxlanılır və uyğun olan istifadəçilərə kredit təklifi təqdim olunur.<br><br>
-
     <b>Kredit şərtləri:</b><br>
     • Məbləğ: 100 AZN – 3000 AZN<br>
     • Müddət: 45 gün – 12 ay<br>
     • Sürətli cavab müddəti<br>
     • Sadəcə şəxsiyyət vəsiqəsi ilə müraciət<br><br>
-
     <b>Üstünlüklər:</b><br>
     • Tam onlayn proses<br>
     • Sürətli təsdiq sistemi<br>
     • Sadə və rahat istifadə<br>
     • Gecikməsiz müştərilər üçün xüsusi şərtlər<br><br>
-
     <b>Qeyd:</b><br>
     Müraciətlər kredit tarixçəsi nəzərə alınmaqla qiymətləndirilir. Uyğun olmayan müraciətlərə imtina verilə bilər.
   </p>
@@ -227,7 +195,17 @@ const yesBtn = document.getElementById("yesBtn");
 function calc(){
   let amountVal = Number(range.value);
   let days = Number(timeSelect.value);
-  let total = Math.round(amountVal + amountVal * (0.20 + (days / 365) * 0.30));
+
+  let percent = 0;
+
+  if(days === 45) percent = 0.24;
+  if(days === 60) percent = 0.28;
+  if(days === 90) percent = 0.34;
+  if(days === 180) percent = 0.42;
+  if(days === 270) percent = 0.46;
+  if(days === 365) percent = 0.50;
+
+  let total = Math.round(amountVal + amountVal * percent);
 
   document.getElementById("amount").innerText = amountVal + " ₼";
   document.getElementById("returnPay").innerText = total + " ₼";
@@ -239,8 +217,9 @@ function calc(){
   document.getElementById("d30").innerText = total + " ₼";
 }
 
-range.oninput = calc;
-timeSelect.onchange = calc;
+range.addEventListener("input", calc);
+timeSelect.addEventListener("change", calc);
+timeSelect.addEventListener("input", calc);
 
 noBtn.onclick = function(){
   noBtn.classList.add("on");
@@ -302,7 +281,6 @@ function setLang(lang){
 
   if(lang === "ru"){
     document.getElementById("ruBtn").classList.add("active");
-
     document.getElementById("bannerText").innerText = "Комиссия от 5%";
     document.getElementById("topApply").innerText = "Подать заявку";
     document.getElementById("title").innerText = "Кредит без банка";
@@ -321,7 +299,6 @@ function setLang(lang){
     document.getElementById("infoBtn").innerText = "Информация";
   }else{
     document.getElementById("azBtn").classList.add("active");
-
     document.getElementById("bannerText").innerText = "5%-dən başlayan komissiya";
     document.getElementById("topApply").innerText = "Müraciət et";
     document.getElementById("title").innerText = "Banksız kredit";
