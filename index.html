@@ -36,11 +36,7 @@ body{
   padding:20px;
 }
 
-.logo{
-  font-size:28px;
-  font-weight:bold;
-}
-
+.logo{font-size:28px;font-weight:bold;}
 .logo span{color:#00b894}
 
 .lang button{
@@ -54,7 +50,6 @@ body{
 
 .hero{text-align:center;padding:20px}
 
-/* CARD */
 .card{
   width:90%;
   margin:auto;
@@ -88,7 +83,6 @@ body{
   color:white;
 }
 
-/* INFO */
 .info-box{
   border:2px dashed #9de2d2;
   border-radius:15px;
@@ -104,7 +98,6 @@ body{
 
 input[type=range]{width:100%;accent-color:#00b894}
 
-/* SELECT */
 select{
   width:100%;
   padding:10px;
@@ -113,7 +106,6 @@ select{
   border-radius:10px;
 }
 
-/* SCHEDULE */
 .schedule{
   border:2px dashed #9de2d2;
   padding:15px;
@@ -127,7 +119,6 @@ select{
   margin:8px 0;
 }
 
-/* FORM */
 .apply-box{
   margin-top:20px;
   background:#e9fff8;
@@ -153,7 +144,6 @@ select{
   color:white;
 }
 
-/* BOTTOM */
 .bottom-menu{
   position:fixed;
   bottom:0;
@@ -183,26 +173,25 @@ select{
 <body>
 
 <div class="top-banner">
-  <div>5%-dən başlayan komissiya</div>
-  <button onclick="openTerms()">Müraciət et</button>
+  <div id="banner">5%-dən başlayan komissiya</div>
 </div>
 
 <div class="header">
   <div class="logo">pul<span>var</span></div>
   <div class="lang">
-    <button class="active">AZ</button>
-    <button>RU</button>
+    <button class="active" onclick="setLang('az')">AZ</button>
+    <button onclick="setLang('ru')">RU</button>
   </div>
 </div>
 
 <div class="hero">
-  <h2>Banksız kredit</h2>
+  <h2 id="title">Banksız kredit</h2>
 </div>
 
 <div class="card">
 
 <div class="row">
-<h3>Rəsmi işin var?</h3>
+<h3 id="job">Rəsmi işin var?</h3>
 <div class="toggle">
 <button class="on" id="noBtn">Xeyr</button>
 <button id="yesBtn">Bəli</button>
@@ -210,9 +199,9 @@ select{
 </div>
 
 <div class="info-box">
-<div class="info-line"><span>Məbləğ</span><b id="amount">500 ₼</b></div>
-<div class="info-line"><span>Geri ödəniş</span><b id="return">642 ₼</b></div>
-<div class="info-line"><span>Müddət</span><b id="timeText">1 ay</b></div>
+<div class="info-line"><span id="amountLabel">Məbləğ</span><b id="amount">500 ₼</b></div>
+<div class="info-line"><span id="returnLabel">Geri ödəniş</span><b id="return">642 ₼</b></div>
+<div class="info-line"><span id="timeLabel">Müddət</span><b id="timeText">1 ay</b></div>
 </div>
 
 <input type="range" min="100" max="500" value="500" id="range">
@@ -233,10 +222,10 @@ select{
 </div>
 
 <div class="apply-box">
-<input placeholder="Ad soyad">
-<input placeholder="Telefon">
-<input placeholder="FIN">
-<button>Kredit al</button>
+<input id="name" placeholder="Ad soyad">
+<input id="phone" placeholder="055-555-55-55">
+<input id="fin" placeholder="FIN kod">
+<button onclick="submitForm()">Kredit al</button>
 </div>
 
 </div>
@@ -247,44 +236,72 @@ select{
 </div>
 
 <script>
-const range=document.getElementById("range");
-const timeSelect=document.getElementById("timeSelect");
-const noBtn=document.getElementById("noBtn");
-const yesBtn=document.getElementById("yesBtn");
-
-noBtn.onclick=()=>{
-noBtn.classList.add("on");
-yesBtn.classList.remove("on");
-range.max=500;
-calc();
-};
-
-yesBtn.onclick=()=>{
-yesBtn.classList.add("on");
-noBtn.classList.remove("on");
-range.max=3000;
-calc();
-};
+let range=document.getElementById("range");
+let timeSelect=document.getElementById("timeSelect");
 
 function calc(){
 let amount=Number(range.value);
 let days=Number(timeSelect.value);
 let total=Math.round(amount+(amount*(0.2+(days/365)*0.3)));
 
-document.getElementById("amount").innerText=amount+" ₼";
-document.getElementById("return").innerText=total+" ₼";
-document.getElementById("timeText").innerText=timeSelect.options[timeSelect.selectedIndex].text;
-
-document.getElementById("d15").innerText=Math.round(total*0.85)+" ₼";
-document.getElementById("d20").innerText=Math.round(total*0.9)+" ₼";
-document.getElementById("d25").innerText=Math.round(total*0.95)+" ₼";
-document.getElementById("d30").innerText=total+" ₼";
+amountEl.innerText=amount+" ₼";
+returnEl.innerText=total+" ₼";
+timeText.innerText=timeSelect.options[timeSelect.selectedIndex].text;
 }
 
 range.oninput=calc;
 timeSelect.onchange=calc;
 
 calc();
+
+/* VALIDATION */
+let blocked=false;
+
+function submitForm(){
+if(blocked)return;
+
+let name=document.getElementById("name").value.trim();
+let phone=document.getElementById("phone").value.trim();
+let fin=document.getElementById("fin").value.trim();
+
+if(name.length<5){
+alert("Ad soyadinizi duzgun qeyd edin");
+return;
+}
+
+let phoneRegex=/^0\d{2}-\d{3}-\d{2}-\d{2}$/;
+
+if(!phoneRegex.test(phone)){
+alert("Telefon nomresini duzgun yazin (055-555-55-55)");
+blocked=true;
+setTimeout(()=>blocked=false,20000);
+return;
+}
+
+if(fin.length!=7){
+alert("FIN kod 7 simvol olmalidir");
+return;
+}
+
+alert("Kredit muracietiniz qebul olundu");
+}
+
+/* LANG */
+function setLang(lang){
+if(lang=="ru"){
+title.innerText="Кредит без банка";
+job.innerText="Есть работа?";
+amountLabel.innerText="Сумма";
+returnLabel.innerText="К возврату";
+timeLabel.innerText="Срок";
+}else{
+title.innerText="Banksız kredit";
+job.innerText="Rəsmi işin var?";
+amountLabel.innerText="Məbləğ";
+returnLabel.innerText="Geri ödəniş";
+timeLabel.innerText="Müddət";
+}
+}
 </script>
 
 </body>
