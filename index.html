@@ -9,29 +9,27 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
 
 body{
-  background:#0f0f0f;
-  color:#f5d76e;
+  background:#f4fffc;
+  color:#111827;
   padding-bottom:90px;
 }
 
-/* HEADER */
 .top-banner{
-  background:linear-gradient(90deg,#b8962e,#f5d76e);
-  color:#111;
+  background:linear-gradient(90deg,#00796b,#00b894);
+  color:white;
   padding:14px;
   display:flex;
   justify-content:space-between;
 }
 
 .top-banner button{
-  background:#111;
-  color:#f5d76e;
+  background:white;
+  color:#00796b;
   border:none;
   padding:10px 16px;
   border-radius:20px;
 }
 
-/* LOGO */
 .header{
   display:flex;
   justify-content:space-between;
@@ -43,7 +41,7 @@ body{
   font-weight:bold;
 }
 
-.logo span{color:#f5d76e}
+.logo span{color:#00b894}
 
 .lang button{
   padding:8px 12px;
@@ -52,19 +50,18 @@ body{
   margin-left:5px;
 }
 
-.active{background:#f5d76e;color:#111}
+.active{background:#111;color:white}
 
-/* HERO */
 .hero{text-align:center;padding:20px}
 
 /* CARD */
 .card{
   width:90%;
   margin:auto;
-  background:#1a1a1a;
+  background:white;
   padding:20px;
   border-radius:20px;
-  border:2px solid #f5d76e;
+  border:2px solid #b8eee1;
 }
 
 .row{
@@ -74,7 +71,7 @@ body{
 }
 
 .toggle{
-  background:#222;
+  background:#e5f5f0;
   padding:5px;
   border-radius:15px;
 }
@@ -83,17 +80,17 @@ body{
   border:none;
   padding:10px 15px;
   border-radius:10px;
-  color:#aaa;
+  color:#777;
 }
 
 .toggle .on{
-  background:#f5d76e;
-  color:#111;
+  background:#00b894;
+  color:white;
 }
 
 /* INFO */
 .info-box{
-  border:2px dashed #f5d76e;
+  border:2px dashed #9de2d2;
   border-radius:15px;
   padding:15px;
   margin:15px 0;
@@ -105,23 +102,20 @@ body{
   margin:10px 0;
 }
 
-/* RANGE */
-input[type=range]{width:100%;accent-color:#f5d76e}
+input[type=range]{width:100%;accent-color:#00b894}
 
 /* SELECT */
 select{
   width:100%;
   padding:10px;
   margin-top:10px;
-  background:#111;
-  color:#f5d76e;
-  border:2px solid #f5d76e;
+  border:2px solid #b8eee1;
   border-radius:10px;
 }
 
 /* SCHEDULE */
 .schedule{
-  border:2px dashed #f5d76e;
+  border:2px dashed #9de2d2;
   padding:15px;
   border-radius:15px;
   margin-top:20px;
@@ -136,15 +130,16 @@ select{
 /* FORM */
 .apply-box{
   margin-top:20px;
+  background:#e9fff8;
+  padding:15px;
+  border-radius:15px;
 }
 
 .apply-box input{
   width:100%;
   padding:12px;
   margin:5px 0;
-  background:#111;
-  border:2px solid #f5d76e;
-  color:#f5d76e;
+  border:2px solid #b8eee1;
   border-radius:10px;
 }
 
@@ -154,8 +149,8 @@ select{
   margin-top:10px;
   border:none;
   border-radius:12px;
-  background:linear-gradient(90deg,#b8962e,#f5d76e);
-  color:#111;
+  background:#00b894;
+  color:white;
 }
 
 /* BOTTOM */
@@ -165,22 +160,22 @@ select{
   width:100%;
   display:grid;
   grid-template-columns:1fr 1fr;
-  background:#111;
+  background:white;
   padding:10px;
 }
 
 .bottom-menu a{
   text-align:center;
   padding:12px;
-  border:2px solid #f5d76e;
-  color:#f5d76e;
+  border:2px solid #b8eee1;
+  color:#00b894;
   border-radius:10px;
   text-decoration:none;
 }
 
 .bottom-menu a:last-child{
-  background:#f5d76e;
-  color:#111;
+  background:#00b894;
+  color:white;
 }
 </style>
 </head>
@@ -241,7 +236,7 @@ select{
 <input placeholder="Ad soyad">
 <input placeholder="Telefon">
 <input placeholder="FIN">
-<button onclick="alert('Müraciət göndərildi')">Kredit al</button>
+<button>Kredit al</button>
 </div>
 
 </div>
@@ -252,19 +247,19 @@ select{
 </div>
 
 <script>
-const range = document.getElementById("range");
-const timeSelect = document.getElementById("timeSelect");
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
+const range=document.getElementById("range");
+const timeSelect=document.getElementById("timeSelect");
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
 
-noBtn.onclick = ()=>{
+noBtn.onclick=()=>{
 noBtn.classList.add("on");
 yesBtn.classList.remove("on");
 range.max=500;
 calc();
 };
 
-yesBtn.onclick = ()=>{
+yesBtn.onclick=()=>{
 yesBtn.classList.add("on");
 noBtn.classList.remove("on");
 range.max=3000;
