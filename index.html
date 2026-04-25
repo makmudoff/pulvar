@@ -1,12 +1,12 @@
-<!-- YALNIZ STYLE HISSƏSI DƏYİŞDİRİLİB, QALANI EYNİDİR -->
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulvar Kredit</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial, sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
 
 body{
   background:#0f0f0f;
@@ -18,120 +18,279 @@ body{
 .top-banner{
   background:linear-gradient(90deg,#b8962e,#f5d76e);
   color:#111;
-  padding:14px 18px;
+  padding:14px;
   display:flex;
   justify-content:space-between;
-  align-items:center;
 }
 
 .top-banner button{
   background:#111;
   color:#f5d76e;
   border:none;
-  padding:11px 18px;
-  border-radius:25px;
+  padding:10px 16px;
+  border-radius:20px;
 }
 
 /* LOGO */
-.logo{
-  font-size:34px;
-  font-weight:900;
-  color:#f5d76e;
+.header{
+  display:flex;
+  justify-content:space-between;
+  padding:20px;
 }
+
+.logo{
+  font-size:28px;
+  font-weight:bold;
+}
+
+.logo span{color:#f5d76e}
+
+.lang button{
+  padding:8px 12px;
+  border:none;
+  border-radius:10px;
+  margin-left:5px;
+}
+
+.active{background:#f5d76e;color:#111}
+
+/* HERO */
+.hero{text-align:center;padding:20px}
 
 /* CARD */
 .card{
   width:90%;
-  max-width:520px;
-  margin:25px auto;
+  margin:auto;
   background:#1a1a1a;
-  border:2px solid #f5d76e;
-  border-radius:28px;
-  padding:25px;
-  box-shadow:0 0 25px rgba(245,215,110,0.2);
-}
-
-/* INFO BOX */
-.info-box{
-  border:2px dashed #f5d76e;
-  border-radius:22px;
   padding:20px;
-}
-
-/* RANGE */
-input[type=range]{
-  accent-color:#f5d76e;
-}
-
-/* SELECT */
-.select-box select{
+  border-radius:20px;
   border:2px solid #f5d76e;
-  background:#111;
-  color:#f5d76e;
 }
 
-/* SCHEDULE */
-.schedule{
-  border:2px dashed #f5d76e;
-  border-radius:22px;
-  padding:20px;
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-/* FORM */
-.apply-box{
-  background:#111;
-}
-
-.apply-box input{
-  border:2px solid #f5d76e;
-  background:#1a1a1a;
-  color:#f5d76e;
-}
-
-/* BUTTON */
-.apply-box button{
-  background:linear-gradient(90deg,#b8962e,#f5d76e);
-  color:#111;
-  font-weight:bold;
-}
-
-/* BOTTOM MENU */
-.bottom-menu{
-  background:#111;
-}
-
-.bottom-menu a{
-  border:2px solid #f5d76e;
-  color:#f5d76e;
-}
-
-.bottom-menu a:last-child{
-  background:linear-gradient(90deg,#b8962e,#f5d76e);
-  color:#111;
-}
-
-/* TERMS */
-.terms-page{
-  background:#0f0f0f;
-  color:#f5d76e;
-}
-
-.pay-btn{
-  background:linear-gradient(90deg,#b8962e,#f5d76e);
-  color:#111;
-}
-
-/* TOGGLE */
 .toggle{
   background:#222;
+  padding:5px;
+  border-radius:15px;
 }
 
 .toggle button{
-  color:#999;
+  border:none;
+  padding:10px 15px;
+  border-radius:10px;
+  color:#aaa;
 }
 
 .toggle .on{
   background:#f5d76e;
   color:#111;
 }
+
+/* INFO */
+.info-box{
+  border:2px dashed #f5d76e;
+  border-radius:15px;
+  padding:15px;
+  margin:15px 0;
+}
+
+.info-line{
+  display:flex;
+  justify-content:space-between;
+  margin:10px 0;
+}
+
+/* RANGE */
+input[type=range]{width:100%;accent-color:#f5d76e}
+
+/* SELECT */
+select{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  background:#111;
+  color:#f5d76e;
+  border:2px solid #f5d76e;
+  border-radius:10px;
+}
+
+/* SCHEDULE */
+.schedule{
+  border:2px dashed #f5d76e;
+  padding:15px;
+  border-radius:15px;
+  margin-top:20px;
+}
+
+.schedule div{
+  display:flex;
+  justify-content:space-between;
+  margin:8px 0;
+}
+
+/* FORM */
+.apply-box{
+  margin-top:20px;
+}
+
+.apply-box input{
+  width:100%;
+  padding:12px;
+  margin:5px 0;
+  background:#111;
+  border:2px solid #f5d76e;
+  color:#f5d76e;
+  border-radius:10px;
+}
+
+.apply-box button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(90deg,#b8962e,#f5d76e);
+  color:#111;
+}
+
+/* BOTTOM */
+.bottom-menu{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:#111;
+  padding:10px;
+}
+
+.bottom-menu a{
+  text-align:center;
+  padding:12px;
+  border:2px solid #f5d76e;
+  color:#f5d76e;
+  border-radius:10px;
+  text-decoration:none;
+}
+
+.bottom-menu a:last-child{
+  background:#f5d76e;
+  color:#111;
+}
 </style>
+</head>
+
+<body>
+
+<div class="top-banner">
+  <div>5%-dən başlayan komissiya</div>
+  <button onclick="openTerms()">Müraciət et</button>
+</div>
+
+<div class="header">
+  <div class="logo">pul<span>var</span></div>
+  <div class="lang">
+    <button class="active">AZ</button>
+    <button>RU</button>
+  </div>
+</div>
+
+<div class="hero">
+  <h2>Banksız kredit</h2>
+</div>
+
+<div class="card">
+
+<div class="row">
+<h3>Rəsmi işin var?</h3>
+<div class="toggle">
+<button class="on" id="noBtn">Xeyr</button>
+<button id="yesBtn">Bəli</button>
+</div>
+</div>
+
+<div class="info-box">
+<div class="info-line"><span>Məbləğ</span><b id="amount">500 ₼</b></div>
+<div class="info-line"><span>Geri ödəniş</span><b id="return">642 ₼</b></div>
+<div class="info-line"><span>Müddət</span><b id="timeText">1 ay</b></div>
+</div>
+
+<input type="range" min="100" max="500" value="500" id="range">
+
+<select id="timeSelect">
+<option value="45">45 gün</option>
+<option value="60">2 ay</option>
+<option value="90">3 ay</option>
+<option value="180">6 ay</option>
+<option value="365">12 ay</option>
+</select>
+
+<div class="schedule">
+<div><span>15 gün</span><b id="d15">546 ₼</b></div>
+<div><span>20 gün</span><b id="d20">578 ₼</b></div>
+<div><span>25 gün</span><b id="d25">610 ₼</b></div>
+<div><span>30 gün</span><b id="d30">642 ₼</b></div>
+</div>
+
+<div class="apply-box">
+<input placeholder="Ad soyad">
+<input placeholder="Telefon">
+<input placeholder="FIN">
+<button onclick="alert('Müraciət göndərildi')">Kredit al</button>
+</div>
+
+</div>
+
+<div class="bottom-menu">
+<a href="#">Məlumat</a>
+<a href="#">Kredit al</a>
+</div>
+
+<script>
+const range = document.getElementById("range");
+const timeSelect = document.getElementById("timeSelect");
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
+noBtn.onclick = ()=>{
+noBtn.classList.add("on");
+yesBtn.classList.remove("on");
+range.max=500;
+calc();
+};
+
+yesBtn.onclick = ()=>{
+yesBtn.classList.add("on");
+noBtn.classList.remove("on");
+range.max=3000;
+calc();
+};
+
+function calc(){
+let amount=Number(range.value);
+let days=Number(timeSelect.value);
+let total=Math.round(amount+(amount*(0.2+(days/365)*0.3)));
+
+document.getElementById("amount").innerText=amount+" ₼";
+document.getElementById("return").innerText=total+" ₼";
+document.getElementById("timeText").innerText=timeSelect.options[timeSelect.selectedIndex].text;
+
+document.getElementById("d15").innerText=Math.round(total*0.85)+" ₼";
+document.getElementById("d20").innerText=Math.round(total*0.9)+" ₼";
+document.getElementById("d25").innerText=Math.round(total*0.95)+" ₼";
+document.getElementById("d30").innerText=total+" ₼";
+}
+
+range.oninput=calc;
+timeSelect.onchange=calc;
+
+calc();
+</script>
+
+</body>
+</html>
