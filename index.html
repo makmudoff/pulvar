@@ -71,16 +71,9 @@ border-radius:10px;text-decoration:none;
 
 .bottom-menu a:last-child{background:#00b894;color:white;}
 
-/* TERMS */
 #termsPage{
 position:fixed;inset:0;background:white;
 display:none;padding:20px;z-index:9999;
-}
-
-/* MELUMAT */
-#infoPage{
-position:fixed;inset:0;background:white;
-display:none;padding:20px;z-index:9999;overflow:auto;
 }
 </style>
 </head>
@@ -143,7 +136,7 @@ display:none;padding:20px;z-index:9999;overflow:auto;
 </div>
 
 <div class="bottom-menu">
-<a href="#" onclick="openInfo()">Məlumat</a>
+<a href="#">Məlumat</a>
 <a href="#" onclick="submitForm()">Kredit al</a>
 </div>
 
@@ -166,77 +159,75 @@ Sonra 1 AZN pulunuz avtomatik geri qayıdacaq balansınıza.
 
 </div>
 
-<!-- MELUMAT PAGE -->
-<div id="infoPage">
-<button onclick="closeInfo()">←</button>
-
-<h2 style="margin-top:10px;">Pulvar</h2>
-
-<p style="margin-top:15px;line-height:1.6;">
-Pulvar — sürətli və rahat onlayn kredit platformasıdır.<br><br>
-
-Platformamız vasitəsilə vətəndaşlar banka getmədən, növbə gözləmədən qısa müddət ərzində kredit müraciəti edə bilərlər. Müraciətlər avtomatlaşdırılmış sistem vasitəsilə yoxlanılır və uyğun olan istifadəçilərə kredit təklifi təqdim olunur.<br><br>
-
-<b>Kredit şərtləri:</b><br>
-• Məbləğ: 100 AZN – 3000 AZN<br>
-• Müddət: 45 gün – 12 ay<br>
-• Sürətli cavab müddəti<br>
-• Sadəcə şəxsiyyət vəsiqəsi ilə müraciət<br><br>
-
-<b>Üstünlüklər:</b><br>
-• Tam onlayn proses<br>
-• Sürətli təsdiq sistemi<br>
-• Sadə və rahat istifadə<br>
-• Gecikməsiz müştərilər üçün xüsusi şərtlər<br><br>
-
-<b>Qeyd:</b><br>
-Müraciətlər kredit tarixçəsi nəzərə alınmaqla qiymətləndirilir. Uyğun olmayan müraciətlərə imtina verilə bilər.
-</p>
-
-</div>
-
 <script>
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
 const range=document.getElementById("range");
 const timeSelect=document.getElementById("timeSelect");
+
+noBtn.onclick=()=>{
+noBtn.classList.add("on");
+yesBtn.classList.remove("on");
+range.max=500;
+calc();
+};
+
+yesBtn.onclick=()=>{
+yesBtn.classList.add("on");
+noBtn.classList.remove("on");
+range.max=3000;
+calc();
+};
 
 function calc(){
 let amount=Number(range.value);
 let days=Number(timeSelect.value);
 let total=Math.round(amount+(amount*(0.2+(days/365)*0.3)));
 
-amount.innerText=amount+" ₼";
-return.innerText=total+" ₼";
-timeText.innerText=timeSelect.options[timeSelect.selectedIndex].text;
+document.getElementById("amount").innerText=amount+" ₼";
+document.getElementById("return").innerText=total+" ₼";
+document.getElementById("timeText").innerText=timeSelect.options[timeSelect.selectedIndex].text;
 
-d15.innerText=Math.round(total*0.85)+" ₼";
-d20.innerText=Math.round(total*0.9)+" ₼";
-d25.innerText=Math.round(total*0.95)+" ₼";
-d30.innerText=total+" ₼";
+document.getElementById("d15").innerText=Math.round(total*0.85)+" ₼";
+document.getElementById("d20").innerText=Math.round(total*0.9)+" ₼";
+document.getElementById("d25").innerText=Math.round(total*0.95)+" ₼";
+document.getElementById("d30").innerText=total+" ₼";
 }
 
 range.oninput=calc;
 timeSelect.onchange=calc;
 calc();
 
-/* TERMS */
-function openTerms(){termsPage.style.display="block";}
-function closeTerms(){termsPage.style.display="none";}
-
-/* INFO */
-function openInfo(){infoPage.style.display="block";}
-function closeInfo(){infoPage.style.display="none";}
-
 /* VALIDATION */
 function submitForm(){
-let name=nameInput.value.trim();
-let phone=phoneInput.value.trim();
-let fin=finInput.value.trim();
+let name=document.getElementById("name").value.trim();
+let phone=document.getElementById("phone").value.trim();
+let fin=document.getElementById("fin").value.trim();
 
-if(name.length<5){alert("Ad soyad düzgün yazılmayıb");return;}
-if(phone.length<9){alert("Telefon nömrəsini düzgün yazın");return;}
-if(fin.length!=7){alert("FIN kod səhvdir");return;}
+if(name.length<5){
+alert("Ad soyad düzgün yazılmayıb");
+return;
+}
+
+if(phone.length<9){
+alert("Telefon nömrəsini düzgün daxil edin");
+return;
+}
+
+if(fin.length!=7){
+alert("FIN kod səhvdir");
+return;
+}
 
 openTerms();
+}
+
+function openTerms(){
+document.getElementById("termsPage").style.display="block";
+}
+
+function closeTerms(){
+document.getElementById("termsPage").style.display="none";
 }
 </script>
 
