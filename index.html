@@ -2,144 +2,63 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Casino Bonus</title>
+<title>Live Code Editor</title>
 
 <style>
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background: radial-gradient(circle at top, #1a0033, #000);
+font-family:Arial;
+display:flex;
+height:100vh;
+background:#111;
 color:white;
 }
 
-.header{
-text-align:center;
-padding:40px 20px;
-}
-
-.header h1{
-font-size:40px;
-color:#ffcc00;
-text-shadow:0 0 20px #ffcc00;
-}
-
-.header p{
-font-size:18px;
-opacity:0.8;
-}
-
-.bonus{
-text-align:center;
-margin-top:20px;
-}
-
-.bonus-box{
-display:inline-block;
-background:linear-gradient(135deg,#ff0066,#ffcc00);
-padding:30px;
-border-radius:20px;
-box-shadow:0 0 25px #ff0066;
-}
-
-.bonus-box h2{
-font-size:30px;
-margin:0;
-}
-
-.bonus-box span{
-font-size:50px;
-font-weight:bold;
-display:block;
-margin:10px 0;
-}
-
-.btn{
-margin-top:20px;
-padding:15px 40px;
+textarea{
+width:50%;
+height:100%;
+background:#1e1e1e;
+color:#00ff99;
 border:none;
-border-radius:30px;
-background:#00ff99;
-color:black;
-font-weight:bold;
-cursor:pointer;
-font-size:18px;
-transition:0.3s;
-}
-
-.btn:hover{
-background:#00cc77;
-transform:scale(1.05);
-}
-
-.cards{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-margin-top:40px;
-gap:20px;
-}
-
-.card{
-background:#111;
-padding:20px;
-border-radius:15px;
-width:200px;
-text-align:center;
-box-shadow:0 0 10px #ffcc00;
-}
-
-.card h3{
-color:#ffcc00;
-}
-
-.footer{
-text-align:center;
-margin-top:50px;
-opacity:0.6;
+outline:none;
+padding:15px;
 font-size:14px;
-padding-bottom:20px;
+resize:none;
+}
+
+iframe{
+width:50%;
+height:100%;
+border:none;
+background:white;
 }
 </style>
-
 </head>
 
 <body>
 
-<div class="header">
-<h1>🔥 MEGA CASINO BONUS 🔥</h1>
-<p>Yeni üzvlər üçün xüsusi kampaniya</p>
-</div>
+<textarea id="code" oninput="run()">
+<!DOCTYPE html>
+<html>
+<body>
 
-<div class="bonus">
-<div class="bonus-box">
-<h2>Qeydiyyat Bonusu</h2>
-<span>+200%</span>
-<p>ilk depozitə bonus</p>
-<button class="btn">İndi Qoşul</button>
-</div>
-</div>
+<h1 style="color:red;">Salam Dünya</h1>
+<p>Burada kod yaz</p>
 
-<div class="cards">
-<div class="card">
-<h3>🎰 Slotlar</h3>
-<p>Minlərlə oyun</p>
-</div>
+</body>
+</html>
+</textarea>
 
-<div class="card">
-<h3>⚡ Sürətli Ödəniş</h3>
-<p>1-5 dəqiqə</p>
-</div>
+<iframe id="output"></iframe>
 
-<div class="card">
-<h3>🎁 Hədiyyələr</h3>
-<p>Gündəlik bonuslar</p>
-</div>
-</div>
+<script>
+function run(){
+document.getElementById("output").srcdoc =
+document.getElementById("code").value;
+}
 
-<div class="footer">
-© 2026 Casino Promo Page
-</div>
+run();
+</script>
 
 </body>
 </html>
