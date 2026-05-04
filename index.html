@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GOLD AZE </title>
+<title>GOLD AZE PREMIUM</title>
 
 <style>
 
@@ -42,6 +42,16 @@ body::before{
     to{ text-shadow:0 0 20px gold,0 0 40px gold,0 0 60px gold; }
 }
 
+/* BONUS TEXT */
+.top-text{
+    margin-top:15px;
+    font-size:20px;
+    line-height:38px;
+    color:#ffd700;
+    font-weight:bold;
+}
+
+/* WHATSAPP */
 .whatsapp{
     margin-top:25px;
     font-size:22px;
@@ -131,6 +141,14 @@ button:hover{ transform:scale(1.05); }
 
 <div class="logo">💎 GOLD AZE 💎</div>
 
+<!-- BONUS TEXT BURADA -->
+<div class="top-text">
+🔥 5 ₼ kod alana 5 ₼ kod hədiyyə <br>
+🔥 10 ₼ kod alana 7 ₼ kod hədiyyə <br>
+🔥 20 ₼ kod alana 10 ₼ kod hədiyyə
+</div>
+
+<!-- WHATSAPP -->
 <div class="whatsapp">
 
 <div class="online">🟢 WhatsApp Online</div><br>
@@ -228,11 +246,6 @@ function checkCode(){
     },1500);
 
 }
-
-setInterval(() => {
-    let random = Math.floor(Math.random() * 80) + 300;
-    document.getElementById("users").innerText = random;
-},3000);
 
 </script>
 
