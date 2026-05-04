@@ -3,251 +3,410 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PULVAR Kredit</title>
+<title>GOLD AZE PREMIUM</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#ffffff;color:#000}
-.container{max-width:420px;margin:auto;padding:20px}
-.logo{text-align:center;font-size:32px;font-weight:900;margin-top:20px}
-.subtitle{text-align:center;margin-bottom:20px}
 
-.lang{display:flex;justify-content:flex-end;gap:8px}
-.lang button{border:1px solid #000;background:none;color:#000;padding:6px 10px;border-radius:15px}
+body{
+    margin:0;
+    padding:0;
+    background:black;
+    font-family:Arial;
+    color:white;
+    overflow-x:hidden;
+    text-align:center;
+}
 
-.card{background:#f2f2f2;border-radius:25px;padding:20px}
-.top{display:flex;justify-content:space-between;font-size:22px;font-weight:900}
-input[type=range]{width:100%;margin:25px 0}
-.row{display:flex;justify-content:space-between;padding:12px 0;border-top:2px solid #000;font-weight:900}
-.info{margin-top:15px;font-size:15px}
+/* Arxa Neon Effekt */
 
-.btn{width:100%;margin-top:20px;padding:18px;border:none;border-radius:30px;font-size:20px;font-weight:900;background:linear-gradient(90deg,#00ffcc,#00ccff);color:#000}
+body::before{
+    content:"";
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:
+    radial-gradient(circle at top, rgba(255,215,0,0.15), transparent 40%),
+    radial-gradient(circle at bottom, rgba(0,255,100,0.12), transparent 40%);
+    z-index:-1;
+}
 
-.section{display:none;background:#fff;color:#000;padding:20px;border-radius:20px;margin-top:20px}
+/* GOLD AZE */
 
-input{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #ccc}
+.logo{
+    margin-top:20px;
+    font-size:42px;
+    font-weight:bold;
+    color:gold;
+    text-shadow:
+    0 0 10px gold,
+    0 0 20px gold,
+    0 0 40px gold;
+    animation:glow 2s infinite alternate;
+}
 
-.error{color:red;font-weight:900}
-.wait{text-align:center;font-size:20px;font-weight:900}
+@keyframes glow{
+    from{
+        text-shadow:0 0 10px gold;
+    }
+    to{
+        text-shadow:
+        0 0 20px gold,
+        0 0 40px gold,
+        0 0 60px gold;
+    }
+}
 
-.payBtn{background:#00aa55;color:#fff;border:none;padding:15px;border-radius:12px;margin-top:10px;font-weight:900}
+.vip{
+    color:#00ff99;
+    font-size:22px;
+    margin-top:5px;
+}
 
-.live{background:#f2f2f2;margin-top:20px;padding:15px;border-radius:20px}
-.liveitem{background:#fff;color:#000;margin:5px 0;padding:8px;border-radius:10px;font-weight:700}
+.top-text{
+    margin-top:20px;
+    font-size:20px;
+    line-height:38px;
+    color:#ffd700;
+    font-weight:bold;
+}
 
-.stat{display:flex;justify-content:space-between;margin-top:10px}
-.stat div{background:#fff;color:#000;padding:10px;border-radius:10px;width:48%;text-align:center;font-weight:900}
+.info{
+    margin-top:20px;
+    line-height:32px;
+    font-size:18px;
+    color:#ccc;
+}
 
-.about{margin-top:20px;font-size:14px}
+/* Aktiv İstifadəçi */
 
-.footer{text-align:center;margin-top:20px;font-size:14px}
+.users{
+    margin-top:20px;
+    font-size:20px;
+    color:#00ff88;
+    font-weight:bold;
+}
+
+/* Keypad */
+
+.container{
+    margin-top:30px;
+}
+
+.screen{
+    width:320px;
+    height:70px;
+    margin:auto;
+    background:#022b02;
+    border:4px solid #888;
+    border-radius:15px;
+    line-height:70px;
+    font-size:32px;
+    color:#00ff00;
+    letter-spacing:6px;
+    box-shadow:0 0 25px #00ff88;
+    overflow:hidden;
+}
+
+.loading{
+    color:yellow;
+    font-size:22px;
+    margin-top:15px;
+}
+
+.keypad{
+    width:340px;
+    margin:25px auto;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+button{
+    height:75px;
+    border:none;
+    border-radius:18px;
+    font-size:28px;
+    font-weight:bold;
+    cursor:pointer;
+    background:#cfd6e0;
+    box-shadow:0 0 15px rgba(255,255,255,0.2);
+    transition:0.2s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+.ok{
+    background:green;
+    color:white;
+}
+
+.delete{
+    background:red;
+    color:white;
+}
+
+.message{
+    margin-top:15px;
+    font-size:30px;
+    font-weight:bold;
+}
+
+/* Son Qazananlar */
+
+.winners{
+    margin-top:40px;
+    padding:20px;
+    background:rgba(255,255,255,0.05);
+    width:85%;
+    margin-left:auto;
+    margin-right:auto;
+    border-radius:20px;
+    box-shadow:0 0 20px rgba(255,215,0,0.2);
+}
+
+.winners h2{
+    color:gold;
+}
+
+.winner-item{
+    margin-top:12px;
+    color:#00ff88;
+    font-size:18px;
+}
+
+/* WhatsApp */
+
+.whatsapp{
+    margin-top:35px;
+    font-size:22px;
+}
+
+.online{
+    color:#00ff66;
+    font-weight:bold;
+}
+
+.whatsapp a{
+    color:#00ff88;
+    text-decoration:none;
+    font-size:24px;
+    font-weight:bold;
+}
+
+/* Sosial */
+
+.social{
+    margin-top:35px;
+    margin-bottom:50px;
+}
+
+.social a{
+    display:inline-block;
+    margin:10px;
+    padding:15px 25px;
+    border-radius:12px;
+    text-decoration:none;
+    color:white;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.telegram{
+    background:#0088cc;
+}
+
+.instagram{
+    background:#d62976;
+}
+
+/* Watermark */
+
+.watermark{
+    position:fixed;
+    bottom:10px;
+    right:15px;
+    opacity:0.12;
+    font-size:50px;
+    color:gold;
+    font-weight:bold;
+}
+
 </style>
 </head>
 
 <body>
 
+<div class="logo">💎 GOLD AZE 💎</div>
+<div class="vip">🏆 VIP PREMIUM ACCESS</div>
+
+<div class="top-text">
+🔥 5 ₼ kod alana 5 ₼ kod hədiyyə <br>
+🔥 10 ₼ kod alana 7 ₼ kod hədiyyə <br>
+🔥 20 ₼ kod alana 10 ₼ kod hədiyyə
+</div>
+
+<div class="info">
+🔒 Təhlükəsiz giriş sistemi <br>
+⏳ Kod 5 dəqiqə aktivdir <br>
+🎁 Gizli bonus kodları hər gün yenilənir <br>
+🔥 Bu gün 127 nəfər kod aldı
+</div>
+
+<div class="users">
+👤 Aktiv istifadəçilər: <span id="users">348</span>
+</div>
+
 <div class="container">
 
-<div class="lang">
-<button onclick="setLang('az')">AZ</button>
-<button onclick="setLang('ru')">RU</button>
-<button onclick="setLang('tr')">TR</button>
-</div>
+<div class="screen" id="screen"></div>
 
-<div class="logo">PULVAR Kredit</div>
-<div class="subtitle" id="subtitle">Sürətli kredit müraciəti</div>
+<div class="loading" id="loading"></div>
 
-<div class="card">
-<div class="top">
-<span id="choose">Məbləği seçin</span>
-<span><b id="amountText">20</b> ₼</span>
-</div>
+<div class="keypad">
 
-<input type="range" id="amount" min="20" max="220" step="10" value="20">
+<button onclick="addNumber('1')">1</button>
+<button onclick="addNumber('2')">2</button>
+<button onclick="addNumber('3')">3</button>
 
-<div class="row">
-<span>Kreditin məbləği</span>
-<span><b id="amountResult">20</b> ₼</span>
-</div>
+<button onclick="addNumber('4')">4</button>
+<button onclick="addNumber('5')">5</button>
+<button onclick="addNumber('6')">6</button>
 
-<div class="row">
-<span>Kreditin müddəti</span>
-<span>45 gün</span>
-</div>
+<button onclick="addNumber('7')">7</button>
+<button onclick="addNumber('8')">8</button>
+<button onclick="addNumber('9')">9</button>
 
-<div class="row">
-<span>Ödəniş tarixi</span>
-<span id="date"></span>
-</div>
-
-<div class="info" id="tableInfo"></div>
-
-<button class="btn" onclick="openForm()" id="btnMain">Vəsait əldə etmək</button>
-</div>
-
-<div class="section" id="formBox">
-<h3>Məlumatları daxil et</h3>
-<input id="nameInput" placeholder="Ad Soyad">
-<input id="finInput" placeholder="FIN kod">
-<input id="phoneInput" placeholder="Nömrə">
-<button class="btn" onclick="checkForm()" id="btnContinue">Davam et</button>
-<div class="error" id="error"></div>
-</div>
-
-<div class="section wait" id="waitBox">
-<p>Yoxlanılır...</p>
-<p><span id="count">30</span> saniyə gözləyin</p>
-</div>
-
-<div class="section" id="payBox">
-<h3>Hörmətli müştəri!</h3>
-<p id="payText"></p>
-<button class="payBtn" onclick="payNow()">Ödəniş et</button>
-</div>
-
-<div class="live">
-<div id="liveList"></div>
-
-<div class="stat">
-<div>✔ <span id="okCount"></span></div>
-<div>✖ <span id="badCount"></span></div>
-</div>
-</div>
-
-<div class="about">
-<b>Sayt haqqında:</b><br>
-PULVAR.XYZ onlayn kredit müraciəti platformasıdır.
-</div>
-
-<div class="footer">
-PULVAR.XYZ
-</div>
+<button class="delete" onclick="removeNumber()">←</button>
+<button onclick="addNumber('0')">0</button>
+<button class="ok" onclick="checkCode()">OK</button>
 
 </div>
+
+<div class="message" id="message"></div>
+
+</div>
+
+<div class="winners">
+
+<h2>💸 Son Qazananlar</h2>
+
+<div class="winner-item">🟢 Elvin — 145 ₼ qazandı</div>
+<div class="winner-item">🟢 Murad — 320 ₼ qazandı</div>
+<div class="winner-item">🟢 Tural — 95 ₼ qazandı</div>
+<div class="winner-item">🟢 Kamran — 510 ₼ qazandı</div>
+
+</div>
+
+<div class="whatsapp">
+
+<div class="online">🟢 WhatsApp Online</div><br>
+
+Kod almaq üçün WhatsAppda yaz 👇<br><br>
+
+<a href="https://wa.me/212649276900" target="_blank">
+wa.me/+212649276900
+</a>
+
+</div>
+
+<div class="social">
+
+<a class="telegram" href="#">📌 Telegram</a>
+
+<a class="instagram" href="#">📸 Instagram</a>
+
+</div>
+
+<div class="watermark">
+GOLD AZE
+</div>
+
+<!-- SESLER -->
+
+<audio id="successSound">
+<source src="https://www.soundjay.com/buttons/sounds/button-3.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="errorSound">
+<source src="https://www.soundjay.com/buttons/sounds/button-10.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-const amount=document.getElementById("amount");
-const amountText=document.getElementById("amountText");
-const amountResult=document.getElementById("amountResult");
-const tableInfo=document.getElementById("tableInfo");
 
-function calc(){
- let val=parseInt(amount.value);
- amountText.innerText=val;
- amountResult.innerText=val;
+let input = "";
 
- let f15=Math.round(val*0.15);
- let f25=Math.round(val*0.20);
- let f35=Math.round(val*0.25);
- let f45=Math.round(val*0.30);
+const validCodes = [
+    "1234",
+    "7777",
+    "2026",
+    "5555",
+    "9898"
+];
 
- tableInfo.innerHTML=`
- 15 gün: ${f15} ₼ (Ümumi: ${val+f15})<br>
- 25 gün: ${f25} ₼ (Ümumi: ${val+f25})<br>
- 35 gün: ${f35} ₼ (Ümumi: ${val+f35})<br>
- 45 gün: ${f45} ₼ (Ümumi: ${val+f45})
- `;
-}
-amount.oninput=calc;
-calc();
+function addNumber(num){
 
-let d=new Date();
-d.setDate(d.getDate()+45);
-date.innerText=d.toLocaleDateString("az-AZ");
+    if(input.length < 12){
 
-function openForm(){formBox.style.display="block";}
+        input += num;
+        document.getElementById("screen").innerText = input;
 
-function checkForm(){
- let name=nameInput.value.trim();
- let fin=finInput.value.trim();
- let phone=phoneInput.value.trim();
+    }
 
- if(name.length<5 || !name.includes(" ")){error.innerText="Ad soyadı düzgün yaz";return}
- if(fin.length<6){error.innerText="FIN səhvdir";return}
- if(phone.length<9){error.innerText="Nömrə səhvdir";return}
-
- formBox.style.display="none";
- waitBox.style.display="block";
-
- let sec=30;
- count.innerText=sec;
-
- let t=setInterval(()=>{
-  sec--;
-  count.innerText=sec;
-
-  if(sec<=0){
-   clearInterval(t);
-   waitBox.style.display="none";
-   payBox.style.display="block";
-
-   payText.innerHTML=name+` , 
-   
-   Diqqət
-
-• AKB yoxlanışı üçün 1 AZN ödəniş etməlisiniz
-• Ödənişdən sonra məbləğ avtomatik kartınıza geri qaytarılacaq
-• Bu əməliyyat yalnız yoxlanış məqsədi daşıyır.`;
-  }
- },1000);
 }
 
-function payNow(){
- window.location.href="https://epoint.az/pay/SENIN_LINK";
+function removeNumber(){
+
+    input = input.slice(0,-1);
+    document.getElementById("screen").innerText = input;
+
 }
 
-let names=["K***N","M***D","R***L","T***N","A***R"];
-let amounts=[20,40,60,80,100,120,150,200];
+function checkCode(){
 
-let ok=localStorage.getItem("ok")||120;
-let bad=localStorage.getItem("bad")||15;
+    const message = document.getElementById("message");
+    const loading = document.getElementById("loading");
 
-okCount.innerText=ok;
-badCount.innerText=bad;
+    loading.innerText = "🔑 Kod yoxlanılır...";
 
-function addLive(){
- let item=document.createElement("div");
- item.className="liveitem";
+    setTimeout(() => {
 
- let n=names[Math.floor(Math.random()*names.length)];
- let m=amounts[Math.floor(Math.random()*amounts.length)];
+        loading.innerText = "";
 
- item.innerText=n+" "+m+" AZN kredit götürdü";
+        if(validCodes.includes(input)){
 
- liveList.prepend(item);
+            message.style.color = "#00ff88";
+            message.innerText = "✅ Kod Doğrudur";
 
- if(liveList.children.length>5){
-  liveList.removeChild(liveList.lastChild);
- }
+            document.getElementById("successSound").play();
 
- ok++;
- if(Math.random()>0.7) bad++;
+        }else{
 
- localStorage.setItem("ok",ok);
- localStorage.setItem("bad",bad);
+            message.style.color = "red";
+            message.innerText = "❌ Kod Səhvdir";
 
- okCount.innerText=ok;
- badCount.innerText=bad;
+            document.getElementById("errorSound").play();
+
+        }
+
+        input = "";
+        document.getElementById("screen").innerText = "";
+
+    },1500);
+
 }
 
-setInterval(addLive,10000);
+/* Aktiv İstifadəçi Sayı */
 
-function setLang(l){
- if(l=="ru"){
-  subtitle.innerText="Быстрая заявка";
-  btnMain.innerText="Получить деньги";
-  btnContinue.innerText="Продолжить";
- }
- if(l=="tr"){
-  subtitle.innerText="Hızlı başvuru";
-  btnMain.innerText="Para al";
-  btnContinue.innerText="Devam et";
- }
- if(l=="az"){
-  subtitle.innerText="Sürətli kredit müraciəti";
-  btnMain.innerText="Vəsait əldə etmək";
-  btnContinue.innerText="Davam et";
- }
-}
+setInterval(() => {
+
+    let random = Math.floor(Math.random() * 80) + 300;
+
+    document.getElementById("users").innerText = random;
+
+},3000);
+
 </script>
 
 </body>
