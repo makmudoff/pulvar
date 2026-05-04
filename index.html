@@ -3,411 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GOLD AZE PREMIUM</title>
+<title>Casino Bonus</title>
 
 <style>
-
 body{
-    margin:0;
-    padding:0;
-    background:black;
-    font-family:Arial;
-    color:white;
-    overflow-x:hidden;
-    text-align:center;
+margin:0;
+font-family:Arial, sans-serif;
+background: radial-gradient(circle at top, #1a0033, #000);
+color:white;
 }
 
-/* Arxa Neon Effekt */
-
-body::before{
-    content:"";
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:
-    radial-gradient(circle at top, rgba(255,215,0,0.15), transparent 40%),
-    radial-gradient(circle at bottom, rgba(0,255,100,0.12), transparent 40%);
-    z-index:-1;
+.header{
+text-align:center;
+padding:40px 20px;
 }
 
-/* GOLD AZE */
-
-.logo{
-    margin-top:20px;
-    font-size:42px;
-    font-weight:bold;
-    color:gold;
-    text-shadow:
-    0 0 10px gold,
-    0 0 20px gold,
-    0 0 40px gold;
-    animation:glow 2s infinite alternate;
+.header h1{
+font-size:40px;
+color:#ffcc00;
+text-shadow:0 0 20px #ffcc00;
 }
 
-@keyframes glow{
-    from{
-        text-shadow:0 0 10px gold;
-    }
-    to{
-        text-shadow:
-        0 0 20px gold,
-        0 0 40px gold,
-        0 0 60px gold;
-    }
+.header p{
+font-size:18px;
+opacity:0.8;
 }
 
-.vip{
-    color:#00ff99;
-    font-size:22px;
-    margin-top:5px;
+.bonus{
+text-align:center;
+margin-top:20px;
 }
 
-.top-text{
-    margin-top:20px;
-    font-size:20px;
-    line-height:38px;
-    color:#ffd700;
-    font-weight:bold;
+.bonus-box{
+display:inline-block;
+background:linear-gradient(135deg,#ff0066,#ffcc00);
+padding:30px;
+border-radius:20px;
+box-shadow:0 0 25px #ff0066;
 }
 
-.info{
-    margin-top:20px;
-    line-height:32px;
-    font-size:18px;
-    color:#ccc;
+.bonus-box h2{
+font-size:30px;
+margin:0;
 }
 
-/* Aktiv İstifadəçi */
-
-.users{
-    margin-top:20px;
-    font-size:20px;
-    color:#00ff88;
-    font-weight:bold;
+.bonus-box span{
+font-size:50px;
+font-weight:bold;
+display:block;
+margin:10px 0;
 }
 
-/* Keypad */
-
-.container{
-    margin-top:30px;
+.btn{
+margin-top:20px;
+padding:15px 40px;
+border:none;
+border-radius:30px;
+background:#00ff99;
+color:black;
+font-weight:bold;
+cursor:pointer;
+font-size:18px;
+transition:0.3s;
 }
 
-.screen{
-    width:320px;
-    height:70px;
-    margin:auto;
-    background:#022b02;
-    border:4px solid #888;
-    border-radius:15px;
-    line-height:70px;
-    font-size:32px;
-    color:#00ff00;
-    letter-spacing:6px;
-    box-shadow:0 0 25px #00ff88;
-    overflow:hidden;
+.btn:hover{
+background:#00cc77;
+transform:scale(1.05);
 }
 
-.loading{
-    color:yellow;
-    font-size:22px;
-    margin-top:15px;
+.cards{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+margin-top:40px;
+gap:20px;
 }
 
-.keypad{
-    width:340px;
-    margin:25px auto;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
+.card{
+background:#111;
+padding:20px;
+border-radius:15px;
+width:200px;
+text-align:center;
+box-shadow:0 0 10px #ffcc00;
 }
 
-button{
-    height:75px;
-    border:none;
-    border-radius:18px;
-    font-size:28px;
-    font-weight:bold;
-    cursor:pointer;
-    background:#cfd6e0;
-    box-shadow:0 0 15px rgba(255,255,255,0.2);
-    transition:0.2s;
+.card h3{
+color:#ffcc00;
 }
 
-button:hover{
-    transform:scale(1.05);
+.footer{
+text-align:center;
+margin-top:50px;
+opacity:0.6;
+font-size:14px;
+padding-bottom:20px;
 }
-
-.ok{
-    background:green;
-    color:white;
-}
-
-.delete{
-    background:red;
-    color:white;
-}
-
-.message{
-    margin-top:15px;
-    font-size:30px;
-    font-weight:bold;
-}
-
-/* Son Qazananlar */
-
-.winners{
-    margin-top:40px;
-    padding:20px;
-    background:rgba(255,255,255,0.05);
-    width:85%;
-    margin-left:auto;
-    margin-right:auto;
-    border-radius:20px;
-    box-shadow:0 0 20px rgba(255,215,0,0.2);
-}
-
-.winners h2{
-    color:gold;
-}
-
-.winner-item{
-    margin-top:12px;
-    color:#00ff88;
-    font-size:18px;
-}
-
-/* WhatsApp */
-
-.whatsapp{
-    margin-top:35px;
-    font-size:22px;
-}
-
-.online{
-    color:#00ff66;
-    font-weight:bold;
-}
-
-.whatsapp a{
-    color:#00ff88;
-    text-decoration:none;
-    font-size:24px;
-    font-weight:bold;
-}
-
-/* Sosial */
-
-.social{
-    margin-top:35px;
-    margin-bottom:50px;
-}
-
-.social a{
-    display:inline-block;
-    margin:10px;
-    padding:15px 25px;
-    border-radius:12px;
-    text-decoration:none;
-    color:white;
-    font-weight:bold;
-    font-size:18px;
-}
-
-.telegram{
-    background:#0088cc;
-}
-
-.instagram{
-    background:#d62976;
-}
-
-/* Watermark */
-
-.watermark{
-    position:fixed;
-    bottom:10px;
-    right:15px;
-    opacity:0.12;
-    font-size:50px;
-    color:gold;
-    font-weight:bold;
-}
-
 </style>
+
 </head>
 
 <body>
 
-<div class="logo">💎 GOLD AZE 💎</div>
-<div class="vip">🏆 VIP PREMIUM ACCESS</div>
-
-<div class="top-text">
-🔥 5 ₼ kod alana 5 ₼ kod hədiyyə <br>
-🔥 10 ₼ kod alana 7 ₼ kod hədiyyə <br>
-🔥 20 ₼ kod alana 10 ₼ kod hədiyyə
+<div class="header">
+<h1>🔥 MEGA CASINO BONUS 🔥</h1>
+<p>Yeni üzvlər üçün xüsusi kampaniya</p>
 </div>
 
-<div class="info">
-🔒 Təhlükəsiz giriş sistemi <br>
-⏳ Kod 5 dəqiqə aktivdir <br>
-🎁 Gizli bonus kodları hər gün yenilənir <br>
-🔥 Bu gün 127 nəfər kod aldı
+<div class="bonus">
+<div class="bonus-box">
+<h2>Qeydiyyat Bonusu</h2>
+<span>+200%</span>
+<p>ilk depozitə bonus</p>
+<button class="btn">İndi Qoşul</button>
+</div>
 </div>
 
-<div class="users">
-👤 Aktiv istifadəçilər: <span id="users">348</span>
+<div class="cards">
+<div class="card">
+<h3>🎰 Slotlar</h3>
+<p>Minlərlə oyun</p>
 </div>
 
-<div class="container">
-
-<div class="screen" id="screen"></div>
-
-<div class="loading" id="loading"></div>
-
-<div class="keypad">
-
-<button onclick="addNumber('1')">1</button>
-<button onclick="addNumber('2')">2</button>
-<button onclick="addNumber('3')">3</button>
-
-<button onclick="addNumber('4')">4</button>
-<button onclick="addNumber('5')">5</button>
-<button onclick="addNumber('6')">6</button>
-
-<button onclick="addNumber('7')">7</button>
-<button onclick="addNumber('8')">8</button>
-<button onclick="addNumber('9')">9</button>
-
-<button class="delete" onclick="removeNumber()">←</button>
-<button onclick="addNumber('0')">0</button>
-<button class="ok" onclick="checkCode()">OK</button>
-
+<div class="card">
+<h3>⚡ Sürətli Ödəniş</h3>
+<p>1-5 dəqiqə</p>
 </div>
 
-<div class="message" id="message"></div>
-
+<div class="card">
+<h3>🎁 Hədiyyələr</h3>
+<p>Gündəlik bonuslar</p>
+</div>
 </div>
 
-<div class="winners">
-
-<h2>💸 Son Qazananlar</h2>
-
-<div class="winner-item">🟢 Elvin — 145 ₼ qazandı</div>
-<div class="winner-item">🟢 Murad — 320 ₼ qazandı</div>
-<div class="winner-item">🟢 Tural — 95 ₼ qazandı</div>
-<div class="winner-item">🟢 Kamran — 510 ₼ qazandı</div>
-
+<div class="footer">
+© 2026 Casino Promo Page
 </div>
-
-<div class="whatsapp">
-
-<div class="online">🟢 WhatsApp Online</div><br>
-
-Kod almaq üçün WhatsAppda yaz 👇<br><br>
-
-<a href="https://wa.me/212649276900" target="_blank">
-wa.me/+212649276900
-</a>
-
-</div>
-
-<div class="social">
-
-<a class="telegram" href="#">📌 Telegram</a>
-
-<a class="instagram" href="#">📸 Instagram</a>
-
-</div>
-
-<div class="watermark">
-GOLD AZE
-</div>
-
-<!-- SESLER -->
-
-<audio id="successSound">
-<source src="https://www.soundjay.com/buttons/sounds/button-3.mp3" type="audio/mpeg">
-</audio>
-
-<audio id="errorSound">
-<source src="https://www.soundjay.com/buttons/sounds/button-10.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-
-let input = "";
-
-const validCodes = [
-    "1234",
-    "7777",
-    "2026",
-    "5555",
-    "9898"
-];
-
-function addNumber(num){
-
-    if(input.length < 12){
-
-        input += num;
-        document.getElementById("screen").innerText = input;
-
-    }
-
-}
-
-function removeNumber(){
-
-    input = input.slice(0,-1);
-    document.getElementById("screen").innerText = input;
-
-}
-
-function checkCode(){
-
-    const message = document.getElementById("message");
-    const loading = document.getElementById("loading");
-
-    loading.innerText = "🔑 Kod yoxlanılır...";
-
-    setTimeout(() => {
-
-        loading.innerText = "";
-
-        if(validCodes.includes(input)){
-
-            message.style.color = "#00ff88";
-            message.innerText = "✅ Kod Doğrudur";
-
-            document.getElementById("successSound").play();
-
-        }else{
-
-            message.style.color = "red";
-            message.innerText = "❌ Kod Səhvdir";
-
-            document.getElementById("errorSound").play();
-
-        }
-
-        input = "";
-        document.getElementById("screen").innerText = "";
-
-    },1500);
-
-}
-
-/* Aktiv İstifadəçi Sayı */
-
-setInterval(() => {
-
-    let random = Math.floor(Math.random() * 80) + 300;
-
-    document.getElementById("users").innerText = random;
-
-},3000);
-
-</script>
 
 </body>
 </html>
