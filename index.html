@@ -3,99 +3,122 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Premium Signal Dashboard</title>
+<title>Premium Signal App</title>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 body {
     margin:0;
-    font-family: Arial, sans-serif;
-    background: #0b0f1a;
-    color: white;
+    font-family: Arial;
+    background:#070b14;
+    color:white;
 }
 
 /* HEADER */
 .header {
-    padding:20px;
+    padding:18px;
     text-align:center;
-    font-size:22px;
+    font-size:20px;
     font-weight:bold;
     background: linear-gradient(90deg,#6a00ff,#00d4ff);
-    box-shadow: 0 0 20px #6a00ff;
+    box-shadow:0 0 20px #6a00ff;
 }
 
-/* STATUS BAR */
-.status {
+/* TOP BAR */
+.topbar {
     display:flex;
-    justify-content:space-around;
-    padding:15px;
-    background:#11182a;
-    border-bottom:1px solid #222;
+    justify-content:space-between;
+    padding:10px 15px;
+    background:#0f172a;
+    font-size:14px;
 }
 
-/* CARDS */
+/* GRID */
 .container {
     display:grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
     gap:15px;
     padding:15px;
 }
 
+/* CARD */
 .card {
-    background:#121a2b;
+    background:#111a2e;
     padding:15px;
     border-radius:15px;
     box-shadow:0 0 15px rgba(0,255,255,0.08);
     transition:0.3s;
 }
+.card:hover {transform:scale(1.02);}
 
-.card:hover {
-    transform:scale(1.03);
-    box-shadow:0 0 20px #00d4ff;
-}
-
-/* SIGNAL BOX */
+/* SIGNAL */
 .signal {
+    font-size:32px;
     text-align:center;
-    font-size:28px;
     font-weight:bold;
     color:#00ff99;
-    animation: pulse 1.5s infinite;
+    animation:pulse 1.2s infinite;
 }
-
 @keyframes pulse {
-    0% {opacity:1;}
-    50% {opacity:0.5;}
-    100% {opacity:1;}
+    0%{opacity:1;}
+    50%{opacity:0.4;}
+    100%{opacity:1;}
 }
 
 /* BUTTON */
 .btn {
-    display:block;
     margin-top:10px;
     padding:10px;
     text-align:center;
-    background:linear-gradient(90deg,#6a00ff,#00d4ff);
     border-radius:10px;
+    background:linear-gradient(90deg,#6a00ff,#00d4ff);
     cursor:pointer;
     font-weight:bold;
 }
 
 /* CHAT */
 .chat {
-    height:150px;
+    height:140px;
     overflow:auto;
-    background:#0e1526;
+    background:#0b1222;
     padding:10px;
     border-radius:10px;
-    font-size:14px;
+    font-size:13px;
 }
 
-/* BADGE */
-.badge {
+/* POPUP */
+.popup {
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:#00d4ff;
+    color:black;
+    padding:12px;
+    border-radius:10px;
+    display:none;
+}
+
+/* LOADING */
+.loader {
+    border:3px solid #222;
+    border-top:3px solid #00d4ff;
+    border-radius:50%;
+    width:20px;
+    height:20px;
+    animation:spin 1s linear infinite;
     display:inline-block;
-    padding:5px 10px;
+}
+@keyframes spin {
+    100%{transform:rotate(360deg);}
+}
+
+/* VIP */
+.vip {
     background:gold;
     color:black;
+    padding:3px 8px;
     border-radius:20px;
     font-size:12px;
 }
@@ -104,58 +127,106 @@ body {
 
 <body>
 
-<div class="header">🚀 PREMIUM SIGNAL DASHBOARD</div>
+<div class="header">🚀 PREMIUM SIGNAL APP</div>
 
-<div class="status">
-    <div>🟢 Online: 128</div>
+<div class="topbar">
+    <div>🟢 Online: <span id="online">120</span></div>
     <div>🕒 <span id="time"></span></div>
-    <div class="badge">VIP USER</div>
+    <div class="vip">VIP</div>
 </div>
+
+<div class="popup" id="popup">🔔 New Signal Ready!</div>
 
 <div class="container">
 
     <div class="card">
-        <div class="signal">1.85x SIGNAL</div>
+        <div class="signal" id="signal">1.85x</div>
         <p>🎯 Risk: Medium</p>
-        <div class="btn">Get New Signal</div>
+        <div class="btn" onclick="newSignal()">Get New Signal</div>
     </div>
 
     <div class="card">
         <h3>📊 Performance</h3>
-        <p>Accuracy: 76%</p>
-        <p>Total Signals: 124</p>
-        <p>Active Today: 18</p>
+        <canvas id="chart"></canvas>
     </div>
 
     <div class="card">
         <h3>🧠 AI Analysis</h3>
-        <p>System analyzing market trends...</p>
+        <p><span class="loader"></span> AI analyzing market...</p>
         <p>✔ Pattern detected</p>
     </div>
 
     <div class="card">
         <h3>💬 Live Chat</h3>
         <div class="chat">
-            User1: Salam<br>
-            Admin: Signal hazırdır<br>
-            User2: işləyir 👍
+            User1: salam<br>
+            Admin: signal hazırdır<br>
+            User2: 👍 işləyir
         </div>
     </div>
 
 </div>
 
 <script>
-// LIVE CLOCK
+
+/* CLOCK */
 function updateTime(){
     document.getElementById("time").innerText = new Date().toLocaleTimeString();
 }
 setInterval(updateTime,1000);
 updateTime();
 
-// SIMPLE SOUND (optional click)
-document.querySelector(".btn").addEventListener("click",()=>{
-    alert("Yeni signal yaradıldı!");
+/* RANDOM SIGNAL */
+function newSignal(){
+    let value = (Math.random()*2 + 1).toFixed(2);
+    document.getElementById("signal").innerText = value + "x";
+
+    showPopup();
+
+    // vibration (mobile)
+    if(navigator.vibrate){
+        navigator.vibrate(200);
+    }
+
+    // sound
+    let audio = new Audio("https://www.myinstants.com/media/sounds/notification-sound.mp3");
+    audio.play();
+}
+
+/* POPUP */
+function showPopup(){
+    let p = document.getElementById("popup");
+    p.style.display="block";
+    setTimeout(()=>p.style.display="none",3000);
+}
+
+/* ONLINE COUNTER */
+setInterval(()=>{
+    document.getElementById("online").innerText = 100 + Math.floor(Math.random()*50);
+},3000);
+
+/* CHART */
+new Chart(document.getElementById("chart"),{
+    type:"line",
+    data:{
+        labels:["Mon","Tue","Wed","Thu","Fri","Sat"],
+        datasets:[{
+            label:"Signals",
+            data:[12,19,8,15,22,18],
+            borderColor:"#00d4ff",
+            fill:false,
+            tension:0.4
+        }]
+    },
+    options:{
+        plugins:{legend:{labels:{color:"white"}}},
+        scales:{
+            x:{ticks:{color:"white"}},
+            y:{ticks:{color:"white"}}
+        }
+    }
 });
+
 </script>
 
 </body>
