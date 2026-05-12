@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Lucky Spin</title>
+  <title>Demo Lucky Spin Casino</title>
 
   <style>
-    body {
+    body{
       margin:0;
-      font-family: Arial;
+      font-family:Arial;
       background:#000;
       color:#0ff;
       text-align:center;
     }
 
-    .screen { display:none; padding-top:80px; }
-    .login { display:block; }
+    .screen{
+      display:none;
+      padding-top:80px;
+    }
 
-    .card {
+    .login{
+      display:block;
+    }
+
+    .card{
       width:340px;
       margin:auto;
       background:#111;
@@ -24,21 +30,21 @@
       box-shadow:0 0 20px #0ff;
     }
 
-    input, button {
+    input,button{
       padding:10px;
       margin:6px;
       border-radius:8px;
       border:none;
     }
 
-    button {
+    button{
       background:#0ff;
       color:#000;
       font-weight:bold;
       cursor:pointer;
     }
 
-    .wheel {
+    .wheel{
       width:140px;
       height:140px;
       border-radius:50%;
@@ -59,9 +65,11 @@
 <!-- 🔐 LOGIN -->
 <div id="login" class="screen login">
   <div class="card">
-    <h2>Demo Giriş</h2>
-    <input id="username" placeholder="Ad yaz">
-    <input id="code" placeholder="Kod (adep / kala / yera / jety / jiko)">
+    <h2>Giriş</h2>
+
+    <input id="username" placeholder="İstifadəçi adı">
+    <input id="code" placeholder="Giriş kodu">
+
     <br>
     <button onclick="login()">Daxil ol</button>
   </div>
@@ -71,10 +79,10 @@
 <div id="game" class="screen">
   <div class="card">
 
-    <h2>🎰 DEMO SPIN</h2>
+    <h2>🎰 Lucky Spin Demo</h2>
 
     <p>User: <span id="userShow"></span></p>
-    <p>Balans: <span id="balance">10</span> ₼ (demo)</p>
+    <p>Balans: <span id="balance">10</span> ₼</p>
 
     <div class="wheel" id="wheel">SPIN</div>
 
@@ -89,19 +97,20 @@
 
 let balance = 10;
 
+// 🔐 gizli kodlar
 const codes = ["adep","kala","yera","jety","jiko"];
 
 function login(){
 
   let user = document.getElementById("username").value;
-  let code = document.getElementById("code").value;
+  let code = document.getElementById("code").value.trim();
 
   if(codes.includes(code)){
     document.getElementById("login").style.display="none";
     document.getElementById("game").style.display="block";
-    document.getElementById("userShow").innerText = user || "Demo User";
+    document.getElementById("userShow").innerText = user || "User";
   } else {
-    alert("Yanlış kod!");
+    alert("Giriş kodu yanlışdır!");
   }
 }
 
@@ -109,7 +118,7 @@ function spin(){
 
   if(balance <= 0){
     document.getElementById("result").innerText =
-    "Demo balans bitdi";
+    "Balans bitdi. Yenidən inşAllah qazanarsınız";
     return;
   }
 
@@ -123,7 +132,7 @@ function spin(){
 
   setTimeout(()=>{
 
-    // 🎯 DEMO BALANCED SYSTEM (BOŞ ÇOX)
+    // 🎯 BOŞ ÇOX ÇIXAN DEMO SYSTEM
     let r = Math.random();
 
     let win;
@@ -138,7 +147,7 @@ function spin(){
       win = Math.floor(Math.random()*50)+10;
     }
     else {
-      win = 100; // demo jackpot
+      win = 100;
     }
 
     balance += win;
@@ -146,7 +155,7 @@ function spin(){
     if(win === 0){
       result.innerText = "Boş çıxdı";
     } else {
-      result.innerText = "Qazandın " + win + " ₼ (demo)";
+      result.innerText = "Qazandın " + win + " ₼";
     }
 
     document.getElementById("balance").innerText = balance + " ₼";
