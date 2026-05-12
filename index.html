@@ -3,128 +3,277 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aviator Siqnal Proqramı</title>
+<title>VIP Aviator Panel</title>
 
 <style>
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
 }
 
 body{
-    background:#0f172a;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    color:white;
+background:#061126;
+color:white;
+padding:20px;
 }
 
-.box{
-    width:350px;
-    background:#1e293b;
-    padding:30px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 0 20px rgba(0,0,0,0.5);
+.top{
+text-align:center;
+margin-bottom:25px;
 }
 
-h1{
-    margin-bottom:15px;
-    color:#00ff99;
+.top h1{
+font-size:38px;
+color:#00ff99;
+text-shadow:0 0 15px #00ff99;
 }
 
-p{
-    font-size:14px;
-    margin-bottom:20px;
-    color:#cbd5e1;
+.status{
+margin-top:10px;
+font-size:14px;
+color:#b8c2d9;
 }
 
-input{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    margin-bottom:15px;
-    outline:none;
-    font-size:16px;
+.live{
+color:#00ff99;
+font-weight:bold;
+animation:blink 1s infinite;
 }
 
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:#00ff99;
-    color:black;
-    font-weight:bold;
-    cursor:pointer;
-    transition:0.3s;
+@keyframes blink{
+50%{
+opacity:0.4;
+}
 }
 
-button:hover{
-    background:#00cc77;
+.card{
+background:#13213d;
+padding:20px;
+border-radius:20px;
+margin-bottom:20px;
+box-shadow:0 0 20px rgba(0,255,153,0.15);
 }
 
-#message{
-    margin-top:15px;
-    font-size:14px;
-    font-weight:bold;
+.card h2{
+color:#00ff99;
+margin-bottom:15px;
+font-size:22px;
 }
 
-.success{
-    color:#00ff99;
+.signal-box{
+background:#0b1730;
+padding:25px;
+border-radius:20px;
+text-align:center;
+border:2px solid #00ff99;
+box-shadow:0 0 20px rgba(0,255,153,0.5);
 }
 
-.error{
-    color:red;
+.signal{
+font-size:55px;
+font-weight:bold;
+color:#00ff99;
+text-shadow:0 0 20px #00ff99;
+margin-bottom:10px;
 }
+
+.timer{
+font-size:20px;
+color:#fff;
+}
+
+.results{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+margin-top:15px;
+}
+
+.result{
+background:#0b1730;
+padding:15px;
+border-radius:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.green{
+color:#00ff99;
+}
+
+.red{
+color:#ff4d4d;
+}
+
+.users{
+font-size:26px;
+font-weight:bold;
+color:#00ff99;
+text-align:center;
+margin-top:10px;
+}
+
+.loading{
+width:100%;
+height:10px;
+background:#1f2d4d;
+border-radius:20px;
+overflow:hidden;
+margin-top:15px;
+}
+
+.loading-bar{
+height:100%;
+width:0%;
+background:#00ff99;
+animation:load 5s infinite;
+}
+
+@keyframes load{
+0%{
+width:0%;
+}
+100%{
+width:100%;
+}
+}
+
+.telegram{
+display:block;
+text-align:center;
+background:#229ED9;
+padding:15px;
+border-radius:15px;
+color:white;
+font-weight:bold;
+text-decoration:none;
+margin-top:20px;
+font-size:18px;
+}
+
+.telegram:hover{
+opacity:0.8;
+}
+
+.footer{
+text-align:center;
+margin-top:25px;
+font-size:14px;
+color:#98a6c4;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="box">
-    <h1>✈️ Aviator Siqnal</h1>
+<div class="top">
+<h1>✈️ VIP AVIATOR PANEL</h1>
 
-    <p>
-        Giriş üçün sizə verilən xüsusi kodu daxil edin
-    </p>
+<div class="status">
+<span class="live">● LIVE SIGNAL ACTIVE</span>
+</div>
+</div>
 
-    <input type="password" id="kod" placeholder="Kodu daxil et">
+<div class="card">
 
-    <button onclick="yoxla()">Giriş Et</button>
+<h2>📈 Növbəti Siqnal</h2>
 
-    <div id="message"></div>
+<div class="signal-box">
+
+<div class="signal" id="signal">2.15x</div>
+
+<div class="timer">
+⏳ <span id="timer">15</span> saniyə sonra
+</div>
+
+<div class="loading">
+<div class="loading-bar"></div>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>🔥 Son Nəticələr</h2>
+
+<div class="results">
+
+<div class="result green">1.87x</div>
+<div class="result green">2.41x</div>
+<div class="result red">1.12x</div>
+<div class="result green">3.54x</div>
+<div class="result green">5.12x</div>
+<div class="result red">1.09x</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>👥 ONLINE USERS</h2>
+
+<div class="users" id="users">
+128 nəfər online
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>💸 Bugünkü Maksimum</h2>
+
+<div class="signal-box">
+<div class="signal">8.44x</div>
+</div>
+
+</div>
+
+<a class="telegram" href="https://t.me/kenrrry" target="_blank">
+📲 Telegram Kanalına Qoşul
+</a>
+
+<div class="footer">
+⚡ Premium Aviator Sistem 2026
 </div>
 
 <script>
 
-let duzgunKod = "AVIATOR2026";
+let timer = 15;
 
-function yoxla(){
+setInterval(() => {
 
-    let daxilEdilenKod = document.getElementById("kod").value;
-    let mesaj = document.getElementById("message");
+timer--;
 
-    if(daxilEdilenKod === duzgunKod){
+if(timer <= 0){
 
-        mesaj.innerHTML = "✅ Giriş uğurludur!";
-        mesaj.className = "success";
+timer = 15;
 
-        setTimeout(() => {
-            window.location.href = "https://google.com";
-        }, 1500);
+let randomSignal = (Math.random() * 8 + 1).toFixed(2);
 
-    }else{
-
-        mesaj.innerHTML = "❌ Kod yanlışdır! Giriş qadağandır.";
-        mesaj.className = "error";
-    }
+document.getElementById("signal").innerHTML = randomSignal + "x";
 
 }
+
+document.getElementById("timer").innerHTML = timer;
+
+},1000);
+
+
+setInterval(() => {
+
+let users = Math.floor(Math.random() * 80) + 100;
+
+document.getElementById("users").innerHTML = users + " nəfər online";
+
+},4000);
 
 </script>
 
