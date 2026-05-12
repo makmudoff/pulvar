@@ -1,150 +1,231 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Demo Lucky Spin</title>
+  <title>Neon Casino Full Demo</title>
+
   <style>
     body {
+      margin:0;
       font-family: Arial;
-      background: #0f0f0f;
-      color: white;
-      text-align: center;
+      background: #000;
+      color: #0ff;
+      text-align:center;
+    }
+
+    .screen {
+      display:none;
+      padding-top:60px;
+    }
+
+    .login {
+      display:block;
     }
 
     .card {
-      background: #1c1c1c;
-      padding: 20px;
-      width: 320px;
-      margin: 60px auto;
-      border-radius: 10px;
+      width:340px;
+      margin:auto;
+      background:#111;
+      padding:20px;
+      border-radius:12px;
+      box-shadow:0 0 20px #0ff;
     }
 
-    .wheel {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      border: 8px solid gold;
-      margin: 20px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 2s ease;
-      font-weight: bold;
+    input, button {
+      padding:10px;
+      margin:6px;
+      border-radius:8px;
+      border:none;
     }
 
     button {
-      padding: 10px;
-      margin: 6px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      background: gold;
-      font-weight: bold;
+      background:#0ff;
+      color:#000;
+      font-weight:bold;
+      cursor:pointer;
     }
 
-    .cooldown {
-      color: red;
+    .wheel {
+      width:140px;
+      height:140px;
+      border-radius:50%;
+      border:8px solid #0ff;
+      margin:20px auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:transform 2s ease;
+      box-shadow:0 0 25px #0ff;
+      font-weight:bold;
+    }
+
+    .nav {
+      position:fixed;
+      bottom:0;
+      width:100%;
+      background:#111;
+      display:flex;
+      justify-content:space-around;
+      padding:10px;
+    }
+
+    .nav button {
+      flex:1;
+      margin:2px;
+    }
+
+    .jackpot {
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:red;
+      color:white;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      font-size:40px;
+      font-weight:bold;
     }
   </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h2>🎡 Lucky Spin Demo</h2>
+<!-- 🔴 JACKPOT FLASH -->
+<div id="jackpot" class="jackpot">🎉 JACKPOT! 🎉</div>
 
-  <p>Balans: <span id="balance">1000</span> coin</p>
+<!-- 🔐 LOGIN -->
+<div id="login" class="screen login">
+  <div class="card">
+    <h2>🔐 Giriş</h2>
+    <input id="user" placeholder="Username">
+    <input id="code" placeholder="Kod (1234)">
+    <br>
+    <button onclick="login()">Daxil ol</button>
+  </div>
+</div>
 
-  <div class="wheel" id="wheel">SPIN</div>
+<!-- 🎮 APP -->
+<div id="app" class="screen">
 
-  <button onclick="spin()" id="spinBtn">Spin et</button>
+  <div class="card">
 
-  <p id="result"></p>
-  <p class="cooldown" id="timer"></p>
+    <h2>🎰 Casino App</h2>
 
-  <hr>
+    <p>👤 User: <span id="uname"></span></p>
+    <p>💰 Balans: <span id="balance">1000</span></p>
 
-  <button onclick="withdraw()">💸 Withdraw (WhatsApp)</button>
+    <div class="wheel" id="wheel">SPIN</div>
+
+    <button onclick="spin()">Spin</button>
+
+    <p id="result"></p>
+
+    <h3>📊 History</h3>
+    <div id="history"></div>
+
+    <br>
+    <button onclick="withdraw()">💸 Withdraw</button>
+
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav" id="nav" style="display:none;">
+  <button onclick="showApp()">🎮 Game</button>
+  <button onclick="showHistory()">📊 History</button>
 </div>
 
 <script>
+
 let balance = 1000;
-let canSpin = true;
-let cooldown = 60;
+let history = [];
+
+function login(){
+  let u = document.getElementById("user").value;
+  let c = document.getElementById("code").value;
+
+  if(c === "1234"){
+    document.getElementById("login").style.display="none";
+    document.getElementById("app").style.display="block";
+    document.getElementById("nav").style.display="flex";
+
+    document.getElementById("uname").innerText = u || "User";
+  } else {
+    alert("Yanlış kod!");
+  }
+}
 
 function spin(){
-  if(!canSpin){
-    return;
-  }
-
-  canSpin = false;
 
   let wheel = document.getElementById("wheel");
   let result = document.getElementById("result");
 
-  let deg = Math.floor(Math.random() * 3600);
-  wheel.style.transform = "rotate(" + deg + "deg)";
+  let deg = Math.floor(Math.random()*3600);
+  wheel.style.transform = "rotate("+deg+"deg)";
 
-  setTimeout(() => {
+  setTimeout(()=>{
 
-    let prizes = [
-      "Boş",
-      "Yenidən fırlat",
-      3,
-      15,
-      50,
-      70,
-      100,   // Jackpot
-      500,   // Jackpot
-      1000   // Jackpot
-    ];
+    let prizes = [0,3,15,50,70,100,500,1000];
 
-    let pick = prizes[Math.floor(Math.random() * prizes.length)];
+    let win = prizes[Math.floor(Math.random()*prizes.length)];
 
-    if(pick === "Boş"){
+    if(win === 1000 || win === 500){
+      showJackpot();
+    }
+
+    if(win === 0){
       result.innerText = "😐 Boş çıxdı";
-    }
-    else if(pick === "Yenidən fırlat"){
-      result.innerText = "🔄 Yenidən fırlat!";
-    }
-    else {
-      balance += pick;
-      result.innerText = "🎉 Qazandın +" + pick;
+    } else {
+      balance += win;
+      result.innerText = "🎉 +" + win;
     }
 
-    document.getElementById("balance").innerText = balance;
+    history.unshift("Win: " + win);
+    updateUI();
 
-    startCooldown();
-
-  }, 2000);
+  },2000);
 }
 
-function startCooldown(){
-  let time = cooldown;
-  let timer = document.getElementById("timer");
+function updateUI(){
+  document.getElementById("balance").innerText = balance;
 
-  let interval = setInterval(() => {
-    timer.innerText = "Gözlə: " + time + " saniyə";
+  let h = "";
+  history.slice(0,5).forEach(x=>{
+    h += "<p>"+x+"</p>";
+  });
 
-    time--;
+  document.getElementById("history").innerHTML = h;
+}
 
-    if(time < 0){
-      clearInterval(interval);
-      timer.innerText = "";
-      canSpin = true;
-    }
+function showJackpot(){
+  let jp = document.getElementById("jackpot");
+  jp.style.display="flex";
 
-  }, 1000);
+  setTimeout(()=>{
+    jp.style.display="none";
+  },1500);
 }
 
 function withdraw(){
-  // demo: real pul deyil, sadəcə WhatsApp mesajı
   let phone = "994551234567";
-  let msg = "Salam, mənim balansım " + balance + " coin. Withdraw istəyirəm.";
 
-  let url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg);
+  let msg = "Withdraw request. Balance: " + balance;
 
-  window.open(url, "_blank");
+  window.open("https://wa.me/"+phone+"?text="+encodeURIComponent(msg), "_blank");
 }
+
+function showApp(){
+  document.getElementById("history").style.display="none";
+  document.querySelector(".card").style.display="block";
+}
+
+function showHistory(){
+  document.querySelector(".card").style.display="block";
+  document.getElementById("history").style.display="block";
+}
+
 </script>
 
 </body>
