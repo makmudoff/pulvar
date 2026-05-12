@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Demo Lucky Spin Casino</title>
+  <title>Demo Casino</title>
 
   <style>
     body{
@@ -12,14 +12,8 @@
       text-align:center;
     }
 
-    .screen{
-      display:none;
-      padding-top:80px;
-    }
-
-    .login{
-      display:block;
-    }
+    .screen{ display:none; padding-top:80px; }
+    .login{ display:block; }
 
     .card{
       width:340px;
@@ -57,6 +51,8 @@
       transition:transform 2s ease;
       box-shadow:0 0 20px #0ff;
     }
+
+    #game { display:none; }
   </style>
 </head>
 
@@ -66,10 +62,8 @@
 <div id="login" class="screen login">
   <div class="card">
     <h2>Giriş</h2>
-
     <input id="username" placeholder="İstifadəçi adı">
-    <input id="code" placeholder="Giriş kodu">
-
+    <input id="code" placeholder="Kod">
     <br>
     <button onclick="login()">Daxil ol</button>
   </div>
@@ -79,14 +73,14 @@
 <div id="game" class="screen">
   <div class="card">
 
-    <h2>🎰 Lucky Spin Çıxarış 500 ₼</h2>
+    <h2>Lucky Spin</h2>
 
     <p>User: <span id="userShow"></span></p>
     <p>Balans: <span id="balance">10</span> ₼</p>
 
     <div class="wheel" id="wheel">SPIN</div>
 
-    <button onclick="spin()">Spin</button>
+    <button id="spinBtn" onclick="spin()">Spin</button>
 
     <p id="result"></p>
 
@@ -97,7 +91,6 @@
 
 let balance = 10;
 
-// 🔐 gizli kodlar
 const codes = ["adep","kala","yera","jety","jiko"];
 
 function login(){
@@ -110,15 +103,19 @@ function login(){
     document.getElementById("game").style.display="block";
     document.getElementById("userShow").innerText = user || "User";
   } else {
-    alert("Giriş kodu yanlışdır!");
+    alert("Yanlış kod!");
   }
 }
 
 function spin(){
 
+  let button = document.getElementById("spinBtn");
+
   if(balance <= 0){
     document.getElementById("result").innerText =
-    "Balans bitdi. Yenidən inşAllah qazanarsınız";
+    "Balansınızda məbləğ bitdi. Yenidən inşAllah qazanarsınız";
+    button.disabled = true;
+    button.style.opacity = "0.5";
     return;
   }
 
@@ -132,13 +129,11 @@ function spin(){
 
   setTimeout(()=>{
 
-    // 🎯 BOŞ ÇOX ÇIXAN  SYSTEM
     let r = Math.random();
-
     let win;
 
     if(r < 0.60){
-      win = 0; // 60% boş
+      win = 0;
     }
     else if(r < 0.85){
       win = Math.floor(Math.random()*10)+1;
@@ -152,13 +147,22 @@ function spin(){
 
     balance += win;
 
+    document.getElementById("balance").innerText = balance + " ₼";
+
     if(win === 0){
       result.innerText = "Boş çıxdı";
     } else {
       result.innerText = "Qazandın " + win + " ₼";
     }
 
-    document.getElementById("balance").innerText = balance + " ₼";
+    // 🔒 BALANS YENƏ YOXDURSA OYUN DAYANSIN
+    if(balance <= 0){
+      result.innerText =
+      "Balansınızda məbləğ bitdi. Yenidən inşAllah qazanarsınız";
+
+      button.disabled = true;
+      button.style.opacity = "0.5";
+    }
 
   },2000);
 }
