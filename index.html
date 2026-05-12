@@ -3,247 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GOLD AZE PREMIUM</title>
+<title>Aviator Siqnal Proqramı</title>
 
 <style>
-
-body{
+*{
     margin:0;
     padding:0;
-    background:black;
+    box-sizing:border-box;
     font-family:Arial;
+}
+
+body{
+    background:#0f172a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
     color:white;
-    overflow-x:hidden;
+}
+
+.box{
+    width:350px;
+    background:#1e293b;
+    padding:30px;
+    border-radius:20px;
     text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.5);
 }
 
-body::before{
-    content:"";
-    position:fixed;
+h1{
+    margin-bottom:15px;
+    color:#00ff99;
+}
+
+p{
+    font-size:14px;
+    margin-bottom:20px;
+    color:#cbd5e1;
+}
+
+input{
     width:100%;
-    height:100%;
-    background:
-    radial-gradient(circle at top, rgba(255,215,0,0.15), transparent 40%),
-    radial-gradient(circle at bottom, rgba(0,255,100,0.12), transparent 40%);
-    z-index:-1;
-}
-
-.logo{
-    margin-top:20px;
-    font-size:42px;
-    font-weight:bold;
-    color:gold;
-    text-shadow:0 0 10px gold,0 0 20px gold,0 0 40px gold;
-    animation:glow 2s infinite alternate;
-}
-
-@keyframes glow{
-    from{ text-shadow:0 0 10px gold; }
-    to{ text-shadow:0 0 20px gold,0 0 40px gold,0 0 60px gold; }
-}
-
-/* BONUS TEXT */
-.top-text{
-    margin-top:15px;
-    font-size:20px;
-    line-height:38px;
-    color:#ffd700;
-    font-weight:bold;
-}
-
-/* WHATSAPP */
-.whatsapp{
-    margin-top:25px;
-    font-size:22px;
-}
-
-.online{
-    color:#00ff66;
-    font-weight:bold;
-}
-
-.whatsapp a{
-    color:#00ff88;
-    text-decoration:none;
-    font-size:24px;
-    font-weight:bold;
-}
-
-.container{
-    margin-top:30px;
-}
-
-.screen{
-    width:320px;
-    height:70px;
-    margin:auto;
-    background:#022b02;
-    border:4px solid #888;
-    border-radius:15px;
-    line-height:70px;
-    font-size:32px;
-    color:#00ff00;
-    letter-spacing:6px;
-    box-shadow:0 0 25px #00ff88;
-    overflow:hidden;
-}
-
-.loading{
-    color:yellow;
-    font-size:22px;
-    margin-top:15px;
-}
-
-.keypad{
-    width:340px;
-    margin:25px auto;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:15px;
+    outline:none;
+    font-size:16px;
 }
 
 button{
-    height:75px;
+    width:100%;
+    padding:12px;
     border:none;
-    border-radius:18px;
-    font-size:28px;
+    border-radius:10px;
+    background:#00ff99;
+    color:black;
     font-weight:bold;
     cursor:pointer;
-    background:#cfd6e0;
-    transition:0.2s;
+    transition:0.3s;
 }
 
-button:hover{ transform:scale(1.05); }
+button:hover{
+    background:#00cc77;
+}
 
-.ok{ background:green; color:white; }
-.delete{ background:red; color:white; }
-
-.message{
+#message{
     margin-top:15px;
-    font-size:30px;
+    font-size:14px;
     font-weight:bold;
 }
 
-.watermark{
-    position:fixed;
-    bottom:10px;
-    right:15px;
-    opacity:0.12;
-    font-size:50px;
-    color:gold;
-    font-weight:bold;
+.success{
+    color:#00ff99;
 }
 
+.error{
+    color:red;
+}
 </style>
 </head>
 
 <body>
 
-<div class="logo">💎 GOLD AZE 💎</div>
+<div class="box">
+    <h1>✈️ Aviator Siqnal</h1>
 
-<!-- BONUS TEXT BURADA -->
-<div class="top-text">
-🔥 5 ₼ kod alana 5 ₼ kod hədiyyə <br>
-🔥 10 ₼ kod alana 7 ₼ kod hədiyyə <br>
-🔥 20 ₼ kod alana 10 ₼ kod hədiyyə
+    <p>
+        Giriş üçün sizə verilən xüsusi kodu daxil edin
+    </p>
+
+    <input type="password" id="kod" placeholder="Kodu daxil et">
+
+    <button onclick="yoxla()">Giriş Et</button>
+
+    <div id="message"></div>
 </div>
-
-<!-- WHATSAPP -->
-<div class="whatsapp">
-
-<div class="online">🟢 WhatsApp Online</div><br>
-
-Kod almaq üçün WhatsAppda yaz 👇<br><br>
-
-<a href="https://wa.me/212649276900" target="_blank">
-wa.me/+212649276900
-</a>
-
-</div>
-
-<div class="container">
-
-<div class="screen" id="screen"></div>
-
-<div class="loading" id="loading"></div>
-
-<div class="keypad">
-
-<button onclick="addNumber('1')">1</button>
-<button onclick="addNumber('2')">2</button>
-<button onclick="addNumber('3')">3</button>
-
-<button onclick="addNumber('4')">4</button>
-<button onclick="addNumber('5')">5</button>
-<button onclick="addNumber('6')">6</button>
-
-<button onclick="addNumber('7')">7</button>
-<button onclick="addNumber('8')">8</button>
-<button onclick="addNumber('9')">9</button>
-
-<button class="delete" onclick="removeNumber()">←</button>
-<button onclick="addNumber('0')">0</button>
-<button class="ok" onclick="checkCode()">OK</button>
-
-</div>
-
-<div class="message" id="message"></div>
-
-</div>
-
-<div class="watermark">GOLD AZE</div>
-
-<audio id="successSound">
-<source src="https://www.soundjay.com/buttons/sounds/button-3.mp3">
-</audio>
-
-<audio id="errorSound">
-<source src="https://www.soundjay.com/buttons/sounds/button-10.mp3">
-</audio>
 
 <script>
 
-let input = "";
+let duzgunKod = "AVIATOR2026";
 
-const validCodes = ["1234","7777","2026","5555","9898"];
+function yoxla(){
 
-function addNumber(num){
-    if(input.length < 12){
-        input += num;
-        document.getElementById("screen").innerText = input;
+    let daxilEdilenKod = document.getElementById("kod").value;
+    let mesaj = document.getElementById("message");
+
+    if(daxilEdilenKod === duzgunKod){
+
+        mesaj.innerHTML = "✅ Giriş uğurludur!";
+        mesaj.className = "success";
+
+        setTimeout(() => {
+            window.location.href = "https://google.com";
+        }, 1500);
+
+    }else{
+
+        mesaj.innerHTML = "❌ Kod yanlışdır! Giriş qadağandır.";
+        mesaj.className = "error";
     }
-}
-
-function removeNumber(){
-    input = input.slice(0,-1);
-    document.getElementById("screen").innerText = input;
-}
-
-function checkCode(){
-
-    const message = document.getElementById("message");
-    const loading = document.getElementById("loading");
-
-    loading.innerText = "🔑 Kod yoxlanılır...";
-
-    setTimeout(() => {
-
-        loading.innerText = "";
-
-        if(validCodes.includes(input)){
-            message.style.color = "#00ff88";
-            message.innerText = "✅ Kod Doğrudur";
-            document.getElementById("successSound").play();
-        } else {
-            message.style.color = "red";
-            message.innerText = "❌ Kod Səhvdir";
-            document.getElementById("errorSound").play();
-        }
-
-        input = "";
-        document.getElementById("screen").innerText = "";
-
-    },1500);
 
 }
 
