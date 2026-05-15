@@ -2,414 +2,229 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Wheel Of Luck</title>
+<title>Walk To Earn Sistem</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
-
 body{
-background:linear-gradient(180deg,#7f5af0,#2d1b69);
-height:100vh;
-overflow:hidden;
-color:white;
-}
-
-.top{
-display:flex;
-justify-content:space-between;
-padding:20px;
-font-weight:bold;
-font-size:18px;
+    font-family: Arial;
+    background:#0f172a;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
 .box{
-background:#fff;
-color:#000;
-padding:8px 16px;
-border-radius:20px;
-font-size:15px;
+    background:#1e293b;
+    padding:20px;
+    border-radius:12px;
+    width:340px;
 }
 
-.center{
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-margin-top:10px;
-}
-
-h1{
-font-size:34px;
-margin-bottom:15px;
-text-shadow:0 0 10px rgba(255,255,255,0.5);
-}
-
-.wheel-box{
-position:relative;
-width:320px;
-height:320px;
-}
-
-#wheel{
-width:100%;
-height:100%;
-border-radius:50%;
-border:12px solid #facc15;
-transition:5s cubic-bezier(0.17,0.67,0.12,0.99);
-box-shadow:
-0 0 20px rgba(255,255,255,0.4),
-0 0 40px rgba(255,255,255,0.2);
-}
-
-.pointer{
-position:absolute;
-top:-15px;
-left:50%;
-transform:translateX(-50%);
-font-size:50px;
-z-index:10;
-}
-
-.spin-buttons{
-margin-top:30px;
-width:90%;
-max-width:350px;
+input{
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    border:none;
+    border-radius:8px;
 }
 
 button{
-width:100%;
-padding:16px;
-border:none;
-border-radius:18px;
-font-size:20px;
-font-weight:bold;
-margin-top:15px;
-cursor:pointer;
-transition:0.2s;
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
 }
 
-button:active{
-transform:scale(0.96);
-}
+.green{background:#22c55e;color:white;}
+.blue{background:#3b82f6;color:white;}
+.red{background:#ef4444;color:white;}
 
-.spin{
-background:#facc15;
-color:#000;
-}
+.hidden{display:none;}
 
-.premium{
-background:#22c55e;
-color:white;
-}
+h2{text-align:center;}
 
-.reward-popup{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.8);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:999;
+.small{
+    font-size:14px;
+    opacity:0.8;
+    text-align:center;
 }
-
-.popup{
-background:white;
-color:black;
-padding:30px;
-border-radius:25px;
-text-align:center;
-width:320px;
-animation:pop 0.4s ease;
-}
-
-@keyframes pop{
-0%{
-transform:scale(0.4);
-opacity:0;
-}
-100%{
-transform:scale(1);
-opacity:1;
-}
-}
-
-.popup h2{
-font-size:32px;
-margin-top:10px;
-}
-
-.popup .coins{
-font-size:65px;
-margin:15px 0;
-}
-
-.claim{
-background:#facc15;
-}
-
-.claim2{
-background:#22c55e;
-color:white;
-}
-
-.bottom{
-position:absolute;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-font-size:14px;
-opacity:0.8;
-}
-
-.online{
-color:#22c55e;
-font-weight:bold;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="top">
+<!-- REGISTER -->
+<div class="box" id="registerBox">
+<h2>📝 Qeydiyyat</h2>
 
-<div class="box">
-🎟️ Ticket: <span id="ticket">3</span>
+<input id="regUser" placeholder="İstifadəçi adı">
+<input id="regPhone" placeholder="Telefon nömrəsi">
+<input id="regEmail" placeholder="Email">
+<input id="regPass" type="password" placeholder="Şifrə">
+
+<button class="green" onclick="register()">Qeydiyyatdan keç</button>
+
+<p class="small">Hesabın var? <a href="#" onclick="showLogin()" style="color:#60a5fa;">Giriş et</a></p>
 </div>
 
-<div class="box">
-🪙 Coin: <span id="coin">284</span>
+<!-- LOGIN -->
+<div class="box hidden" id="loginBox">
+<h2>🔐 Giriş</h2>
+
+<input id="loginUser" placeholder="İstifadəçi adı">
+<input id="loginPass" type="password" placeholder="Şifrə">
+
+<button class="blue" onclick="login()">Giriş et</button>
+
+<p class="small">Hesab yoxdur? <a href="#" onclick="showRegister()" style="color:#60a5fa;">Qeydiyyat</a></p>
 </div>
 
-</div>
+<!-- DASHBOARD -->
+<div class="box hidden" id="dashBox">
+<h2>🚶 Walk To Earn</h2>
 
-<div class="center">
+<p>👤 <b id="dUser"></b></p>
 
-<h1>WHEEL OF LUCK</h1>
+<hr>
 
-<div class="wheel-box">
+<p>👣 Addım: <span id="steps">0</span></p>
+<p>💰 Coin: <span id="coins">0</span></p>
+<p>💵 Balans: <span id="balance">0.00</span> ₼</p>
 
-<div class="pointer">📍</div>
+<button class="green" onclick="addStep()">➕ Addım at</button>
+<button class="blue" onclick="autoWalk()">🚶 Avto gediş</button>
+<button class="red" onclick="logout()">Çıxış</button>
 
-<canvas id="wheel" width="320" height="320"></canvas>
-
-</div>
-
-<div class="spin-buttons">
-
-<button class="spin" onclick="spinWheel()">
-SPIN 🎟️
-</button>
-
-<button class="premium" onclick="premiumSpin()">
-SPIN x2 🎥
-</button>
-
-</div>
-
-</div>
-
-<div class="reward-popup" id="popup">
-
-<div class="popup">
-
-<h2>Reward</h2>
-
-<div class="coins">🪙</div>
-
-<h1 id="rewardText">+50</h1>
-
-<button class="claim" onclick="claimReward()">
-CLAIM
-</button>
-
-<button class="claim2" onclick="claimX2()">
-CLAIM x2
-</button>
-
-</div>
-
-</div>
-
-<div class="bottom">
-<span class="online">● 2,194 online players</span>
+<p class="small" id="msg">Hazırdır...</p>
 </div>
 
 <script>
 
-const canvas = document.getElementById("wheel");
-const ctx = canvas.getContext("2d");
+let steps = 0;
+let coins = 0;
+let balance = 0;
+let interval = null;
 
-const rewards = [
-50,
-100,
-250,
-25,
-500,
-75,
-150,
-300
-];
+// REGISTER
+function register(){
 
-const colors = [
-"#ff4d6d",
-"#ffd60a",
-"#2ec4b6",
-"#8338ec",
-"#fb5607",
-"#3a86ff",
-"#06d6a0",
-"#ffbe0b"
-];
+    let user = document.getElementById("regUser").value;
+    let phone = document.getElementById("regPhone").value;
+    let email = document.getElementById("regEmail").value;
+    let pass = document.getElementById("regPass").value;
 
-let rotation = 0;
-let currentReward = 0;
+    if(!user || !phone || !email || !pass){
+        alert("Bütün xanaları doldur!");
+        return;
+    }
 
-function drawWheel(){
+    let data = {user,phone,email,pass};
 
-const size = canvas.width;
-const center = size / 2;
-const radius = center;
+    localStorage.setItem("user", JSON.stringify(data));
 
-for(let i=0;i<rewards.length;i++){
-
-const angle =
-(i * 2 * Math.PI) / rewards.length;
-
-ctx.beginPath();
-
-ctx.moveTo(center,center);
-
-ctx.arc(
-center,
-center,
-radius,
-angle,
-angle + (2*Math.PI/rewards.length)
-);
-
-ctx.fillStyle = colors[i];
-ctx.fill();
-
-ctx.save();
-
-ctx.translate(center,center);
-ctx.rotate(angle + Math.PI/4);
-
-ctx.fillStyle = "white";
-ctx.font = "bold 22px Arial";
-
-ctx.fillText(
-rewards[i],
-radius - 70,
-10
-);
-
-ctx.restore();
-
+    alert("Qeydiyyat uğurlu oldu!");
+    showLogin();
 }
 
+// LOGIN
+function login(){
+
+    let user = document.getElementById("loginUser").value;
+    let pass = document.getElementById("loginPass").value;
+
+    let data = JSON.parse(localStorage.getItem("user"));
+
+    if(!data){
+        alert("Əvvəl qeydiyyatdan keç!");
+        return;
+    }
+
+    if(user === data.user && pass === data.pass){
+        document.getElementById("dUser").innerText = data.user;
+        showDash();
+    }else{
+        alert("Səhv məlumat!");
+    }
 }
 
-drawWheel();
-
-function spinWheel(){
-
-let ticket =
-parseInt(document.getElementById("ticket").innerText);
-
-if(ticket <= 0){
-alert("Ticket yoxdur");
-return;
+// ADD STEP
+function addStep(){
+    steps += 1000;
+    coins += 10;
+    calc();
+    updateUI();
+    document.getElementById("msg").innerText = "🚶 Gəzirsən...";
 }
 
-ticket--;
+// AUTO WALK
+function autoWalk(){
 
-document.getElementById("ticket").innerText =
-ticket;
+    if(interval){
+        clearInterval(interval);
+        interval = null;
+        document.getElementById("msg").innerText = "⛔ Dayandırıldı";
+        return;
+    }
 
-const rewardIndex =
-Math.floor(Math.random() * rewards.length);
+    interval = setInterval(()=>{
+        steps += 500;
+        coins += 5;
+        calc();
+        updateUI();
+    }, 1000);
 
-currentReward = rewards[rewardIndex];
-
-const degree =
-3600 + (rewardIndex * 45);
-
-rotation += degree;
-
-canvas.style.transform =
-`rotate(${rotation}deg)`;
-
-setTimeout(()=>{
-
-document.getElementById("rewardText").innerText =
-"+" + currentReward;
-
-document.getElementById("popup").style.display =
-"flex";
-
-},5200);
-
+    document.getElementById("msg").innerText = "🚶 Avto gediş aktivdir...";
 }
 
-function premiumSpin(){
+// CONVERT
+function calc(){
 
-currentReward = 1000;
-
-rotation += 5000;
-
-canvas.style.transform =
-`rotate(${rotation}deg)`;
-
-setTimeout(()=>{
-
-document.getElementById("rewardText").innerText =
-"+" + currentReward;
-
-document.getElementById("popup").style.display =
-"flex";
-
-},5200);
-
+    if(steps >= 100000){
+        balance = (steps/100000)*38.62;
+    }
+    else if(steps >= 50000){
+        balance = (steps/50000)*17.89;
+    }
+    else if(steps >= 10000){
+        balance = (steps/10000)*3.65;
+    }
+    else{
+        balance = (steps/10000)*3.65;
+    }
 }
 
-function claimReward(){
-
-let coin =
-parseInt(document.getElementById("coin").innerText);
-
-coin += currentReward;
-
-document.getElementById("coin").innerText =
-coin;
-
-document.getElementById("popup").style.display =
-"none";
-
+// UI
+function updateUI(){
+    document.getElementById("steps").innerText = steps;
+    document.getElementById("coins").innerText = coins;
+    document.getElementById("balance").innerText = balance.toFixed(2);
 }
 
-function claimX2(){
+// LOGOUT
+function logout(){
+    showLogin();
+}
 
-let coin =
-parseInt(document.getElementById("coin").innerText);
+// PAGE CONTROL
+function showLogin(){
+    document.getElementById("registerBox").classList.add("hidden");
+    document.getElementById("dashBox").classList.add("hidden");
+    document.getElementById("loginBox").classList.remove("hidden");
+}
 
-coin += currentReward * 2;
+function showRegister(){
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("registerBox").classList.remove("hidden");
+}
 
-document.getElementById("coin").innerText =
-coin;
-
-document.getElementById("popup").style.display =
-"none";
-
+function showDash(){
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("registerBox").classList.add("hidden");
+    document.getElementById("dashBox").classList.remove("hidden");
 }
 
 </script>
