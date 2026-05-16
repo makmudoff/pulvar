@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mostbet Bonus</title>
+<title>Bonus Popup</title>
 
 <style>
 
@@ -23,7 +23,7 @@ body{
     padding:20px;
 }
 
-/* Popup */
+/* POPUP */
 
 .popup{
     width:100%;
@@ -37,7 +37,7 @@ body{
     box-shadow:0 0 40px rgba(0,0,0,0.4);
 }
 
-/* Mostbet Logo Circle */
+/* TOP CIRCLE */
 
 .logo-circle{
     width:110px;
@@ -52,14 +52,15 @@ body{
     justify-content:center;
     align-items:center;
     border:4px solid rgba(255,255,255,0.2);
-    overflow:hidden;
 }
 
-.logo-circle img{
-    width:75px;
+/* FLAG */
+
+.flag{
+    font-size:55px;
 }
 
-/* Text */
+/* TEXT */
 
 .text{
     color:white;
@@ -72,7 +73,7 @@ body{
     color:#ffb400;
 }
 
-/* Button */
+/* BUTTON */
 
 .btn{
     display:inline-block;
@@ -95,6 +96,96 @@ body{
     background:#ff6f1f;
 }
 
+/* CHAT BUTTON */
+
+.chat-toggle{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:#ff5a00;
+    color:white;
+    border:none;
+    font-size:30px;
+    cursor:pointer;
+    box-shadow:0 0 20px rgba(255,90,0,0.8);
+}
+
+/* CHAT BOX */
+
+.chat-box{
+    position:fixed;
+    bottom:100px;
+    right:20px;
+    width:320px;
+    background:#003f8f;
+    border-radius:20px;
+    overflow:hidden;
+    display:none;
+    box-shadow:0 0 30px rgba(0,0,0,0.4);
+}
+
+.chat-header{
+    background:#ff5a00;
+    color:white;
+    padding:15px;
+    font-size:22px;
+    font-weight:bold;
+    text-align:center;
+}
+
+.messages{
+    height:300px;
+    overflow-y:auto;
+    padding:10px;
+    background:#004a9f;
+}
+
+.bot,.user{
+    padding:12px;
+    margin:8px 0;
+    border-radius:12px;
+    max-width:85%;
+    color:white;
+}
+
+.bot{
+    background:#0a4ca0;
+}
+
+.user{
+    background:#ff5a00;
+    margin-left:auto;
+    text-align:right;
+}
+
+.chat-input{
+    display:flex;
+    padding:10px;
+    background:#003f8f;
+}
+
+.chat-input input{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    outline:none;
+}
+
+.chat-input button{
+    margin-left:8px;
+    background:#ff5a00;
+    border:none;
+    color:white;
+    padding:12px 15px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
 </style>
 </head>
 
@@ -103,10 +194,7 @@ body{
 <div class="popup">
 
     <div class="logo-circle">
-
-        <!-- MOSTBET LOGO -->
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Mostbet_logo.png/640px-Mostbet_logo.png">
-
+        <div class="flag">🇦🇿</div>
     </div>
 
     <div class="text">
@@ -122,6 +210,99 @@ body{
     </a>
 
 </div>
+
+<!-- CHAT BUTTON -->
+
+<button class="chat-toggle" onclick="toggleChat()">
+💬
+</button>
+
+<!-- CHAT BOX -->
+
+<div class="chat-box" id="chatBox">
+
+    <div class="chat-header">
+        Dəstək Xidməti
+    </div>
+
+    <div class="messages" id="messages">
+
+        <div class="bot">
+            Salam 👋 Sizə necə kömək edə bilərəm?
+        </div>
+
+    </div>
+
+    <div class="chat-input">
+
+        <input type="text" id="input" placeholder="Mesaj yaz...">
+
+        <button onclick="sendMessage()">
+            Göndər
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+function toggleChat(){
+
+    let chat = document.getElementById("chatBox");
+
+    if(chat.style.display == "block"){
+        chat.style.display = "none";
+    }else{
+        chat.style.display = "block";
+    }
+}
+
+function sendMessage(){
+
+    let input = document.getElementById("input");
+    let text = input.value;
+
+    if(text == "") return;
+
+    let messages = document.getElementById("messages");
+
+    messages.innerHTML += `
+        <div class="user">${text}</div>
+    `;
+
+    let reply = "Operator tezliklə sizə cavab verəcək.";
+
+    if(text.toLowerCase().includes("bonus")){
+        reply = "10 AZN depozit edin və 150₼ bonus qazanın.";
+    }
+
+    else if(text.toLowerCase().includes("qeydiyyat")){
+        reply = "Qeydiyyat üçün BONUSU ƏLDƏ EDİN düyməsinə klik edin.";
+    }
+
+    else if(text.toLowerCase().includes("depozit")){
+        reply = "Minimum depozit məbləği 10 AZN-dir.";
+    }
+
+    else if(text.toLowerCase().includes("salam")){
+        reply = "Salam 👋 Xoş gəlmisiniz.";
+    }
+
+    setTimeout(()=>{
+
+        messages.innerHTML += `
+            <div class="bot">${reply}</div>
+        `;
+
+        messages.scrollTop = messages.scrollHeight;
+
+    },500);
+
+    input.value = "";
+}
+
+</script>
 
 </body>
 </html>
