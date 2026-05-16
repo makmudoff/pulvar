@@ -1,230 +1,596 @@
+<!--
+FULL PUBG UC SHOP DEMO
+index.html
+-->
 <!DOCTYPE html>
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Walk To Earn Sistem</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PUBG UC SHOP PRO</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
 body{
-    font-family: Arial;
-    background:#0f172a;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+background:#0f0f0f;
+color:white;
+overflow-x:hidden;
+padding-bottom:120px;
 }
 
-.box{
-    background:#1e293b;
-    padding:20px;
-    border-radius:12px;
-    width:340px;
+/* LOADING */
+
+#loader{
+position:fixed;
+width:100%;
+height:100vh;
+background:black;
+z-index:99999;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
 }
 
-input{
-    width:100%;
-    padding:10px;
-    margin-top:8px;
-    border:none;
-    border-radius:8px;
+.loader-circle{
+width:100px;
+height:100px;
+border:8px solid #222;
+border-top:8px solid #ffc400;
+border-radius:50%;
+animation:spin 1s linear infinite;
 }
 
-button{
-    width:100%;
-    padding:10px;
-    margin-top:10px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
 }
 
-.green{background:#22c55e;color:white;}
-.blue{background:#3b82f6;color:white;}
-.red{background:#ef4444;color:white;}
-
-.hidden{display:none;}
-
-h2{text-align:center;}
-
-.small{
-    font-size:14px;
-    opacity:0.8;
-    text-align:center;
+#loader h1{
+margin-top:20px;
+color:#ffc400;
+font-size:35px;
 }
+
+/* HEADER */
+
+header{
+position:sticky;
+top:0;
+z-index:999;
+background:rgba(0,0,0,.7);
+backdrop-filter:blur(10px);
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:30px;
+font-weight:800;
+color:#ffc400;
+text-shadow:0 0 20px #ffc400;
+}
+
+.balance{
+background:#1a1a1a;
+padding:10px 20px;
+border-radius:12px;
+font-weight:600;
+}
+
+/* SLIDER */
+
+.slider{
+margin:20px;
+height:220px;
+border-radius:25px;
+overflow:hidden;
+position:relative;
+}
+
+.slider img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.slide-text{
+position:absolute;
+bottom:30px;
+left:30px;
+}
+
+.slide-text h1{
+font-size:40px;
+color:#ffc400;
+}
+
+/* SEARCH */
+
+.search{
+padding:0 20px;
+margin-bottom:20px;
+}
+
+.search input{
+width:100%;
+height:55px;
+border:none;
+outline:none;
+padding:0 20px;
+font-size:18px;
+border-radius:15px;
+background:#1a1a1a;
+color:white;
+}
+
+/* PRODUCTS */
+
+.products{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+padding:20px;
+}
+
+.card{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.1);
+backdrop-filter:blur(10px);
+border-radius:20px;
+overflow:hidden;
+transition:.4s;
+position:relative;
+}
+
+.card:hover{
+transform:translateY(-10px) scale(1.02);
+box-shadow:0 0 25px #ffc400;
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.card-body{
+padding:15px;
+}
+
+.card-title{
+font-size:22px;
+font-weight:600;
+margin-bottom:10px;
+}
+
+.price{
+font-size:28px;
+font-weight:700;
+color:#ffc400;
+}
+
+.buy-btn{
+width:100%;
+height:50px;
+border:none;
+margin-top:15px;
+border-radius:12px;
+background:#ffc400;
+font-size:18px;
+font-weight:700;
+cursor:pointer;
+}
+
+/* FEATURES */
+
+.section-title{
+font-size:35px;
+padding:20px;
+color:#ffc400;
+}
+
+.features{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+padding:20px;
+}
+
+.feature{
+background:#1a1a1a;
+padding:25px;
+border-radius:20px;
+text-align:center;
+}
+
+.feature h2{
+margin-bottom:10px;
+color:#ffc400;
+}
+
+/* BONUS */
+
+.bonus{
+margin:20px;
+padding:30px;
+border-radius:25px;
+background:linear-gradient(45deg,#ffb300,#ff8800);
+color:black;
+text-align:center;
+}
+
+.bonus button{
+margin-top:15px;
+width:100%;
+height:55px;
+border:none;
+border-radius:15px;
+font-size:20px;
+font-weight:700;
+cursor:pointer;
+}
+
+/* REVIEW */
+
+.reviews{
+padding:20px;
+display:flex;
+gap:15px;
+overflow:auto;
+}
+
+.review{
+min-width:280px;
+background:#1a1a1a;
+padding:20px;
+border-radius:20px;
+}
+
+/* FOOTER NAV */
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+width:100%;
+background:#111;
+display:flex;
+justify-content:space-around;
+padding:15px 0;
+border-top:1px solid rgba(255,255,255,.1);
+}
+
+.nav-item{
+text-align:center;
+font-size:14px;
+color:#999;
+}
+
+.nav-item span{
+display:block;
+font-size:28px;
+margin-bottom:5px;
+}
+
+.active{
+color:#ffc400;
+}
+
+/* POPUP */
+
+.popup{
+position:fixed;
+bottom:100px;
+right:20px;
+background:#ffc400;
+color:black;
+padding:15px 20px;
+border-radius:15px;
+font-weight:700;
+animation:popup 2s infinite;
+}
+
+@keyframes popup{
+
+0%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-10px);
+}
+
+100%{
+transform:translateY(0);
+}
+
+}
+
+/* ONLINE */
+
+.online{
+position:fixed;
+left:15px;
+bottom:100px;
+background:#1a1a1a;
+padding:12px 18px;
+border-radius:15px;
+font-weight:600;
+}
+
 </style>
 </head>
-
 <body>
 
-<!-- REGISTER -->
-<div class="box" id="registerBox">
-<h2>📝 Qeydiyyat</h2>
+<!-- LOADER -->
 
-<input id="regUser" placeholder="İstifadəçi adı">
-<input id="regPhone" placeholder="Telefon nömrəsi">
-<input id="regEmail" placeholder="Email">
-<input id="regPass" type="password" placeholder="Şifrə">
-
-<button class="green" onclick="register()">Qeydiyyatdan keç</button>
-
-<p class="small">Hesabın var? <a href="#" onclick="showLogin()" style="color:#60a5fa;">Giriş et</a></p>
+<div id="loader">
+<div class="loader-circle"></div>
+<h1>PUBG UC SHOP</h1>
 </div>
 
-<!-- LOGIN -->
-<div class="box hidden" id="loginBox">
-<h2>🔐 Giriş</h2>
+<!-- HEADER -->
 
-<input id="loginUser" placeholder="İstifadəçi adı">
-<input id="loginPass" type="password" placeholder="Şifrə">
+<header>
 
-<button class="blue" onclick="login()">Giriş et</button>
+<div class="top">
 
-<p class="small">Hesab yoxdur? <a href="#" onclick="showRegister()" style="color:#60a5fa;">Qeydiyyat</a></p>
+<div class="logo">
+UC SHOP
 </div>
 
-<!-- DASHBOARD -->
-<div class="box hidden" id="dashBox">
-<h2>🚶 Walk To Earn</h2>
+<div class="balance">
+💰 120 AZN
+</div>
 
-<p>👤 <b id="dUser"></b></p>
+</div>
 
-<hr>
+</header>
 
-<p>👣 Addım: <span id="steps">0</span></p>
-<p>💰 Coin: <span id="coins">0</span></p>
-<p>💵 Balans: <span id="balance">0.00</span> ₼</p>
+<!-- SLIDER -->
 
-<button class="green" onclick="addStep()">➕ Addım at</button>
-<button class="blue" onclick="autoWalk()">🚶 Avto gediş</button>
-<button class="red" onclick="logout()">Çıxış</button>
+<div class="slider">
 
-<p class="small" id="msg">Hazırdır...</p>
+<img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop">
+
+<div class="slide-text">
+<h1>ROYAL PASS ENDİRİMİ</h1>
+<p>Bu gün 20% endirim</p>
+</div>
+
+</div>
+
+<!-- SEARCH -->
+
+<div class="search">
+<input type="text" placeholder="Oyun və ya məhsul axtar...">
+</div>
+
+<!-- PRODUCTS -->
+
+<div class="products">
+
+<div class="card">
+
+<img src="https://cdn.cloudflare.steamstatic.com/steam/apps/578080/header.jpg">
+
+<div class="card-body">
+
+<div class="card-title">
+60 UC
+</div>
+
+<div class="price">
+1.80 AZN
+</div>
+
+<button class="buy-btn">
+Sifariş et
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="https://cdn.cloudflare.steamstatic.com/steam/apps/578080/header.jpg">
+
+<div class="card-body">
+
+<div class="card-title">
+325 UC
+</div>
+
+<div class="price">
+9 AZN
+</div>
+
+<button class="buy-btn">
+Sifariş et
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2071&auto=format&fit=crop">
+
+<div class="card-body">
+
+<div class="card-title">
+Valorant VP
+</div>
+
+<div class="price">
+5 AZN
+</div>
+
+<button class="buy-btn">
+Sifariş et
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=2070&auto=format&fit=crop">
+
+<div class="card-body">
+
+<div class="card-title">
+Free Fire Diamond
+</div>
+
+<div class="price">
+3 AZN
+</div>
+
+<button class="buy-btn">
+Sifariş et
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FEATURES -->
+
+<h1 class="section-title">
+Üstünlüklər
+</h1>
+
+<div class="features">
+
+<div class="feature">
+<h2>⚡ Sürətli</h2>
+<p>1-5 dəqiqəyə çatdırılma</p>
+</div>
+
+<div class="feature">
+<h2>🔒 Təhlükəsiz</h2>
+<p>100% etibarlı sistem</p>
+</div>
+
+<div class="feature">
+<h2>🎁 Bonus</h2>
+<p>Günlük hədiyyələr</p>
+</div>
+
+<div class="feature">
+<h2>💬 Dəstək</h2>
+<p>24/7 aktiv dəstək</p>
+</div>
+
+</div>
+
+<!-- BONUS -->
+
+<div class="bonus">
+
+<h1>🎁 Günlük Bonus</h1>
+
+<p>Hər gün daxil ol bonus qazan</p>
+
+<button onclick="bonus()">
+Bonus Al
+</button>
+
+</div>
+
+<!-- REVIEWS -->
+
+<h1 class="section-title">
+Müştəri Rəyləri
+</h1>
+
+<div class="reviews">
+
+<div class="review">
+★★★★★<br><br>
+Çox sürətli çatdırılma oldu.
+</div>
+
+<div class="review">
+★★★★★<br><br>
+Ən yaxşı UC shop.
+</div>
+
+<div class="review">
+★★★★★<br><br>
+Qiymətlər çox sərfəlidir.
+</div>
+
+</div>
+
+<!-- POPUP -->
+
+<div class="popup">
+🔥 8100 UC endirimdədir
+</div>
+
+<!-- ONLINE -->
+
+<div class="online">
+🟢 324 nəfər online
+</div>
+
+<!-- FOOTER -->
+
+<div class="bottom-nav">
+
+<div class="nav-item active">
+<span>🏠</span>
+Ana səhifə
+</div>
+
+<div class="nav-item">
+<span>🎮</span>
+Oyunlar
+</div>
+
+<div class="nav-item">
+<span>🛒</span>
+Səbət
+</div>
+
+<div class="nav-item">
+<span>👤</span>
+Profil
+</div>
+
 </div>
 
 <script>
 
-let steps = 0;
-let coins = 0;
-let balance = 0;
-let interval = null;
+setTimeout(()=>{
+document.getElementById("loader").style.display="none";
+},2500);
 
-// REGISTER
-function register(){
-
-    let user = document.getElementById("regUser").value;
-    let phone = document.getElementById("regPhone").value;
-    let email = document.getElementById("regEmail").value;
-    let pass = document.getElementById("regPass").value;
-
-    if(!user || !phone || !email || !pass){
-        alert("Bütün xanaları doldur!");
-        return;
-    }
-
-    let data = {user,phone,email,pass};
-
-    localStorage.setItem("user", JSON.stringify(data));
-
-    alert("Qeydiyyat uğurlu oldu!");
-    showLogin();
-}
-
-// LOGIN
-function login(){
-
-    let user = document.getElementById("loginUser").value;
-    let pass = document.getElementById("loginPass").value;
-
-    let data = JSON.parse(localStorage.getItem("user"));
-
-    if(!data){
-        alert("Əvvəl qeydiyyatdan keç!");
-        return;
-    }
-
-    if(user === data.user && pass === data.pass){
-        document.getElementById("dUser").innerText = data.user;
-        showDash();
-    }else{
-        alert("Səhv məlumat!");
-    }
-}
-
-// ADD STEP
-function addStep(){
-    steps += 1000;
-    coins += 10;
-    calc();
-    updateUI();
-    document.getElementById("msg").innerText = "🚶 Gəzirsən...";
-}
-
-// AUTO WALK
-function autoWalk(){
-
-    if(interval){
-        clearInterval(interval);
-        interval = null;
-        document.getElementById("msg").innerText = "⛔ Dayandırıldı";
-        return;
-    }
-
-    interval = setInterval(()=>{
-        steps += 500;
-        coins += 5;
-        calc();
-        updateUI();
-    }, 1000);
-
-    document.getElementById("msg").innerText = "🚶 Avto gediş aktivdir...";
-}
-
-// CONVERT
-function calc(){
-
-    if(steps >= 100000){
-        balance = (steps/100000)*38.62;
-    }
-    else if(steps >= 50000){
-        balance = (steps/50000)*17.89;
-    }
-    else if(steps >= 10000){
-        balance = (steps/10000)*3.65;
-    }
-    else{
-        balance = (steps/10000)*3.65;
-    }
-}
-
-// UI
-function updateUI(){
-    document.getElementById("steps").innerText = steps;
-    document.getElementById("coins").innerText = coins;
-    document.getElementById("balance").innerText = balance.toFixed(2);
-}
-
-// LOGOUT
-function logout(){
-    showLogin();
-}
-
-// PAGE CONTROL
-function showLogin(){
-    document.getElementById("registerBox").classList.add("hidden");
-    document.getElementById("dashBox").classList.add("hidden");
-    document.getElementById("loginBox").classList.remove("hidden");
-}
-
-function showRegister(){
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("registerBox").classList.remove("hidden");
-}
-
-function showDash(){
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("registerBox").classList.add("hidden");
-    document.getElementById("dashBox").classList.remove("hidden");
+function bonus(){
+alert("🎁 5 AZN bonus qazandın!");
 }
 
 </script>
