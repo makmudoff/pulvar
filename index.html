@@ -1,176 +1,138 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Bonus Kampaniya</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mostbet Bonus</title>
 
 <style>
-body{
+
+*{
     margin:0;
-    font-family:Arial;
-    background:#070b18;
-    color:white;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#07111f;
+    min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    min-height:100vh;
-}
-
-.bg{
-    position:absolute;
-    width:600px;
-    height:600px;
-    background:#00BFFF;
-    filter:blur(180px);
-    opacity:0.2;
-    border-radius:50%;
-}
-
-.card{
-    position:relative;
-    width:92%;
-    max-width:450px;
-    background:#11182d;
-    border:2px solid #00BFFF;
-    border-radius:20px;
     padding:20px;
-    box-shadow:0 0 30px #00BFFF;
+}
+
+.container{
+    width:100%;
+    max-width:800px;
+    background:linear-gradient(145deg,#0b1728,#111f35);
+    border-radius:25px;
+    border:2px solid #00cfff;
+    padding:50px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(0,207,255,0.35);
 }
 
 .logo{
-    text-align:center;
-    font-size:40px;
-    color:#00BFFF;
-    font-weight:bold;
+    font-size:65px;
+    font-weight:900;
+    color:#ffffff;
+    letter-spacing:3px;
+    margin-bottom:25px;
+}
+
+.logo span{
+    color:#00cfff;
+    text-shadow:0 0 15px #00cfff;
 }
 
 .bonus{
-    text-align:center;
-    font-size:34px;
-    color:#00BFFF;
-    margin:10px 0;
+    color:#00ff95;
+    font-size:38px;
+    font-weight:bold;
+    margin-bottom:30px;
+    text-shadow:0 0 12px #00ff95;
 }
 
-.timer{
-    text-align:center;
-    font-size:20px;
-    margin:10px 0;
-    color:#ffcc00;
+.text{
+    color:#ffffff;
+    font-size:27px;
+    line-height:1.8;
+}
+
+.money{
+    color:#ffd700;
+    font-size:42px;
+    font-weight:900;
+    text-shadow:0 0 14px #ffd700;
+}
+
+.min{
+    color:#00cfff;
     font-weight:bold;
 }
 
 .btn{
-    display:block;
-    text-align:center;
-    padding:15px;
-    background:#00BFFF;
-    color:black;
-    font-weight:bold;
-    border-radius:12px;
+    display:inline-block;
+    margin-top:40px;
+    background:#00cfff;
+    color:#000;
     text-decoration:none;
-    margin-top:15px;
-    animation:pulse 1.5s infinite;
-}
-
-@keyframes pulse{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.05);}
-    100%{transform:scale(1);}
-}
-
-.section{
-    margin-top:20px;
-    background:#0c1226;
-    padding:12px;
-    border-radius:10px;
-}
-
-h3{
-    margin:8px 0;
-    color:#00BFFF;
-}
-
-.small{
-    font-size:14px;
-    color:#cbd5e1;
-}
-
-.whatsapp{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:#25D366;
-    padding:12px 15px;
-    border-radius:50px;
-    color:white;
+    padding:18px 50px;
+    border-radius:15px;
+    font-size:24px;
     font-weight:bold;
-    text-decoration:none;
+    transition:0.3s;
+    box-shadow:0 0 25px rgba(0,207,255,0.45);
 }
+
+.btn:hover{
+    background:#00b2d9;
+    transform:scale(1.05);
+}
+
+.footer{
+    margin-top:25px;
+    color:#9ca3af;
+    font-size:15px;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="bg"></div>
+<div class="container">
 
-<div class="card">
+    <div class="logo">
+        MOST<span>BET</span>
+    </div>
 
-<div class="logo">MOSTBET BONUS</div>
+    <div class="bonus">
+        Yeni istifadəçilərə özəl 150₼ bonus təklifi
+    </div>
 
-<div class="timer" id="timer">Təklif bitir: 02:00:00</div>
+    <div class="text">
+        Qeydiyyatdan keç və balansını minimum
+        <span class="min">10 AZN</span>
+        artır.
+        <br><br>
 
-<div class="bonus">10 AZN → 150 AZN 🎁</div>
+        Sənin oyun hesabına
+        <span class="money">150₼ BONUS</span>
+        köçürək!
+    </div>
 
-<a class="btn" href="https://66avrzh.com/eb0U">
-QEYDİYYATDAN KEÇ
-</a>
+    <a href="https://66avrzh.com/eb0U" class="btn">
+        QEYDİYYATDAN KEÇ
+    </a>
 
-<div class="section">
-<h3>Necə işləyir?</h3>
-<div class="small">
-1. Qeydiyyatdan keç<br>
-2. 10 AZN depozit et<br>
-3. Bonus al və oyna
-</div>
-</div>
-
-<div class="section">
-<h3>Uduş nümunələri</h3>
-<div class="small">
-• İstifadəçi A – 120 AZN qazandı<br>
-• İstifadəçi B – 85 AZN qazandı
-</div>
-</div>
-
-<div class="section">
-<h3>FAQ</h3>
-<div class="small">
-Bonus necə aktiv olur?<br>
-Minimum depozit nədir?<br>
-Çıxarış nə qədər çəkir?
-</div>
-</div>
+    <div class="footer">
+        Bonus kampaniyası məhdud müddət üçündür
+    </div>
 
 </div>
-
-<a class="whatsapp" href="#">Kömək</a>
-
-<script>
-// Countdown timer
-let h=2, m=0, s=0;
-
-setInterval(()=>{
-    if(s>0) s--;
-    else{
-        if(m>0){m--; s=59;}
-        else if(h>0){h--; m=59; s=59;}
-    }
-
-    document.getElementById("timer").innerText =
-    `Təklif bitir: ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-},1000);
-</script>
 
 </body>
 </html>
