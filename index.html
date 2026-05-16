@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mostbet Bonus</title>
+<title>Mostbet Bonus Popup</title>
 
 <style>
 
@@ -15,87 +15,83 @@
 }
 
 body{
-    background:#07111f;
-    min-height:100vh;
+    background:#004b9b;
+    height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:20px;
+    overflow:hidden;
 }
 
-.container{
-    width:100%;
-    max-width:800px;
-    background:linear-gradient(145deg,#0b1728,#111f35);
-    border-radius:25px;
-    border:2px solid #00cfff;
-    padding:50px;
+/* Popup */
+
+.popup{
+    width:90%;
+    max-width:520px;
+    background:#003a7a;
+    border-radius:35px;
+    padding:40px 30px;
     text-align:center;
-    box-shadow:0 0 40px rgba(0,207,255,0.35);
+    position:relative;
+    box-shadow:0 0 40px rgba(0,0,0,0.4);
+    border:4px solid white;
 }
 
-.logo{
-    font-size:65px;
-    font-weight:900;
-    color:#ffffff;
-    letter-spacing:3px;
-    margin-bottom:25px;
+/* Gift Icon */
+
+.icon{
+    width:90px;
+    height:90px;
+    background:#003f88;
+    border-radius:50%;
+    margin:auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:45px;
+    color:white;
+    position:absolute;
+    top:-45px;
+    left:50%;
+    transform:translateX(-50%);
+    border:3px solid rgba(255,255,255,0.2);
 }
 
-.logo span{
-    color:#00cfff;
-    text-shadow:0 0 15px #00cfff;
-}
-
-.bonus{
-    color:#00ff95;
-    font-size:38px;
-    font-weight:bold;
-    margin-bottom:30px;
-    text-shadow:0 0 12px #00ff95;
-}
+/* Text */
 
 .text{
-    color:#ffffff;
-    font-size:27px;
-    line-height:1.8;
-}
-
-.money{
-    color:#ffd700;
-    font-size:42px;
-    font-weight:900;
-    text-shadow:0 0 14px #ffd700;
-}
-
-.min{
-    color:#00cfff;
+    margin-top:40px;
+    color:white;
+    font-size:36px;
     font-weight:bold;
+    line-height:1.4;
 }
+
+.highlight{
+    color:#ffb400;
+}
+
+/* Button */
 
 .btn{
     display:inline-block;
-    margin-top:40px;
-    background:#00cfff;
-    color:#000;
+    margin-top:35px;
+    background:#ff5a00;
+    color:white;
     text-decoration:none;
-    padding:18px 50px;
-    border-radius:15px;
-    font-size:24px;
-    font-weight:bold;
+    padding:20px 55px;
+    font-size:32px;
+    font-weight:900;
+    border-radius:60px;
+    box-shadow:
+        0 0 20px rgba(255,90,0,0.7),
+        inset 0 -6px 0 rgba(0,0,0,0.2);
     transition:0.3s;
-    box-shadow:0 0 25px rgba(0,207,255,0.45);
 }
 
 .btn:hover{
-    background:#00b2d9;
     transform:scale(1.05);
-}
-
-.footer{
-    margin-top:25px;
-    color:#9ca3af;
-    font-size:15px;
+    background:#ff6f1f;
 }
 
 </style>
@@ -103,34 +99,23 @@ body{
 
 <body>
 
-<div class="container">
+<div class="popup">
 
-    <div class="logo">
-        MOST<span>BET</span>
-    </div>
-
-    <div class="bonus">
-        Yeni istifadəçilərə özəl 150₼ bonus təklifi
+    <div class="icon">
+        🎁
     </div>
 
     <div class="text">
-        Qeydiyyatdan keç və balansını minimum
-        <span class="min">10 AZN</span>
-        artır.
-        <br><br>
-
-        Sənin oyun hesabına
-        <span class="money">150₼ BONUS</span>
-        köçürək!
+        Qeydiyyatdan keçin və
+        <span class="highlight">ilk depozitlərə</span>
+        <br>
+        <span class="highlight">150₼ BONUS</span>
+        qazanın!
     </div>
 
     <a href="https://66avrzh.com/eb0U" class="btn">
-        QEYDİYYATDAN KEÇ
+        BONUSU ƏLDƏ EDİN
     </a>
-
-    <div class="footer">
-        Bonus kampaniyası məhdud müddət üçündür
-    </div>
 
 </div>
 
