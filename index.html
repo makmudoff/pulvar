@@ -1,709 +1,175 @@
-<!--
-PUBG UC SHOP ULTRA PRO
-FULL DEMO SYSTEM
-index.html
--->
-
 <!DOCTYPE html>
 <html lang="az">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>UC SHOP ULTRA</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bonus Kampaniya</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
 body{
-background:#0a0a0a;
-color:white;
-overflow-x:hidden;
-padding-bottom:120px;
+    margin:0;
+    font-family:Arial;
+    background:#070b18;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
 }
 
-/* VIDEO BACKGROUND */
-
-video{
-position:fixed;
-right:0;
-bottom:0;
-min-width:100%;
-min-height:100%;
-z-index:-2;
-object-fit:cover;
-filter:brightness(.25);
-}
-
-/* PARTICLES */
-
-.particles{
-position:fixed;
-width:100%;
-height:100%;
-background-image:
-radial-gradient(#ffc400 1px, transparent 1px);
-background-size:30px 30px;
-opacity:.1;
-z-index:-1;
-animation:move 20s linear infinite;
-}
-
-@keyframes move{
-100%{
-transform:translateY(-100px);
-}
-}
-
-/* LOADER */
-
-#loader{
-position:fixed;
-width:100%;
-height:100vh;
-background:black;
-z-index:999999;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-}
-
-.loader{
-width:120px;
-height:120px;
-border:10px solid #222;
-border-top:10px solid #ffc400;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-100%{
-transform:rotate(360deg);
-}
-}
-
-#loader h1{
-margin-top:25px;
-font-size:40px;
-color:#ffc400;
-}
-
-/* HEADER */
-
-header{
-position:sticky;
-top:0;
-z-index:999;
-background:rgba(0,0,0,.6);
-backdrop-filter:blur(15px);
-padding:15px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-bottom:1px solid rgba(255,255,255,.1);
-}
-
-.logo{
-font-size:35px;
-font-weight:800;
-color:#ffc400;
-text-shadow:0 0 20px #ffc400;
-}
-
-.user{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.avatar{
-width:50px;
-height:50px;
-border-radius:50%;
-background:url('https://i.pravatar.cc/150');
-background-size:cover;
-border:2px solid #ffc400;
-}
-
-.balance{
-background:#1b1b1b;
-padding:10px 18px;
-border-radius:15px;
-font-weight:700;
-}
-
-/* SLIDER */
-
-.hero{
-margin:20px;
-height:240px;
-border-radius:30px;
-overflow:hidden;
-position:relative;
-box-shadow:0 0 30px rgba(255,196,0,.4);
-}
-
-.hero img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.overlay{
-position:absolute;
-inset:0;
-background:linear-gradient(to top,rgba(0,0,0,.8),transparent);
-display:flex;
-align-items:flex-end;
-padding:25px;
-}
-
-.overlay h1{
-font-size:45px;
-color:#ffc400;
-}
-
-/* TIMER */
-
-.timer{
-margin:20px;
-background:#1a1a1a;
-padding:20px;
-border-radius:20px;
-text-align:center;
-font-size:28px;
-font-weight:700;
-color:#ffc400;
-}
-
-/* SEARCH */
-
-.search{
-padding:0 20px;
-margin-bottom:20px;
-}
-
-.search input{
-width:100%;
-height:60px;
-border:none;
-border-radius:18px;
-padding:0 20px;
-font-size:18px;
-background:#161616;
-color:white;
-outline:none;
-}
-
-/* PRODUCTS */
-
-.products{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:18px;
-padding:20px;
+.bg{
+    position:absolute;
+    width:600px;
+    height:600px;
+    background:#00BFFF;
+    filter:blur(180px);
+    opacity:0.2;
+    border-radius:50%;
 }
 
 .card{
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(15px);
-border-radius:25px;
-overflow:hidden;
-transition:.4s;
-border:1px solid rgba(255,255,255,.1);
-position:relative;
+    position:relative;
+    width:92%;
+    max-width:450px;
+    background:#11182d;
+    border:2px solid #00BFFF;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 0 30px #00BFFF;
 }
 
-.card:hover{
-transform:translateY(-10px) scale(1.02);
-box-shadow:0 0 30px #ffc400;
+.logo{
+    text-align:center;
+    font-size:40px;
+    color:#00BFFF;
+    font-weight:bold;
 }
 
-.card img{
-width:100%;
-height:190px;
-object-fit:cover;
+.bonus{
+    text-align:center;
+    font-size:34px;
+    color:#00BFFF;
+    margin:10px 0;
 }
 
-.card-body{
-padding:15px;
+.timer{
+    text-align:center;
+    font-size:20px;
+    margin:10px 0;
+    color:#ffcc00;
+    font-weight:bold;
 }
 
-.card-title{
-font-size:22px;
-font-weight:700;
-margin-bottom:10px;
+.btn{
+    display:block;
+    text-align:center;
+    padding:15px;
+    background:#00BFFF;
+    color:black;
+    font-weight:bold;
+    border-radius:12px;
+    text-decoration:none;
+    margin-top:15px;
+    animation:pulse 1.5s infinite;
 }
 
-.price{
-font-size:30px;
-color:#ffc400;
-font-weight:800;
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.05);}
+    100%{transform:scale(1);}
 }
 
-.buy{
-width:100%;
-height:52px;
-margin-top:15px;
-border:none;
-border-radius:15px;
-background:#ffc400;
-font-size:18px;
-font-weight:700;
-cursor:pointer;
+.section{
+    margin-top:20px;
+    background:#0c1226;
+    padding:12px;
+    border-radius:10px;
 }
 
-/* FEATURES */
-
-.section-title{
-padding:20px;
-font-size:38px;
-color:#ffc400;
+h3{
+    margin:8px 0;
+    color:#00BFFF;
 }
 
-.features{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
-padding:20px;
+.small{
+    font-size:14px;
+    color:#cbd5e1;
 }
 
-.feature{
-background:#161616;
-padding:25px;
-border-radius:20px;
-text-align:center;
+.whatsapp{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#25D366;
+    padding:12px 15px;
+    border-radius:50px;
+    color:white;
+    font-weight:bold;
+    text-decoration:none;
 }
-
-.feature h2{
-margin-bottom:10px;
-color:#ffc400;
-}
-
-/* LIVE ORDERS */
-
-.live-orders{
-padding:20px;
-}
-
-.order{
-background:#151515;
-padding:18px;
-margin-bottom:15px;
-border-radius:15px;
-display:flex;
-justify-content:space-between;
-}
-
-/* FAQ */
-
-.faq{
-padding:20px;
-}
-
-details{
-background:#151515;
-padding:20px;
-border-radius:15px;
-margin-bottom:15px;
-}
-
-/* BLOG */
-
-.blogs{
-display:flex;
-overflow:auto;
-gap:15px;
-padding:20px;
-}
-
-.blog{
-min-width:280px;
-background:#151515;
-padding:20px;
-border-radius:20px;
-}
-
-/* NAV */
-
-nav{
-position:fixed;
-bottom:0;
-width:100%;
-background:#101010;
-display:flex;
-justify-content:space-around;
-padding:15px 0;
-border-top:1px solid rgba(255,255,255,.1);
-}
-
-nav div{
-text-align:center;
-font-size:14px;
-color:#999;
-}
-
-nav span{
-display:block;
-font-size:28px;
-margin-bottom:5px;
-}
-
-.active{
-color:#ffc400;
-}
-
-/* POPUP */
-
-.popup{
-position:fixed;
-right:20px;
-bottom:110px;
-background:#ffc400;
-color:black;
-padding:15px 20px;
-border-radius:18px;
-font-weight:700;
-animation:updown 2s infinite;
-}
-
-@keyframes updown{
-50%{
-transform:translateY(-10px);
-}
-}
-
-/* CHAT */
-
-.chat{
-position:fixed;
-left:20px;
-bottom:110px;
-background:#25D366;
-width:70px;
-height:70px;
-border-radius:50%;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:35px;
-cursor:pointer;
-}
-
-/* DARK MODE BUTTON */
-
-.mode{
-position:fixed;
-top:90px;
-right:20px;
-background:#ffc400;
-width:55px;
-height:55px;
-border-radius:50%;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:28px;
-cursor:pointer;
-}
-
 </style>
-
 </head>
 
 <body>
 
-<!-- VIDEO -->
-
-<video autoplay muted loop>
-<source src="https://cdn.coverr.co/videos/coverr-gaming-room-1564844092336?download=1080p" type="video/mp4">
-</video>
-
-<div class="particles"></div>
-
-<!-- LOADER -->
-
-<div id="loader">
-<div class="loader"></div>
-<h1>UC SHOP ULTRA</h1>
-</div>
-
-<!-- HEADER -->
-
-<header>
-
-<div class="logo">
-UC SHOP
-</div>
-
-<div class="user">
-
-<div class="balance">
-💰 245 AZN
-</div>
-
-<div class="avatar"></div>
-
-</div>
-
-</header>
-
-<!-- HERO -->
-
-<div class="hero">
-
-<img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop">
-
-<div class="overlay">
-<h1>ROYAL PASS 20% ENDİRİM</h1>
-</div>
-
-</div>
-
-<!-- TIMER -->
-
-<div class="timer">
-⏰ Kampaniya bitməsinə:
-<span id="countdown">03:12:55</span>
-</div>
-
-<!-- SEARCH -->
-
-<div class="search">
-<input type="text" placeholder="UC, VP, Diamond axtar...">
-</div>
-
-<!-- PRODUCTS -->
-
-<div class="products">
+<div class="bg"></div>
 
 <div class="card">
-<img src="https://cdn.cloudflare.steamstatic.com/steam/apps/578080/header.jpg">
-<div class="card-body">
-<div class="card-title">60 UC</div>
-<div class="price">1.80 AZN</div>
-<button class="buy">Satın al</button>
+
+<div class="logo">MOSTBET BONUS</div>
+
+<div class="timer" id="timer">Təklif bitir: 02:00:00</div>
+
+<div class="bonus">10 AZN → 150 AZN 🎁</div>
+
+<a class="btn" href="https://66avrzh.com/eb0U">
+QEYDİYYATDAN KEÇ
+</a>
+
+<div class="section">
+<h3>Necə işləyir?</h3>
+<div class="small">
+1. Qeydiyyatdan keç<br>
+2. 10 AZN depozit et<br>
+3. Bonus al və oyna
 </div>
 </div>
 
-<div class="card">
-<img src="https://cdn.cloudflare.steamstatic.com/steam/apps/578080/header.jpg">
-<div class="card-body">
-<div class="card-title">325 UC</div>
-<div class="price">9 AZN</div>
-<button class="buy">Satın al</button>
+<div class="section">
+<h3>Uduş nümunələri</h3>
+<div class="small">
+• İstifadəçi A – 120 AZN qazandı<br>
+• İstifadəçi B – 85 AZN qazandı
 </div>
 </div>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2071&auto=format&fit=crop">
-<div class="card-body">
-<div class="card-title">Valorant VP</div>
-<div class="price">5 AZN</div>
-<button class="buy">Satın al</button>
+<div class="section">
+<h3>FAQ</h3>
+<div class="small">
+Bonus necə aktiv olur?<br>
+Minimum depozit nədir?<br>
+Çıxarış nə qədər çəkir?
 </div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=2070&auto=format&fit=crop">
-<div class="card-body">
-<div class="card-title">Free Fire Diamond</div>
-<div class="price">3 AZN</div>
-<button class="buy">Satın al</button>
-</div>
-</div>
-
-</div>
-
-<!-- FEATURES -->
-
-<h1 class="section-title">
-Sistemlər
-</h1>
-
-<div class="features">
-
-<div class="feature">
-<h2>🔒 OTP Verification</h2>
-<p>Təhlükəsiz giriş sistemi</p>
-</div>
-
-<div class="feature">
-<h2>🎁 Daily Reward</h2>
-<p>Gündəlik bonus sistemi</p>
-</div>
-
-<div class="feature">
-<h2>💳 Crypto Payment</h2>
-<p>USDT / BTC dəstəyi</p>
-</div>
-
-<div class="feature">
-<h2>⚡ Auto Order</h2>
-<p>Avtomatik sifariş sistemi</p>
 </div>
 
 </div>
 
-<!-- LIVE ORDERS -->
-
-<h1 class="section-title">
-Son Sifarişlər
-</h1>
-
-<div class="live-orders">
-
-<div class="order">
-<span>Mahmud 660 UC aldı</span>
-<span>2 dəq əvvəl</span>
-</div>
-
-<div class="order">
-<span>PlayerX 325 UC aldı</span>
-<span>5 dəq əvvəl</span>
-</div>
-
-<div class="order">
-<span>RoyalUser RP aldı</span>
-<span>7 dəq əvvəl</span>
-</div>
-
-</div>
-
-<!-- FAQ -->
-
-<h1 class="section-title">
-FAQ
-</h1>
-
-<div class="faq">
-
-<details>
-<summary>UC nə qədər vaxta gəlir?</summary>
-<p>1-5 dəqiqə ərzində.</p>
-</details>
-
-<details>
-<summary>Ödəniş təhlükəsizdir?</summary>
-<p>Bəli 100% təhlükəsizdir.</p>
-</details>
-
-</div>
-
-<!-- BLOG -->
-
-<h1 class="section-title">
-News
-</h1>
-
-<div class="blogs">
-
-<div class="blog">
-<h2>Yeni Royale Pass</h2>
-<p>Yeni RP artıq aktivdir.</p>
-</div>
-
-<div class="blog">
-<h2>UC Endirimi</h2>
-<p>Bu həftə 20% bonus.</p>
-</div>
-
-</div>
-
-<!-- POPUP -->
-
-<div class="popup">
-🔥 8100 UC kampaniyada
-</div>
-
-<!-- CHAT -->
-
-<div class="chat">
-💬
-</div>
-
-<!-- DARK -->
-
-<div class="mode" onclick="darkMode()">
-🌙
-</div>
-
-<!-- NAV -->
-
-<nav>
-
-<div class="active">
-<span>🏠</span>
-Ana səhifə
-</div>
-
-<div>
-<span>🎮</span>
-Oyunlar
-</div>
-
-<div>
-<span>🛒</span>
-Səbət
-</div>
-
-<div>
-<span>👤</span>
-Profil
-</div>
-
-</nav>
-
-<!-- AUDIO -->
-
-<audio autoplay loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5d4f3b7a65.mp3?filename=gaming-music-111446.mp3">
-</audio>
+<a class="whatsapp" href="#">Kömək</a>
 
 <script>
-
-setTimeout(()=>{
-document.getElementById("loader").style.display="none";
-},2500);
-
-function darkMode(){
-
-if(document.body.style.background=="white"){
-document.body.style.background="#0a0a0a";
-document.body.style.color="white";
-}else{
-document.body.style.background="white";
-document.body.style.color="black";
-}
-
-}
-
-let time=11575;
+// Countdown timer
+let h=2, m=0, s=0;
 
 setInterval(()=>{
+    if(s>0) s--;
+    else{
+        if(m>0){m--; s=59;}
+        else if(h>0){h--; m=59; s=59;}
+    }
 
-let h=Math.floor(time/3600);
-let m=Math.floor((time%3600)/60);
-let s=time%60;
-
-document.getElementById("countdown").innerHTML=
-h+":"+m+":"+s;
-
-time--;
-
+    document.getElementById("timer").innerText =
+    `Təklif bitir: ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
 },1000);
-
 </script>
 
 </body>
