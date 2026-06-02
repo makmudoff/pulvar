@@ -1,85 +1,155 @@
-<!-- Demo Statistika -->
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Analiz Paneli</title>
 
-<div class="box" style="margin-top:20px;">
-<h2>📊 Statistika</h2>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
 
-<p>👥 Aktiv istifadəçi: <span id="users">12847</span></p>
-<p>🔍 Bu gün yoxlanış: <span id="checks">3291</span></p>
-<p>✅ Uğurlu analiz: 98%</p>
+body{
+    background:#0f172a;
+    color:white;
+    padding:20px;
+}
 
+.box{
+    max-width:500px;
+    margin:auto;
+    background:#1e293b;
+    padding:20px;
+    border-radius:15px;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:10px;
+}
+
+button{
+    width:100%;
+    margin-top:15px;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#25D366;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.progress{
+    width:100%;
+    height:25px;
+    background:#334155;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:20px;
+    display:none;
+}
+
+.bar{
+    width:0%;
+    height:100%;
+    background:#25D366;
+}
+
+#percent{
+    text-align:center;
+    margin-top:10px;
+}
+
+#status{
+    text-align:center;
+    margin-top:15px;
+    color:#facc15;
+}
+
+#result{
+    text-align:center;
+    margin-top:15px;
+    font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>Whastap izleme Analiz Paneli</h1>
+
+<input type="text" placeholder="Qarşı tərəfin adı">
+
+<input type="text" placeholder="Qarşı tərəfin nömrəsi">
+
+<input type="text" placeholder="Sizin adınız">
+
+<input type="text" placeholder="Sizin nömrəniz">
+
+<button onclick="startDemo()">Analizə Başla</button>
+
+<div class="progress" id="progress">
+<div class="bar" id="bar"></div>
 </div>
 
-<!-- Ölkə Seçimi -->
+<h3 id="percent"></h3>
 
-<div class="box" style="margin-top:20px;">
-<h2>🌍 Ölkə</h2>
+<p id="status"></p>
 
-<select style="width:90%;padding:10px;border-radius:8px;">
-<option>Azərbaycan</option>
-<option>Türkiyə</option>
-<option>Rusiya</option>
-<option>Gürcüstan</option>
-</select>
-
-</div>
-
-<!-- Demo Cihaz -->
-
-<div class="box" style="margin-top:20px;">
-<h2>📱 Demo Cihaz Məlumatı</h2>
-
-<p>Android 15</p>
-<p>WhatsApp Versiya: 2.26.5</p>
-<p>Son Aktivlik: Bu gün</p>
-
-</div>
-
-<!-- Premium -->
-
-<div class="box" style="margin-top:20px;">
-<h2>🔐 Premium</h2>
-
-<p>Premium funksiyalar kilidlidir.</p>
-
-<button disabled
-style="background:#64748b;">
-Premium Aktiv Et
-</button>
-
-</div>
-
-<!-- Rəylər -->
-
-<div class="box" style="margin-top:20px;">
-<h2>⭐ İstifadəçi Rəyləri</h2>
-
-<p>⭐⭐⭐⭐⭐ Çox rahat interfeys.</p>
-<p>⭐⭐⭐⭐⭐ Sürətli işləyir.</p>
-<p>⭐⭐⭐⭐⭐ Dizaynı əladır.</p>
-
-</div>
-
-<!-- Bildiriş -->
-
-<div class="box" style="margin-top:20px;">
-<h2>🔔 Bildiriş</h2>
-
-<marquee>
-Yeni yeniləmə mövcuddur • Server yüklənməsi yüksəkdir • Demo versiya
-</marquee>
+<p id="result"></p>
 
 </div>
 
 <script>
 
-setInterval(() => {
+function start(){
 
-document.getElementById("users").innerText =
-Math.floor(Math.random()*5000)+10000;
+document.getElementById("progress").style.display="block";
 
-document.getElementById("checks").innerText =
-Math.floor(Math.random()*2000)+3000;
+document.getElementById("status").innerHTML=
+"⚠️ Saytı tərk etməyin, proses davam edir...";
 
-},5000);
+document.getElementById("result").innerHTML="";
 
+let percent=0;
+
+let timer=setInterval(function(){
+
+percent++;
+
+document.getElementById("bar").style.width=percent+"%";
+document.getElementById("percent").innerHTML=percent+"%";
+
+if(percent>=100){
+
+clearInterval(timer);
+
+document.getElementById("status").innerHTML="";
+
+document.getElementById("result").innerHTML=
+"❌ Xəta baş verdi. Yenidən cəhd edin.";
+
+}
+
+},1000);
+
+}
 </script>
+
+</body>
+</html>
