@@ -3,86 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> Analiz Paneli</title>
+<title>Demo Analiz Paneli</title>
 
 <style>
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 body{
-    background:#0f172a;
-    color:white;
-    padding:20px;
+background:#0f172a;
+color:#fff;
+padding:20px;
 }
 
 .box{
-    max-width:500px;
-    margin:auto;
-    background:#1e293b;
-    padding:20px;
-    border-radius:15px;
+max-width:500px;
+margin:auto;
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+box-shadow:0 0 20px rgba(0,0,0,.4);
 }
 
 h1{
-    text-align:center;
-    margin-bottom:20px;
+text-align:center;
+margin-bottom:20px;
 }
 
 input{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:none;
-    border-radius:10px;
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+outline:none;
 }
 
 button{
-    width:100%;
-    margin-top:15px;
-    padding:14px;
-    border:none;
-    border-radius:10px;
-    background:#25D366;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
+width:100%;
+padding:14px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+background:#25D366;
+color:#fff;
+font-size:16px;
+cursor:pointer;
 }
 
 .progress{
-    width:100%;
-    height:25px;
-    background:#334155;
-    border-radius:20px;
-    overflow:hidden;
-    margin-top:20px;
-    display:none;
+width:100%;
+height:25px;
+background:#334155;
+border-radius:20px;
+overflow:hidden;
+margin-top:20px;
+display:none;
 }
 
 .bar{
-    width:0%;
-    height:100%;
-    background:#25D366;
+width:0%;
+height:100%;
+background:#25D366;
+transition:0.1s;
 }
 
 #percent{
-    text-align:center;
-    margin-top:10px;
+text-align:center;
+margin-top:10px;
+font-size:18px;
 }
 
 #status{
-    text-align:center;
-    margin-top:15px;
-    color:#facc15;
+text-align:center;
+margin-top:10px;
+color:#facc15;
 }
 
 #result{
-    text-align:center;
-    margin-top:15px;
-    font-size:18px;
+text-align:center;
+margin-top:15px;
+font-size:18px;
+font-weight:bold;
+}
+
+.info{
+margin-top:20px;
+padding:15px;
+background:#0f172a;
+border-radius:10px;
+}
+
+.info p{
+margin:5px 0;
 }
 </style>
 </head>
@@ -91,7 +107,7 @@ button{
 
 <div class="box">
 
-<h1>Whastap izleme Analiz Paneli</h1>
+<h1>Demo Analiz Paneli</h1>
 
 <input type="text" placeholder="Qarşı tərəfin adı">
 
@@ -107,48 +123,60 @@ button{
 <div class="bar" id="bar"></div>
 </div>
 
-<h3 id="percent"></h3>
+<div id="percent"></div>
 
-<p id="status"></p>
+<div id="status"></div>
 
-<p id="result"></p>
+<div id="result"></div>
+
+<div class="info">
+<p>👥 Aktiv istifadəçi: 12,847</p>
+<p>📊 Bu gün analiz: 3,291</p>
+<p>🟢 Server vəziyyəti: Aktiv</p>
+</div>
 
 </div>
 
 <script>
 
-function start(){
+function startDemo(){
 
-document.getElementById("progress").style.display="block";
+let progress=document.getElementById("progress");
+let bar=document.getElementById("bar");
+let percent=document.getElementById("percent");
+let status=document.getElementById("status");
+let result=document.getElementById("result");
 
-document.getElementById("status").innerHTML=
-"⚠️ Saytı tərk etməyin, proses davam edir...";
+progress.style.display="block";
+bar.style.width="0%";
+percent.innerHTML="0%";
+result.innerHTML="";
 
-document.getElementById("result").innerHTML="";
+status.innerHTML="⚠️ Saytı tərk etməyin, demo proses davam edir...";
 
-let percent=0;
+let i=0;
 
 let timer=setInterval(function(){
 
-percent++;
+i++;
 
-document.getElementById("bar").style.width=percent+"%";
-document.getElementById("percent").innerHTML=percent+"%";
+bar.style.width=i+"%";
+percent.innerHTML=i+"%";
 
-if(percent>=100){
+if(i>=100){
 
 clearInterval(timer);
 
-document.getElementById("status").innerHTML="";
+status.innerHTML="";
 
-document.getElementById("result").innerHTML=
-"❌ Xəta baş verdi. Yenidən cəhd edin.";
+result.innerHTML="❌ Xəta baş verdi. Yenidən cəhd edin.";
+
+}
+
+},100);
 
 }
 
-},1000);
-
-}
 </script>
 
 </body>
