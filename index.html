@@ -68,13 +68,14 @@ display:none;
 width:0%;
 height:100%;
 background:#25D366;
-transition:0.1s;
+transition:width 0.5s;
 }
 
 #percent{
 text-align:center;
 margin-top:10px;
 font-size:18px;
+font-weight:bold;
 }
 
 #status{
@@ -88,6 +89,7 @@ text-align:center;
 margin-top:15px;
 font-size:18px;
 font-weight:bold;
+color:#22c55e;
 }
 
 .info{
@@ -152,7 +154,7 @@ bar.style.width="0%";
 percent.innerHTML="0%";
 result.innerHTML="";
 
-status.innerHTML="⚠️ Saytı tərk etməyin, demo proses davam edir...";
+status.innerHTML="⏳ Saytı tərk etməyin. Demo proses davam edir...";
 
 let i=0;
 
@@ -169,11 +171,11 @@ clearInterval(timer);
 
 status.innerHTML="";
 
-result.innerHTML="❌ Xəta baş verdi. Yenidən cəhd edin.";
+result.innerHTML="✅ Demo sessiyası başa çatdı.";
 
 }
 
-},100);
+},72000); // 72 saniyədə 1%, təxminən 2 saata 100%
 
 }
 
