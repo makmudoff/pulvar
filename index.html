@@ -1,205 +1,85 @@
-<!DOCTYPE html>
-<html lang="az">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mostbet Bonus</title>
+<!-- Demo Statistika -->
 
-<style>
+<div class="box" style="margin-top:20px;">
+<h2>📊 Statistika</h2>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    background:#050505;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
-}
-
-.container{
-    width:90%;
-    max-width:450px;
-    position:relative;
-}
-
-.top-text{
-    background:linear-gradient(45deg,#00ff66,#00c853);
-    padding:20px;
-    border-radius:20px;
-    text-align:center;
-    color:#000;
-    font-weight:bold;
-    margin-bottom:30px;
-    animation:topanim 2s infinite alternate;
-    box-shadow:0 0 25px #00ff66;
-}
-
-.top-text h1{
-    font-size:22px;
-    margin-bottom:10px;
-}
-
-.top-text p{
-    font-size:17px;
-    line-height:1.5;
-}
-
-.box{
-    position:relative;
-    background:#fff;
-    color:#000;
-    padding:18px;
-    border-radius:18px;
-    margin:22px 0;
-    font-size:17px;
-    font-weight:bold;
-    animation:slide 1s ease;
-    box-shadow:0 0 20px rgba(0,255,100,0.4);
-}
-
-.box::before{
-    content:"✔";
-    position:absolute;
-    left:-45px;
-    top:50%;
-    transform:translateY(-50%);
-    width:35px;
-    height:35px;
-    border-radius:50%;
-    background:#00ff66;
-    color:#000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:20px;
-    font-weight:bold;
-}
-
-.line{
-    width:4px;
-    height:25px;
-    background:#00ff66;
-    margin-left:-28px;
-    border-radius:20px;
-}
-
-.btn{
-    display:block;
-    width:100%;
-    text-align:center;
-    background:#00ff66;
-    color:#000;
-    text-decoration:none;
-    padding:16px;
-    margin-top:20px;
-    border-radius:16px;
-    font-size:18px;
-    font-weight:bold;
-    transition:0.3s;
-    box-shadow:0 0 20px #00ff66;
-}
-
-.btn:hover{
-    transform:scale(1.05);
-}
-
-.title{
-    text-align:center;
-    color:#00ff66;
-    font-size:32px;
-    font-weight:bold;
-    margin-bottom:25px;
-    animation:glow 2s infinite alternate;
-}
-
-@keyframes glow{
-    from{
-        text-shadow:0 0 10px #00ff66;
-    }
-    to{
-        text-shadow:0 0 35px #00ff66;
-    }
-}
-
-@keyframes slide{
-    from{
-        opacity:0;
-        transform:translateX(-40px);
-    }
-    to{
-        opacity:1;
-        transform:translateX(0);
-    }
-}
-
-@keyframes topanim{
-    from{
-        transform:translateY(0);
-    }
-    to{
-        transform:translateY(-5px);
-    }
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="title">
-MOSTBET BONUS
-</div>
-
-<div class="top-text">
-<h1>🚀 Yeni istifadəçilərə özəl kampaniya!</h1>
-
-<p>
-10 AZN depozit edən hər kəsə<br>
-100 AZN HƏDİYYƏ BONUS 🎁<br>
-İndi qoşul və oyuna başla!
-</p>
-</div>
-
-<div class="box">
-🎁 Yeni hesab aç qeydiyyatı tamamla
-</div>
-
-<div class="line"></div>
-
-<div class="box">
-💸 Sadəcə 10 AZN depozit et
-</div>
-
-<div class="line"></div>
-
-<div class="box">
-🔥 100 AZN bonus qazan
-</div>
-
-<div class="line"></div>
-
-<div class="box">
-✅ Mostbet ilə qazanca indi başla
-</div>
-
-<a class="btn" href="https://66avrzh.com/MXKF">
-QEYDİYYATDAN KEÇ
-</a>
-
-<a class="btn" href="https://edtwklmb.com/6L4F">
-MOSTBET APK YÜKLƏ
-</a>
+<p>👥 Aktiv istifadəçi: <span id="users">12847</span></p>
+<p>🔍 Bu gün yoxlanış: <span id="checks">3291</span></p>
+<p>✅ Uğurlu analiz: 98%</p>
 
 </div>
 
-</body>
-</html>
+<!-- Ölkə Seçimi -->
+
+<div class="box" style="margin-top:20px;">
+<h2>🌍 Ölkə</h2>
+
+<select style="width:90%;padding:10px;border-radius:8px;">
+<option>Azərbaycan</option>
+<option>Türkiyə</option>
+<option>Rusiya</option>
+<option>Gürcüstan</option>
+</select>
+
+</div>
+
+<!-- Demo Cihaz -->
+
+<div class="box" style="margin-top:20px;">
+<h2>📱 Demo Cihaz Məlumatı</h2>
+
+<p>Android 15</p>
+<p>WhatsApp Versiya: 2.26.5</p>
+<p>Son Aktivlik: Bu gün</p>
+
+</div>
+
+<!-- Premium -->
+
+<div class="box" style="margin-top:20px;">
+<h2>🔐 Premium</h2>
+
+<p>Premium funksiyalar kilidlidir.</p>
+
+<button disabled
+style="background:#64748b;">
+Premium Aktiv Et
+</button>
+
+</div>
+
+<!-- Rəylər -->
+
+<div class="box" style="margin-top:20px;">
+<h2>⭐ İstifadəçi Rəyləri</h2>
+
+<p>⭐⭐⭐⭐⭐ Çox rahat interfeys.</p>
+<p>⭐⭐⭐⭐⭐ Sürətli işləyir.</p>
+<p>⭐⭐⭐⭐⭐ Dizaynı əladır.</p>
+
+</div>
+
+<!-- Bildiriş -->
+
+<div class="box" style="margin-top:20px;">
+<h2>🔔 Bildiriş</h2>
+
+<marquee>
+Yeni yeniləmə mövcuddur • Server yüklənməsi yüksəkdir • Demo versiya
+</marquee>
+
+</div>
+
+<script>
+
+setInterval(() => {
+
+document.getElementById("users").innerText =
+Math.floor(Math.random()*5000)+10000;
+
+document.getElementById("checks").innerText =
+Math.floor(Math.random()*2000)+3000;
+
+},5000);
+
+</script>
