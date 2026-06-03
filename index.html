@@ -1,185 +1,106 @@
-<!DOCTYPE html>
-<html lang="az">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Demo Analiz Paneli</title>
+<!-- STEP 1 -->
+<div id="step1">
+  <h2>Operator seçin</h2>
+  <select id="operator">
+    <option>Azercell</option>
+    <option>Bakcell</option>
+    <option>Nar</option>
+  </select>
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
+  <input type="text" id="nomre" placeholder="Nömrə">
 
-body{
-background:#0f172a;
-color:#fff;
-padding:20px;
-}
-
-.box{
-max-width:500px;
-margin:auto;
-background:#1e293b;
-padding:20px;
-border-radius:15px;
-box-shadow:0 0 20px rgba(0,0,0,.4);
-}
-
-h1{
-text-align:center;
-margin-bottom:20px;
-}
-
-input{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-border-radius:10px;
-outline:none;
-}
-
-button{
-width:100%;
-padding:14px;
-margin-top:15px;
-border:none;
-border-radius:10px;
-background:#25D366;
-color:#fff;
-font-size:16px;
-cursor:pointer;
-}
-
-.progress{
-width:100%;
-height:25px;
-background:#334155;
-border-radius:20px;
-overflow:hidden;
-margin-top:20px;
-display:none;
-}
-
-.bar{
-width:0%;
-height:100%;
-background:#25D366;
-transition:width 0.5s;
-}
-
-#percent{
-text-align:center;
-margin-top:10px;
-font-size:18px;
-font-weight:bold;
-}
-
-#status{
-text-align:center;
-margin-top:10px;
-color:#facc15;
-}
-
-#result{
-text-align:center;
-margin-top:15px;
-font-size:18px;
-font-weight:bold;
-color:#22c55e;
-}
-
-.info{
-margin-top:20px;
-padding:15px;
-background:#0f172a;
-border-radius:10px;
-}
-
-.info p{
-margin:5px 0;
-}
-</style>
-</head>
-
-<body>
-
-<div class="box">
-
-<h1>Demo Analiz Paneli</h1>
-
-<input type="text" placeholder="Qarşı tərəfin adı">
-
-<input type="text" placeholder="Qarşı tərəfin nömrəsi">
-
-<input type="text" placeholder="Sizin adınız">
-
-<input type="text" placeholder="Sizin nömrəniz">
-
-<button onclick="startDemo()">Analizə Başla</button>
-
-<div class="progress" id="progress">
-<div class="bar" id="bar"></div>
+  <button onclick="nextStep(2)">DAVAM ET</button>
 </div>
 
-<div id="percent"></div>
+<!-- STEP 2 -->
+<div id="step2" style="display:none;">
+  <h2>Paket seçin</h2>
 
-<div id="status"></div>
+  <label><input type="radio" name="paket" value="10 GB - 5 AZN"> 10 GB - 5 AZN</label><br>
+  <label><input type="radio" name="paket" value="30 GB - 15 AZN"> 30 GB - 15 AZN</label><br>
+  <label><input type="radio" name="paket" value="50 GB - 20 AZN"> 50 GB - 20 AZN</label><br>
+  <label><input type="radio" name="paket" value="70 GB - 25 AZN"> 70 GB - 25 AZN</label><br>
+  <label><input type="radio" name="paket" value="100 GB - 40 AZN"> 100 GB - 40 AZN</label>
 
-<div id="result"></div>
-
-<div class="info">
-<p>👥 Aktiv istifadəçi: 12,847</p>
-<p>📊 Bu gün analiz: 3,291</p>
-<p>🟢 Server vəziyyəti: Aktiv</p>
+  <br><br>
+  <button onclick="backStep(1)">GERİ</button>
+  <button onclick="showConfirm()">DAVAM ET</button>
 </div>
 
+<!-- STEP 3 -->
+<div id="step3" style="display:none;">
+  <h2>Təsdiq</h2>
+
+  <p><b>Nömrə:</b> <span id="showNomre"></span></p>
+  <p><b>Paket:</b> <span id="showPaket"></span></p>
+
+  <div style="background:#e8fff1;padding:15px;border-radius:10px;margin:15px 0;">
+    🎁 Təbriklər! Seçilmiş paket aktivləşdirməyə hazırdır.
+  </div>
+
+  <button onclick="backStep(2)">GERİ</button>
+  <button onclick="activate()">TƏSDİQLƏ</button>
+</div>
+
+<!-- STEP 4 -->
+<div id="step4" style="display:none;text-align:center;">
+  <h2>⏳ Aktivləşdirilir...</h2>
+</div>
+
+<!-- STEP 5 -->
+<div id="step5" style="display:none;text-align:center;">
+  <h2>✅ Uğurlu!</h2>
+  <p>Paket aktivləşdirildi.</p>
+
+  <p><b>Nömrə:</b> <span id="successNomre"></span></p>
+  <p><b>Paket:</b> <span id="successPaket"></span></p>
 </div>
 
 <script>
-
-function startDemo(){
-
-let progress=document.getElementById("progress");
-let bar=document.getElementById("bar");
-let percent=document.getElementById("percent");
-let status=document.getElementById("status");
-let result=document.getElementById("result");
-
-progress.style.display="block";
-bar.style.width="0%";
-percent.innerHTML="0%";
-result.innerHTML="";
-
-status.innerHTML="⏳ Saytı tərk etməyin. Demo proses davam edir...";
-
-let i=0;
-
-let timer=setInterval(function(){
-
-i++;
-
-bar.style.width=i+"%";
-percent.innerHTML=i+"%";
-
-if(i>=100){
-
-clearInterval(timer);
-
-status.innerHTML="";
-
-result.innerHTML="✅ Demo sessiyası başa çatdı.";
-
+function nextStep(step){
+  document.querySelectorAll('[id^="step"]').forEach(x=>{
+    x.style.display='none';
+  });
+  document.getElementById('step'+step).style.display='block';
 }
 
-},72000); // 72 saniyədə 1%, təxminən 2 saata 100%
-
+function backStep(step){
+  nextStep(step);
 }
 
+function showConfirm(){
+
+  let paket=document.querySelector('input[name="paket"]:checked');
+
+  if(!paket){
+    alert('Paket seçin');
+    return;
+  }
+
+  document.getElementById('showNomre').innerText=
+  document.getElementById('nomre').value;
+
+  document.getElementById('showPaket').innerText=
+  paket.value;
+
+  nextStep(3);
+}
+
+function activate(){
+
+  let paket=document.querySelector('input[name="paket"]:checked').value;
+  let nomre=document.getElementById('nomre').value;
+
+  nextStep(4);
+
+  setTimeout(()=>{
+
+    document.getElementById('successNomre').innerText=nomre;
+    document.getElementById('successPaket').innerText=paket;
+
+    nextStep(5);
+
+  },2000);
+
+}
 </script>
-
-</body>
-</html>
