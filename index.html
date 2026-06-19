@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GOD LEVEL SHOP</title>
+<title>God Level Shop FIX</title>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+<!-- ✅ WORKING FIREBASE v8 -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <style>
 body{margin:0;font-family:Arial;background:#0b1220;color:white}
@@ -20,44 +20,40 @@ header{padding:15px;text-align:center;background:#111827;font-size:22px;font-wei
 
 button{padding:8px;border:none;border-radius:6px;cursor:pointer}
 .buy{background:#2563eb;color:white;width:100%}
-.adminBtn{background:#f59e0b}
 
 input{padding:8px;margin:5px;border-radius:6px;border:none;width:90%}
 
 .panel{background:#0f172a;padding:15px;margin:15px;border-radius:10px}
 
-.loginBox{position:fixed;top:0;left:0;width:100%;height:100%;
-background:#000000cc;display:flex;justify-content:center;align-items:center}
+.loginBox{
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:#000000cc;display:flex;justify-content:center;align-items:center
+}
 
 .box{background:#111827;padding:20px;border-radius:10px;text-align:center}
-
-.badge{background:#22c55e;padding:3px 8px;border-radius:5px;font-size:12px}
 </style>
 </head>
 
 <body>
 
-<header>👑 GOD LEVEL NÖMRƏ SHOP <span class="badge">LIVE</span></header>
+<header>👑 GOD LEVEL SHOP (FIXED)</header>
 
 <!-- LOGIN -->
 <div class="loginBox" id="loginBox">
 <div class="box">
-<h3>Admin / User Login</h3>
+<h3>Login</h3>
 <input id="email" placeholder="email">
 <input id="password" type="password" placeholder="password"><br><br>
 <button class="buy" onclick="login()">Daxil ol</button>
 </div>
 </div>
 
-<!-- ADMIN PANEL -->
+<!-- ADMIN -->
 <div class="panel" id="adminPanel" style="display:none">
 <h3>📦 Məhsul əlavə et</h3>
 <input id="name" placeholder="Ölkə">
 <input id="price" placeholder="Qiymət">
-<button class="adminBtn" onclick="addProduct()">Əlavə et</button>
-
-<h3>📊 Sifarişlər</h3>
-<div id="orders"></div>
+<button class="buy" onclick="addProduct()">Əlavə et</button>
 </div>
 
 <!-- PRODUCTS -->
@@ -66,52 +62,55 @@ background:#000000cc;display:flex;justify-content:center;align-items:center}
 <script>
 
 /* ================= FIREBASE CONFIG ================= */
-const firebaseConfig = {
+var firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT",
+  projectId: "YOUR_PROJECT"
 };
 
 firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+var auth = firebase.auth();
+var db = firebase.firestore();
 
-/* ================= LOGIN ================= */
+/* ================= LOGIN (FIXED) ================= */
 function login(){
-    let email = document.getElementById("email").value;
-    let pass = document.getElementById("password").value;
+    var email = document.getElementById("email").value;
+    var pass = document.getElementById("password").value;
 
     auth.signInWithEmailAndPassword(email, pass)
-    .then(()=>{
+    .then(function(){
         document.getElementById("loginBox").style.display="none";
         document.getElementById("adminPanel").style.display="block";
         loadProducts();
-        loadOrders();
     })
-    .catch(()=>alert("Login səhvdir"));
+    .catch(function(error){
+        alert("Login xətası: " + error.message);
+    });
 }
 
 /* ================= ADD PRODUCT ================= */
 function addProduct(){
-    let name = document.getElementById("name").value;
-    let price = document.getElementById("price").value;
+    var name = document.getElementById("name").value;
+    var price = document.getElementById("price").value;
 
     db.collection("products").add({
-        name,
-        price,
-        time: Date.now()
+        name:name,
+        price:price
     });
+
+    alert("Əlavə olundu");
 }
 
 /* ================= LOAD PRODUCTS ================= */
 function loadProducts(){
-    db.collection("products").onSnapshot(snapshot=>{
-        let box = document.getElementById("products");
+    db.collection("products").onSnapshot(function(snapshot){
+
+        var box = document.getElementById("products");
         box.innerHTML="";
 
-        snapshot.forEach(doc=>{
-            let p = doc.data();
+        snapshot.forEach(function(doc){
+            var p = doc.data();
 
             box.innerHTML += `
             <div class="card">
@@ -122,43 +121,20 @@ function loadProducts(){
                 </button>
             </div>`;
         });
+
     });
 }
 
-/* ================= BUY + ORDER ================= */
+/* ================= BUY ================= */
 function buy(name,price){
+    var phone = "994XXXXXXXXX";
 
-    db.collection("orders").add({
-        product:name,
-        price:price,
-        status:"pending",
-        time:Date.now()
-    });
+    var msg = "Sifariş: " + name + " - " + price;
 
-    // Telegram / WhatsApp notify
-    let phone="994XXXXXXXXX";
-    let msg=`Sifariş: ${name} - ${price}`;
-
-    window.open("https://wa.me/"+phone+"?text="+encodeURIComponent(msg));
-}
-
-/* ================= LOAD ORDERS ================= */
-function loadOrders(){
-    db.collection("orders").onSnapshot(snapshot=>{
-        let box = document.getElementById("orders");
-        box.innerHTML="";
-
-        snapshot.forEach(doc=>{
-            let o = doc.data();
-
-            box.innerHTML += `
-            <div class="card">
-                <h4>${o.product}</h4>
-                <div>${o.price}</div>
-                <div>Status: ${o.status}</div>
-            </div>`;
-        });
-    });
+    window.open(
+        "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg),
+        "_blank"
+    );
 }
 
 </script>
