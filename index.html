@@ -3,165 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Virtual Nömrələr</title>
+<title>GOD LEVEL SHOP</title>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
 <style>
-body {
-    margin:0;
-    font-family: Arial;
-    background:#0f172a;
-    color:white;
-}
+body{margin:0;font-family:Arial;background:#0b1220;color:white}
+header{padding:15px;text-align:center;background:#111827;font-size:22px;font-weight:bold}
 
-header {
-    padding:20px;
-    text-align:center;
-    background:#111827;
-    font-size:22px;
-    font-weight:bold;
-}
+.container{display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:20px}
 
-.container {
-    padding:20px;
-}
+.card{background:#1f2937;width:240px;padding:15px;border-radius:10px;text-align:center}
 
-.card {
-    background:#1f2937;
-    padding:15px;
-    margin:10px 0;
-    border-radius:10px;
-}
+button{padding:8px;border:none;border-radius:6px;cursor:pointer}
+.buy{background:#2563eb;color:white;width:100%}
+.adminBtn{background:#f59e0b}
 
-.country {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:10px;
-    border-bottom:1px solid #374151;
-}
+input{padding:8px;margin:5px;border-radius:6px;border:none;width:90%}
 
-.btn {
-    background:#22c55e;
-    color:white;
-    padding:8px 12px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-}
+.panel{background:#0f172a;padding:15px;margin:15px;border-radius:10px}
 
-.btn:hover {
-    background:#16a34a;
-}
+.loginBox{position:fixed;top:0;left:0;width:100%;height:100%;
+background:#000000cc;display:flex;justify-content:center;align-items:center}
 
-.nav {
-    display:flex;
-    justify-content:space-around;
-    padding:10px;
-    background:#111827;
-    position:sticky;
-    top:0;
-}
+.box{background:#111827;padding:20px;border-radius:10px;text-align:center}
 
-.nav div {
-    cursor:pointer;
-    font-size:14px;
-    color:#9ca3af;
-}
-
-.footer {
-    text-align:center;
-    padding:20px;
-    font-size:12px;
-    color:#9ca3af;
-}
+.badge{background:#22c55e;padding:3px 8px;border-radius:5px;font-size:12px}
 </style>
 </head>
 
 <body>
 
-<header>
-📱 Virtual Nömrələr
-</header>
+<header>👑 GOD LEVEL NÖMRƏ SHOP <span class="badge">LIVE</span></header>
 
-<div class="nav">
-<div>Ana səhifə</div>
-<div>Nömrə al</div>
-<div>Aktiv nömrələr</div>
-<div>Dəstək</div>
+<!-- LOGIN -->
+<div class="loginBox" id="loginBox">
+<div class="box">
+<h3>Admin / User Login</h3>
+<input id="email" placeholder="email">
+<input id="password" type="password" placeholder="password"><br><br>
+<button class="buy" onclick="login()">Daxil ol</button>
+</div>
 </div>
 
-<div class="container">
+<!-- ADMIN PANEL -->
+<div class="panel" id="adminPanel" style="display:none">
+<h3>📦 Məhsul əlavə et</h3>
+<input id="name" placeholder="Ölkə">
+<input id="price" placeholder="Qiymət">
+<button class="adminBtn" onclick="addProduct()">Əlavə et</button>
 
-<div class="card">
-<h3>🌍 Ölkə seç və nömrə al</h3>
-<p>SMS qəbul et, hesablarını aktivləşdir</p>
+<h3>📊 Sifarişlər</h3>
+<div id="orders"></div>
 </div>
 
-<!-- COUNTRY LIST -->
-<div class="card">
-<div class="country">
-<div>🇺🇸 Amerika - 6 AZN</div>
-<button class="btn">Nömrə al</button>
-</div>
+<!-- PRODUCTS -->
+<div class="container" id="products"></div>
 
-<div class="country">
-<div>🇷🇺 Rusiya - 12 AZN</div>
-<button class="btn">Nömrə al</button>
-</div>
+<script>
 
-<div class="country">
-<div>🇬🇪 Gürcüstan - 9 AZN</div>
-<button class="btn">Nömrə al</button>
-</div>
+/* ================= FIREBASE CONFIG ================= */
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+};
 
-<div class="country">
-<div>🇧🇾 Belarus - 5 AZN</div>
-<button class="btn">Nömrə al</button>
-</div>
+firebase.initializeApp(firebaseConfig);
 
-<div class="country">
-<div>🇩🇪 Almaniya - 3.83 AZN</div>
-<button class="btn">Nömrə al</button>
-</div>
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-<div class="country">
-<div>🇹🇷 Türkiyə - 12.72 AZN</div>
-<button class="btn">Nömrə al</button>
-</div>
+/* ================= LOGIN ================= */
+function login(){
+    let email = document.getElementById("email").value;
+    let pass = document.getElementById("password").value;
 
-</div>
+    auth.signInWithEmailAndPassword(email, pass)
+    .then(()=>{
+        document.getElementById("loginBox").style.display="none";
+        document.getElementById("adminPanel").style.display="block";
+        loadProducts();
+        loadOrders();
+    })
+    .catch(()=>alert("Login səhvdir"));
+}
 
-<div class="card">
-<h3>⏱ Necə işləyir?</h3>
-<p>1. Ölkə seç</p>
-<p>2. Ödəniş et</p>
-<p>3. Nömrə aktiv olur</p>
-<p>4. SMS qəbul et</p>
-<p>5. 30 dəqiqə sonra deaktiv olur</p>
-</div>
+/* ================= ADD PRODUCT ================= */
+function addProduct(){
+    let name = document.getElementById("name").value;
+    let price = document.getElementById("price").value;
 
-<div class="card">
-<h3>🔐 Təhlükəsizlik</h3>
-<p>Məlumatlarınız qorunur və gizlidir.</p>
-</div>
+    db.collection("products").add({
+        name,
+        price,
+        time: Date.now()
+    });
+}
 
-<div class="footer">
-© 2026 Virtual Nömrələr
-</div>
+/* ================= LOAD PRODUCTS ================= */
+function loadProducts(){
+    db.collection("products").onSnapshot(snapshot=>{
+        let box = document.getElementById("products");
+        box.innerHTML="";
 
-</div>
+        snapshot.forEach(doc=>{
+            let p = doc.data();
 
-<!-- 💬 Dəstək Xidmətinə Yaz -->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/6a350bff8935521d4319ff8d/1jrfjdofr';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
+            box.innerHTML += `
+            <div class="card">
+                <h3>${p.name}</h3>
+                <div>${p.price}</div>
+                <button class="buy" onclick="buy('${p.name}','${p.price}')">
+                Sifariş et
+                </button>
+            </div>`;
+        });
+    });
+}
+
+/* ================= BUY + ORDER ================= */
+function buy(name,price){
+
+    db.collection("orders").add({
+        product:name,
+        price:price,
+        status:"pending",
+        time:Date.now()
+    });
+
+    // Telegram / WhatsApp notify
+    let phone="994XXXXXXXXX";
+    let msg=`Sifariş: ${name} - ${price}`;
+
+    window.open("https://wa.me/"+phone+"?text="+encodeURIComponent(msg));
+}
+
+/* ================= LOAD ORDERS ================= */
+function loadOrders(){
+    db.collection("orders").onSnapshot(snapshot=>{
+        let box = document.getElementById("orders");
+        box.innerHTML="";
+
+        snapshot.forEach(doc=>{
+            let o = doc.data();
+
+            box.innerHTML += `
+            <div class="card">
+                <h4>${o.product}</h4>
+                <div>${o.price}</div>
+                <div>Status: ${o.status}</div>
+            </div>`;
+        });
+    });
+}
+
 </script>
 
 </body>
