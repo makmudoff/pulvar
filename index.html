@@ -1,115 +1,190 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pulvar Kredit</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f9;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulvar Kredit</title>
 
-    .container {
-      max-width: 420px;
-      margin: 30px auto;
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80');
+  background-size: cover;
+  background-position: center;
+}
 
-    h2 {
-      text-align: center;
-      color: #222;
-    }
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+}
 
-    .box {
-      background: #f8f8f8;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 15px;
-    }
+.container {
+  position: relative;
+  z-index: 2;
+  width: 360px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
 
-    .row {
-      display: flex;
-      justify-content: space-between;
-      margin: 8px 0;
-      font-size: 14px;
-    }
+h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #1f2a44;
+}
 
-    .amount {
-      font-size: 22px;
-      font-weight: bold;
-      color: #2b6cff;
-      text-align: center;
-      margin: 10px 0;
-    }
+.brand {
+  text-align: center;
+  font-weight: bold;
+  color: #2b6cff;
+  margin-bottom: 10px;
+}
 
-    input[type=range] {
-      width: 100%;
-    }
+.box {
+  background: #f4f6f9;
+  padding: 15px;
+  border-radius: 12px;
+}
 
-    .btn {
-      width: 100%;
-      padding: 12px;
-      background: #2b6cff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      margin-top: 15px;
-      cursor: pointer;
-    }
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  font-size: 14px;
+}
 
-    .btn:hover {
-      background: #1f55cc;
-    }
+.amount {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #2b6cff;
+  margin: 10px 0;
+}
 
-    .note {
-      font-size: 12px;
-      color: gray;
-      margin-top: 10px;
-      text-align: center;
-    }
-  </style>
+input[type=range] {
+  width: 100%;
+  margin: 10px 0;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #2b6cff;
+  color: white;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1e4fc2;
+}
+
+.telegram {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  padding: 10px;
+  background: #24A1DE;
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.small {
+  font-size: 12px;
+  text-align: center;
+  color: gray;
+  margin-top: 10px;
+}
+</style>
 </head>
 
 <body>
 
+<div class="overlay"></div>
+
 <div class="container">
-  <h2>Pulvar Onlayn Kredit</h2>
+  <div class="brand">PULVAR</div>
+  <h2>Onlayn Kredit</h2>
 
   <div class="box">
-    <div class="row"><span>Kredit məbləği</span><span id="money">500 ₼</span></div>
+
+    <div class="row">
+      <span>Məbləğ</span>
+      <span id="money">500 ₼</span>
+    </div>
+
     <input type="range" min="500" max="3000" value="500" step="50" id="range">
 
-    <div class="row"><span>Müddət</span><span>6 ay</span></div>
-    <div class="row"><span>Faiz</span><span>78%</span></div>
+    <div class="row">
+      <span>Müddət</span>
+      <span>6 ay</span>
+    </div>
 
-    <div class="amount" id="monthly">Aylıq ödəniş: 114.65 ₼</div>
+    <div class="row">
+      <span>İllik faiz</span>
+      <span>78%</span>
+    </div>
 
-    <div class="row"><span>Komissiya</span><span>55 ₼</span></div>
-    <div class="row"><span>Ümumi məbləğ</span><span id="total">555 ₼</span></div>
-    <div class="row"><span>Güzəşt müddəti</span><span>14 gün</span></div>
+    <div class="amount" id="monthly">Aylıq ödəniş: 0 ₼</div>
+
+    <div class="row">
+      <span>Ümumi məbləğ</span>
+      <span id="total">0 ₼</span>
+    </div>
+
   </div>
 
-  <button class="btn">Pul al</button>
+  <br>
 
-  <div class="note">
-    Pulvar vasitəsilə onlayn kredit müraciəti göndərilə bilər.
+  <button onclick="goTelegram()">Pul al</button>
+
+  <a class="telegram" href="https://t.me/+cOKcfXc6Kng2OTIy" target="_blank">
+    Telegram ilə kredit müraciəti
+  </a>
+
+  <div class="small">
+    Pulvar – onlayn kredit sistemi
   </div>
 </div>
 
 <script>
-  const range = document.getElementById("range");
-  const money = document.getElementById("money");
+const range = document.getElementById("range");
+const money = document.getElementById("money");
+const monthly = document.getElementById("monthly");
+const total = document.getElementById("total");
 
-  range.addEventListener("input", function () {
-    money.innerText = this.value + " ₼";
-  });
+function calculate() {
+  let amount = parseInt(range.value);
+  let months = 6;
+  let interest = 0.78;
+
+  let totalAmount = amount + (amount * interest);
+  let monthlyPay = totalAmount / months;
+
+  money.innerText = amount + " ₼";
+  total.innerText = totalAmount.toFixed(2) + " ₼";
+  monthly.innerText = "Aylıq ödəniş: " + monthlyPay.toFixed(2) + " ₼";
+}
+
+range.addEventListener("input", calculate);
+calculate();
+
+function goTelegram() {
+  window.open("https://t.me/+cOKcfXc6Kng2OTIy", "_blank");
+}
 </script>
 
 </body>
