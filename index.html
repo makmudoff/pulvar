@@ -3,140 +3,204 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>God Level Shop FIX</title>
-
-<!-- ✅ WORKING FIREBASE v8 -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<title>PRO Nömrə Satışı</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#0b1220;color:white}
-header{padding:15px;text-align:center;background:#111827;font-size:22px;font-weight:bold}
-
-.container{display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:20px}
-
-.card{background:#1f2937;width:240px;padding:15px;border-radius:10px;text-align:center}
-
-button{padding:8px;border:none;border-radius:6px;cursor:pointer}
-.buy{background:#2563eb;color:white;width:100%}
-
-input{padding:8px;margin:5px;border-radius:6px;border:none;width:90%}
-
-.panel{background:#0f172a;padding:15px;margin:15px;border-radius:10px}
-
-.loginBox{
-position:fixed;top:0;left:0;width:100%;height:100%;
-background:#000000cc;display:flex;justify-content:center;align-items:center
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0b1220;
+    color:white;
 }
 
-.box{background:#111827;padding:20px;border-radius:10px;text-align:center}
+/* HEADER */
+header{
+    background:#111827;
+    padding:18px;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* PRODUCTS */
+.container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:15px;
+    padding:20px;
+}
+
+.card{
+    background:#1f2937;
+    width:260px;
+    padding:15px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.price{
+    color:#22c55e;
+    font-size:18px;
+    margin:10px 0;
+    font-weight:bold;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.buy{
+    background:#2563eb;
+    color:white;
+}
+.buy:hover{background:#1d4ed8}
+
+/* ADMIN */
+.admin{
+    background:#0f172a;
+    padding:15px;
+    margin:20px;
+    border-radius:10px;
+}
+
+input{
+    width:30%;
+    padding:8px;
+    margin:5px;
+    border-radius:6px;
+    border:none;
+}
+
+/* CHAT */
+.chat-box{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    width:250px;
+    background:#111827;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.chat-header{
+    background:#2563eb;
+    padding:10px;
+    cursor:pointer;
+}
+
+.chat-body{
+    display:none;
+    padding:10px;
+    height:200px;
+    overflow:auto;
+}
+
+.chat-input{
+    width:100%;
+    padding:8px;
+    border:none;
+}
+
+.msg{
+    background:#1f2937;
+    margin:5px 0;
+    padding:5px;
+    border-radius:6px;
+}
 </style>
 </head>
 
 <body>
 
-<header>👑 GOD LEVEL SHOP (FIXED)</header>
+<header>🌍 PRO Xarici Nömrə Satışı</header>
 
-<!-- LOGIN -->
-<div class="loginBox" id="loginBox">
-<div class="box">
-<h3>Login</h3>
-<input id="email" placeholder="email">
-<input id="password" type="password" placeholder="password"><br><br>
-<button class="buy" onclick="login()">Daxil ol</button>
-</div>
-</div>
+<!-- ADMIN PANEL -->
+<div class="admin">
+<h3>Admin Panel (Məhsul əlavə et)</h3>
 
-<!-- ADMIN -->
-<div class="panel" id="adminPanel" style="display:none">
-<h3>📦 Məhsul əlavə et</h3>
-<input id="name" placeholder="Ölkə">
+<input id="country" placeholder="Ölkə adı">
 <input id="price" placeholder="Qiymət">
-<button class="buy" onclick="addProduct()">Əlavə et</button>
+<button onclick="addProduct()" class="buy">Əlavə et</button>
 </div>
 
 <!-- PRODUCTS -->
 <div class="container" id="products"></div>
 
+<!-- CHAT -->
+<div class="chat-box">
+<div class="chat-header" onclick="toggleChat()">💬 Dəstək Chat</div>
+<div class="chat-body" id="chat">
+<div id="messages"></div>
+<input class="chat-input" id="chatInput" placeholder="yaz..." onkeypress="sendMsg(event)">
+</div>
+</div>
+
 <script>
+let products = JSON.parse(localStorage.getItem("products")) || [
+    {country:"Amerika nömrəsi", price:"6 ₼"},
+    {country:"Rusiya nömrəsi", price:"12 ₼"},
+    {country:"Gürcüstan nömrəsi", price:"9 ₼"},
+];
 
-/* ================= FIREBASE CONFIG ================= */
-var firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT"
-};
+function render(){
+    let box = document.getElementById("products");
+    box.innerHTML = "";
 
-firebase.initializeApp(firebaseConfig);
-
-var auth = firebase.auth();
-var db = firebase.firestore();
-
-/* ================= LOGIN (FIXED) ================= */
-function login(){
-    var email = document.getElementById("email").value;
-    var pass = document.getElementById("password").value;
-
-    auth.signInWithEmailAndPassword(email, pass)
-    .then(function(){
-        document.getElementById("loginBox").style.display="none";
-        document.getElementById("adminPanel").style.display="block";
-        loadProducts();
-    })
-    .catch(function(error){
-        alert("Login xətası: " + error.message);
+    products.forEach((p,i)=>{
+        box.innerHTML += `
+        <div class="card">
+            <h3>${p.country}</h3>
+            <div class="price">${p.price}</div>
+            <button class="buy" onclick="buy('${p.country}')">Sifariş et</button>
+        </div>`;
     });
+
+    localStorage.setItem("products", JSON.stringify(products));
 }
 
-/* ================= ADD PRODUCT ================= */
 function addProduct(){
-    var name = document.getElementById("name").value;
-    var price = document.getElementById("price").value;
+    let c = document.getElementById("country").value;
+    let p = document.getElementById("price").value;
 
-    db.collection("products").add({
-        name:name,
-        price:price
-    });
+    if(!c || !p) return alert("Bütün xanaları doldur");
 
-    alert("Əlavə olundu");
+    products.push({country:c, price:p});
+    render();
 }
 
-/* ================= LOAD PRODUCTS ================= */
-function loadProducts(){
-    db.collection("products").onSnapshot(function(snapshot){
-
-        var box = document.getElementById("products");
-        box.innerHTML="";
-
-        snapshot.forEach(function(doc){
-            var p = doc.data();
-
-            box.innerHTML += `
-            <div class="card">
-                <h3>${p.name}</h3>
-                <div>${p.price}</div>
-                <button class="buy" onclick="buy('${p.name}','${p.price}')">
-                Sifariş et
-                </button>
-            </div>`;
-        });
-
-    });
+function buy(country){
+    let phone = "994XXXXXXXXX"; 
+    let msg = "Salam, mən " + country + " sifariş etmək istəyirəm";
+    window.open("https://wa.me/" + phone + "?text=" + encodeURIComponent(msg), "_blank");
 }
 
-/* ================= BUY ================= */
-function buy(name,price){
-    var phone = "994XXXXXXXXX";
-
-    var msg = "Sifariş: " + name + " - " + price;
-
-    window.open(
-        "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg),
-        "_blank"
-    );
+/* CHAT */
+function toggleChat(){
+    let chat = document.getElementById("chat");
+    chat.style.display = chat.style.display === "block" ? "none" : "block";
 }
 
+function sendMsg(e){
+    if(e.key === "Enter"){
+        let input = document.getElementById("chatInput");
+        let msgBox = document.getElementById("messages");
+
+        msgBox.innerHTML += `<div class="msg">${input.value}</div>`;
+        input.value = "";
+
+        setTimeout(()=>{
+            msgBox.innerHTML += `<div class="msg">Dəstək: Sizin mesaj alındı 👍</div>`;
+        },800);
+    }
+}
+
+render();
 </script>
 
 </body>
