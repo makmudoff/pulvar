@@ -1,206 +1,115 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRO Nömrə Satışı</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pulvar Kredit</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
 
-<style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#0b1220;
-    color:white;
-}
+    .container {
+      max-width: 420px;
+      margin: 30px auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
 
-/* HEADER */
-header{
-    background:#111827;
-    padding:18px;
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
-}
+    h2 {
+      text-align: center;
+      color: #222;
+    }
 
-/* PRODUCTS */
-.container{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:15px;
-    padding:20px;
-}
+    .box {
+      background: #f8f8f8;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
 
-.card{
-    background:#1f2937;
-    width:260px;
-    padding:15px;
-    border-radius:12px;
-    text-align:center;
-}
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+      font-size: 14px;
+    }
 
-.price{
-    color:#22c55e;
-    font-size:18px;
-    margin:10px 0;
-    font-weight:bold;
-}
+    .amount {
+      font-size: 22px;
+      font-weight: bold;
+      color: #2b6cff;
+      text-align: center;
+      margin: 10px 0;
+    }
 
-button{
-    width:100%;
-    padding:10px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:15px;
-}
+    input[type=range] {
+      width: 100%;
+    }
 
-.buy{
-    background:#2563eb;
-    color:white;
-}
-.buy:hover{background:#1d4ed8}
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #2b6cff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
 
-/* ADMIN */
-.admin{
-    background:#0f172a;
-    padding:15px;
-    margin:20px;
-    border-radius:10px;
-}
+    .btn:hover {
+      background: #1f55cc;
+    }
 
-input{
-    width:30%;
-    padding:8px;
-    margin:5px;
-    border-radius:6px;
-    border:none;
-}
-
-/* CHAT */
-.chat-box{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    width:250px;
-    background:#111827;
-    border-radius:10px;
-    overflow:hidden;
-}
-
-.chat-header{
-    background:#2563eb;
-    padding:10px;
-    cursor:pointer;
-}
-
-.chat-body{
-    display:none;
-    padding:10px;
-    height:200px;
-    overflow:auto;
-}
-
-.chat-input{
-    width:100%;
-    padding:8px;
-    border:none;
-}
-
-.msg{
-    background:#1f2937;
-    margin:5px 0;
-    padding:5px;
-    border-radius:6px;
-}
-</style>
+    .note {
+      font-size: 12px;
+      color: gray;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
 
-<header>🌍 PRO Xarici Nömrə Satışı</header>
+<div class="container">
+  <h2>Pulvar Onlayn Kredit</h2>
 
-<!-- ADMIN PANEL -->
-<div class="admin">
-<h3>Admin Panel (Məhsul əlavə et)</h3>
+  <div class="box">
+    <div class="row"><span>Kredit məbləği</span><span id="money">500 ₼</span></div>
+    <input type="range" min="500" max="3000" value="500" step="50" id="range">
 
-<input id="country" placeholder="Ölkə adı">
-<input id="price" placeholder="Qiymət">
-<button onclick="addProduct()" class="buy">Əlavə et</button>
-</div>
+    <div class="row"><span>Müddət</span><span>6 ay</span></div>
+    <div class="row"><span>Faiz</span><span>78%</span></div>
 
-<!-- PRODUCTS -->
-<div class="container" id="products"></div>
+    <div class="amount" id="monthly">Aylıq ödəniş: 114.65 ₼</div>
 
-<!-- CHAT -->
-<div class="chat-box">
-<div class="chat-header" onclick="toggleChat()">💬 Dəstək Chat</div>
-<div class="chat-body" id="chat">
-<div id="messages"></div>
-<input class="chat-input" id="chatInput" placeholder="yaz..." onkeypress="sendMsg(event)">
-</div>
+    <div class="row"><span>Komissiya</span><span>55 ₼</span></div>
+    <div class="row"><span>Ümumi məbləğ</span><span id="total">555 ₼</span></div>
+    <div class="row"><span>Güzəşt müddəti</span><span>14 gün</span></div>
+  </div>
+
+  <button class="btn">Pul al</button>
+
+  <div class="note">
+    Pulvar vasitəsilə onlayn kredit müraciəti göndərilə bilər.
+  </div>
 </div>
 
 <script>
-let products = JSON.parse(localStorage.getItem("products")) || [
-    {country:"Amerika nömrəsi", price:"6 ₼"},
-    {country:"Rusiya nömrəsi", price:"12 ₼"},
-    {country:"Gürcüstan nömrəsi", price:"9 ₼"},
-];
+  const range = document.getElementById("range");
+  const money = document.getElementById("money");
 
-function render(){
-    let box = document.getElementById("products");
-    box.innerHTML = "";
-
-    products.forEach((p,i)=>{
-        box.innerHTML += `
-        <div class="card">
-            <h3>${p.country}</h3>
-            <div class="price">${p.price}</div>
-            <button class="buy" onclick="buy('${p.country}')">Sifariş et</button>
-        </div>`;
-    });
-
-    localStorage.setItem("products", JSON.stringify(products));
-}
-
-function addProduct(){
-    let c = document.getElementById("country").value;
-    let p = document.getElementById("price").value;
-
-    if(!c || !p) return alert("Bütün xanaları doldur");
-
-    products.push({country:c, price:p});
-    render();
-}
-
-function buy(country){
-    let phone = "994XXXXXXXXX"; 
-    let msg = "Salam, mən " + country + " sifariş etmək istəyirəm";
-    window.open("https://wa.me/" + phone + "?text=" + encodeURIComponent(msg), "_blank");
-}
-
-/* CHAT */
-function toggleChat(){
-    let chat = document.getElementById("chat");
-    chat.style.display = chat.style.display === "block" ? "none" : "block";
-}
-
-function sendMsg(e){
-    if(e.key === "Enter"){
-        let input = document.getElementById("chatInput");
-        let msgBox = document.getElementById("messages");
-
-        msgBox.innerHTML += `<div class="msg">${input.value}</div>`;
-        input.value = "";
-
-        setTimeout(()=>{
-            msgBox.innerHTML += `<div class="msg">Dəstək: Sizin mesaj alındı 👍</div>`;
-        },800);
-    }
-}
-
-render();
+  range.addEventListener("input", function () {
+    money.innerText = this.value + " ₼";
+  });
 </script>
 
 </body>
